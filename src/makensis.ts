@@ -1,4 +1,4 @@
-import { spawnMakensis } from './util';
+import { parseArgs, spawnMakensis, spawnMakensisSync } from './util';
 
 interface CompilerOptions {
     define?: Object;
@@ -15,13 +15,29 @@ interface CompilerOptions {
  * @param {string} [command] - an NSIS command
  * @returns {string} - usage description
  */
-const cmdhelp = (command: string = '') => {
+const help = (command: string = '') => {
     let args: Array<string> = ['-CMDHELP'];
 
     if (typeof command !== 'undefined' && command !== '') {
         args.push(command);
     }
+
     return spawnMakensis(args);
+};
+
+/**
+ * Returns usage information for a command, or list all commands
+ * @param {string} [command] - an NSIS command
+ * @returns {string} - usage description
+ */
+const helpSync = (command: string = '') => {
+    let args: Array<string> = ['-CMDHELP'];
+
+    if (typeof command !== 'undefined' && command !== '') {
+        args.push(command);
+    }
+
+    return spawnMakensisSync(args);
 };
 
 /**
@@ -32,43 +48,24 @@ const cmdhelp = (command: string = '') => {
 const compile = (script: string, options: CompilerOptions = null) => {
     options || (options = {});
 
-    let args: Array<string> = [];
-
-    if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
-        args.push('-V' + options.verbose);
-    }
-
-    if (options.pause === true) {
-        args.push('-PAUSE');
-    }
-
-    if (options.nocd === true) {
-        args.push('-NOCD');
-    }
-
-    if (options.noconfig === true) {
-        args.push('-NOCONFIG');
-    }
-
-    if (options.strict === true) {
-        args.push('-WX');
-    }
-
-    if (typeof options.define !== 'undefined') {
-        Object.keys(options.define).forEach(function(key) {
-            args.push(`-D${key}=${options.define[key]}`);
-        });
-    }
-
-    if (typeof options.execute !== 'undefined') {
-        options.execute.forEach(function(key) {
-            args.push(`-X${key}`);
-        });
-    }
-
+    let args = parseArgs(options);
     args.push(script);
 
     return spawnMakensis(args);
+};
+
+/**
+ * Compile specified script with MakeNSIS
+ * @param {string} script - path to NSIS script
+ * @param {Object} options - compiler options
+ */
+const compileSync = (script: string, options: CompilerOptions = null) => {
+    options || (options = {});
+
+    let args = parseArgs(options);
+    args.push(script);
+
+    return spawnMakensisSync(args);
 };
 
 /**
@@ -79,4 +76,12 @@ const version = () => {
     return spawnMakensis(['-VERSION']);
 };
 
-export { compile, cmdhelp, version };
+/**
+ * Returns version of MakeNSIS
+ * @returns {string} - compiler version
+ */
+const versionSync = () => {
+    return spawnMakensisSync(['-VERSION']);
+};
+
+export { compile, compileSync, help, helpSync, version, versionSync };

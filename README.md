@@ -25,24 +25,24 @@ const options = {
 }
 
 makensis.compile('/path/to/installer.nsi', options)
-.then(stdOut => {
-    // success
-}).catch(err => {
-    console.error(err);
+.then(output => {
+    console.log('Exit code: ' + output.status);
+}).catch(output => {
+    console.error(output.stderr);
 });
 ```
 
 ### Methods
 
-#### `compile(script, [options])`
+#### `compile(script, [options])` / `compileSync(script, [options])`
 
 Compile specified script with MakeNSIS
 
-#### `version()`
+#### `version()` / `versionSync()`
 
 Returns version of MakeNSIS
 
-#### `cmdhelp([command])`
+#### `help([command])` / `helpSync([command])`
 
 Returns usage information for a specific command, or a list all commands
 
