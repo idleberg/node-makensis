@@ -3,11 +3,17 @@
   "version": "0.0.0",
   "description": "",
   "main": "lib/makensis.js",
+  "files": [
+    "dist/"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idleberg/node-makensis.git"
+  },
   "keywords": [
     "nsis",
     "makensis"
   ],
-  "author": "",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^8.0.19",
