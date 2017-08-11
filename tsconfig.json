@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "lib": [
+            "es2015",
+            "dom"
+        ],
+        "target": "es5",
+        "outDir": "./lib",
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": false,
+        "removeComments": false,
+        "rootDir": "src",
+        "sourceMap": false
+    },
+    "exclude": [
+        ".vscode-test",
+        "node_modules"
+    ]
+}

@@ -1,0 +1,26 @@
+{
+  "name": "makensis",
+  "version": "0.0.0",
+  "description": "",
+  "main": "lib/makensis.js",
+  "keywords": [
+    "nsis",
+    "makensis"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^8.0.19",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-debug": "^3.1.0",
+    "gulp-jsonlint": "^1.2.0",
+    "gulp-tslint": "^8.1.1",
+    "tslint": "^5.5.0",
+    "typescript": "^2.3.4"
+  },
+  "scripts": {
+    "build": "tsc -p ./",
+    "prepublish": "npm run build",
+     "test": "gulp lint"
+  }
+}
