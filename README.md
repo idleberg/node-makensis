@@ -16,6 +16,7 @@ A Node wrapper for `makensis`, the NSIS compiler
 
 ```js
 import * as makensis from 'makensis';
+
 const options = {
     verbose: 2,
     define: {
