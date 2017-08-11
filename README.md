@@ -36,15 +36,15 @@ makensis.compile('/path/to/installer.nsi', options)
 
 #### `compile(script, [options])` / `compileSync(script, [options])`
 
-Compile specified script with MakeNSIS
+Compile specified script with MakeNSIS.
 
 #### `version()` / `versionSync()`
 
-Returns version of MakeNSIS
+Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 #### `help([command])` / `helpSync([command])`
 
-Returns usage information for a specific command, or a list all commands
+Returns usage information for a specific command, or a list all commands. Equivalent of the `-HELP` switch.
 
 ### Options
 
@@ -54,23 +54,23 @@ Verbosity where x is 4=all,3=no script,2=no info,1=no warnings,0=none. Equivalen
 
 #### `pause: <boolean>`
 
-Pauses after execution. Equivalent of the `-PAUSE` switch
+Pauses after execution. Equivalent of the `-PAUSE` switch.
 
 #### `nocd: <boolean>`
 
-Disables the current directory change to that of the .nsi file. Equivalent of the `-NOCD` switch
+Disables the current directory change to that of the .nsi file. Equivalent of the `-NOCD` switch.
 
 #### `noconfig: <boolean>`
 
-Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`, quivalent of the `-NOCONFIG` switch
+Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`. Equivalent of the `-NOCONFIG` switch.
 
 #### `strict: <boolean>`
 
-Treat warnings as errors. Equivalent of the `-WX` switch
+Treat warnings as errors. Equivalent of the `-WX` switch.
 
 #### `define: <Object>`
 
-Defines symbols for the script [to value]. Equivalent of the `-D` switch
+Defines symbols for the script [to value]. Equivalent of the `-D` switch.
 
 **Example:**
 
