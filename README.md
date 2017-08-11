@@ -25,7 +25,7 @@ const options = {
 }
 
 makensis.compile('/path/to/installer.nsi', options)
-}).catch((err) => {
+.catch((err) => {
     console.error(err);
 });
 ```
