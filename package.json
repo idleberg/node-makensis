@@ -1,7 +1,7 @@
 {
   "name": "makensis",
   "version": "0.0.0",
-  "description": "",
+  "description": "A Node wrapper for makensis, the NSIS compiler",
   "main": "dist/makensis.js",
   "files": [
     "dist/"
@@ -27,6 +27,6 @@
   "scripts": {
     "build": "tsc -p ./",
     "prepublish": "npm run build",
-     "test": "gulp lint"
+    "test": "gulp lint"
   }
 }
