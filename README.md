@@ -32,17 +32,61 @@ makensis.compile('/path/to/installer.nsi', options)
 
 ### Methods
 
-`compile(script, [options])`
+#### `compile(script, [options])`
 
 Compile specified script with MakeNSIS
 
-`version()`
+#### `version()`
 
 Returns version of MakeNSIS
 
-`cmdhelp([command])`
+#### `cmdhelp([command])`
 
 Returns usage information for a specific command, or a list all commands
+
+### Options
+
+#### `pause: <boolean>`
+
+Pauses after execution, equivalent of the `-PAUSE` switch
+
+#### `nocd: <boolean>`
+
+Disables the current directory change to that of the .nsi file, equivalent of the `-NOCD` switch
+
+#### `noconfig: <boolean>`
+
+Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`, quivalent of the `-NOCONFIG` switch
+
+#### `strict: <boolean>`
+
+Treat warnings as errors, equivalent of the `-WX` switch
+
+#### `define: <Object>`
+
+Defines a symbol for the script [to value], equivalent of the `-D` switch
+
+**Example**
+
+```js
+define: {
+    "SPECIAL_BUILD": true,
+    "LANGUAGE": "English"
+}
+```
+
+#### `execute: <Array>`
+
+Executes script-commands in the script, parameters are processed by order. Equivalent of the `-X` switch
+
+**Example**
+
+```js
+execute: [
+    "SetCompressor lzma",
+    "SetCompressorDictSize 16",
+]
+```
 
 ## License
 
