@@ -64,7 +64,7 @@ Treat warnings as errors, equivalent of the `-WX` switch
 
 #### `define: <Object>`
 
-Defines a symbol for the script [to value], equivalent of the `-D` switch
+Defines symbols for the script [to value], equivalent of the `-D` switch
 
 **Example**
 
