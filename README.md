@@ -72,7 +72,7 @@ Treat warnings as errors. Equivalent of the `-WX` switch
 
 Defines symbols for the script [to value]. Equivalent of the `-D` switch
 
-**Example**
+**Example:**
 
 ```js
 define: {
@@ -85,7 +85,7 @@ define: {
 
 Executes script-commands in the script, parameters are processed by order. Equivalent of the `-X` switch
 
-**Example**
+**Example:**
 
 ```js
 execute: [
