@@ -2,7 +2,7 @@
   "name": "makensis",
   "version": "0.0.0",
   "description": "",
-  "main": "lib/makensis.js",
+  "main": "dist/makensis.js",
   "files": [
     "dist/"
   ],
