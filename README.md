@@ -46,13 +46,17 @@ Returns usage information for a specific command, or a list all commands
 
 ### Options
 
+#### `verbose: <integer>`
+
+Verbosity where x is 4=all,3=no script,2=no info,1=no warnings,0=none. Equivalent of the `-V` switch.
+
 #### `pause: <boolean>`
 
-Pauses after execution, equivalent of the `-PAUSE` switch
+Pauses after execution. Equivalent of the `-PAUSE` switch
 
 #### `nocd: <boolean>`
 
-Disables the current directory change to that of the .nsi file, equivalent of the `-NOCD` switch
+Disables the current directory change to that of the .nsi file. Equivalent of the `-NOCD` switch
 
 #### `noconfig: <boolean>`
 
@@ -60,11 +64,11 @@ Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`, quivalent of the `-
 
 #### `strict: <boolean>`
 
-Treat warnings as errors, equivalent of the `-WX` switch
+Treat warnings as errors. Equivalent of the `-WX` switch
 
 #### `define: <Object>`
 
-Defines symbols for the script [to value], equivalent of the `-D` switch
+Defines symbols for the script [to value]. Equivalent of the `-D` switch
 
 **Example**
 
