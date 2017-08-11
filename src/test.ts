@@ -1,4 +1,4 @@
-import * as makensis from './makensis';
+import {compile as MakeNSIS} from './makensis';
 
 let options = {
     verbose: 2,
@@ -11,7 +11,7 @@ let options = {
 
 };
 
-makensis.compile('/Users/jan/Desktop/_nsis/error.nsi', options)
+MakeNSIS('/Users/jan/Desktop/_nsis/error.nsi', options)
 .then((stdStream) => {
     console.log(stdStream);
 }).catch((stdErr) => {
