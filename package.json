@@ -1,6 +1,6 @@
 {
   "name": "makensis",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A Node wrapper for makensis, the NSIS compiler",
   "main": "dist/makensis.js",
   "files": [
