@@ -10,7 +10,7 @@ A Node wrapper for `makensis`, the NSIS compiler
 
 ## Installation
 
-`npm install -g -makensis`
+`npm install -g makensis`
 
 ## Usage
 
@@ -24,12 +24,16 @@ const options = {
     }
 }
 
+// Asynchronous
 makensis.compile('/path/to/installer.nsi', options)
 .then(output => {
     console.log('Exit code: ' + output.status);
 }).catch(output => {
     console.error(output.stderr);
 });
+
+// Synchronous
+let output = makensis.compileSync('/path/to/installer.nsi', options);
 ```
 
 ### Methods
