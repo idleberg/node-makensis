@@ -5,7 +5,11 @@ interface CompilerOptions {
     execute?: Array<string>;
     nocd?: boolean;
     noconfig?: boolean;
+    inputcharset?: string;
+    outputcharset?: string;
     pause?: boolean;
+    ppo?: boolean;
+    safeppo?: boolean;
     strict?: boolean;
     verbose?: number;
 }
@@ -23,6 +27,22 @@ const help = (command: string = '') => {
     }
 
     return spawnMakensis(args);
+};
+
+/**
+ * Returns information about which options were used to compile MakeNSIS
+ * @returns {string} - compiler options
+ */
+const hdrinfo = () => {
+    return spawnMakensis(['-HDRINFO']);
+};
+
+/**
+ * Returns information about which options were used to compile MakeNSIS
+ * @returns {string} - compiler options
+ */
+const hdrinfoSync = () => {
+    return spawnMakensisSync(['-HDRINFO']);
 };
 
 /**
@@ -84,4 +104,4 @@ const versionSync = () => {
     return spawnMakensisSync(['-VERSION']);
 };
 
-export { compile, compileSync, help, helpSync, version, versionSync };
+export { compile, compileSync, hdrinfo, hdrinfoSync, help, helpSync, version, versionSync };

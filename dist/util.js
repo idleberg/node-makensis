@@ -3,21 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var child_process_1 = require("child_process");
 var getArguments = function (options) {
     var args = [];
-    if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
-        args.push('-V' + options.verbose);
-    }
-    if (options.pause === true) {
-        args.push('-PAUSE');
-    }
-    if (options.nocd === true) {
-        args.push('-NOCD');
-    }
-    if (options.noconfig === true) {
-        args.push('-NOCONFIG');
-    }
-    if (options.strict === true) {
-        args.push('-WX');
-    }
     if (typeof options.define !== 'undefined') {
         Object.keys(options.define).forEach(function (key) {
             args.push("-D" + key + "=" + options.define[key]);
@@ -27,6 +12,33 @@ var getArguments = function (options) {
         options.execute.forEach(function (key) {
             args.push("-X" + key);
         });
+    }
+    if (options.nocd === true) {
+        args.push('-NOCD');
+    }
+    if (options.noconfig === true) {
+        args.push('-NOCONFIG');
+    }
+    if (options.pause === true) {
+        args.push('-PAUSE');
+    }
+    if (options.strict === true) {
+        args.push('-WX');
+    }
+    if (typeof options.inputcharset !== 'undefined' && options.inputcharset !== '') {
+        args.push('-INPUTCHARSET', options.inputcharset);
+    }
+    if (typeof options.outputcharset !== 'undefined' && options.outputcharset !== '') {
+        args.push('-OUTPUTCHARSET', options.outputcharset);
+    }
+    if (options.ppo === true) {
+        args.push('-PPO');
+    }
+    if (options.safeppo === true) {
+        args.push('-SAFEPPO');
+    }
+    if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
+        args.push('-V' + options.verbose);
     }
     return args;
 };

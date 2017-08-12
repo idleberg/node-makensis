@@ -16,6 +16,7 @@ A Node wrapper for `makensis`, the NSIS compiler
 
 ```js
 import * as makensis from 'makensis';
+// const makensis = require('makensis');
 
 const options = {
     verbose: 2,
@@ -67,6 +68,14 @@ Disables the current directory change to that of the .nsi file. Equivalent of th
 #### `noconfig: <boolean>`
 
 Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`. Equivalent of the `-NOCONFIG` switch.
+
+#### `inputcharset: <string>`
+
+allows you to specify a specific codepage for files without a BOM (`ACP|OEM|CP#|UTF8|UTF16<LE|BE>`). Equivalent of the `-INPUTCHARSET` switch.
+
+#### `outputcharset: <string>`
+
+Allows you to specify the codepage used by stdout when the output is redirected (`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET` switch.
 
 #### `strict: <boolean>`
 

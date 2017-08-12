@@ -16,6 +16,22 @@ var help = function (command) {
 };
 exports.help = help;
 /**
+ * Returns information about which options were used to compile MakeNSIS
+ * @returns {string} - compiler options
+ */
+var hdrinfo = function () {
+    return util_1.spawnMakensis(['-HDRINFO']);
+};
+exports.hdrinfo = hdrinfo;
+/**
+ * Returns information about which options were used to compile MakeNSIS
+ * @returns {string} - compiler options
+ */
+var hdrinfoSync = function () {
+    return util_1.spawnMakensisSync(['-HDRINFO']);
+};
+exports.hdrinfoSync = hdrinfoSync;
+/**
  * Returns usage information for a command, or list all commands
  * @param {string} [command] - an NSIS command
  * @returns {string} - usage description
