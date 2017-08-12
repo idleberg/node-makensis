@@ -29,6 +29,8 @@ const options = {
 makensis.compile('/path/to/installer.nsi', options)
 .then(output => {
     console.log('Exit code: ' + output.status);
+    console.log('Standard output:\n' + output.stdout);
+    console.log('Standard error:\n' + output.stderr);
 }).catch(output => {
     console.error(output.stderr);
 });
