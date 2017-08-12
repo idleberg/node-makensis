@@ -119,7 +119,7 @@ Executes script-commands in the script, parameters are processed by order. Equiv
 ```js
 execute: [
     "SetCompressor lzma",
-    "SetCompressorDictSize 16",
+    "SetCompressorDictSize 16"
 ]
 ```
 
