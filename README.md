@@ -10,7 +10,7 @@ A Node wrapper for `makensis`, the NSIS compiler
 
 ## Installation
 
-`npm install -g makensis`
+`yarn add makensis || npm install makensis`
 
 ## Usage
 
