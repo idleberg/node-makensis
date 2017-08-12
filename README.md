@@ -87,6 +87,10 @@ Allows you to specify the codepage used by stdout when the output is redirected 
 
 Treat warnings as errors. Equivalent of the `-WX` switch.
 
+#### `ppo: <boolean>` / `safeppo: <boolean>`
+
+Will only run the preprocessor and print the result to stdout. The safe version will not execute instructions like [`!appendfile`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!appendfile.md) or [`!system`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!system.md). [`!packhdr`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!packhdr.md) and [`!finalize`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md) are never executed. Equivalent of the `-PPO` / `SAFEPPO` switches.
+
 #### `define: <Object>`
 
 Defines symbols for the script [to value]. Equivalent of the `-D` switch.
