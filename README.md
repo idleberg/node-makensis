@@ -49,6 +49,10 @@ Compile specified script with MakeNSIS.
 
 Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
+#### `hdrinfo()` / `hdrinfoSync()`
+
+Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
+
 #### `help([command])` / `helpSync([command])`
 
 Returns usage information for a specific command, or a list all commands. Equivalent of the `-HELP` switch.
