@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var child_process_1 = require("child_process");
-var parseArgs = function (options) {
+var getArguments = function (options) {
     var args = [];
     if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
         args.push('-V' + options.verbose);
@@ -30,11 +30,10 @@ var parseArgs = function (options) {
     }
     return args;
 };
-exports.parseArgs = parseArgs;
+exports.getArguments = getArguments;
 var stringify = function (data) {
     return data.toString().trim();
 };
-exports.stringify = stringify;
 var spawnMakensis = function (args) {
     return new Promise(function (resolve, reject) {
         var stdOut = '';

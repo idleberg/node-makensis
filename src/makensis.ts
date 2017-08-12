@@ -1,4 +1,4 @@
-import { parseArgs, spawnMakensis, spawnMakensisSync } from './util';
+import { getArguments, spawnMakensis, spawnMakensisSync } from './util';
 
 interface CompilerOptions {
     define?: Object;
@@ -48,7 +48,7 @@ const helpSync = (command: string = '') => {
 const compile = (script: string, options: CompilerOptions = null) => {
     options || (options = {});
 
-    let args = parseArgs(options);
+    let args = getArguments(options);
     args.push(script);
 
     return spawnMakensis(args);
@@ -62,7 +62,7 @@ const compile = (script: string, options: CompilerOptions = null) => {
 const compileSync = (script: string, options: CompilerOptions = null) => {
     options || (options = {});
 
-    let args = parseArgs(options);
+    let args = getArguments(options);
     args.push(script);
 
     return spawnMakensisSync(args);

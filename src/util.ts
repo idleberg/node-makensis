@@ -1,6 +1,6 @@
 import { spawn, spawnSync } from 'child_process';
 
-const parseArgs = (options) => {
+const getArguments = (options) => {
   let args: Array<string> = [];
 
   if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
@@ -85,4 +85,4 @@ const spawnMakensisSync = (args: Array<string>) => {
     return output;
 };
 
-export { parseArgs, spawnMakensis, spawnMakensisSync, stringify};
+export { getArguments, spawnMakensis, spawnMakensisSync };
