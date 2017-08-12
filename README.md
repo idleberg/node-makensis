@@ -14,10 +14,16 @@ A Node wrapper for `makensis`, the NSIS compiler
 
 ## Usage
 
+Use ES6 imports or `require()` to include the module:
+
 ```js
 import * as makensis from 'makensis';
-// const makensis = require('makensis');
+const makensis = require('makensis');
+```
 
+Example usage in script:
+
+```js
 const options = {
     verbose: 2,
     define: {
