@@ -1,8 +1,7 @@
 //Dependencies
-const makensis = require('../dist/makensis');
-const path = require('path');
-const { spawnSync } = require('child_process');
-const { test } = require('ava');
+import * as makensis from '../dist/makensis';
+import { spawnSync } from 'child_process';
+import { test } from 'ava';
 
 // Generate script using compiler flags
 const execute = [
