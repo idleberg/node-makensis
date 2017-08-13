@@ -2,7 +2,7 @@
 const makensis = require('../dist/makensis');
 const path = require('path');
 const { spawnSync } = require('child_process');
-const { test } = require('tape');
+const { test } = require('ava');
 
 // Generate script using compiler flags
 const execute = [
@@ -12,116 +12,87 @@ const execute = [
   'SectionEnd'
 ];
 
-// Skip test when makensis isn't installed
-const hasMakensis = spawnSync('makensis');
-let options = {};
-if (typeof hasMakensis.error !== 'undefined') {
-  options.skip = true;
-}
-
-console.log('\nRunning Tape tests:\n');
-
 // Let's run the tests
-test('Print makensis version', options, (assert) => {
+test('Print makensis version', t => {
   const expected = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
   const actual = makensis.versionSync().stdout;
 
-  assert.equal(actual, expected, '');
-  assert.end();
+  t.is(actual, expected);
 });
 
-test('Get command help', options, (assert) => {
+test('Get command help', t => {
   const expected = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
   const actual = makensis.cmdhelpSync().stdout;
 
-  assert.equal(actual, expected, '');
-  assert.end();
+  t.is(actual, expected);
 });
 
-test('Get help for OutFile command', options, (assert) => {
+test('Get help for OutFile command', t => {
   const expected = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stdout.toString().trim();
   const actual = makensis.cmdhelpSync('OutFile').stdout;
 
-  assert.equal(actual, expected, '');
-  assert.end();
+  t.is(actual, expected);
 });
 
-test('Compilation [async]', options, (assert) => {
-  const expected = 0;
-
-  makensis.compile(null, {execute: execute})
+test('Compilation [async]', t => {
+  return Promise.resolve(makensis.compile(null, {execute: execute}))
   .then(output => {
-      assert.equal(output.status, expected, '');
-      assert.end();
+      t.is(output.status, 0);
   })
   .catch();
 });
 
-test('Compilation with warning [async]', options, (assert) => {
+test('Compilation with warning [async]', t => {
   const executeWithWarning = execute.concat(['!warning']);
-  const expected = 0;
 
-  makensis.compile(null, {execute: executeWithWarning})
+  return Promise.resolve(makensis.compile(null, {execute: executeWithWarning}))
   .then( output => {
-    assert.equal(output.status, expected, '');
-    assert.end();
+    t.is(output.status, 0)
   })
   .catch();
 });
 
-test('Compilation with error [async]', options, (assert) => {
+test('Compilation with error [async]', t => {
   let executeWithError = execute.concat(['!error']);
-  const expected = 0;
 
-  makensis.compile(null, {execute: executeWithError})
+  return Promise.resolve(makensis.compile(null, {execute: executeWithError}))
   .catch(output => {
-      assert.notEqual(output.status, expected, '');
-      assert.end();
+      t.not(output.status, 0);
   });
 });
 
-test('Compilation', options, (assert) => {
-  const expected = 0;
+test('Compilation', t => {
   const actual = makensis.compileSync(null, {execute: execute}).status;
 
-  assert.equal(actual, expected, '');
-  assert.end();
+  t.is(actual, 0);
 });
 
-test('Compilation with warning', options, (assert) => {
+test('Compilation with warning', t => {
   const executeWithWarning = execute.concat(['!warning']);
-  const expected = 0;
   const actual = makensis.compileSync(null, {execute: executeWithWarning}).status;
 
-  assert.equal(actual, expected, '');
-  assert.end();
+  t.is(actual, 0);
 });
 
-test('Compilation with error', options, (assert) => {
+test('Compilation with error', t => {
   const executeWithError = execute.concat(['!error']);
-  const expected = 0;
   const actual = makensis.compileSync(null, {execute: executeWithError}).status;
 
-  assert.notEqual(actual, expected, '');
-  assert.end();
+  t.not(actual, 0);
 });
 
-test('Strict compilation with warning [async]', options, (assert) => {
+test('Strict compilation with warning [async]', t => {
   const executeWithWarning = execute.concat(['!warning']);
-  const expected = 0;
 
-  makensis.compile(null, {execute: executeWithWarning, strict: true})
+  return Promise.resolve(makensis.compile(null, {execute: executeWithWarning, strict: true}))
   .catch(output => {
-    assert.notEqual(output.status, expected, '');
-    assert.end();
+    t.not(output.status, 0);
   });
 });
 
-test('Strict compilation with warning', options, (assert) => {
+test('Strict compilation with warning', t => {
   const executeWithWarning = execute.concat(['!warning']);
-  const expected = 0;
   const actual = makensis.compileSync(null, {execute: executeWithWarning, strict: true}).status;
 
-  assert.notEqual(actual, expected, '');
-  assert.end();
+  t.not(actual, 0);
 });
