@@ -19,7 +19,7 @@ interface CompilerOptions {
  * @param {string} [command] - an NSIS command
  * @returns {string} - usage description
  */
-const help = (command: string = '') => {
+const cmdhelp = (command: string = '') => {
     let args: Array<string> = ['-CMDHELP'];
 
     if (typeof command !== 'undefined' && command !== '') {
@@ -27,6 +27,21 @@ const help = (command: string = '') => {
     }
 
     return spawnMakensis(args);
+};
+
+/**
+ * Returns usage information for a command, or list all commands
+ * @param {string} [command] - an NSIS command
+ * @returns {string} - usage description
+ */
+const cmdhelpSync = (command: string = '') => {
+    let args: Array<string> = ['-CMDHELP'];
+
+    if (typeof command !== 'undefined' && command !== '') {
+        args.push(command);
+    }
+
+    return spawnMakensisSync(args);
 };
 
 /**
@@ -43,21 +58,6 @@ const hdrinfo = () => {
  */
 const hdrinfoSync = () => {
     return spawnMakensisSync(['-HDRINFO']);
-};
-
-/**
- * Returns usage information for a command, or list all commands
- * @param {string} [command] - an NSIS command
- * @returns {string} - usage description
- */
-const helpSync = (command: string = '') => {
-    let args: Array<string> = ['-CMDHELP'];
-
-    if (typeof command !== 'undefined' && command !== '') {
-        args.push(command);
-    }
-
-    return spawnMakensisSync(args);
 };
 
 /**
@@ -110,4 +110,13 @@ const versionSync = () => {
     return spawnMakensisSync(['-VERSION']);
 };
 
-export { compile, compileSync, hdrinfo, hdrinfoSync, help, helpSync, version, versionSync };
+export {
+    cmdhelp,
+    cmdhelpSync,
+    compile,
+    compileSync,
+    hdrinfo,
+    hdrinfoSync,
+    version,
+    versionSync
+};

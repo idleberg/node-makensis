@@ -6,7 +6,7 @@ var util_1 = require("./util");
  * @param {string} [command] - an NSIS command
  * @returns {string} - usage description
  */
-var help = function (command) {
+var cmdhelp = function (command) {
     if (command === void 0) { command = ''; }
     var args = ['-CMDHELP'];
     if (typeof command !== 'undefined' && command !== '') {
@@ -14,7 +14,21 @@ var help = function (command) {
     }
     return util_1.spawnMakensis(args);
 };
-exports.help = help;
+exports.cmdhelp = cmdhelp;
+/**
+ * Returns usage information for a command, or list all commands
+ * @param {string} [command] - an NSIS command
+ * @returns {string} - usage description
+ */
+var cmdhelpSync = function (command) {
+    if (command === void 0) { command = ''; }
+    var args = ['-CMDHELP'];
+    if (typeof command !== 'undefined' && command !== '') {
+        args.push(command);
+    }
+    return util_1.spawnMakensisSync(args);
+};
+exports.cmdhelpSync = cmdhelpSync;
 /**
  * Returns information about which options were used to compile MakeNSIS
  * @returns {string} - compiler options
@@ -31,20 +45,6 @@ var hdrinfoSync = function () {
     return util_1.spawnMakensisSync(['-HDRINFO']);
 };
 exports.hdrinfoSync = hdrinfoSync;
-/**
- * Returns usage information for a command, or list all commands
- * @param {string} [command] - an NSIS command
- * @returns {string} - usage description
- */
-var helpSync = function (command) {
-    if (command === void 0) { command = ''; }
-    var args = ['-CMDHELP'];
-    if (typeof command !== 'undefined' && command !== '') {
-        args.push(command);
-    }
-    return util_1.spawnMakensisSync(args);
-};
-exports.helpSync = helpSync;
 /**
  * Compile specified script with MakeNSIS
  * @param {string} script - path to NSIS script
