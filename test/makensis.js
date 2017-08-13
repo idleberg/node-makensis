@@ -69,6 +69,7 @@ test('Compile script', options, (assert) => {
 test('Compile script with error [async]', options, (assert) => {
   let errorScript = script;
   errorScript.execute.push('!error');
+  console.log(errorScript);
 
   const expected = 0;
 
@@ -83,6 +84,7 @@ test('Compile script with error [async]', options, (assert) => {
 test('Compile script with error', options, (assert) => {
   let errorScript = script;
   errorScript.execute.push('!error');
+  console.log(errorScript);
 
   const expected = 0;
   const actual = makensis.compileSync(null, errorScript).status;
