@@ -59,7 +59,7 @@ const stringify = (data) => {
 };
 
 const spawnMakensis = (args: Array<string>) => {
-  return new Promise((resolve, reject) => {
+  return new Promise<Object>((resolve, reject) => {
     let stdOut: string = '';
     let stdErr: string = '';
 
