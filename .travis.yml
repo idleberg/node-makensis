@@ -1,4 +1,4 @@
-sudo: sudo
+sudo: true
 os:
 - linux
 - osx
