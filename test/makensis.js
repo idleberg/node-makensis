@@ -4,7 +4,7 @@ import { spawnSync } from 'child_process';
 import { test } from 'ava';
 
 // Generate script using compiler flags
-const execute = [
+const scriptDefault = [
   'OutFile test.exe',
   'Section -default',
   'Nop',
@@ -51,13 +51,13 @@ test('Print help for OutFile command', t => {
 });
 
 test('Compilation', t => {
-  const actual = makensis.compileSync(null, {execute: execute}).status;
+  const actual = makensis.compileSync(null, {execute: scriptDefault}).status;
 
   t.is(actual, 0);
 });
 
 test('Compilation [async]', t => {
-  return Promise.resolve(makensis.compile(null, {execute: execute}))
+  return Promise.resolve(makensis.compile(null, {execute: scriptDefault}))
   .then(output => {
       t.is(output.status, 0);
   })
@@ -65,16 +65,16 @@ test('Compilation [async]', t => {
 });
 
 test('Compilation with warning', t => {
-  const executeWithWarning = execute.concat(['!warning']);
-  const actual = makensis.compileSync(null, {execute: executeWithWarning}).status;
+  const scriptWithWarning = scriptDefault.concat(['!warning']);
+  const actual = makensis.compileSync(null, {execute: scriptWithWarning}).status;
 
   t.is(actual, 0);
 });
 
 test('Compilation with warning [async]', t => {
-  const executeWithWarning = execute.concat(['!warning']);
+  const scriptWithWarning = scriptDefault.concat(['!warning']);
 
-  return Promise.resolve(makensis.compile(null, {execute: executeWithWarning}))
+  return Promise.resolve(makensis.compile(null, {execute: scriptWithWarning}))
   .then( output => {
     t.is(output.status, 0)
   })
@@ -82,32 +82,32 @@ test('Compilation with warning [async]', t => {
 });
 
 test('Compilation with error', t => {
-  const executeWithError = execute.concat(['!error']);
-  const actual = makensis.compileSync(null, {execute: executeWithError}).status;
+  const scriptWithError = scriptDefault.concat(['!error']);
+  const actual = makensis.compileSync(null, {execute: scriptWithError}).status;
 
   t.not(actual, 0);
 });
 
 test('Compilation with error [async]', t => {
-  let executeWithError = execute.concat(['!error']);
+  let scriptWithError = scriptDefault.concat(['!error']);
 
-  return Promise.resolve(makensis.compile(null, {execute: executeWithError}))
+  return Promise.resolve(makensis.compile(null, {execute: scriptWithError}))
   .catch(output => {
       t.not(output.status, 0);
   });
 });
 
 test('Strict compilation with warning', t => {
-  const executeWithWarning = execute.concat(['!warning']);
-  const actual = makensis.compileSync(null, {execute: executeWithWarning, strict: true}).status;
+  const scriptWithWarning = scriptDefault.concat(['!warning']);
+  const actual = makensis.compileSync(null, {execute: scriptWithWarning, strict: true}).status;
 
   t.not(actual, 0);
 });
 
 test('Strict compilation with warning [async]', t => {
-  const executeWithWarning = execute.concat(['!warning']);
+  const scriptWithWarning = scriptDefault.concat(['!warning']);
 
-  return Promise.resolve(makensis.compile(null, {execute: executeWithWarning, strict: true}))
+  return Promise.resolve(makensis.compile(null, {execute: scriptWithWarning, strict: true}))
   .catch(output => {
     t.not(output.status, 0);
   });
