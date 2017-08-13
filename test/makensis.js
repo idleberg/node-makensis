@@ -20,6 +20,8 @@ if (typeof hasMakensis.error !== 'undefined') {
   options.skip = true;
 }
 
+console.log('\nRunning Tape tests:');
+
 // Let's run the tests
 test('Print makensis version', options, (assert) => {
   const expected = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
