@@ -9,7 +9,6 @@ yarn-error.log
 
 # project specific
 *.exe
-*.nsi
 test.js
 test.ts
 todo.md
