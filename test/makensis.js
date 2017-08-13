@@ -30,8 +30,16 @@ test('Print makensis version', options, (assert) => {
 });
 
 test('Get command help', options, (assert) => {
+  const expected = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
+  const actual = makensis.cmdhelpSync().stdout;
+
+  assert.equal(actual, expected, '- should be equal');
+  assert.end();
+});
+
+test('Get command help for OutFile', options, (assert) => {
   const expected = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stdout.toString().trim();
-  const actual = makensis.helpSync('OutFile').stdout;
+  const actual = makensis.cmdhelpSync('OutFile').stdout;
 
   assert.equal(actual, expected, '- should be equal');
   assert.end();
