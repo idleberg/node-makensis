@@ -10,7 +10,7 @@ A Node wrapper for `makensis`, the NSIS compiler
 
 ## Installation
 
-`yarn add makensis || npm install makensis`
+`$ yarn add makensis || npm install makensis`
 
 ## Usage
 
@@ -47,57 +47,89 @@ let output = makensis.compileSync('/path/to/installer.nsi', options);
 
 ### Methods
 
-#### `compile(script, [options])` / `compileSync(script, [options])`
+#### compile
 
-Compile specified script with MakeNSIS.
+Usage: `compile(script, [options])`
 
-#### `version()` / `versionSync()`
+Compiles specified script with MakeNSIS. The script can be omitted in favor of [`execute`](#execute).
+
+#### compileSync
+
+Usage: `compileSync(script, [options])`
+
+Compiles specified script with MakeNSIS. The script can be omitted in favor of [`execute`](#execute).
+
+#### version
+
+Usage: `version()`
 
 Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
-#### `hdrinfo()` / `hdrinfoSync()`
+#### versionSync
+
+Usage: `versionSync()`
+
+Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
+
+#### hdrinfo
+
+Usage: `hdrinfo()`
 
 Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
 
-#### `help([command])` / `helpSync([command])`
+#### hdrinfoSync
 
-Returns usage information for a specific command, or a list all commands. Equivalent of the `-HELP` switch.
+Usage: `hdrinfoSync()`
+
+Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
+
+#### cmdhelp
+
+Usage: `cmdhelp([command])`
+
+Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
+
+#### cmdhelpSync
+
+Usage: `cmdhelpSync([command])`
+
+Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
 
 ### Options
 
-#### `verbose: <integer>`
+#### verbose: <integer>
 
 Verbosity where x is 4=all,3=no script,2=no info,1=no warnings,0=none. Equivalent of the `-V` switch.
 
-#### `pause: <boolean>`
+#### pause: <boolean>
 
 Pauses after execution. Equivalent of the `-PAUSE` switch.
 
-#### `nocd: <boolean>`
+#### nocd: <boolean>
 
 Disables the current directory change to that of the .nsi file. Equivalent of the `-NOCD` switch.
 
-#### `noconfig: <boolean>`
+#### noconfig: <boolean>
 
 Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`. Equivalent of the `-NOCONFIG` switch.
 
-#### `inputcharset: <string>`
+#### inputcharset: <string>
 
 allows you to specify a specific codepage for files without a BOM (`ACP|OEM|CP#|UTF8|UTF16<LE|BE>`). Equivalent of the `-INPUTCHARSET` switch.
 
-#### `outputcharset: <string>`
+#### outputcharset: <string>
 
 Allows you to specify the codepage used by stdout when the output is redirected (`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET` switch.
 
-#### `strict: <boolean>`
+#### strict: <boolean>
 
 Treat warnings as errors. Equivalent of the `-WX` switch.
 
-#### `ppo: <boolean>` / `safeppo: <boolean>`
+#### ppo: <boolean> / safeppo: <boolean>
 
-Will only run the preprocessor and print the result to stdout. The safe version will not execute instructions like [`!appendfile`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!appendfile.md) or [`!system`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!system.md). [`!packhdr`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!packhdr.md) and [`!finalize`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md) are never executed. Equivalent of the `-PPO` / `SAFEPPO` switches.
+Will only run the preprocessor and print the result to stdout. The safe version will not execute instructions like [`!appendfile`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!appendfile.md) or [`!system`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!system.md). [`!packhdr`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!packhdr.md) and [`!finalize`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md) are never executed. Equivalent of the `-PPO / SAFEPPO` switches.
 
-#### `define: <Object>`
+#### define: <Object>
 
 Defines symbols for the script [to value]. Equivalent of the `-D` switch.
 
@@ -110,7 +142,7 @@ define: {
 }
 ```
 
-#### `execute: <Array>`
+#### execute: <Array>
 
 Executes script-commands in the script, parameters are processed by order. Equivalent of the `-X` switch
 
