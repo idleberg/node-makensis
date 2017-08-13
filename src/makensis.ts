@@ -69,7 +69,10 @@ const compile = (script: string, options: CompilerOptions = null) => {
     options || (options = {});
 
     let args = getArguments(options);
-    args.push(script);
+
+    if (script) {
+        args.push(script);
+    }
 
     return spawnMakensis(args);
 };
@@ -83,7 +86,10 @@ const compileSync = (script: string, options: CompilerOptions = null) => {
     options || (options = {});
 
     let args = getArguments(options);
-    args.push(script);
+
+    if (script) {
+        args.push(script);
+    }
 
     return spawnMakensisSync(args);
 };

@@ -54,7 +54,9 @@ var compile = function (script, options) {
     if (options === void 0) { options = null; }
     options || (options = {});
     var args = util_1.getArguments(options);
-    args.push(script);
+    if (script) {
+        args.push(script);
+    }
     return util_1.spawnMakensis(args);
 };
 exports.compile = compile;
@@ -67,7 +69,9 @@ var compileSync = function (script, options) {
     if (options === void 0) { options = null; }
     options || (options = {});
     var args = util_1.getArguments(options);
-    args.push(script);
+    if (script) {
+        args.push(script);
+    }
     return util_1.spawnMakensisSync(args);
 };
 exports.compileSync = compileSync;
