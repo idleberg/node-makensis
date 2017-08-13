@@ -22,3 +22,9 @@ addons:
       - g++-4.8
 notifications:
   email: false
+os:
+- linux
+- osx
+before_install:
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get install nsis; fi
+- if [[ $TRAVIS_OS_NAME == 'osx' ]]; then brew install nsis; fi
