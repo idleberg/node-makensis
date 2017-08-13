@@ -19,18 +19,41 @@ test('Print makensis version', t => {
   t.is(actual, expected);
 });
 
-test('Get command help', t => {
+test('Print makensis version [async]', t => {
+  const expected = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
+
+  return Promise.resolve(makensis.version())
+  .then(output => {
+      t.is(output.stdout, expected);
+  })
+  .catch();
+});
+
+test('Print compiler information', t => {
+  const expected = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
+  const actual = makensis.hdrinfoSync().stdout;
+
+  t.is(actual, expected);
+});
+
+test('Print help for all commands', t => {
   const expected = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
   const actual = makensis.cmdhelpSync().stdout;
 
   t.is(actual, expected);
 });
 
-test('Get help for OutFile command', t => {
+test('Print help for OutFile command', t => {
   const expected = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stdout.toString().trim();
   const actual = makensis.cmdhelpSync('OutFile').stdout;
 
   t.is(actual, expected);
+});
+
+test('Compilation', t => {
+  const actual = makensis.compileSync(null, {execute: execute}).status;
+
+  t.is(actual, 0);
 });
 
 test('Compilation [async]', t => {
@@ -39,6 +62,13 @@ test('Compilation [async]', t => {
       t.is(output.status, 0);
   })
   .catch();
+});
+
+test('Compilation with warning', t => {
+  const executeWithWarning = execute.concat(['!warning']);
+  const actual = makensis.compileSync(null, {execute: executeWithWarning}).status;
+
+  t.is(actual, 0);
 });
 
 test('Compilation with warning [async]', t => {
@@ -51,6 +81,13 @@ test('Compilation with warning [async]', t => {
   .catch();
 });
 
+test('Compilation with error', t => {
+  const executeWithError = execute.concat(['!error']);
+  const actual = makensis.compileSync(null, {execute: executeWithError}).status;
+
+  t.not(actual, 0);
+});
+
 test('Compilation with error [async]', t => {
   let executeWithError = execute.concat(['!error']);
 
@@ -60,22 +97,9 @@ test('Compilation with error [async]', t => {
   });
 });
 
-test('Compilation', t => {
-  const actual = makensis.compileSync(null, {execute: execute}).status;
-
-  t.is(actual, 0);
-});
-
-test('Compilation with warning', t => {
+test('Strict compilation with warning', t => {
   const executeWithWarning = execute.concat(['!warning']);
-  const actual = makensis.compileSync(null, {execute: executeWithWarning}).status;
-
-  t.is(actual, 0);
-});
-
-test('Compilation with error', t => {
-  const executeWithError = execute.concat(['!error']);
-  const actual = makensis.compileSync(null, {execute: executeWithError}).status;
+  const actual = makensis.compileSync(null, {execute: executeWithWarning, strict: true}).status;
 
   t.not(actual, 0);
 });
@@ -87,11 +111,4 @@ test('Strict compilation with warning [async]', t => {
   .catch(output => {
     t.not(output.status, 0);
   });
-});
-
-test('Strict compilation with warning', t => {
-  const executeWithWarning = execute.concat(['!warning']);
-  const actual = makensis.compileSync(null, {execute: executeWithWarning, strict: true}).status;
-
-  t.not(actual, 0);
 });
