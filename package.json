@@ -28,6 +28,6 @@
   "scripts": {
     "build": "tsc -p ./",
     "prepublish": "gulp lint && npm run build",
-    "test": "node_modules/.bin/ava ./test --verbose"
+    "test": "node_modules/.bin/ava ./test --verbose --serial --fail-fast"
   }
 }
