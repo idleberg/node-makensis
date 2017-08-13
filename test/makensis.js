@@ -37,7 +37,7 @@ test('Get command help', options, (assert) => {
   assert.end();
 });
 
-test('Get command help for OutFile', options, (assert) => {
+test('Get help for OutFile command', options, (assert) => {
   const expected = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stdout.toString().trim();
   const actual = makensis.cmdhelpSync('OutFile').stdout;
 
@@ -85,6 +85,6 @@ test('Compile script with error', options, (assert) => {
   const expected = 0;
   const actual = makensis.compileSync(null, errorScript).status;
 
-  assert.notEqual(actual, expected, '- should be equal');
+  assert.notEqual(actual, expected, '- should not be equal');
   assert.end();
 });
