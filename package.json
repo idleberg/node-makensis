@@ -26,10 +26,6 @@
   },
   "scripts": {
     "build": "tsc -p ./",
-    "prepublish": "npm run build",
-    "test": "gulp lint && node ./test/makensis.js"
-  },
-  "dependencies": {
-    "tape": "^4.8.0"
+    "prepublish": "npm run build"
   }
 }
