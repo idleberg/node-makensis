@@ -4,8 +4,9 @@ const { spawnSync } = require('child_process');
 const { test } = require('tape');
 
 const script = path.join(__dirname, 'pass.nsi');
-const hasMakensis = spawnSync('makensis');
 
+// Skip test when makensis isn't installed
+const hasMakensis = spawnSync('makensis');
 let options = {};
 if (typeof hasMakensis.error !== 'undefined') {
   options.skip = true;
