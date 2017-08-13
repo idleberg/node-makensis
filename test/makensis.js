@@ -4,7 +4,7 @@ const { spawnSync } = require('child_process');
 const { test } = require('tape');
 
 // Generate script using compiler flags
-const compilerOpts = {
+const script = {
   execute: [
     'OutFile test.exe',
     'Section -default',
@@ -15,13 +15,13 @@ const compilerOpts = {
 
 // Skip test when makensis isn't installed
 const hasMakensis = spawnSync('makensis');
-let tapeOpts = {};
+let options = {};
 if (typeof hasMakensis.error !== 'undefined') {
-  tapeOpts.skip = true;
+  options.skip = true;
 }
 
 // Let's run the tests
-test('Print makensis version', tapeOpts, (assert) => {
+test('Print makensis version', options, (assert) => {
   const expected = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
   const actual = makensis.versionSync().stdout;
 
@@ -29,7 +29,7 @@ test('Print makensis version', tapeOpts, (assert) => {
   assert.end();
 });
 
-test('Get command help', tapeOpts, (assert) => {
+test('Get command help', options, (assert) => {
   const expected = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stdout.toString().trim();
   const actual = makensis.helpSync('OutFile').stdout;
 
@@ -37,11 +37,10 @@ test('Get command help', tapeOpts, (assert) => {
   assert.end();
 });
 
-test('Compile script [async]', tapeOpts, (assert) => {
+test('Compile script [async]', options, (assert) => {
   const expected = 0;
-  let actual;
 
-  makensis.compile(null, compilerOpts)
+  makensis.compile(null, script)
   .then(output => {
       assert.equal(output.status, expected, 'should be equal');
       assert.end();
@@ -49,25 +48,35 @@ test('Compile script [async]', tapeOpts, (assert) => {
   catch();
 });
 
-test('Compile script', tapeOpts, (assert) => {
+test('Compile script', options, (assert) => {
   const expected = 0;
-  const actual = makensis.compileSync(null, compilerOpts).status;
+  const actual = makensis.compileSync(null, script).status;
 
   assert.equal(actual, expected, '- should be equal');
   assert.end();
 });
 
-test('Compile script with error [async]', tapeOpts, (assert) => {
+test('Compile script with error [async]', options, (assert) => {
+  let errorScript = script;
+  errorScript.execute.push('!error');
+
   const expected = 0;
-  let actual;
 
-  let opts = compilerOpts;
-  opts.execute.unshift('!error');
-
-  makensis.compile(null, opts)
+  makensis.compile(null, errorScript)
   .then()
   .catch(output => {
       assert.notEqual(output.status, expected, 'should not be equal');
       assert.end();
   });
+});
+
+test('Compile script with error', options, (assert) => {
+  let errorScript = script;
+  errorScript.execute.push('!error');
+
+  const expected = 0;
+  const actual = makensis.compileSync(null, errorScript).status;
+
+  assert.notEqual(actual, expected, '- should be equal');
+  assert.end();
 });
