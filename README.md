@@ -17,13 +17,18 @@ A Node wrapper for `makensis`, the NSIS compiler
 Use ES6 imports or `require()` to include the module:
 
 ```js
+// ECMAScript 6
 import * as makensis from 'makensis';
+
+// RequireJS
 const makensis = require('makensis');
 ```
 
 Example usage in script:
 
 ```js
+import * as makensis from 'makensis';
+
 const options = {
     verbose: 2,
     define: {
