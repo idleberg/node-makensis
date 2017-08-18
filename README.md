@@ -180,6 +180,12 @@ execute: [
 ]
 ```
 
+#### wine
+
+Type: `boolean`
+
+Run `makensis` on [Wine](http://winehq.org/)
+
 ## License
 
 This work is licensed under [The MIT License](https://opensource.org/licenses/MIT)
