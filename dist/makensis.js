@@ -4,6 +4,7 @@ var util_1 = require("./util");
 /**
  * Returns usage information for a command, or list all commands
  * @param {string} [command] - an NSIS command
+ * @param {Object} options - compiler options
  * @returns {string} - usage description
  */
 var cmdhelp = function (command, options) {
@@ -20,6 +21,7 @@ exports.cmdhelp = cmdhelp;
 /**
  * Returns usage information for a command, or list all commands
  * @param {string} [command] - an NSIS command
+ * @param {Object} options - compiler options
  * @returns {string} - usage description
  */
 var cmdhelpSync = function (command, options) {
@@ -35,6 +37,7 @@ var cmdhelpSync = function (command, options) {
 exports.cmdhelpSync = cmdhelpSync;
 /**
  * Returns information about which options were used to compile MakeNSIS
+ * @param {Object} options - compiler options
  * @returns {string} - compiler options
  */
 var hdrinfo = function (options) {
@@ -93,6 +96,7 @@ var compileSync = function (script, options) {
 exports.compileSync = compileSync;
 /**
  * Returns version of MakeNSIS
+ * @param {Object} options - compiler options
  * @returns {string} - compiler version
  */
 var version = function (options) {
@@ -104,6 +108,7 @@ var version = function (options) {
 exports.version = version;
 /**
  * Returns version of MakeNSIS
+ * @param {Object} options - compiler options
  * @returns {string} - compiler version
  */
 var versionSync = function (options) {

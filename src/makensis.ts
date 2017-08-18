@@ -18,6 +18,7 @@ interface CompilerOptions {
 /**
  * Returns usage information for a command, or list all commands
  * @param {string} [command] - an NSIS command
+ * @param {Object} options - compiler options
  * @returns {string} - usage description
  */
 const cmdhelp = (command: string = '', options: CompilerOptions = null) => {
@@ -34,6 +35,7 @@ const cmdhelp = (command: string = '', options: CompilerOptions = null) => {
 /**
  * Returns usage information for a command, or list all commands
  * @param {string} [command] - an NSIS command
+ * @param {Object} options - compiler options
  * @returns {string} - usage description
  */
 const cmdhelpSync = (command: string = '', options: CompilerOptions = null) => {
@@ -49,6 +51,7 @@ const cmdhelpSync = (command: string = '', options: CompilerOptions = null) => {
 
 /**
  * Returns information about which options were used to compile MakeNSIS
+ * @param {Object} options - compiler options
  * @returns {string} - compiler options
  */
 const hdrinfo =  (options: CompilerOptions = null) => {
@@ -110,6 +113,7 @@ const compileSync = (script: string, options: CompilerOptions = null) => {
 
 /**
  * Returns version of MakeNSIS
+ * @param {Object} options - compiler options
  * @returns {string} - compiler version
  */
 const version = (options: CompilerOptions = null) => {
@@ -121,6 +125,7 @@ const version = (options: CompilerOptions = null) => {
 
 /**
  * Returns version of MakeNSIS
+ * @param {Object} options - compiler options
  * @returns {string} - compiler version
  */
 const versionSync = (options: CompilerOptions = null) => {
