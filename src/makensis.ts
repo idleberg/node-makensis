@@ -40,7 +40,7 @@ const cmdhelpSync = (command: string = '', options: CompilerOptions = null) => {
     options || (options = {});
     const p = runWithWine(['-CMDHELP'], options);
 
-    if (command !== '') {
+    if (typeof command !== 'undefined' && command !== '') {
         p.args.push(command);
     }
 

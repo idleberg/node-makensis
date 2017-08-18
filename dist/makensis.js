@@ -27,7 +27,7 @@ var cmdhelpSync = function (command, options) {
     if (options === void 0) { options = null; }
     options || (options = {});
     var p = util_1.runWithWine(['-CMDHELP'], options);
-    if (command !== '') {
+    if (typeof command !== 'undefined' && command !== '') {
         p.args.push(command);
     }
     return util_1.spawnMakensisSync(p.cmd, p.args);
