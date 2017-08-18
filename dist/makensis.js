@@ -6,13 +6,15 @@ var util_1 = require("./util");
  * @param {string} [command] - an NSIS command
  * @returns {string} - usage description
  */
-var cmdhelp = function (command) {
+var cmdhelp = function (command, options) {
     if (command === void 0) { command = ''; }
-    var args = ['-CMDHELP'];
+    if (options === void 0) { options = null; }
+    options || (options = {});
+    var p = util_1.runWithWine(['-CMDHELP'], options);
     if (typeof command !== 'undefined' && command !== '') {
-        args.push(command);
+        p.args.push(command);
     }
-    return util_1.spawnMakensis(args);
+    return util_1.spawnMakensis(p.cmd, p.args);
 };
 exports.cmdhelp = cmdhelp;
 /**
@@ -20,29 +22,37 @@ exports.cmdhelp = cmdhelp;
  * @param {string} [command] - an NSIS command
  * @returns {string} - usage description
  */
-var cmdhelpSync = function (command) {
+var cmdhelpSync = function (command, options) {
     if (command === void 0) { command = ''; }
-    var args = ['-CMDHELP'];
-    if (typeof command !== 'undefined' && command !== '') {
-        args.push(command);
+    if (options === void 0) { options = null; }
+    options || (options = {});
+    var p = util_1.runWithWine(['-CMDHELP'], options);
+    if (command !== '') {
+        p.args.push(command);
     }
-    return util_1.spawnMakensisSync(args);
+    return util_1.spawnMakensisSync(p.cmd, p.args);
 };
 exports.cmdhelpSync = cmdhelpSync;
 /**
  * Returns information about which options were used to compile MakeNSIS
  * @returns {string} - compiler options
  */
-var hdrinfo = function () {
-    return util_1.spawnMakensis(['-HDRINFO']);
+var hdrinfo = function (options) {
+    if (options === void 0) { options = null; }
+    options || (options = {});
+    var p = util_1.runWithWine(['-HDRINFO'], options);
+    return util_1.spawnMakensis(p.cmd, p.args);
 };
 exports.hdrinfo = hdrinfo;
 /**
  * Returns information about which options were used to compile MakeNSIS
  * @returns {string} - compiler options
  */
-var hdrinfoSync = function () {
-    return util_1.spawnMakensisSync(['-HDRINFO']);
+var hdrinfoSync = function (options) {
+    if (options === void 0) { options = null; }
+    options || (options = {});
+    var p = util_1.runWithWine(['-HDRINFO'], options);
+    return util_1.spawnMakensisSync(p.cmd, p.args);
 };
 exports.hdrinfoSync = hdrinfoSync;
 /**
@@ -53,11 +63,14 @@ exports.hdrinfoSync = hdrinfoSync;
 var compile = function (script, options) {
     if (options === void 0) { options = null; }
     options || (options = {});
-    var args = util_1.getArguments(options);
+    var p = util_1.getArguments(options);
     if (script) {
-        args.push(script);
+        if (p.cmd === 'wine') {
+            p.args.push('--');
+        }
+        p.args.push(script);
     }
-    return util_1.spawnMakensis(args);
+    return util_1.spawnMakensis(p.cmd, p.args);
 };
 exports.compile = compile;
 /**
@@ -68,26 +81,35 @@ exports.compile = compile;
 var compileSync = function (script, options) {
     if (options === void 0) { options = null; }
     options || (options = {});
-    var args = util_1.getArguments(options);
+    var p = util_1.getArguments(options);
     if (script) {
-        args.push(script);
+        if (p.cmd === 'wine') {
+            p.args.push('--');
+        }
+        p.args.push(script);
     }
-    return util_1.spawnMakensisSync(args);
+    return util_1.spawnMakensisSync(p.cmd, p.args);
 };
 exports.compileSync = compileSync;
 /**
  * Returns version of MakeNSIS
  * @returns {string} - compiler version
  */
-var version = function () {
-    return util_1.spawnMakensis(['-VERSION']);
+var version = function (options) {
+    if (options === void 0) { options = null; }
+    options || (options = {});
+    var p = util_1.runWithWine(['-VERSION'], options);
+    return util_1.spawnMakensis(p.cmd, p.args);
 };
 exports.version = version;
 /**
  * Returns version of MakeNSIS
  * @returns {string} - compiler version
  */
-var versionSync = function () {
-    return util_1.spawnMakensisSync(['-VERSION']);
+var versionSync = function (options) {
+    if (options === void 0) { options = null; }
+    options || (options = {});
+    var p = util_1.runWithWine(['-VERSION'], options);
+    return util_1.spawnMakensisSync(p.cmd, p.args);
 };
 exports.versionSync = versionSync;

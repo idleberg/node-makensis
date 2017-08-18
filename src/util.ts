@@ -1,79 +1,87 @@
 import { spawn, spawnSync } from 'child_process';
 
 const getArguments = (options) => {
-  let args: Array<string> = [];
+  let p = {
+    cmd: 'makensis',
+    args: []
+  };
+
+  if (options.wine === true) {
+      p.cmd = 'wine';
+      p.args.unshift('makensis');
+  }
 
   if (typeof options.define !== 'undefined') {
       Object.keys(options.define).forEach(function(key) {
-          args.push(`-D${key}=${options.define[key]}`);
+          p.args.push(`-D${key}=${options.define[key]}`);
       });
   }
 
   if (typeof options.execute !== 'undefined') {
       options.execute.forEach(function(key) {
-          args.push(`-X${key}`);
+          p.args.push(`-X${key}`);
       });
   }
 
   if (options.nocd === true) {
-      args.push('-NOCD');
+      p.args.push('-NOCD');
   }
 
   if (options.noconfig === true) {
-      args.push('-NOCONFIG');
+      p.args.push('-NOCONFIG');
   }
 
   if (options.pause === true) {
-      args.push('-PAUSE');
+      p.args.push('-PAUSE');
   }
 
   if (options.strict === true) {
-      args.push('-WX');
+      p.args.push('-WX');
   }
 
   if (typeof options.inputcharset !== 'undefined' && options.inputcharset !== '') {
-      args.push('-INPUTCHARSET', options.inputcharset);
+      p.args.push('-INPUTCHARSET', options.inputcharset);
   }
 
   if (typeof options.outputcharset !== 'undefined' && options.outputcharset !== '') {
-      args.push('-OUTPUTCHARSET', options.outputcharset);
+      p.args.push('-OUTPUTCHARSET', options.outputcharset);
   }
 
   if (options.ppo === true) {
-      args.push('-PPO');
+      p.args.push('-PPO');
   }
 
   if (options.safeppo === true) {
-      args.push('-SAFEPPO');
+      p.args.push('-SAFEPPO');
   }
 
   if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
-      args.push('-V' + options.verbose);
+      p.args.push('-V' + options.verbose);
   }
 
-  return args;
+  return p;
 };
 
 const stringify = (data) => {
   return data.toString().trim();
 };
 
-const spawnMakensis = (args: Array<string>) => {
+const spawnMakensis = (cmd: string, args: Array<string>) => {
   return new Promise<Object>((resolve, reject) => {
     let stdOut: string = '';
     let stdErr: string = '';
 
-    const cmd: any = spawn('makensis', args);
+    const child: any = spawn(cmd, args);
 
-    cmd.stdout.on('data', (data) => {
+    child.stdout.on('data', (data) => {
         stdOut += stringify(data);
     });
 
-    cmd.stderr.on('data', (data) => {
+    child.stderr.on('data', (data) => {
         stdErr += stringify(data);
     });
 
-    cmd.on('close', (code) => {
+    child.on('close', (code) => {
         let output: Object = {
             'status': code,
             'stdout': stdOut,
@@ -89,16 +97,30 @@ const spawnMakensis = (args: Array<string>) => {
   });
 };
 
-const spawnMakensisSync = (args: Array<string>) => {
-    const cmd = spawnSync('makensis', args);
+const spawnMakensisSync = (cmd: string, args: Array<string>) => {
+    const child = spawnSync(cmd, args);
 
     let output: Object = {
-        'status': cmd.status,
-        'stdout': stringify(cmd.stdout),
-        'stderr': stringify(cmd.stderr)
+        'status': child.status,
+        'stdout': stringify(child.stdout),
+        'stderr': stringify(child.stderr)
     };
 
     return output;
 };
 
-export { getArguments, spawnMakensis, spawnMakensisSync };
+const runWithWine = (args, options) => {
+  let p = {
+    cmd: 'makensis',
+    args: args
+  };
+
+  if (options.wine === true) {
+      p.cmd = 'wine';
+      p.args.unshift('makensis');
+  }
+
+  return p;
+};
+
+export { getArguments, spawnMakensis, spawnMakensisSync, runWithWine };

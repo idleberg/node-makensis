@@ -1,4 +1,4 @@
-import { getArguments, spawnMakensis, spawnMakensisSync } from './util';
+import { getArguments, runWithWine, spawnMakensis, spawnMakensisSync } from './util';
 
 interface CompilerOptions {
     define?: Object;
@@ -9,6 +9,7 @@ interface CompilerOptions {
     outputcharset?: string;
     pause?: boolean;
     ppo?: boolean;
+    wine?: boolean;
     safeppo?: boolean;
     strict?: boolean;
     verbose?: number;
@@ -19,14 +20,15 @@ interface CompilerOptions {
  * @param {string} [command] - an NSIS command
  * @returns {string} - usage description
  */
-const cmdhelp = (command: string = '') => {
-    let args: Array<string> = ['-CMDHELP'];
+const cmdhelp = (command: string = '', options: CompilerOptions = null) => {
+    options || (options = {});
+    const p = runWithWine(['-CMDHELP'], options);
 
     if (typeof command !== 'undefined' && command !== '') {
-        args.push(command);
+        p.args.push(command);
     }
 
-    return spawnMakensis(args);
+    return spawnMakensis(p.cmd, p.args);
 };
 
 /**
@@ -34,30 +36,37 @@ const cmdhelp = (command: string = '') => {
  * @param {string} [command] - an NSIS command
  * @returns {string} - usage description
  */
-const cmdhelpSync = (command: string = '') => {
-    let args: Array<string> = ['-CMDHELP'];
+const cmdhelpSync = (command: string = '', options: CompilerOptions = null) => {
+    options || (options = {});
+    const p = runWithWine(['-CMDHELP'], options);
 
-    if (typeof command !== 'undefined' && command !== '') {
-        args.push(command);
+    if (command !== '') {
+        p.args.push(command);
     }
 
-    return spawnMakensisSync(args);
+    return spawnMakensisSync(p.cmd, p.args);
 };
 
 /**
  * Returns information about which options were used to compile MakeNSIS
  * @returns {string} - compiler options
  */
-const hdrinfo = () => {
-    return spawnMakensis(['-HDRINFO']);
+const hdrinfo =  (options: CompilerOptions = null) => {
+    options || (options = {});
+    const p = runWithWine(['-HDRINFO'], options);
+
+    return spawnMakensis(p.cmd, p.args);
 };
 
 /**
  * Returns information about which options were used to compile MakeNSIS
  * @returns {string} - compiler options
  */
-const hdrinfoSync = () => {
-    return spawnMakensisSync(['-HDRINFO']);
+const hdrinfoSync = (options: CompilerOptions = null) => {
+    options || (options = {});
+    let p = runWithWine(['-HDRINFO'], options);
+
+    return spawnMakensisSync(p.cmd, p.args);
 };
 
 /**
@@ -67,14 +76,16 @@ const hdrinfoSync = () => {
  */
 const compile = (script: string, options: CompilerOptions = null) => {
     options || (options = {});
-
-    let args = getArguments(options);
+    const p = getArguments(options);
 
     if (script) {
-        args.push(script);
+        if (p.cmd === 'wine') {
+            p.args.push('--');
+        }
+        p.args.push(script);
     }
 
-    return spawnMakensis(args);
+    return spawnMakensis(p.cmd, p.args);
 };
 
 /**
@@ -85,29 +96,38 @@ const compile = (script: string, options: CompilerOptions = null) => {
 const compileSync = (script: string, options: CompilerOptions = null) => {
     options || (options = {});
 
-    let args = getArguments(options);
+    let p = getArguments(options);
 
     if (script) {
-        args.push(script);
+        if (p.cmd === 'wine') {
+            p.args.push('--');
+        }
+        p.args.push(script);
     }
 
-    return spawnMakensisSync(args);
+    return spawnMakensisSync(p.cmd, p.args);
 };
 
 /**
  * Returns version of MakeNSIS
  * @returns {string} - compiler version
  */
-const version = () => {
-    return spawnMakensis(['-VERSION']);
+const version = (options: CompilerOptions = null) => {
+    options || (options = {});
+    const p = runWithWine(['-VERSION'], options);
+
+    return spawnMakensis(p.cmd, p.args);
 };
 
 /**
  * Returns version of MakeNSIS
  * @returns {string} - compiler version
  */
-const versionSync = () => {
-    return spawnMakensisSync(['-VERSION']);
+const versionSync = (options: CompilerOptions = null) => {
+    options || (options = {});
+    const p = runWithWine(['-VERSION'], options);
+
+    return spawnMakensisSync(p.cmd, p.args);
 };
 
 export {
