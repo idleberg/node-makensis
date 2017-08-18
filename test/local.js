@@ -11,7 +11,8 @@ const scriptDefault = [
   'SectionEnd'
 ];
 
-// Let's run the tests
+// These test require NSIS to be setup properly, with makensis in your
+// PATH environmental variable
 test('Wine: Print makensis version', t => {
   const expected = spawnSync('wine', ['makensis', '-VERSION']).stdout.toString().trim();
   const actual = makensis.versionSync({wine: true}).stdout;
