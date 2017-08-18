@@ -3,8 +3,8 @@ os:
 - linux
 - osx
 before_install:
-- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get install nsis; fi
-- if [[ $TRAVIS_OS_NAME == 'osx' ]]; then brew update && brew install nsis; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get install nsis wine; fi
+- if [[ $TRAVIS_OS_NAME == 'osx' ]]; then brew update && brew install nsis wine; fi
 language: node_js
 node_js:
   - "6"
