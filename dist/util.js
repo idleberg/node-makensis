@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var child_process_1 = require("child_process");
+var os_1 = require("os");
 var getArguments = function (options) {
     var p = {
         cmd: 'makensis',
         args: []
     };
-    if (options.wine === true) {
+    if (os_1.platform() !== 'win32' && options.wine === true) {
         p.cmd = 'wine';
         p.args.unshift('makensis');
     }
@@ -95,7 +96,7 @@ var runWithWine = function (args, options) {
         cmd: 'makensis',
         args: args
     };
-    if (options.wine === true) {
+    if (os_1.platform() !== 'win32' && options.wine === true) {
         p.cmd = 'wine';
         p.args.unshift('makensis');
     }

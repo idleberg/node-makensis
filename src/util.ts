@@ -1,4 +1,5 @@
 import { spawn, spawnSync } from 'child_process';
+import { platform } from 'os';
 
 const getArguments = (options) => {
   let p = {
@@ -6,7 +7,7 @@ const getArguments = (options) => {
     args: []
   };
 
-  if (options.wine === true) {
+  if (platform() !== 'win32' && options.wine === true) {
       p.cmd = 'wine';
       p.args.unshift('makensis');
   }
@@ -115,7 +116,7 @@ const runWithWine = (args, options) => {
     args: args
   };
 
-  if (options.wine === true) {
+  if (platform() !== 'win32' && options.wine === true) {
       p.cmd = 'wine';
       p.args.unshift('makensis');
   }
