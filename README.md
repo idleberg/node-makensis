@@ -20,7 +20,6 @@ sudo apt-get install nsis
 
 # Red Hat
 sudo dnf install nsis
-macOS
 
 # Homebrew
 brew install nsis
