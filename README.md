@@ -6,7 +6,7 @@
 [![David](https://img.shields.io/david/idleberg/node-makensis.svg?style=flat-square)](https://david-dm.org/idleberg/node-makensis)
 [![David](https://img.shields.io/david/dev/idleberg/node-makensis.svg?style=flat-square)](https://david-dm.org/idleberg/node-makensis?type=dev)
 
-A Node wrapper for `makensis`, the NSIS compiler
+A Node wrapper for `makensis`, the compiler for NSIS installers. Supports native compilers and Wine.
 
 ## Installation
 
@@ -41,6 +41,8 @@ makensis.compile('/path/to/installer.nsi', options)
 .then(output => {
     console.log('Exit code: ' + output.status);
     console.log('Standard output:\n' + output.stdout);
+
+    // Warnings are logged to stderr
     console.log('Standard error:\n' + output.stderr);
 }).catch(output => {
     console.error(output.stderr);
@@ -101,6 +103,8 @@ Usage: `cmdhelpSync([command])`
 Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
 
 ### Options
+
+**Note:** Some of these options are limited to NSIS v3 (see the [changelog](http://nsis.sourceforge.net/Docs) for details)
 
 #### verbose
 
