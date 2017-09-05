@@ -43,7 +43,7 @@ makensis.compile('/path/to/installer.nsi', options)
     console.log('Standard output:\n' + output.stdout);
 
     // Warnings are logged to stderr
-    console.log('Standard error:\n' + output.stderr);
+    console.warn('Standard error:\n' + output.stderr);
 }).catch(output => {
     console.error(output.stderr);
 });
