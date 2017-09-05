@@ -6,7 +6,26 @@
 [![David](https://img.shields.io/david/idleberg/node-makensis.svg?style=flat-square)](https://david-dm.org/idleberg/node-makensis)
 [![David](https://img.shields.io/david/dev/idleberg/node-makensis.svg?style=flat-square)](https://david-dm.org/idleberg/node-makensis?type=dev)
 
-A Node wrapper for `makensis`, the compiler for NSIS installers. Supports native compilers and Wine.
+A Node wrapper for `makensis`, the compiler for NSIS installers. Supports both, native compilers and Wine.
+
+## Prerequisites
+
+Make sure that NSIS is properly installed with `makensis` in your PATH [environmental variable](https://support.microsoft.com/en-us/kb/310519).
+
+```sh
+# Debian
+sudo apt-get install nsis
+
+# Red Hat
+sudo dnf install nsis
+macOS
+
+# Homebrew
+brew install nsis
+
+# MacPorts
+port install nsis
+```
 
 ## Installation
 
