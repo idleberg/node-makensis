@@ -16,16 +16,16 @@ On non-Windows platforms, you can usually install NSIS with your package manager
 
 ```sh
 # Debian
-sudo apt-get install nsis
+$ sudo apt-get install nsis
 
 # Red Hat
-sudo dnf install nsis
+$ sudo dnf install nsis
 
 # Homebrew
-brew install nsis
+$ brew install nsis
 
 # MacPorts
-port install nsis
+$ port install nsis
 ```
 
 ## Installation
