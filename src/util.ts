@@ -36,7 +36,7 @@ const getArguments = (options) => {
       p.args.push('-PAUSE');
   }
 
-  if (options.strict === true) {
+  if (options.strict === true || options.wx === true) {
       p.args.push('-WX');
   }
 
