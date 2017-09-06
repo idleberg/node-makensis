@@ -28,6 +28,8 @@ brew install nsis
 port install nsis
 ```
 
+Alternatively, you can setup NSIS in your [Wine](http://winehq.org/) environment.
+
 ## Installation
 
 `yarn add makensis || npm install makensis`
