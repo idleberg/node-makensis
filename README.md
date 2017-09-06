@@ -74,8 +74,7 @@ makensis.compile('/path/to/installer.nsi', options)
 let output = makensis.compileSync('/path/to/installer.nsi', options);
 
 if (output.status === 0) {
-    console.log('Exit code: ' + output.status);
-    console.log('\nStandard output:\n' + output.stdout);
+    console.log('Standard output:\n' + output.stdout);
 
     // Warnings are logged to stderr
     console.warn('\nStandard error:\n' + output.stderr);
