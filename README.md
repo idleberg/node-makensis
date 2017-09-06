@@ -37,10 +37,10 @@ $ port install nsis
 Use ES6 imports or `require()` to include the module:
 
 ```js
-// ECMAScript 6
+// ECMAScript 6 Import
 import * as makensis from 'makensis';
 
-// RequireJS
+// Node Require
 const makensis = require('makensis');
 ```
 
