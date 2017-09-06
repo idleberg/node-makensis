@@ -21,28 +21,28 @@ var getArguments = function (options) {
             p.args.push("-X" + key);
         });
     }
-    if (options.nocd === true) {
+    if (options.nocd === true || options.noCD === true) {
         p.args.push('-NOCD');
     }
-    if (options.noconfig === true) {
+    if (options.noconfig === true || options.noConfig === true) {
         p.args.push('-NOCONFIG');
     }
     if (options.pause === true) {
         p.args.push('-PAUSE');
     }
-    if (options.strict === true) {
+    if (options.strict === true || options.wx === true) {
         p.args.push('-WX');
     }
-    if (typeof options.inputcharset !== 'undefined' && options.inputcharset !== '') {
+    if ((typeof options.inputcharset !== 'undefined' && options.inputcharset !== '') || (typeof options.inputCharset !== 'undefined' && options.inputCharset !== '')) {
         p.args.push('-INPUTCHARSET', options.inputcharset);
     }
-    if (typeof options.outputcharset !== 'undefined' && options.outputcharset !== '') {
+    if ((typeof options.outputcharset !== 'undefined' && options.outputcharset !== '') || (typeof options.outputCharset !== 'undefined' && options.outputCharset !== '')) {
         p.args.push('-OUTPUTCHARSET', options.outputcharset);
     }
-    if (options.ppo === true) {
+    if (options.ppo === true || options.PPO === true) {
         p.args.push('-PPO');
     }
-    if (options.safeppo === true) {
+    if (options.safeppo === true || options.safePPO === true) {
         p.args.push('-SAFEPPO');
     }
     if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {

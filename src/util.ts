@@ -24,11 +24,11 @@ const getArguments = (options) => {
       });
   }
 
-  if (options.nocd === true) {
+  if (options.nocd === true || options.noCD === true) {
       p.args.push('-NOCD');
   }
 
-  if (options.noconfig === true) {
+  if (options.noconfig === true || options.noConfig === true) {
       p.args.push('-NOCONFIG');
   }
 
@@ -40,19 +40,19 @@ const getArguments = (options) => {
       p.args.push('-WX');
   }
 
-  if (typeof options.inputcharset !== 'undefined' && options.inputcharset !== '') {
+  if ((typeof options.inputcharset !== 'undefined' && options.inputcharset !== '') || (typeof options.inputCharset !== 'undefined' && options.inputCharset !== '')) {
       p.args.push('-INPUTCHARSET', options.inputcharset);
   }
 
-  if (typeof options.outputcharset !== 'undefined' && options.outputcharset !== '') {
+  if ((typeof options.outputcharset !== 'undefined' && options.outputcharset !== '') || (typeof options.outputCharset !== 'undefined' && options.outputCharset !== '')) {
       p.args.push('-OUTPUTCHARSET', options.outputcharset);
   }
 
-  if (options.ppo === true) {
+  if (options.ppo === true || options.PPO === true) {
       p.args.push('-PPO');
   }
 
-  if (options.safeppo === true) {
+  if (options.safeppo === true || options.safePPO === true) {
       p.args.push('-SAFEPPO');
   }
 
