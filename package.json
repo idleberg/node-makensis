@@ -16,14 +16,14 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^8.0.20",
+    "@types/node": "^8.0.26",
     "ava": "^0.22.0",
     "gulp": "github:gulpjs/gulp#4.0",
     "gulp-debug": "^3.1.0",
     "gulp-jsonlint": "^1.2.0",
     "gulp-tslint": "^8.1.2",
-    "tslint": "^5.6.0",
-    "typescript": "^2.4.2"
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.2"
   },
   "scripts": {
     "build": "tsc -p ./",
