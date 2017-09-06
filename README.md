@@ -28,7 +28,7 @@ brew install nsis
 port install nsis
 ```
 
-Alternatively, you can setup NSIS in your [Wine](http://winehq.org/) environment. Keep in mind that Wine itself writes standard streams while running `makensis`, so you might need to parse the compiler output yourself.
+Alternatively, you can setup NSIS in your [Wine](http://winehq.org/) environment. Keep in mind that Wine writes standard streams while running `makensis`, so additional parsing of the compiler output might be necessary.
 
 ## Installation
 
