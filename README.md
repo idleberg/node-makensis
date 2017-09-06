@@ -72,6 +72,15 @@ makensis.compile('/path/to/installer.nsi', options)
 
 // Synchronous
 let output = makensis.compileSync('/path/to/installer.nsi', options);
+
+if (output.status === 0) {
+    console.log('Standard output:\n' + output.stdout);
+
+    // Warnings are logged to stderr
+    console.warn('Standard error:\n' + output.stderr);
+} else {
+    console.error(output.stderr);
+}
 ```
 
 ### Methods
