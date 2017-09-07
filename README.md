@@ -39,7 +39,7 @@ Alternatively, you can setup NSIS in your [Wine](http://winehq.org/) environment
 Use ES6 imports or `require()` to include the module:
 
 ```js
-// ECMAScript 6 Import
+// ECMAScript Import
 import * as makensis from 'makensis';
 
 // Node Require
