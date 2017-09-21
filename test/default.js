@@ -29,6 +29,16 @@ test('Print makensis version [async]', t => {
   .catch();
 });
 
+// test('Print compiler information [async]', t => {
+//   const expected = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
+
+//   return Promise.resolve(makensis.hdrinfo())
+//   .then(output => {
+//       t.is(output.stdout, expected);
+//   })
+//   .catch();
+// });
+
 test('Print compiler information', t => {
   const expected = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
   const actual = makensis.hdrinfoSync().stdout;

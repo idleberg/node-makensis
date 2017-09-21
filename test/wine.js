@@ -30,6 +30,16 @@ test('Wine: Print makensis version [async]', t => {
   .catch();
 });
 
+// test('Wine Print compiler information [async]', t => {
+//   const expected = spawnSync('wine', ['makensis', '-HDRINFO'])).stdout.toString().trim();
+
+//   return Promise.resolve(makensis.hdrinfo({wine: true}))
+//   .then(output => {
+//       t.is(output.stdout, expected);
+//   })
+//   .catch();
+// });
+
 test('Wine: Print compiler information', t => {
   const expected = spawnSync('wine', ['makensis', '-HDRINFO']).stdout.toString().trim();
   const actual = makensis.hdrinfoSync({wine: true}).stdout;
