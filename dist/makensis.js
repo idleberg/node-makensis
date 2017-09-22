@@ -7,7 +7,7 @@ var util_1 = require("./util");
  * @param {Object} options - compiler options
  * @returns {string} - usage description
  */
-var cmdhelp = function (command, options) {
+var cmdHelp = function (command, options) {
     if (command === void 0) { command = ''; }
     if (options === void 0) { options = null; }
     options || (options = {});
@@ -17,14 +17,14 @@ var cmdhelp = function (command, options) {
     }
     return util_1.spawnMakensis(p.cmd, p.args, p.opts);
 };
-exports.cmdhelp = cmdhelp;
+exports.cmdHelp = cmdHelp;
 /**
  * Returns usage information for a command, or list all commands
  * @param {string} [command] - an NSIS command
  * @param {Object} options - compiler options
  * @returns {string} - usage description
  */
-var cmdhelpSync = function (command, options) {
+var cmdHelpSync = function (command, options) {
     if (command === void 0) { command = ''; }
     if (options === void 0) { options = null; }
     options || (options = {});
@@ -34,30 +34,30 @@ var cmdhelpSync = function (command, options) {
     }
     return util_1.spawnMakensisSync(p.cmd, p.args, p.opts);
 };
-exports.cmdhelpSync = cmdhelpSync;
+exports.cmdHelpSync = cmdHelpSync;
 /**
  * Returns information about which options were used to compile MakeNSIS
  * @param {Object} options - compiler options
  * @returns {string} - compiler options
  */
-var hdrinfo = function (options) {
+var hdrInfo = function (options) {
     if (options === void 0) { options = null; }
     options || (options = {});
     var p = util_1.mapArguments(['-HDRINFO'], options);
     return util_1.spawnMakensis(p.cmd, p.args, p.opts);
 };
-exports.hdrinfo = hdrinfo;
+exports.hdrInfo = hdrInfo;
 /**
  * Returns information about which options were used to compile MakeNSIS
  * @returns {string} - compiler options
  */
-var hdrinfoSync = function (options) {
+var hdrInfoSync = function (options) {
     if (options === void 0) { options = null; }
     options || (options = {});
     var p = util_1.mapArguments(['-HDRINFO'], options);
     return util_1.spawnMakensisSync(p.cmd, p.args, p.opts);
 };
-exports.hdrinfoSync = hdrinfoSync;
+exports.hdrInfoSync = hdrInfoSync;
 /**
  * Compile specified script with MakeNSIS
  * @param {string} script - path to NSIS script

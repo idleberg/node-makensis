@@ -33,7 +33,7 @@ test('Wine: Print makensis version [async]', t => {
 // test('Wine Print compiler information [async]', t => {
 //   const expected = spawnSync('wine', ['makensis', '-HDRINFO'])).stdout.toString().trim();
 
-//   return Promise.resolve(makensis.hdrinfo({wine: true}))
+//   return Promise.resolve(makensis.hdrInfo({wine: true}))
 //   .then(output => {
 //       t.is(output.stdout, expected);
 //   })
@@ -42,21 +42,21 @@ test('Wine: Print makensis version [async]', t => {
 
 test('Wine: Print compiler information', t => {
   const expected = spawnSync('wine', ['makensis', '-HDRINFO']).stdout.toString().trim();
-  const actual = makensis.hdrinfoSync({wine: true}).stdout;
+  const actual = makensis.hdrInfoSync({wine: true}).stdout;
 
   t.is(actual, expected);
 });
 
 test('Wine: Print help for all commands', t => {
   const expected = spawnSync('wine', ['makensis', '-CMDHELP']).stdout.toString().trim();
-  const actual = makensis.cmdhelpSync('', {wine: true}).stdout;
+  const actual = makensis.cmdHelpSync('', {wine: true}).stdout;
 
   t.is(actual, expected);
 });
 
 test('Wine: Print help for OutFile command', t => {
   const expected = spawnSync('wine', ['makensis', '-CMDHELP', 'OutFile']).stdout.toString().trim();
-  const actual = makensis.cmdhelpSync('OutFile', {wine: true}).stdout;
+  const actual = makensis.cmdHelpSync('OutFile', {wine: true}).stdout;
 
   t.is(actual, expected);
 });

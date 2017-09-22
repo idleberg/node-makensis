@@ -61,10 +61,9 @@ const options = {
 // Asynchronous
 makensis.compile('/path/to/installer.nsi', options)
 .then(output => {
-    console.log('Exit code: ' + output.status);
     console.log('Standard output:\n' + output.stdout);
 }).catch(output => {
-    console.error(output.stderr);
+    console.error(`Exit Code ${output.status}: ${output.stderr}`);
 });
 
 // Synchronous
@@ -73,7 +72,7 @@ let output = makensis.compileSync('/path/to/installer.nsi', options);
 if (output.status === 0) {
     console.log('Standard output:\n' + output.stdout);
 } else {
-    console.error(output.stderr);
+    console.error(`Exit Code ${output.status}: ${output.stderr}`);
 }
 ```
 
@@ -105,25 +104,25 @@ Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 #### hdrinfo
 
-Usage: `hdrinfo()`
+Usage: `hdrInfo()`
 
 Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
 
-#### hdrinfoSync
+#### hdrInfoSync
 
-Usage: `hdrinfoSync()`
+Usage: `hdrInfoSync()`
 
 Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
 
-#### cmdhelp
+#### cmdHelp
 
-Usage: `cmdhelp([command])`
+Usage: `cmdHelp([command])`
 
 Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
 
-#### cmdhelpSync
+#### cmdHelpSync
 
-Usage: `cmdhelpSync([command])`
+Usage: `cmdHelpSync([command])`
 
 Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
 
@@ -143,25 +142,25 @@ Type: `boolean`
 
 Pauses after execution. Equivalent of the `-PAUSE` switch.
 
-#### nocd
+#### noCD
 
 Type: `boolean`
 
 Disables the current directory change to that of the .nsi file. Equivalent of the `-NOCD` switch.
 
-#### noconfig
+#### noConfig
 
 Type: `boolean`
 
 Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`. Equivalent of the `-NOCONFIG` switch.
 
-#### inputcharset
+#### inputCharset
 
 Type: `string`
 
 allows you to specify a specific codepage for files without a BOM (`ACP|OEM|CP#|UTF8|UTF16<LE|BE>`). Equivalent of the `-INPUTCHARSET` switch.
 
-#### outputcharset
+#### outputCharset
 
 Type: `string`
 
@@ -173,7 +172,7 @@ Type: `boolean`
 
 Treat warnings as errors. Equivalent of the `-WX` switch.
 
-#### ppo / safeppo
+#### ppo / safePPO
 
 Type: `boolean`
 
@@ -234,6 +233,14 @@ Prepare child to run independently of its parent process. Specific behavior depe
 Type: `boolean|string`
 
 If true, runs command inside of a shell. Uses `/bin/sh` on UNIX, and `process.env.ComSpec` on Windows. A different shell can be specified as a string. See [Shell Requirements](https://nodejs.org/api/child_process.html#child_process_shell_requirements) and [Default Windows Shell](https://nodejs.org/api/child_process.html#child_process_default_windows_shell).
+
+### Other Options
+
+#### pathToMakensis
+
+Type: `string`
+
+Specifies a custom path to `makensis`
 
 ## License
 

@@ -30,7 +30,7 @@ interface CompilerOptions {
  * @param {Object} options - compiler options
  * @returns {string} - usage description
  */
- const cmdhelp = (command: string = '', options: CompilerOptions = null) => {
+ const cmdHelp = (command: string = '', options: CompilerOptions = null) => {
    options || (options = {});
 
    const p = mapArguments(['-CMDHELP'], options);
@@ -48,7 +48,7 @@ interface CompilerOptions {
  * @param {Object} options - compiler options
  * @returns {string} - usage description
  */
- const cmdhelpSync = (command: string = '', options: CompilerOptions = null) => {
+ const cmdHelpSync = (command: string = '', options: CompilerOptions = null) => {
    options || (options = {});
 
    const p = mapArguments(['-CMDHELP'], options);
@@ -65,7 +65,7 @@ interface CompilerOptions {
  * @param {Object} options - compiler options
  * @returns {string} - compiler options
  */
- const hdrinfo =  (options: CompilerOptions = null) => {
+ const hdrInfo =  (options: CompilerOptions = null) => {
    options || (options = {});
 
    const p = mapArguments(['-HDRINFO'], options);
@@ -77,7 +77,7 @@ interface CompilerOptions {
  * Returns information about which options were used to compile MakeNSIS
  * @returns {string} - compiler options
  */
- const hdrinfoSync = (options: CompilerOptions = null) => {
+ const hdrInfoSync = (options: CompilerOptions = null) => {
    options || (options = {});
 
    let p = mapArguments(['-HDRINFO'], options);
@@ -152,12 +152,12 @@ interface CompilerOptions {
  };
 
  export {
-   cmdhelp,
-   cmdhelpSync,
+   cmdHelp,
+   cmdHelpSync,
    compile,
    compileSync,
-   hdrinfo,
-   hdrinfoSync,
+   hdrInfo,
+   hdrInfoSync,
    version,
    versionSync
  };

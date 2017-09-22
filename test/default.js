@@ -32,7 +32,7 @@ test('Print makensis version [async]', t => {
 // test('Print compiler information [async]', t => {
 //   const expected = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
 
-//   return Promise.resolve(makensis.hdrinfo())
+//   return Promise.resolve(makensis.hdrInfo())
 //   .then(output => {
 //       t.is(output.stdout, expected);
 //   })
@@ -41,21 +41,21 @@ test('Print makensis version [async]', t => {
 
 test('Print compiler information', t => {
   const expected = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
-  const actual = makensis.hdrinfoSync().stdout;
+  const actual = makensis.hdrInfoSync().stdout;
 
   t.is(actual, expected);
 });
 
 test('Print help for all commands', t => {
   const expected = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
-  const actual = makensis.cmdhelpSync().stdout;
+  const actual = makensis.cmdHelpSync().stdout;
 
   t.is(actual, expected);
 });
 
 test('Print help for OutFile command', t => {
   const expected = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stdout.toString().trim();
-  const actual = makensis.cmdhelpSync('OutFile').stdout;
+  const actual = makensis.cmdHelpSync('OutFile').stdout;
 
   t.is(actual, expected);
 });
