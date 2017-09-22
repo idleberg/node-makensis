@@ -1,10 +1,12 @@
 import { spawn, spawnSync } from 'child_process';
 import { platform } from 'os';
 
-const getArguments = (options) => {
+const mapArguments = (args, options) => {
+
   let p = {
     cmd: 'makensis',
-    args: []
+    args: args,
+    opts: options
   };
 
   if (platform() !== 'win32' && options.wine === true) {
@@ -12,14 +14,31 @@ const getArguments = (options) => {
       p.args.unshift('makensis');
   }
 
+  if (typeof options.cwd !== 'undefined' && options.cwd !== '') {
+    p.opts.cwd = options.cwd;
+  }
+
+  if (typeof options.detached !== 'undefined') {
+    p.opts.detached = options.detached;
+  }
+
+  if (typeof options.shell !== 'undefined' && options.shell !== '') {
+    p.opts.shell = options.shell;
+  }
+
+  // return unless compile command
+  if (args.length > 1) {
+    return p;
+  }
+
   if (typeof options.define !== 'undefined') {
-      Object.keys(options.define).forEach(function(key) {
+      Object.keys(options.define).forEach((key) => {
           p.args.push(`-D${key}=${options.define[key]}`);
       });
   }
 
   if (typeof options.execute !== 'undefined') {
-      options.execute.forEach(function(key) {
+      options.execute.forEach((key) => {
           p.args.push(`-X${key}`);
       });
   }
@@ -67,12 +86,12 @@ const stringify = (data) => {
   return data.toString().trim();
 };
 
-const spawnMakensis = (cmd: string, args: Array<string>) => {
+const spawnMakensis = (cmd: string, args: Array<string>, opts: Object) => {
   return new Promise<Object>((resolve, reject) => {
     let stdOut: string = '';
     let stdErr: string = '';
 
-    const child: any = spawn(cmd, args);
+    const child: any = spawn(cmd, args, opts);
 
     child.stdout.on('data', (data) => {
         stdOut += stringify(data);
@@ -98,8 +117,8 @@ const spawnMakensis = (cmd: string, args: Array<string>) => {
   });
 };
 
-const spawnMakensisSync = (cmd: string, args: Array<string>) => {
-    const child = spawnSync(cmd, args);
+const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object) => {
+    const child: any = spawnSync(cmd, args, opts);
 
     let output: Object = {
         'status': child.status,
@@ -110,18 +129,4 @@ const spawnMakensisSync = (cmd: string, args: Array<string>) => {
     return output;
 };
 
-const runWithWine = (args, options) => {
-  let p = {
-    cmd: 'makensis',
-    args: args
-  };
-
-  if (platform() !== 'win32' && options.wine === true) {
-      p.cmd = 'wine';
-      p.args.unshift('makensis');
-  }
-
-  return p;
-};
-
-export { getArguments, spawnMakensis, spawnMakensisSync, runWithWine };
+export { mapArguments, spawnMakensis, spawnMakensisSync };

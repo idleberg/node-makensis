@@ -2,14 +2,28 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var child_process_1 = require("child_process");
 var os_1 = require("os");
-var getArguments = function (options) {
+var mapArguments = function (args, options) {
     var p = {
         cmd: 'makensis',
-        args: []
+        args: args,
+        opts: options
     };
     if (os_1.platform() !== 'win32' && options.wine === true) {
         p.cmd = 'wine';
         p.args.unshift('makensis');
+    }
+    if (typeof options.cwd !== 'undefined' && options.cwd !== '') {
+        p.opts.cwd = options.cwd;
+    }
+    if (typeof options.detached !== 'undefined') {
+        p.opts.detached = options.detached;
+    }
+    if (typeof options.shell !== 'undefined' && options.shell !== '') {
+        p.opts.shell = options.shell;
+    }
+    // return unless compile command
+    if (args.length > 1) {
+        return p;
     }
     if (typeof options.define !== 'undefined') {
         Object.keys(options.define).forEach(function (key) {
@@ -50,15 +64,15 @@ var getArguments = function (options) {
     }
     return p;
 };
-exports.getArguments = getArguments;
+exports.mapArguments = mapArguments;
 var stringify = function (data) {
     return data.toString().trim();
 };
-var spawnMakensis = function (cmd, args) {
+var spawnMakensis = function (cmd, args, opts) {
     return new Promise(function (resolve, reject) {
         var stdOut = '';
         var stdErr = '';
-        var child = child_process_1.spawn(cmd, args);
+        var child = child_process_1.spawn(cmd, args, opts);
         child.stdout.on('data', function (data) {
             stdOut += stringify(data);
         });
@@ -81,8 +95,8 @@ var spawnMakensis = function (cmd, args) {
     });
 };
 exports.spawnMakensis = spawnMakensis;
-var spawnMakensisSync = function (cmd, args) {
-    var child = child_process_1.spawnSync(cmd, args);
+var spawnMakensisSync = function (cmd, args, opts) {
+    var child = child_process_1.spawnSync(cmd, args, opts);
     var output = {
         'status': child.status,
         'stdout': stringify(child.stdout),
@@ -91,15 +105,3 @@ var spawnMakensisSync = function (cmd, args) {
     return output;
 };
 exports.spawnMakensisSync = spawnMakensisSync;
-var runWithWine = function (args, options) {
-    var p = {
-        cmd: 'makensis',
-        args: args
-    };
-    if (os_1.platform() !== 'win32' && options.wine === true) {
-        p.cmd = 'wine';
-        p.args.unshift('makensis');
-    }
-    return p;
-};
-exports.runWithWine = runWithWine;
