@@ -2,7 +2,6 @@ import { spawn, spawnSync } from 'child_process';
 import { platform } from 'os';
 
 const mapArguments = (args, options) => {
-
   let p = {
     cmd: 'makensis',
     args: args,
