@@ -3,14 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var child_process_1 = require("child_process");
 var os_1 = require("os");
 var mapArguments = function (args, options) {
+    var cmd = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
     var p = {
-        cmd: 'makensis',
+        cmd: cmd,
         args: args,
         opts: options
     };
     if (os_1.platform() !== 'win32' && options.wine === true) {
         p.cmd = 'wine';
-        p.args.unshift('makensis');
+        p.args.unshift(cmd);
     }
     if (typeof options.cwd !== 'undefined' && options.cwd !== '') {
         p.opts.cwd = options.cwd;
