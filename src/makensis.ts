@@ -1,6 +1,7 @@
-import { getArguments, runWithWine, spawnMakensis, spawnMakensisSync } from './util';
+import { mapArguments, spawnMakensis, spawnMakensisSync } from './util';
 
 interface CompilerOptions {
+    // makensis
     define?: Object;
     execute?: Array<string>;
     nocd?: boolean;
@@ -13,6 +14,11 @@ interface CompilerOptions {
     safeppo?: boolean;
     strict?: boolean;
     verbose?: number;
+
+    // child_process
+    cwd?: string;
+    detached?: boolean;
+    shell?: string;
 }
 
 /**
@@ -23,13 +29,14 @@ interface CompilerOptions {
  */
 const cmdhelp = (command: string = '', options: CompilerOptions = null) => {
     options || (options = {});
-    const p = runWithWine(['-CMDHELP'], options);
+
+    const p = mapArguments(['-CMDHELP'], options);
 
     if (typeof command !== 'undefined' && command !== '') {
         p.args.push(command);
     }
 
-    return spawnMakensis(p.cmd, p.args);
+    return spawnMakensis(p.cmd, p.args, p.opts);
 };
 
 /**
@@ -40,13 +47,14 @@ const cmdhelp = (command: string = '', options: CompilerOptions = null) => {
  */
 const cmdhelpSync = (command: string = '', options: CompilerOptions = null) => {
     options || (options = {});
-    const p = runWithWine(['-CMDHELP'], options);
+
+    const p = mapArguments(['-CMDHELP'], options);
 
     if (typeof command !== 'undefined' && command !== '') {
         p.args.push(command);
     }
 
-    return spawnMakensisSync(p.cmd, p.args);
+    return spawnMakensisSync(p.cmd, p.args, p.opts);
 };
 
 /**
@@ -56,9 +64,10 @@ const cmdhelpSync = (command: string = '', options: CompilerOptions = null) => {
  */
 const hdrinfo =  (options: CompilerOptions = null) => {
     options || (options = {});
-    const p = runWithWine(['-HDRINFO'], options);
 
-    return spawnMakensis(p.cmd, p.args);
+    const p = mapArguments(['-HDRINFO'], options);
+
+    return spawnMakensis(p.cmd, p.args, p.opts);
 };
 
 /**
@@ -67,9 +76,10 @@ const hdrinfo =  (options: CompilerOptions = null) => {
  */
 const hdrinfoSync = (options: CompilerOptions = null) => {
     options || (options = {});
-    let p = runWithWine(['-HDRINFO'], options);
 
-    return spawnMakensisSync(p.cmd, p.args);
+    let p = mapArguments(['-HDRINFO'], options);
+
+    return spawnMakensisSync(p.cmd, p.args, p.opts);
 };
 
 /**
@@ -79,7 +89,8 @@ const hdrinfoSync = (options: CompilerOptions = null) => {
  */
 const compile = (script: string, options: CompilerOptions = null) => {
     options || (options = {});
-    const p = getArguments(options);
+
+    const p = mapArguments([], options);
 
     if (script) {
         if (p.cmd === 'wine') {
@@ -88,7 +99,7 @@ const compile = (script: string, options: CompilerOptions = null) => {
         p.args.push(script);
     }
 
-    return spawnMakensis(p.cmd, p.args);
+    return spawnMakensis(p.cmd, p.args, p.opts);
 };
 
 /**
@@ -99,7 +110,7 @@ const compile = (script: string, options: CompilerOptions = null) => {
 const compileSync = (script: string, options: CompilerOptions = null) => {
     options || (options = {});
 
-    let p = getArguments(options);
+    let p = mapArguments([], options);
 
     if (script) {
         if (p.cmd === 'wine') {
@@ -108,7 +119,7 @@ const compileSync = (script: string, options: CompilerOptions = null) => {
         p.args.push(script);
     }
 
-    return spawnMakensisSync(p.cmd, p.args);
+    return spawnMakensisSync(p.cmd, p.args, p.opts);
 };
 
 /**
@@ -118,9 +129,10 @@ const compileSync = (script: string, options: CompilerOptions = null) => {
  */
 const version = (options: CompilerOptions = null) => {
     options || (options = {});
-    const p = runWithWine(['-VERSION'], options);
 
-    return spawnMakensis(p.cmd, p.args);
+    const p = mapArguments(['-VERSION'], options);
+
+    return spawnMakensis(p.cmd, p.args, p.opts);
 };
 
 /**
@@ -130,9 +142,10 @@ const version = (options: CompilerOptions = null) => {
  */
 const versionSync = (options: CompilerOptions = null) => {
     options || (options = {});
-    const p = runWithWine(['-VERSION'], options);
 
-    return spawnMakensisSync(p.cmd, p.args);
+    const p = mapArguments(['-VERSION'], options);
+
+    return spawnMakensisSync(p.cmd, p.args, p.opts);
 };
 
 export {
