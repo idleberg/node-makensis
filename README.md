@@ -227,7 +227,7 @@ Current working directory of the child process
 
 Type: `boolean`
 
-Prepare child to run independently of its parent process. Specific behavior depends on the platform, see [options.detached](https://nodejs.org/api/child_process.html#child_process_options_detached)
+Prepare child to run independently of its parent process. Specific behavior depends on the platform, see [`options.detached`](https://nodejs.org/api/child_process.html#child_process_options_detached).
 
 #### shell
 
