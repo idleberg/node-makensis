@@ -1,4 +1,4 @@
-//Dependencies
+// Dependencies
 import * as makensis from '../dist/makensis';
 import { spawnSync } from 'child_process';
 import { test } from 'ava';
