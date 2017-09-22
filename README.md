@@ -127,7 +127,7 @@ Usage: `cmdhelpSync([command])`
 
 Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
 
-### Options
+### MakeNSIS Options
 
 **Note:** Some of these options are limited to NSIS v3 (see the [changelog](http://nsis.sourceforge.net/Docs) for details)
 
@@ -214,6 +214,26 @@ execute: [
 Type: `boolean`
 
 Run `makensis` on [Wine](http://winehq.org/)
+
+### Spawn Options
+
+#### cwd
+
+Type `string`
+
+Current working directory of the child process
+
+#### detached
+
+Type `boolean`
+
+Prepare child to run independently of its parent process. Specific behavior depends on the platform, see [options.detached](https://nodejs.org/api/child_process.html#child_process_options_detached)
+
+#### shell
+
+Type `boolean|string`
+
+f true, runs command inside of a shell. Uses `/bin/sh` on UNIX, and `process.env.ComSpec` on Windows. A different shell can be specified as a string. See [Shell Requirements](https://nodejs.org/api/child_process.html#child_process_shell_requirements) and [Default Windows Shell](https://nodejs.org/api/child_process.html#child_process_default_windows_shell).
 
 ## License
 
