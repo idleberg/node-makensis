@@ -102,7 +102,7 @@ Usage: `versionSync()`
 
 Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
-#### hdrinfo
+#### hdrInfo
 
 Usage: `hdrInfo()`
 
