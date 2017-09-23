@@ -144,29 +144,37 @@ Type: `boolean`
 
 Pauses after execution. Equivalent of the `-PAUSE` switch.
 
-##### nocd
+##### noCD
 
 Type: `boolean`
 
 Disables the current directory change to that of the .nsi file. Equivalent of the `-NOCD` switch.
 
-##### noconfig
+Fallback: `nocd`
+
+##### noConfig
 
 Type: `boolean`
 
 Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`. Equivalent of the `-NOCONFIG` switch.
 
-##### inputcharset
+Fallback: `noconfig`
+
+##### inputCharset
 
 Type: `string`
 
 allows you to specify a specific codepage for files without a BOM (`ACP|OEM|CP#|UTF8|UTF16<LE|BE>`). Equivalent of the `-INPUTCHARSET` switch.
 
-##### outputcharset
+Fallback: `inputcharset`
+
+##### outputCharset
 
 Type: `string`
 
 Allows you to specify the codepage used by stdout when the output is redirected (`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET` switch.
+
+Fallback: `outputcharset`
 
 ##### strict
 
@@ -174,11 +182,13 @@ Type: `boolean`
 
 Treat warnings as errors. Equivalent of the `-WX` switch.
 
-##### ppo / safeppo
+##### ppo / safePPO
 
 Type: `boolean`
 
 Will only run the preprocessor and print the result to stdout. The safe version will not execute instructions like [`!appendfile`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!appendfile.md) or [`!system`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!system.md). [`!packhdr`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!packhdr.md) and [`!finalize`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md) are never executed. Equivalent of the `-PPO / SAFEPPO` switches.
+
+Fallback: `PPO` / `safeppo`
 
 ##### define
 
