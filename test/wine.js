@@ -13,6 +13,12 @@ const scriptDefault = [
 
 // These test require NSIS to be setup properly, with makensis in your
 // PATH environmental variable
+test('Wine found in PATH environmental variable', t => {
+  const actual = spawnSync('which', ['wine']).stdout.toString().trim();
+
+  t.not(actual, '');
+});
+
 test('Wine: Print makensis version', t => {
   const expected = spawnSync('wine', ['makensis', '-VERSION']).stdout.toString().trim();
   const actual = makensis.versionSync({wine: true}).stdout;

@@ -12,6 +12,12 @@ const scriptDefault = [
 ];
 
 // Let's run the tests
+test('MakeNSIS found in PATH environmental variable', t => {
+  const actual = spawnSync('which', ['makensis']).stdout.toString().trim();
+
+  t.not(actual, '');
+});
+
 test('Print makensis version', t => {
   const expected = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
   const actual = makensis.versionSync().stdout;
