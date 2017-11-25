@@ -10,7 +10,7 @@ var util_1 = require("./util");
 var cmdHelp = function (command, options) {
     if (command === void 0) { command = ''; }
     if (options === void 0) { options = null; }
-    options || (options = {});
+    Object.assign(options, {});
     var p = util_1.mapArguments(['-CMDHELP'], options);
     if (typeof command !== 'undefined' && command !== '') {
         p.args.push(command);
@@ -27,7 +27,7 @@ exports.cmdHelp = cmdHelp;
 var cmdHelpSync = function (command, options) {
     if (command === void 0) { command = ''; }
     if (options === void 0) { options = null; }
-    options || (options = {});
+    Object.assign(options, {});
     var p = util_1.mapArguments(['-CMDHELP'], options);
     if (typeof command !== 'undefined' && command !== '') {
         p.args.push(command);
@@ -42,7 +42,7 @@ exports.cmdHelpSync = cmdHelpSync;
  */
 var hdrInfo = function (options) {
     if (options === void 0) { options = null; }
-    options || (options = {});
+    Object.assign(options, {});
     var p = util_1.mapArguments(['-HDRINFO'], options);
     return util_1.spawnMakensis(p.cmd, p.args, p.opts);
 };
@@ -53,7 +53,7 @@ exports.hdrInfo = hdrInfo;
  */
 var hdrInfoSync = function (options) {
     if (options === void 0) { options = null; }
-    options || (options = {});
+    Object.assign(options, {});
     var p = util_1.mapArguments(['-HDRINFO'], options);
     return util_1.spawnMakensisSync(p.cmd, p.args, p.opts);
 };
@@ -65,7 +65,7 @@ exports.hdrInfoSync = hdrInfoSync;
  */
 var compile = function (script, options) {
     if (options === void 0) { options = null; }
-    options || (options = {});
+    Object.assign(options, {});
     var p = util_1.mapArguments([], options);
     if (script) {
         if (p.cmd === 'wine') {
@@ -83,7 +83,7 @@ exports.compile = compile;
  */
 var compileSync = function (script, options) {
     if (options === void 0) { options = null; }
-    options || (options = {});
+    Object.assign(options, {});
     var p = util_1.mapArguments([], options);
     if (script) {
         if (p.cmd === 'wine') {
@@ -101,7 +101,7 @@ exports.compileSync = compileSync;
  */
 var version = function (options) {
     if (options === void 0) { options = null; }
-    options || (options = {});
+    Object.assign(options, {});
     var p = util_1.mapArguments(['-VERSION'], options);
     return util_1.spawnMakensis(p.cmd, p.args, p.opts);
 };
@@ -113,7 +113,7 @@ exports.version = version;
  */
 var versionSync = function (options) {
     if (options === void 0) { options = null; }
-    options || (options = {});
+    Object.assign(options, {});
     var p = util_1.mapArguments(['-VERSION'], options);
     return util_1.spawnMakensisSync(p.cmd, p.args, p.opts);
 };
