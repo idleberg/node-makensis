@@ -30,8 +30,8 @@ interface CompilerOptions {
  * @param {Object} options - compiler options
  * @returns {string} - usage description
  */
- const cmdHelp = (command: string = '', options: CompilerOptions = null) => {
-   Object.assign(options, {});
+ const cmdHelp = (command: string = '', options: CompilerOptions = {}) => {
+   options = Object.assign({}, options);
 
    const p = mapArguments(['-CMDHELP'], options);
 
@@ -48,8 +48,8 @@ interface CompilerOptions {
  * @param {Object} options - compiler options
  * @returns {string} - usage description
  */
- const cmdHelpSync = (command: string = '', options: CompilerOptions = null) => {
-   Object.assign(options, {});
+ const cmdHelpSync = (command: string = '', options: CompilerOptions = {}) => {
+   options = Object.assign({}, options);
 
    const p = mapArguments(['-CMDHELP'], options);
 
@@ -65,8 +65,8 @@ interface CompilerOptions {
  * @param {Object} options - compiler options
  * @returns {string} - compiler options
  */
- const hdrInfo =  (options: CompilerOptions = null) => {
-   Object.assign(options, {});
+ const hdrInfo =  (options: CompilerOptions = {}) => {
+   options = Object.assign({}, options);
 
    const p = mapArguments(['-HDRINFO'], options);
 
@@ -77,8 +77,8 @@ interface CompilerOptions {
  * Returns information about which options were used to compile MakeNSIS
  * @returns {string} - compiler options
  */
- const hdrInfoSync = (options: CompilerOptions = null) => {
-   Object.assign(options, {});
+ const hdrInfoSync = (options: CompilerOptions = {}) => {
+   options = Object.assign({}, options);
 
    let p = mapArguments(['-HDRINFO'], options);
 
@@ -90,8 +90,8 @@ interface CompilerOptions {
  * @param {string} script - path to NSIS script
  * @param {Object} options - compiler options
  */
- const compile = (script: string, options: CompilerOptions = null) => {
-   Object.assign(options, {});
+ const compile = (script: string, options: CompilerOptions = {}) => {
+   options = Object.assign({}, options);
 
    const p = mapArguments([], options);
 
@@ -110,8 +110,8 @@ interface CompilerOptions {
  * @param {string} script - path to NSIS script
  * @param {Object} options - compiler options
  */
- const compileSync = (script: string, options: CompilerOptions = null) => {
-   Object.assign(options, {});
+ const compileSync = (script: string, options: CompilerOptions = {}) => {
+   options = Object.assign({}, options);
 
    let p = mapArguments([], options);
 
@@ -130,8 +130,8 @@ interface CompilerOptions {
  * @param {Object} options - compiler options
  * @returns {string} - compiler version
  */
- const version = (options: CompilerOptions = null) => {
-   Object.assign(options, {});
+ const version = (options: CompilerOptions = {}) => {
+   options = Object.assign({}, options);
 
    const p = mapArguments(['-VERSION'], options);
 
@@ -143,8 +143,8 @@ interface CompilerOptions {
  * @param {Object} options - compiler options
  * @returns {string} - compiler version
  */
- const versionSync = (options: CompilerOptions = null) => {
-   Object.assign(options, {});
+ const versionSync = (options: CompilerOptions = {}) => {
+   options = Object.assign({}, options);
 
    const p = mapArguments(['-VERSION'], options);
 
