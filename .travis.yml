@@ -7,8 +7,8 @@ before_install:
 - if [[ $TRAVIS_OS_NAME == 'osx' ]]; then brew update && brew install nsis; fi
 language: node_js
 node_js:
-  - "6"
-  - "8"
+- "node"
+- "lts/*"
 git:
   depth: 1
 branches:
@@ -18,14 +18,14 @@ cache:
   timeout: 1800
   yarn: true
   directories:
-    - node_modules
+  - node_modules
 env:
-  - CXX=g++-4.8
+- CXX=g++-4.8
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
+    - g++-4.8
 notifications:
   email: false
