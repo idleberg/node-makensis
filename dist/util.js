@@ -23,7 +23,7 @@ var mapArguments = function (args, options) {
         p.opts.shell = options.shell;
     }
     // return unless compile command
-    if (args.length > 1) {
+    if (args.length > 1 || args[0] === '-CMDHELP') {
         return p;
     }
     if (typeof options.define !== 'undefined') {
@@ -69,6 +69,67 @@ exports.mapArguments = mapArguments;
 var stringify = function (data) {
     return data.toString().trim();
 };
+var isInteger = function (x) {
+    return x % 2 === 0;
+};
+var objectify = function (input, key) {
+    if (key === void 0) { key = null; }
+    var output = {};
+    if (key === 'version' && input.startsWith('v')) {
+        input = input.substr(1);
+    }
+    if (key === null) {
+        output = input;
+    }
+    else {
+        output[key] = input;
+    }
+    return output;
+};
+var objectifyFlags = function (input) {
+    var lines = input.split('\n');
+    var filteredLines = lines.filter(function (line) {
+        if (line !== '') {
+            return line;
+        }
+    });
+    var output = {};
+    var tableSizes = {};
+    var tableSymbols = {};
+    var symbols;
+    // Split sizes
+    filteredLines.forEach(function (line) {
+        var obj = {};
+        if (line.startsWith('Size of ')) {
+            var pair = line.split(' is ');
+            pair[0] = pair[0].replace('Size of ', '');
+            pair[0] = pair[0].replace(' ', '_');
+            pair[1] = pair[1].slice(0, -1);
+            tableSizes[pair[0]] = pair[1];
+        }
+        else if (line.startsWith('Defined symbols: ')) {
+            symbols = line.replace('Defined symbols: ', '').split(',');
+        }
+    });
+    var objSizes = {};
+    output['sizes'] = tableSizes;
+    // Split symbols
+    symbols.forEach(function (symbol) {
+        var pair = symbol.split('=');
+        var obj = {};
+        if (pair.length > 1 && pair[0] !== 'undefined') {
+            if (isInteger(pair[1]) === true) {
+                pair[1] = parseInt(pair[1], 10);
+            }
+            tableSymbols[pair[0]] = pair[1];
+        }
+        else {
+            tableSymbols[symbol] = true;
+        }
+    });
+    output['defined_symbols'] = tableSymbols;
+    return output;
+};
 var spawnMakensis = function (cmd, args, opts) {
     return new Promise(function (resolve, reject) {
         var stdOut = '';
@@ -81,6 +142,16 @@ var spawnMakensis = function (cmd, args, opts) {
             stdErr += stringify(data);
         });
         child.on('close', function (code) {
+            if (opts.json === true) {
+                switch (args[0]) {
+                    case '-HDRINFO':
+                        stdOut = objectifyFlags(stdOut);
+                        break;
+                    case '-VERSION':
+                        stdOut = objectify(stdOut, 'version');
+                        break;
+                }
+            }
             var output = {
                 'status': code,
                 'stdout': stdOut,

@@ -2,7 +2,6 @@ import { spawn, spawnSync } from 'child_process';
 import { platform } from 'os';
 
 const mapArguments = (args, options) => {
-
   let cmd: string = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
 
   let p = {
@@ -29,7 +28,7 @@ const mapArguments = (args, options) => {
   }
 
   // return unless compile command
-  if (args.length > 1) {
+  if (args.length > 1 || args[0] === '-CMDHELP') {
     return p;
   }
 
@@ -88,9 +87,84 @@ const stringify = (data) => {
   return data.toString().trim();
 };
 
+const isInteger = (x) => {
+  return x % 2 === 0;
+};
+
+const objectify = (input, key = null) => {
+  let output = {};
+
+  if (key === 'version' && input.startsWith('v')) {
+    input = input.substr(1);
+  }
+
+  if (key === null) {
+    output = input;
+  } else {
+    output[key] = input;
+  }
+
+  return output;
+};
+
+const objectifyFlags = (input: string): any => {
+  let lines = input.split('\n');
+
+  let filteredLines = lines.filter((line) => {
+    if (line !== '') {
+      return line;
+    }
+  });
+
+  let output = {};
+  let tableSizes = {};
+  let tableSymbols = {};
+  let symbols;
+
+  // Split sizes
+  filteredLines.forEach((line) => {
+    let obj = {};
+
+    if (line.startsWith('Size of ')) {
+      let pair = line.split(' is ');
+
+      pair[0] = pair[0].replace('Size of ', '');
+      pair[0] = pair[0].replace(' ', '_');
+      pair[1] = pair[1].slice(0, -1);
+
+      tableSizes[pair[0]] = pair[1];
+    } else if (line.startsWith('Defined symbols: ')) {
+      symbols = line.replace('Defined symbols: ', '').split(',');
+    }
+  });
+
+  let objSizes = {};
+  output['sizes'] = tableSizes;
+
+  // Split symbols
+  symbols.forEach((symbol) => {
+    let pair = symbol.split('=');
+    let obj = {};
+
+    if (pair.length > 1 && pair[0] !== 'undefined') {
+      if (isInteger(pair[1]) === true) {
+        pair[1] = parseInt(pair[1], 10);
+      }
+
+      tableSymbols[pair[0]] = pair[1];
+    } else {
+      tableSymbols[symbol] = true;
+    }
+  });
+
+  output['defined_symbols'] = tableSymbols;
+
+  return output;
+};
+
 const spawnMakensis = (cmd: string, args: Array<string>, opts: Object) => {
   return new Promise<Object>((resolve, reject) => {
-    let stdOut: string = '';
+    let stdOut: any = '';
     let stdErr: string = '';
 
     const child: any = spawn(cmd, args, opts);
@@ -104,6 +178,17 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: Object) => {
     });
 
     child.on('close', (code) => {
+      if (opts.json === true) {
+        switch (args[0]) {
+          case '-HDRINFO':
+            stdOut = objectifyFlags(stdOut);
+            break;
+          case '-VERSION':
+            stdOut = objectify(stdOut, 'version');
+            break;
+        }
+      }
+
       let output: Object = {
         'status': code,
         'stdout': stdOut,
