@@ -116,13 +116,13 @@ Returns information about which options were used to compile MakeNSIS. Equivalen
 
 #### cmdHelp
 
-Usage: `cmdHelp([command])`
+Usage: `cmdHelp([command], [options])`
 
 Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
 
 #### cmdHelpSync
 
-Usage: `cmdHelpSync([command])`
+Usage: `cmdHelpSync([command], [options])`
 
 Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
 
