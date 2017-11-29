@@ -178,7 +178,7 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
     });
 
     child.on('close', (code) => {
-      if (opts.object === true) {
+      if (opts.json === true) {
         switch (args[0]) {
           case '-CMDHELP':
             stdErr = objectify(stdErr, 'help');

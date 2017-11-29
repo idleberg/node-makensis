@@ -2,7 +2,7 @@ export interface CompilerOptions {
   // makensis
   define?: Object;
   execute?: Array<string>;
-  object?: boolean;
+  json?: boolean;
   noCD?: boolean;
   noConfig?: boolean;
   inputCharset?: string;

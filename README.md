@@ -248,17 +248,17 @@ If true, runs command inside of a shell. Uses `/bin/sh` on UNIX, and `process.en
 
 #### Other
 
+##### json
+
+Type: `boolean`
+
+Return output from `makensis` as an object
+
 ##### pathToMakensis
 
 Type: `string`
 
 Specifies a custom path to `makensis`
-
-##### object
-
-Type: `boolean`
-
-Return output from `makensis` as object
 
 ## License
 
