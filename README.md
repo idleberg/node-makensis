@@ -254,6 +254,12 @@ Type: `string`
 
 Specifies a custom path to `makensis`
 
+##### object
+
+Type: `boolean`
+
+Return output from `makensis` as object
+
 ## License
 
 This work is licensed under [The MIT License](https://opensource.org/licenses/MIT)
