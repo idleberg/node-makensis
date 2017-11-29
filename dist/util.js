@@ -142,8 +142,11 @@ var spawnMakensis = function (cmd, args, opts) {
             stdErr += stringify(data);
         });
         child.on('close', function (code) {
-            if (opts.json === true) {
+            if (opts.object === true) {
                 switch (args[0]) {
+                    case '-CMDHELP':
+                        stdErr = objectify(stdErr, 'help');
+                        break;
                     case '-HDRINFO':
                         stdOut = objectifyFlags(stdOut);
                         break;

@@ -15,9 +15,6 @@ var cmdHelp = function (command, options) {
     if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
         p.args.push(command);
     }
-    else {
-        p.opts = options;
-    }
     return util_1.spawnMakensis(p.cmd, p.args, p.opts);
 };
 exports.cmdHelp = cmdHelp;
@@ -69,7 +66,6 @@ exports.hdrInfoSync = hdrInfoSync;
 var compile = function (script, options) {
     if (options === void 0) { options = {}; }
     Object.assign(options, {});
-    options.verbose = 0;
     var p = util_1.mapArguments([], options);
     if (script) {
         if (p.cmd === 'wine') {
@@ -88,7 +84,6 @@ exports.compile = compile;
 var compileSync = function (script, options) {
     if (options === void 0) { options = {}; }
     Object.assign(options, {});
-    options.verbose = 0;
     var p = util_1.mapArguments([], options);
     if (script) {
         if (p.cmd === 'wine') {
@@ -105,9 +100,8 @@ exports.compileSync = compileSync;
  * @returns {string} - compiler version
  */
 var version = function (options) {
-    if (options === void 0) { options = { verbose: 0 }; }
-    Object.assign(options, {});
-    options.verbose = 0;
+    if (options === void 0) { options = {}; }
+    Object.assign(options, { verbose: 0 });
     var p = util_1.mapArguments(['-VERSION'], options);
     return util_1.spawnMakensis(p.cmd, p.args, p.opts);
 };
@@ -118,9 +112,8 @@ exports.version = version;
  * @returns {string} - compiler version
  */
 var versionSync = function (options) {
-    if (options === void 0) { options = { verbose: 0 }; }
-    Object.assign(options, {});
-    options.verbose = 0;
+    if (options === void 0) { options = {}; }
+    Object.assign(options, { verbose: 0 });
     var p = util_1.mapArguments(['-VERSION'], options);
     return util_1.spawnMakensisSync(p.cmd, p.args, p.opts);
 };

@@ -83,15 +83,15 @@ const mapArguments = (args, options) => {
   return p;
 };
 
-const stringify = (data) => {
+const stringify = (data): string => {
   return data.toString().trim();
 };
 
-const isInteger = (x) => {
+const isInteger = (x): boolean => {
   return x % 2 === 0;
 };
 
-const objectify = (input, key = null) => {
+const objectify = (input, key = null): Object => {
   let output = {};
 
   if (key === 'version' && input.startsWith('v')) {
@@ -107,7 +107,7 @@ const objectify = (input, key = null) => {
   return output;
 };
 
-const objectifyFlags = (input: string): any => {
+const objectifyFlags = (input: string): Object => {
   let lines = input.split('\n');
 
   let filteredLines = lines.filter((line) => {
@@ -162,10 +162,10 @@ const objectifyFlags = (input: string): any => {
   return output;
 };
 
-const spawnMakensis = (cmd: string, args: Array<string>, opts: Object) => {
+const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
   return new Promise<Object>((resolve, reject) => {
     let stdOut: any = '';
-    let stdErr: string = '';
+    let stdErr: any = '';
 
     const child: any = spawn(cmd, args, opts);
 
@@ -178,8 +178,11 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: Object) => {
     });
 
     child.on('close', (code) => {
-      if (opts.json === true) {
+      if (opts.object === true) {
         switch (args[0]) {
+          case '-CMDHELP':
+            stdErr = objectify(stdErr, 'help');
+            break;
           case '-HDRINFO':
             stdOut = objectifyFlags(stdOut);
             break;
@@ -204,7 +207,7 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: Object) => {
   });
 };
 
-const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object) => {
+const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object): Object => {
   const child: any = spawnSync(cmd, args, opts);
 
   let output: Object = {
