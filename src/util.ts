@@ -219,4 +219,10 @@ const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object): Obje
   return output;
 };
 
-export { mapArguments, spawnMakensis, spawnMakensisSync };
+export {
+  mapArguments,
+  objectify,
+  objectifyFlags,
+  spawnMakensis,
+  spawnMakensisSync
+};

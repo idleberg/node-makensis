@@ -86,6 +86,7 @@ var objectify = function (input, key) {
     }
     return output;
 };
+exports.objectify = objectify;
 var objectifyFlags = function (input) {
     var lines = input.split('\n');
     var filteredLines = lines.filter(function (line) {
@@ -130,6 +131,7 @@ var objectifyFlags = function (input) {
     output['defined_symbols'] = tableSymbols;
     return output;
 };
+exports.objectifyFlags = objectifyFlags;
 var spawnMakensis = function (cmd, args, opts) {
     return new Promise(function (resolve, reject) {
         var stdOut = '';
@@ -142,7 +144,7 @@ var spawnMakensis = function (cmd, args, opts) {
             stdErr += stringify(data);
         });
         child.on('close', function (code) {
-            if (opts.object === true) {
+            if (opts.json === true) {
                 switch (args[0]) {
                     case '-CMDHELP':
                         stdErr = objectify(stdErr, 'help');
