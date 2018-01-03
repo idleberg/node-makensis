@@ -3,6 +3,7 @@
   "version": "0.9.0",
   "description": "A Node wrapper for makensis, the NSIS compiler",
   "main": "dist/makensis.js",
+  "typings": "makensis.d.ts",
   "files": [
     "dist/"
   ],
