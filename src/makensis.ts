@@ -1,4 +1,3 @@
-import { CompilerOptions } from './types';
 import { mapArguments, spawnMakensis, spawnMakensisSync } from './util';
 
 /**

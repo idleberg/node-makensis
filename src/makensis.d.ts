@@ -1,4 +1,4 @@
-export interface CompilerOptions {
+interface CompilerOptions {
   // makensis
   define?: Object;
   execute?: Array<string>;
