@@ -186,15 +186,19 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
       stdout: '',
       stderr: ''
     };
+    let hasWarnings = false;
 
     const child: any = spawn(cmd, args, opts);
 
-    child.stdout.on('data', (data) => {
-      stream.stdout += stringify(data);
+    child.stdout.on('data', (line) => {
+      if (hasWarnings === false && line.indexOf('warning: ') !== -1) {
+        hasWarnings = true;
+      }
+      stream.stdout += stringify(line);
     });
 
-    child.stderr.on('data', (data) => {
-      stream.stderr += stringify(data);
+    child.stderr.on('data', (line) => {
+      stream.stderr += stringify(line);
     });
 
     child.on('close', (code) => {
@@ -203,7 +207,8 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
       const output: Object = {
         'status': code,
         'stdout': stream.stdout,
-        'stderr': stream.stderr
+        'stderr': stream.stderr,
+        'warnings': hasWarnings
       };
 
       if (code === 0) {
@@ -217,13 +222,19 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
 
 const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object): Object => {
   let child: any = spawnSync(cmd, args, opts);
+  let hasWarnings = false;
 
   child = formatOutput(child, args, opts);
+
+  if (hasWarnings === false && child.stdout.indexOf('warning: ') !== -1) {
+    hasWarnings = true;
+  }
 
   const output: Object = {
     'status': child.status,
     'stdout': stringify(child.stdout),
-    'stderr': stringify(child.stderr)
+    'stderr': stringify(child.stderr),
+    'warnings': hasWarnings
   };
 
   return output;
