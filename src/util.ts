@@ -91,6 +91,24 @@ const isInteger = (x): boolean => {
   return x % 2 === 0;
 };
 
+const formatOutput = (stream, args, opts): Object => {
+  if (opts.json === true) {
+    switch (args[0]) {
+      case '-CMDHELP':
+        stream.err = objectify(stream.stderr, 'help');
+        break;
+      case '-HDRINFO':
+        stream.stdout = objectifyFlags(stream.stdout);
+        break;
+      case '-VERSION':
+        stream.stdout = objectify(stream.stdout, 'version');
+        break;
+    }
+  }
+
+  return stream;
+};
+
 const objectify = (input, key = null): Object => {
   let output = {};
 
@@ -164,38 +182,28 @@ const objectifyFlags = (input: string): Object => {
 
 const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
   return new Promise<Object>((resolve, reject) => {
-    let stdOut: any = '';
-    let stdErr: any = '';
+    let stream: any = {
+      stdout: '',
+      stderr: ''
+    };
 
     const child: any = spawn(cmd, args, opts);
 
     child.stdout.on('data', (data) => {
-      stdOut += stringify(data);
+      stream.stdout += stringify(data);
     });
 
     child.stderr.on('data', (data) => {
-      stdErr += stringify(data);
+      stream.stderr += stringify(data);
     });
 
     child.on('close', (code) => {
-      if (opts.json === true) {
-        switch (args[0]) {
-          case '-CMDHELP':
-            stdErr = objectify(stdErr, 'help');
-            break;
-          case '-HDRINFO':
-            stdOut = objectifyFlags(stdOut);
-            break;
-          case '-VERSION':
-            stdOut = objectify(stdOut, 'version');
-            break;
-        }
-      }
+      stream = formatOutput(stream, args, opts);
 
-      let output: Object = {
+      const output: Object = {
         'status': code,
-        'stdout': stdOut,
-        'stderr': stdErr
+        'stdout': stream.stdout,
+        'stderr': stream.stderr
       };
 
       if (code === 0) {
@@ -208,9 +216,11 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
 };
 
 const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object): Object => {
-  const child: any = spawnSync(cmd, args, opts);
+  let child: any = spawnSync(cmd, args, opts);
 
-  let output: Object = {
+  child = formatOutput(child, args, opts);
+
+  const output: Object = {
     'status': child.status,
     'stdout': stringify(child.stdout),
     'stderr': stringify(child.stderr)

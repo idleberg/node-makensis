@@ -72,6 +72,22 @@ var stringify = function (data) {
 var isInteger = function (x) {
     return x % 2 === 0;
 };
+var formatOutput = function (stream, args, opts) {
+    if (opts.json === true) {
+        switch (args[0]) {
+            case '-CMDHELP':
+                stream.err = objectify(stream.stderr, 'help');
+                break;
+            case '-HDRINFO':
+                stream.stdout = objectifyFlags(stream.stdout);
+                break;
+            case '-VERSION':
+                stream.stdout = objectify(stream.stdout, 'version');
+                break;
+        }
+    }
+    return stream;
+};
 var objectify = function (input, key) {
     if (key === void 0) { key = null; }
     var output = {};
@@ -134,33 +150,23 @@ var objectifyFlags = function (input) {
 exports.objectifyFlags = objectifyFlags;
 var spawnMakensis = function (cmd, args, opts) {
     return new Promise(function (resolve, reject) {
-        var stdOut = '';
-        var stdErr = '';
+        var stream = {
+            stdout: '',
+            stderr: ''
+        };
         var child = child_process_1.spawn(cmd, args, opts);
         child.stdout.on('data', function (data) {
-            stdOut += stringify(data);
+            stream.stdout += stringify(data);
         });
         child.stderr.on('data', function (data) {
-            stdErr += stringify(data);
+            stream.stderr += stringify(data);
         });
         child.on('close', function (code) {
-            if (opts.json === true) {
-                switch (args[0]) {
-                    case '-CMDHELP':
-                        stdErr = objectify(stdErr, 'help');
-                        break;
-                    case '-HDRINFO':
-                        stdOut = objectifyFlags(stdOut);
-                        break;
-                    case '-VERSION':
-                        stdOut = objectify(stdOut, 'version');
-                        break;
-                }
-            }
+            stream = formatOutput(stream, args, opts);
             var output = {
                 'status': code,
-                'stdout': stdOut,
-                'stderr': stdErr
+                'stdout': stream.stdout,
+                'stderr': stream.stderr
             };
             if (code === 0) {
                 resolve(output);
@@ -174,6 +180,7 @@ var spawnMakensis = function (cmd, args, opts) {
 exports.spawnMakensis = spawnMakensis;
 var spawnMakensisSync = function (cmd, args, opts) {
     var child = child_process_1.spawnSync(cmd, args, opts);
+    child = formatOutput(child, args, opts);
     var output = {
         'status': child.status,
         'stdout': stringify(child.stdout),
