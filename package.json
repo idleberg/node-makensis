@@ -16,7 +16,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^8.0.53",
+    "@types/node": "^9.3.0",
     "ava": "^0.24.0",
     "gulp": "^4.0.0",
     "gulp-debug": "^3.1.0",
