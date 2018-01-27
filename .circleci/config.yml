@@ -11,7 +11,7 @@ jobs:
           command: 'sudo apt-get update; sudo apt-get install nsis'
       - run:
           name: nsis-version
-          command: 'makensis -VERSION; makensis -HDRINFO'
+          command: 'makensis -VERSION'
       - run:
           name: update-npm
           command: 'sudo npm install -g npm@latest'
