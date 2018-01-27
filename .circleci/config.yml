@@ -1,13 +1,14 @@
 version: 2
 jobs:
-  build:
+  test:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:9.3.0
-    pre:
-        - sudo apt-get update; sudo apt-get install nsis
+      - image: circleci/node:8.9.4
     steps:
       - checkout
+      - run:
+          name: install-nsis
+          command: 'sudo apt-get update; sudo apt-get install nsis'
       - run:
           name: update-npm
           command: 'sudo npm install -g npm@latest'
