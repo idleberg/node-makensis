@@ -5,7 +5,7 @@
 [![Travis](https://img.shields.io/travis/idleberg/node-makensis.svg?style=flat-square)](https://travis-ci.org/idleberg/node-makensis)
 [![David](https://img.shields.io/david/dev/idleberg/node-makensis.svg?style=flat-square)](https://david-dm.org/idleberg/node-makensis?type=dev)
 
-A Node wrapper for `makensis`, the compiler for NSIS installers. Supports both, native compilers and [Wine](http://winehq.org/).
+A Node wrapper for `makensis`, the compiler for NSIS installers. Supports both, native and [Wine](http://winehq.org/).
 
 ## Prerequisites
 
