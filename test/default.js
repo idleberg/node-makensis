@@ -5,10 +5,10 @@ import { test } from 'ava';
 
 // Generate script using compiler flags
 const scriptDefault = [
-  'OutFile test.exe',
-  'Section -default',
-  'Nop',
-  'SectionEnd'
+'OutFile test.exe',
+'Section -default',
+'Nop',
+'SectionEnd'
 ];
 
 // Let's run the tests
@@ -37,21 +37,22 @@ test('Print makensis version as JSON', t => {
 });
 
 test('Print makensis version [async]', t => {
-  const expected = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
-
   return Promise.resolve(makensis.version())
   .then(output => {
-      t.is(output.stdout, expected);
+    const expected = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
+    const actual = output.stdout;
+
+    t.is(actual, expected);
   })
   .catch();
 });
 
 test('Print makensis version as JSON [async]', t => {
-  let expected = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
-  expected = JSON.stringify({ version: expected });
-
   return Promise.resolve(makensis.version({json: true}))
   .then(output => {
+    let expected = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
+    expected = JSON.stringify({ version: expected });
+
     let actual = output.stdout;
     actual.version = `v${actual.version}`;
     actual = JSON.stringify(actual);
@@ -68,12 +69,30 @@ test('Print compiler information', t => {
   t.is(actual, expected);
 });
 
+test('Print compiler information as JSON', t => {
+  const expected = true;
+  const actual = makensis.hdrInfoSync({json: true}).stdout.defined_symbols.__GLOBAL__;
+
+  t.is(actual, expected);
+});
+
 test('Print compiler information [async]', t => {
-  const expected = spawnSync('makensis', ['-HDRINFO']).stderr.toString().trim();
 
   return Promise.resolve(makensis.hdrInfo())
   .catch(output => {
-    t.is(output.stderr, expected);
+    const expected = spawnSync('makensis', ['-HDRINFO']).stderr.toString().trim();
+    const actual = output.stderr;
+    t.is(actual, expected);
+  });
+});
+
+test('Print compiler information as JSON [async]', t => {
+  return Promise.resolve(makensis.hdrInfo({json: true}))
+  .catch(output => {
+    const expected = true;
+    const actual = output.stdout.defined_symbols.__GLOBAL__;
+
+    t.is(actual, expected);
   });
 });
 
@@ -112,31 +131,38 @@ test('Print help for OutFile command as JSON', t => {
 });
 
 test('Compilation', t => {
+  const expected = 0;
   const actual = makensis.compileSync(null, {execute: scriptDefault}).status;
 
-  t.is(actual, 0);
+  t.is(actual, expected);
 });
 
 test('Compilation [async]', t => {
   return Promise.resolve(makensis.compile(null, {execute: scriptDefault}))
   .then(output => {
-      t.is(output.status, 0);
+    const expected = 0;
+    const actual = output.status;
+
+    t.is(actual, expected);
   })
   .catch();
 });
 
 test('Compilation with warning', t => {
   const scriptWithWarning = scriptDefault.concat(['!warning']);
+
+  const expected = 0;
   const actual = makensis.compileSync(null, {execute: scriptWithWarning}).status;
 
-  t.is(actual, 0);
+  t.is(actual, expected);
 });
 
 test('Compilation with warning as JSON', t => {
+  const expected = true;
   const scriptWithWarning = scriptDefault.concat(['!warning']);
-  const actual = makensis.compileSync(null, {execute: scriptWithWarning, json: true});
+  const actual = makensis.compileSync(null, {execute: scriptWithWarning, json: true}).warnings;
 
-  t.is(actual.warnings, true);
+  t.is(actual, expected);
 });
 
 test('Compilation with warning [async]', t => {
@@ -144,7 +170,10 @@ test('Compilation with warning [async]', t => {
 
   return Promise.resolve(makensis.compile(null, {execute: scriptWithWarning}))
   .then( output => {
-    t.is(output.status, 0)
+    const expected = 0;
+    const actual = output.status;
+
+    t.is(actual, expected);
   })
   .catch();
 });
@@ -154,16 +183,21 @@ test('Compilation with warning as JSON [async]', t => {
 
   return Promise.resolve(makensis.compile(null, {execute: scriptWithWarning, json: true}))
   .then( output => {
-    t.is(output.warnings, true)
+    const expected = true;
+    const actual = output.warnings;
+
+    t.is(actual, expected);
   })
   .catch();
 });
 
 test('Compilation with error', t => {
   const scriptWithError = scriptDefault.concat(['!error']);
+
+  const expected = 0;
   const actual = makensis.compileSync(null, {execute: scriptWithError}).status;
 
-  t.not(actual, 0);
+  t.not(actual, expected);
 });
 
 test('Compilation with error [async]', t => {
@@ -171,15 +205,20 @@ test('Compilation with error [async]', t => {
 
   return Promise.resolve(makensis.compile(null, {execute: scriptWithError}))
   .catch(output => {
-      t.not(output.status, 0);
+    const expected = 0;
+    const actual = output.status;
+
+    t.not(actual, expected)
   });
 });
 
 test('Strict compilation with warning', t => {
   const scriptWithWarning = scriptDefault.concat(['!warning']);
+
+  const expected = 0;
   const actual = makensis.compileSync(null, {execute: scriptWithWarning, strict: true}).status;
 
-  t.not(actual, 0);
+  t.not(actual, expected);
 });
 
 test('Strict compilation with warning [async]', t => {
@@ -187,6 +226,9 @@ test('Strict compilation with warning [async]', t => {
 
   return Promise.resolve(makensis.compile(null, {execute: scriptWithWarning, strict: true}))
   .catch(output => {
-    t.not(output.status, 0);
+    const expected = 0;
+    const actual = output.status;
+
+    t.not(actual, expected)
   });
 });
