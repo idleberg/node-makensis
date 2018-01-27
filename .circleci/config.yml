@@ -8,7 +8,10 @@ jobs:
       - checkout
       - run:
           name: install-nsis
-          command: 'sudo apt-get update; sudo apt-get install nsis; makensis -VERSION'
+          command: 'sudo apt-get update; sudo apt-get install nsis'
+      - run:
+          name: nsis-version
+          command: 'makensis -VERSION; makensis -HDRINFO'
       - run:
           name: update-npm
           command: 'sudo npm install -g npm@latest'
