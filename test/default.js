@@ -25,16 +25,6 @@ test('Print makensis version', t => {
   t.is(actual, expected);
 });
 
-test('Print makensis version [async]', t => {
-  const expected = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
-
-  return Promise.resolve(makensis.version())
-  .then(output => {
-      t.is(output.stdout, expected);
-  })
-  .catch();
-});
-
 test('Print makensis version as JSON', t => {
   let expected = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
   let actual = makensis.versionSync({json: true}).stdout;
@@ -46,13 +36,29 @@ test('Print makensis version as JSON', t => {
   t.is(actual, expected);
 });
 
-test('Print compiler information [async]', t => {
-  const expected = spawnSync('makensis', ['-HDRINFO']).stderr.toString().trim();
+test('Print makensis version [async]', t => {
+  const expected = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
 
-  return Promise.resolve(makensis.hdrInfo())
-  .catch(output => {
-    t.is(output.stderr, expected);
-  });
+  return Promise.resolve(makensis.version())
+  .then(output => {
+      t.is(output.stdout, expected);
+  })
+  .catch();
+});
+
+test('Print makensis version as JSON [async]', t => {
+  let expected = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
+  expected = JSON.stringify({ version: expected });
+
+  return Promise.resolve(makensis.version({json: true}))
+  .then(output => {
+    let actual = output.stdout;
+    actual.version = `v${actual.version}`;
+    actual = JSON.stringify(actual);
+
+    t.is(actual, expected);
+  })
+  .catch();
 });
 
 test('Print compiler information', t => {
@@ -60,6 +66,15 @@ test('Print compiler information', t => {
   const actual = makensis.hdrInfoSync().stdout;
 
   t.is(actual, expected);
+});
+
+test('Print compiler information [async]', t => {
+  const expected = spawnSync('makensis', ['-HDRINFO']).stderr.toString().trim();
+
+  return Promise.resolve(makensis.hdrInfo())
+  .catch(output => {
+    t.is(output.stderr, expected);
+  });
 });
 
 test('Print help for all commands', t => {
