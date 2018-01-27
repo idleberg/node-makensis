@@ -12,9 +12,6 @@ jobs:
       - run:
           name: nsis-version
           command: 'makensis -VERSION'
-      - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@latest'
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
