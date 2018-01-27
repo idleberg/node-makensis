@@ -95,7 +95,7 @@ const formatOutput = (stream, args, opts): Object => {
   if (opts.json === true) {
     switch (args[0]) {
       case '-CMDHELP':
-        stream.err = objectify(stream.stderr, 'help');
+        stream.stderr = objectify(stream.stderr, 'help');
         break;
       case '-HDRINFO':
         stream.stdout = objectifyFlags(stream.stdout);
@@ -224,16 +224,18 @@ const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object): Obje
   let child: any = spawnSync(cmd, args, opts);
   let hasWarnings = false;
 
+  child.stdout = stringify(child.stdout);
+  child.stderr = stringify(child.stderr);
   child = formatOutput(child, args, opts);
 
-  if (hasWarnings === false && child.stdout.indexOf('warning: ') !== -1) {
+  if (hasWarnings === false && child.stdout.toString().indexOf('warning: ') !== -1) {
     hasWarnings = true;
   }
 
-  const output: Object = {
+  let output: Object = {
     'status': child.status,
-    'stdout': stringify(child.stdout),
-    'stderr': stringify(child.stderr),
+    'stdout': child.stdout,
+    'stderr': child.stderr,
     'warnings': hasWarnings
   };
 
