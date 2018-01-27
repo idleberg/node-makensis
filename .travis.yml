@@ -3,7 +3,7 @@ os:
 - linux
 - osx
 before_install:
-- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get install software-properties-common; sudo apt-add-repository -y "deb http://deb.debian.org/debian experimental main"; sudo apt-get install nsis=3.02.1-1; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get install nsis; fi
 - if [[ $TRAVIS_OS_NAME == 'osx' ]]; then brew update && brew install nsis; fi
 language: node_js
 node_js:
