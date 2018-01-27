@@ -6,12 +6,21 @@ jobs:
       - image: circleci/node:8.9.4
     steps:
       - checkout
-      - run: 'sudo apt-get update; sudo apt-get install nsis'
-      - run: 'sudo npm install -g npm@latest'
+      - run:
+          name: install-nsis
+          command: 'sudo apt-get update; sudo apt-get install nsis'
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
-      - run: npm install
+      - run:
+          name: install-npm
+          command: npm install
       - save_cache:
-        key: dependency-cache-{{ checksum "package.json" }}
-        paths: ./node_modules
-      - run: npm test
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: ava
+          command: npm test
