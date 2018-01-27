@@ -1,3 +1,4 @@
+.circleci/
 .editorconfig
 .travis.yml
 gulpfile.json
