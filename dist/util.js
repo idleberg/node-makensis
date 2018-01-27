@@ -76,7 +76,7 @@ var formatOutput = function (stream, args, opts) {
     if (opts.json === true) {
         switch (args[0]) {
             case '-CMDHELP':
-                stream.err = objectify(stream.stderr, 'help');
+                stream.stderr = objectify(stream.stderr, 'help');
                 break;
             case '-HDRINFO':
                 stream.stdout = objectifyFlags(stream.stdout);
@@ -186,14 +186,16 @@ exports.spawnMakensis = spawnMakensis;
 var spawnMakensisSync = function (cmd, args, opts) {
     var child = child_process_1.spawnSync(cmd, args, opts);
     var hasWarnings = false;
+    child.stdout = stringify(child.stdout);
+    child.stderr = stringify(child.stderr);
     child = formatOutput(child, args, opts);
-    if (hasWarnings === false && child.stdout.indexOf('warning: ') !== -1) {
+    if (hasWarnings === false && child.stdout.toString().indexOf('warning: ') !== -1) {
         hasWarnings = true;
     }
     var output = {
         'status': child.status,
-        'stdout': stringify(child.stdout),
-        'stderr': stringify(child.stderr),
+        'stdout': child.stdout,
+        'stderr': child.stderr,
         'warnings': hasWarnings
     };
     return output;
