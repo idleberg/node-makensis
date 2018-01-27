@@ -3,8 +3,8 @@ os:
 - linux
 - osx
 before_install:
-- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get install nsis; makensis -VERSION; fi
-- if [[ $TRAVIS_OS_NAME == 'osx' ]]; then brew update && brew install nsis; makensis -VERSION; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get install nsis; fi
+- if [[ $TRAVIS_OS_NAME == 'osx' ]]; then brew update && brew install nsis; fi
 language: node_js
 node_js:
 - "node"
