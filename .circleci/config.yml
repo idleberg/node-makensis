@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  workflows:
+  build:
     working_directory: ~/repo
     docker:
       - image: circleci/node:8.9.4
