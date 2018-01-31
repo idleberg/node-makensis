@@ -102,7 +102,7 @@ test('Print compiler information [async]', t => {
 
 test('Print help for all commands', t => {
   const expected = cmdHelp;
-  const actual = makensis.cmdHelpSync().stderr;
+  const actual = makensis.cmdHelpSync().stdout;
 
   t.is(actual, expected);
 });
@@ -120,7 +120,7 @@ test('Print help for all commands [async]', t => {
     // NSIS < 3.03
     t.log('Legacy NSIS');
     const expected = cmdHelp;
-    const actual = output.stderr;
+    const actual = output.stdout;
 
     t.is(actual, expected);
   });
@@ -128,7 +128,7 @@ test('Print help for all commands [async]', t => {
 
 test('Print help for OutFile command', t => {
   const expected = outFile;
-  const actual = makensis.cmdHelpSync('OutFile').stderr;
+  const actual = makensis.cmdHelpSync('OutFile').stdout;
 
   t.is(actual, expected);
 });
@@ -137,7 +137,7 @@ test('Print help for OutFile command [async]', t => {
   return Promise.resolve(makensis.cmdHelp('OutFile'))
   .then(output => {
     const expected = outFile;
-    const actual = output.stderr;
+    const actual = output.stdout;
 
     t.is(actual, expected);
   })
@@ -145,7 +145,7 @@ test('Print help for OutFile command [async]', t => {
     // NSIS < 3.03
     t.log('Legacy NSIS');
     const expected = outFile;
-    const actual = output.stderr;
+    const actual = output.stdout;
 
     t.is(actual, expected);
   });
