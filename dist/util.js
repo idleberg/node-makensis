@@ -154,11 +154,11 @@ var spawnMakensis = function (cmd, args, opts) {
             stdout: '',
             stderr: ''
         };
-        var hasWarnings = false;
+        var hasWarnings = 0;
         var child = child_process_1.spawn(cmd, args, opts);
         child.stdout.on('data', function (line) {
-            if (hasWarnings === false && line.indexOf('warning: ') !== -1) {
-                hasWarnings = true;
+            if (line.indexOf('warning: ') !== -1) {
+                hasWarnings++;
             }
             stream.stdout += stringify(line);
         });
@@ -185,12 +185,12 @@ var spawnMakensis = function (cmd, args, opts) {
 exports.spawnMakensis = spawnMakensis;
 var spawnMakensisSync = function (cmd, args, opts) {
     var child = child_process_1.spawnSync(cmd, args, opts);
-    var hasWarnings = false;
+    var hasWarnings = 0;
     child.stdout = stringify(child.stdout);
     child.stderr = stringify(child.stderr);
     child = formatOutput(child, args, opts);
-    if (hasWarnings === false && child.stdout.toString().indexOf('warning: ') !== -1) {
-        hasWarnings = true;
+    if (child.stdout.toString().indexOf('warning: ') !== -1) {
+        hasWarnings++;
     }
     var output = {
         'status': child.status,

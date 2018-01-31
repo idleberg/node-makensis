@@ -199,7 +199,7 @@ test('Compilation with warning', t => {
 });
 
 test('Compilation with warning as JSON', t => {
-  const expected = true;
+  const expected = 1;
   const scriptWithWarning = scriptDefault.concat(['!warning']);
   const actual = makensis.compileSync(null, {execute: scriptWithWarning, json: true}).warnings;
 
@@ -224,7 +224,7 @@ test('Compilation with warning as JSON [async]', t => {
 
   return Promise.resolve(makensis.compile(null, {execute: scriptWithWarning, json: true}))
   .then( output => {
-    const expected = true;
+    const expected = 1;
     const actual = output.warnings;
 
     t.is(actual, expected);
