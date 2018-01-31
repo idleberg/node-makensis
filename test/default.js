@@ -11,7 +11,11 @@ const scriptDefault = [
 'SectionEnd'
 ];
 
-const nsisVersion = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
+// Expected values
+const version = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
+const hdrInfo = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
+const cmdHelp = spawnSync('makensis', ['-CMDHELP']).stderr.toString().trim();
+const outFile = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stderr.toString().trim();
 
 // Let's run the tests
 test('MakeNSIS found in PATH environmental variable', t => {
@@ -21,14 +25,14 @@ test('MakeNSIS found in PATH environmental variable', t => {
 });
 
 test('Print makensis version', t => {
-  const expected = nsisVersion;
+  const expected = version;
   const actual = makensis.versionSync().stdout;
 
   t.is(actual, expected);
 });
 
 test('Print makensis version as JSON', t => {
-  let expected = nsisVersion;
+  let expected = version;
   let actual = makensis.versionSync({json: true}).stdout;
 
   actual.version = `v${actual.version}`;
@@ -41,7 +45,7 @@ test('Print makensis version as JSON', t => {
 test('Print makensis version [async]', t => {
   return Promise.resolve(makensis.version())
   .then(output => {
-    const expected = nsisVersion;
+    const expected = version;
     const actual = output.stdout;
 
     t.is(actual, expected);
@@ -52,7 +56,7 @@ test('Print makensis version [async]', t => {
 test('Print makensis version as JSON [async]', t => {
   return Promise.resolve(makensis.version({json: true}))
   .then(output => {
-    let expected = nsisVersion;
+    let expected = version;
     expected = JSON.stringify({ version: expected });
 
     let actual = output.stdout;
@@ -65,7 +69,7 @@ test('Print makensis version as JSON [async]', t => {
 });
 
 test('Print compiler information', t => {
-  const expected = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
+  const expected = hdrInfo;
   const actual = makensis.hdrInfoSync().stdout;
 
   t.is(actual, expected);
@@ -81,14 +85,14 @@ test('Print compiler information as JSON', t => {
 test('Print compiler information [async]', t => {
   return Promise.resolve(makensis.hdrInfo())
   .then(output => {
-    const expected = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
+    const expected = hdrInfo;
     const actual = output.stdout;
 
     t.is(actual, expected);
   })
   .catch(output => {
     // NSIS < 3.03
-    const expected = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
+    const expected = hdrInfo;
     const actual = output.stdout;
 
     t.is(actual, expected);
@@ -96,31 +100,31 @@ test('Print compiler information [async]', t => {
 });
 
 test('Print help for all commands', t => {
-  const expected = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
-  const actual = makensis.cmdHelpSync().stdout;
+  const expected = cmdHelp;
+  const actual = makensis.cmdHelpSync().stderr;
 
   t.is(actual, expected);
 });
 
-test('Print help for all commands [async]', t => {
-  return Promise.resolve(makensis.cmdHelp())
-  .then(output => {
-    const expected = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
-    const actual = output.stdout;
+// test('Print help for all commands [async]', t => {
+//   return Promise.resolve(makensis.cmdHelp())
+//   .then(output => {
+//     const expected = cmdHelp;
+//     const actual = output.stderr;
 
-    t.is(actual, expected);
-  })
-  .catch(output => {
-    // NSIS < 3.03
-    const expected = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
-    const actual = output.stdout;
+//     t.is(actual, expected);
+//   })
+//   .catch(output => {
+//     // NSIS < 3.03
+//     const expected = cmdHelp;
+//     const actual = output.stderr;
 
-    t.is(actual, expected);
-  });
-});
+//     t.is(actual, expected);
+//   });
+// });
 
 test('Print help for all commands as JSON', t => {
-  let expected = spawnSync('makensis', ['-CMDHELP']).stderr.toString().trim();
+  let expected = cmdHelp;
   let actual = makensis.cmdHelpSync(null, {json: true}).stderr;
 
   actual = JSON.stringify(actual);
@@ -130,27 +134,27 @@ test('Print help for all commands as JSON', t => {
 });
 
 test('Print help for OutFile command', t => {
-  const expected = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stderr.toString().trim();
+  const expected = outFile;
   const actual = makensis.cmdHelpSync('OutFile').stderr;
 
   t.is(actual, expected);
 });
 
-// test('Print help for OutFile command [async]', t => {
-//   return Promise.resolve(makensis.cmdHelp(OutFile'))
-//   .then(output => {
-//     const expected = spawnSync('makensis', ['-CMDHELP', OutFile']).stdout.toString().trim();
-//     const actual = output.stdout;
+test('Print help for OutFile command [async]', t => {
+  return Promise.resolve(makensis.cmdHelp('OutFile'))
+  .then(output => {
+    const expected = outFile;
+    const actual = output.stderr;
 
-//     t.is(actual, expected);
-//   })
-//   .catch(error => {
-//     t.fail(error)
-//   });
-// });
+    t.is(actual, expected);
+  })
+  .catch(error => {
+    t.fail(error)
+  });
+});
 
 test('Print help for OutFile command as JSON', t => {
-  let expected = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stderr.toString().trim();
+  let expected = outFile;
   let actual = makensis.cmdHelpSync('OutFile', {json: true}).stderr;
 
   actual = JSON.stringify(actual);
