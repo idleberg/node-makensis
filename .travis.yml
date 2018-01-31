@@ -3,12 +3,15 @@ os:
 - linux
 - osx
 before_install:
-- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"; fi
-- if [[ $TRAVIS_OS_NAME == 'linux' ]]; test -d ~/.linuxbrew && PATH="$HOME/.linuxbrew/bin:$HOME/.linuxbrew/sbin:$PATH"; fi
-- if [[ $TRAVIS_OS_NAME == 'linux' ]]; test -d /home/linuxbrew/.linuxbrew && PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"; fi
-- if [[ $TRAVIS_OS_NAME == 'linux' ]]; test -r ~/.bash_profile && echo "export PATH='$(brew --prefix)/bin:$(brew --prefix)/sbin'":'"$PATH"' >>~/.bash_profile; fi
-- if [[ $TRAVIS_OS_NAME == 'linux' ]]; echo "export PATH='$(brew --prefix)/bin:$(brew --prefix)/sbin'":'"$PATH"' >>~/.profile; fi
-- if [[ $TRAVIS_OS_NAME == 'linux' ]]; brew install makensis; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-add-repository ppa:brightbox/ruby-ng; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get update; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get install ruby2.4 ruby2.4-dev; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)"; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then test -d ~/.linuxbrew && PATH="$HOME/.linuxbrew/bin:$HOME/.linuxbrew/sbin:$PATH"; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then test -d /home/linuxbrew/.linuxbrew && PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then test -r ~/.bash_profile && echo "export PATH='$(brew --prefix)/bin:$(brew --prefix)/sbin'":'"$PATH"' >>~/.bash_profile; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then echo "export PATH='$(brew --prefix)/bin:$(brew --prefix)/sbin'":'"$PATH"' >>~/.profile; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then brew --version; fi
 - if [[ $TRAVIS_OS_NAME == 'osx' ]]; then brew update && brew install nsis; fi
 language: node_js
 node_js:
