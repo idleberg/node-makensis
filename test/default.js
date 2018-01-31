@@ -97,15 +97,12 @@ test('Print compiler information as JSON [async]', t => {
   return Promise.resolve(makensis.hdrInfo({json: true}))
   .then(output => {
     const expected = true;
-    const actual = output.stdout.defined_symbols.__GLOBAL__;
-
-    t.is(actual, expected);
-  })
-  .catch(output => {
-    const expected = true;
     const actual = output.stderr.defined_symbols.__GLOBAL__;
 
     t.is(actual, expected);
+  })
+  .catch(error => {
+    t.fail(error)
   });
 });
 
