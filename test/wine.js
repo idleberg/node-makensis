@@ -43,6 +43,20 @@ test('Wine: Print compiler information', t => {
   t.is(actual, expected);
 });
 
+test('Wine: Print compiler information [async]', t => {
+  const scriptWithWarning = scriptDefault.concat(['!warning']);
+
+  return Promise.resolve(makensis.hdrInfoSync({wine: true}))
+  .then( output => {
+    const expected = spawnSync('wine', ['makensis', '-HDRINFO']).stderr.toString().trim();
+
+    t.is(output.stderr, expected);
+  })
+  .catch(error => {
+    t.fail(error)
+  });
+});
+
 test('Wine: Print help for all commands', t => {
   const expected = spawnSync('wine', ['makensis', '-CMDHELP']).stdout.toString().trim();
   const actual = makensis.cmdHelpSync('', {wine: true}).stdout;
@@ -68,7 +82,9 @@ test('Wine: Compilation [async]', t => {
   .then(output => {
       t.is(output.status, 0);
   })
-  .catch();
+  .catch(error => {
+    t.fail(error)
+  });
 });
 
 test('Wine: Compilation with warning', t => {
@@ -85,7 +101,9 @@ test('Wine: Compilation with warning [async]', t => {
   .then( output => {
     t.is(output.status, 0)
   })
-  .catch();
+  .catch(error => {
+    t.fail(error)
+  });
 });
 
 test('Wine: Compilation with error', t => {
