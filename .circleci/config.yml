@@ -3,7 +3,6 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:carbon
       - image: circleci/node:latest
     steps:
       - checkout
