@@ -76,7 +76,14 @@ var formatOutput = function (stream, args, opts) {
     if (opts.json === true) {
         switch (args[0]) {
             case '-CMDHELP':
-                stream.stderr = objectify(stream.stderr, 'help');
+                if (typeof args[1] === 'undefined' || args[1] === '') {
+                    stream.stdout = objectifyHelp(stream.stderr);
+                }
+                else {
+                    stream.stdout = objectify(stream.stderr, 'help');
+                }
+                // CMDHELP writes to stderr by default, let's fix this
+                stream.stderr = '';
                 break;
             case '-HDRINFO':
                 stream.stdout = objectifyFlags(stream.stdout);
@@ -103,6 +110,16 @@ var objectify = function (input, key) {
     return output;
 };
 exports.objectify = objectify;
+var objectifyHelp = function (input) {
+    var lines = input.split('\n');
+    var output = {};
+    lines.forEach(function (line) {
+        var command = line.substr(0, line.indexOf(' '));
+        var usage = line.substr(line.indexOf(' ') + 1);
+        output[command] = usage;
+    });
+    return output;
+};
 var objectifyFlags = function (input) {
     var lines = input.split('\n');
     var filteredLines = lines.filter(function (line) {
