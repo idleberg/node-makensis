@@ -92,17 +92,19 @@ const isInteger = (x): boolean => {
 };
 
 const formatOutput = (stream, args, opts): Object => {
+  if (args[0] === '-CMDHELP') {
+    // CMDHELP writes to stderr by default, let's fix this
+    [stream.stdout, stream.stderr] = [stream.stderr, ''];
+  }
+
   if (opts.json === true) {
     switch (args[0]) {
       case '-CMDHELP':
         if (typeof args[1] === 'undefined' || args[1] === '') {
-          stream.stdout = objectifyHelp(stream.stderr);
+          stream.stdout = objectifyHelp(stream.stdout);
         } else {
-          stream.stdout = objectify(stream.stderr, 'help');
+          stream.stdout = objectify(stream.stdout, 'help');
         }
-
-        // CMDHELP writes to stderr by default, let's fix this
-        stream.stderr = '';
         break;
       case '-HDRINFO':
         stream.stdout = objectifyFlags(stream.stdout);
@@ -111,6 +113,8 @@ const formatOutput = (stream, args, opts): Object => {
         stream.stdout = objectify(stream.stdout, 'version');
         break;
     }
+  } else {
+
   }
 
   return stream;
