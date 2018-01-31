@@ -9,9 +9,6 @@ jobs:
       - run:
           name: Installing NSIS
           command: 'sudo apt-get update; sudo apt-get install nsis'
-      - run:
-          name: Printing NSIS version
-          command: 'makensis -VERSION'
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
@@ -22,5 +19,5 @@ jobs:
           paths:
             - ./node_modules
       - run:
-          name: Running tests
+          name: Running Tests
           command: npm test
