@@ -110,8 +110,11 @@ test('Print help for all commands [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch(error => {
-    t.fail(error)
+  .catch(output => {
+    const expected = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
+    const actual = output.stdout;
+
+    t.is(actual, expected);
   });
 });
 
