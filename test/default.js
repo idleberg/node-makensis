@@ -111,6 +111,7 @@ test('Print help for all commands [async]', t => {
     t.is(actual, expected);
   })
   .catch(output => {
+    // NSIS < 3.03
     const expected = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
     const actual = output.stdout;
 
@@ -129,8 +130,8 @@ test('Print help for all commands as JSON', t => {
 });
 
 test('Print help for OutFile command', t => {
-  const expected = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stdout.toString().trim();
-  const actual = makensis.cmdHelpSync('OutFile').stdout;
+  const expected = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stderr.toString().trim();
+  const actual = makensis.cmdHelpSync('OutFile').stderr;
 
   t.is(actual, expected);
 });
