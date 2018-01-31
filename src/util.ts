@@ -95,7 +95,14 @@ const formatOutput = (stream, args, opts): Object => {
   if (opts.json === true) {
     switch (args[0]) {
       case '-CMDHELP':
-        stream.stderr = objectify(stream.stderr, 'help');
+        if (typeof args[1] === 'undefined' || args[1] === '') {
+          stream.stdout = objectifyHelp(stream.stderr);
+        } else {
+          stream.stdout = objectify(stream.stderr, 'help');
+        }
+
+        // CMDHELP writes to stderr by default, let's fix this
+        stream.stderr = '';
         break;
       case '-HDRINFO':
         stream.stdout = objectifyFlags(stream.stdout);
@@ -121,6 +128,21 @@ const objectify = (input, key = null): Object => {
   } else {
     output[key] = input;
   }
+
+  return output;
+};
+
+const objectifyHelp = (input: string): Object => {
+  let lines = input.split('\n');
+
+  let output = {};
+
+  lines.forEach((line) => {
+    let command = line.substr(0, line.indexOf(' '));
+    let usage = line.substr(line.indexOf(' ') + 1);
+
+    output[command] = usage;
+  });
 
   return output;
 };
