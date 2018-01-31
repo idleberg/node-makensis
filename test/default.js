@@ -120,20 +120,10 @@ test('Print help for all commands [async]', t => {
     // NSIS < 3.03
     t.log('Legacy NSIS');
     const expected = cmdHelp;
-    const actual = output.stderr;
+    const actual = output.stdout;
 
     t.is(actual, expected);
   });
-});
-
-test('Print help for all commands as JSON', t => {
-  let expected = cmdHelp;
-  let actual = makensis.cmdHelpSync(null, {json: true}).stderr;
-
-  actual = JSON.stringify(actual);
-  expected = JSON.stringify({help: expected });
-
-  t.is(actual, expected);
 });
 
 test('Print help for OutFile command', t => {
@@ -163,10 +153,10 @@ test('Print help for OutFile command [async]', t => {
 
 test('Print help for OutFile command as JSON', t => {
   let expected = outFile;
-  let actual = makensis.cmdHelpSync('OutFile', {json: true}).stderr;
+  let actual = makensis.cmdHelpSync('OutFile', {json: true}).stdout;
 
   actual = JSON.stringify(actual);
-  expected = JSON.stringify({help: expected });
+  expected = JSON.stringify({'help': expected });
 
   t.is(actual, expected);
 });
