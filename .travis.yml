@@ -3,7 +3,7 @@ os:
 - linux
 - osx
 before_install:
-- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-add-repository ppa:brightbox/ruby-ng; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-add-repository -y ppa:brightbox/ruby-ng; fi
 - if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get update; fi
 - if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get install ruby2.4 ruby2.4-dev; fi
 - if [[ $TRAVIS_OS_NAME == 'linux' ]]; then ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/linuxbrew/go/install)"; fi
