@@ -120,7 +120,7 @@ test('Print help for all commands [async]', t => {
     // NSIS < 3.03
     t.log('Legacy NSIS');
     const expected = cmdHelp;
-    const actual = output.stdout;
+    const actual = output.stderr;
 
     t.is(actual, expected);
   });
