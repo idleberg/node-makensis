@@ -73,17 +73,19 @@ var isInteger = function (x) {
     return x % 2 === 0;
 };
 var formatOutput = function (stream, args, opts) {
+    if (args[0] === '-CMDHELP') {
+        // CMDHELP writes to stderr by default, let's fix this
+        _a = [stream.stderr, ''], stream.stdout = _a[0], stream.stderr = _a[1];
+    }
     if (opts.json === true) {
         switch (args[0]) {
             case '-CMDHELP':
                 if (typeof args[1] === 'undefined' || args[1] === '') {
-                    stream.stdout = objectifyHelp(stream.stderr);
+                    stream.stdout = objectifyHelp(stream.stdout);
                 }
                 else {
-                    stream.stdout = objectify(stream.stderr, 'help');
+                    stream.stdout = objectify(stream.stdout, 'help');
                 }
-                // CMDHELP writes to stderr by default, let's fix this
-                stream.stderr = '';
                 break;
             case '-HDRINFO':
                 stream.stdout = objectifyFlags(stream.stdout);
@@ -93,7 +95,10 @@ var formatOutput = function (stream, args, opts) {
                 break;
         }
     }
+    else {
+    }
     return stream;
+    var _a;
 };
 var objectify = function (input, key) {
     if (key === void 0) { key = null; }
