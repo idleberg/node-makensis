@@ -7,20 +7,20 @@ jobs:
     steps:
       - checkout
       - run:
-          name: install-nsis
+          name: Install NSIS
           command: 'sudo apt-get update; sudo apt-get install nsis'
       - run:
-          name: nsis-version
+          name: Print NSIS version
           command: 'makensis -VERSION'
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: npm-install
+          name: Install npm
           command: npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run:
-          name: ava
+          name: Run tests
           command: npm test
