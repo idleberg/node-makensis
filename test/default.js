@@ -44,7 +44,9 @@ test('Print makensis version [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch();
+  .catch(error => {
+    t.fail(error)
+  });
 });
 
 test('Print makensis version as JSON [async]', t => {
@@ -59,7 +61,9 @@ test('Print makensis version as JSON [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch();
+  .catch(error => {
+    t.fail(error)
+  });
 });
 
 test('Print compiler information', t => {
@@ -77,22 +81,28 @@ test('Print compiler information as JSON', t => {
 });
 
 test('Print compiler information [async]', t => {
-
   return Promise.resolve(makensis.hdrInfo())
-  .catch(output => {
+  .then(output => {
     const expected = spawnSync('makensis', ['-HDRINFO']).stderr.toString().trim();
     const actual = output.stderr;
+
     t.is(actual, expected);
+  })
+  .catch(error => {
+    t.fail(error)
   });
 });
 
 test('Print compiler information as JSON [async]', t => {
   return Promise.resolve(makensis.hdrInfo({json: true}))
-  .catch(output => {
+  .then(output => {
     const expected = true;
     const actual = output.stdout.defined_symbols.__GLOBAL__;
 
     t.is(actual, expected);
+  })
+  .catch(error => {
+    t.fail(error)
   });
 });
 
@@ -102,6 +112,19 @@ test('Print help for all commands', t => {
 
   t.is(actual, expected);
 });
+
+// test('Print help for all commands [async]', t => {
+//   return Promise.resolve(makensis.cmdHelp())
+//   .then(output => {
+//     const expected = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
+//     const actual = output.stdout;
+
+//     t.is(actual, expected);
+//   })
+//   .catch(error => {
+//     t.fail(error)
+//   });
+// });
 
 test('Print help for all commands as JSON', t => {
   let expected = spawnSync('makensis', ['-CMDHELP']).stderr.toString().trim();
@@ -119,6 +142,19 @@ test('Print help for OutFile command', t => {
 
   t.is(actual, expected);
 });
+
+// test('Print help for OutFile command [async]', t => {
+//   return Promise.resolve(makensis.cmdHelp(OutFile'))
+//   .then(output => {
+//     const expected = spawnSync('makensis', ['-CMDHELP', OutFile']).stdout.toString().trim();
+//     const actual = output.stdout;
+
+//     t.is(actual, expected);
+//   })
+//   .catch(error => {
+//     t.fail(error)
+//   });
+// });
 
 test('Print help for OutFile command as JSON', t => {
   let expected = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stderr.toString().trim();
@@ -145,7 +181,9 @@ test('Compilation [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch();
+  .catch(error => {
+    t.fail(error)
+  });
 });
 
 test('Compilation with warning', t => {
@@ -175,7 +213,9 @@ test('Compilation with warning [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch();
+  .catch(error => {
+    t.fail(error)
+  });
 });
 
 test('Compilation with warning as JSON [async]', t => {
@@ -188,7 +228,9 @@ test('Compilation with warning as JSON [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch();
+  .catch(error => {
+    t.fail(error)
+  });
 });
 
 test('Compilation with error', t => {
