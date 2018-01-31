@@ -84,17 +84,15 @@ test('Print compiler information [async]', t => {
     const expected = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
     const actual = output.stdout;
 
-    // if (nsisVersion.startsWith('v2')) {
-    //   expected = spawnSync('makensis', ['-HDRINFO']).stderr.toString().trim();
-    //   actual = output.stderr;
-    // } else {
-    //   expected = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
-    //   actual = output.stdout;
-    // }
+    t.is(actual, expected);
+  })
+  .catch(output => {
+    // NSIS < 3.03
+    const expected = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
+    const actual = output.stdout;
 
     t.is(actual, expected);
   })
-  .catch();
 });
 
 test('Print help for all commands', t => {
@@ -104,18 +102,18 @@ test('Print help for all commands', t => {
   t.is(actual, expected);
 });
 
-// test('Print help for all commands [async]', t => {
-//   return Promise.resolve(makensis.cmdHelp())
-//   .then(output => {
-//     const expected = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
-//     const actual = output.stdout;
+test('Print help for all commands [async]', t => {
+  return Promise.resolve(makensis.cmdHelp())
+  .then(output => {
+    const expected = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
+    const actual = output.stdout;
 
-//     t.is(actual, expected);
-//   })
-//   .catch(error => {
-//     t.fail(error)
-//   });
-// });
+    t.is(actual, expected);
+  })
+  .catch(error => {
+    t.fail(error)
+  });
+});
 
 test('Print help for all commands as JSON', t => {
   let expected = spawnSync('makensis', ['-CMDHELP']).stderr.toString().trim();
