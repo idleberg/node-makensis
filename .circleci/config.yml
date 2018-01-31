@@ -3,24 +3,24 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:8.9.4
+      - image: circleci/node:9.4.0
     steps:
       - checkout
       - run:
-          name: Install NSIS
+          name: Installing NSIS
           command: 'sudo apt-get update; sudo apt-get install nsis'
       - run:
-          name: Print NSIS version
+          name: Printing NSIS version
           command: 'makensis -VERSION'
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
-          name: Install npm
+          name: Installing npm
           command: npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run:
-          name: Run tests
+          name: Running tests
           command: npm test
