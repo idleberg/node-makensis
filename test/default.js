@@ -148,8 +148,12 @@ test('Print help for OutFile command [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch(error => {
-    t.fail(error)
+  .catch(output => {
+    // NSIS < 3.03
+    const expected = outFile;
+    const actual = output.stderr;
+
+    t.is(actual, expected);
   });
 });
 
