@@ -34,7 +34,7 @@ gulp.task('lint:ts', gulp.series( (done) => {
 }));
 
 // Lint JSON
-gulp.task('lint:json', gulp.series( (done) => { 
+gulp.task('lint:json', gulp.series( (done) => {
   gulp.src(jsonFiles)
     .pipe(debug({title: 'json-lint'}))
     .pipe(jsonlint())
