@@ -127,13 +127,13 @@ const versionSync = (options: CompilerOptions = {}) => {
   return spawnMakensisSync(p.cmd, p.args, p.opts);
 };
 
- export {
-   cmdHelp,
-   cmdHelpSync,
-   compile,
-   compileSync,
-   hdrInfo,
-   hdrInfoSync,
-   version,
-   versionSync
- };
+export {
+  cmdHelp,
+  cmdHelpSync,
+  compile,
+  compileSync,
+  hdrInfo,
+  hdrInfoSync,
+  version,
+  versionSync
+};
