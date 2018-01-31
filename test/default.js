@@ -102,7 +102,10 @@ test('Print compiler information as JSON [async]', t => {
     t.is(actual, expected);
   })
   .catch(error => {
-    t.fail(error)
+    const expected = true;
+    const actual = output.stdout.defined_symbols.__GLOBAL__;
+
+    t.is(actual, expected);
   });
 });
 
