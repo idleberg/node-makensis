@@ -92,6 +92,7 @@ test('Print compiler information [async]', t => {
   })
   .catch(output => {
     // NSIS < 3.03
+    t.log('Legacy NSIS');
     const expected = hdrInfo;
     const actual = output.stdout;
 
@@ -116,6 +117,7 @@ test('Print help for all commands', t => {
 //   })
 //   .catch(output => {
 //     // NSIS < 3.03
+//     t.log('Legacy NSIS');
 //     const expected = cmdHelp;
 //     const actual = output.stderr;
 
@@ -150,6 +152,7 @@ test('Print help for OutFile command [async]', t => {
   })
   .catch(output => {
     // NSIS < 3.03
+    t.log('Legacy NSIS');
     const expected = outFile;
     const actual = output.stderr;
 
