@@ -82,13 +82,13 @@ if (output.status === 0) {
 
 Usage: `compile(script, [options])`
 
-Compiles specified script with MakeNSIS. The script can be omitted in favor of [`execute`](#execute).
+Compiles specified script with MakeNSIS. The script can be omitted in favor of [`preExecute`](#preExecute) / [`postExecute`](#postExecute).
 
 #### compileSync
 
 Usage: `compileSync(script, [options])`
 
-Compiles specified script with MakeNSIS. The script can be omitted in favor of [`execute`](#execute).
+Compiles specified script with MakeNSIS. The script can be omitted in favor of [`preExecute`](#preExecute) / [`postExecute`](#postExecute)..
 
 #### version
 
@@ -205,16 +205,31 @@ define: {
 }
 ```
 
-##### execute
+##### preExecute
 
-Type: `Array`
+Type: `Array|string`
 
-Executes script-commands in the script, parameters are processed by order. Equivalent of the `-X` switch
+Prepends script-commands to the script, parameters are processed by order. Equivalent of the `-X` switch
 
 **Example:**
 
 ```js
-execute: [
+preExecute: [
+    "SetCompressor lzma",
+    "SetCompressorDictSize 16"
+]
+```
+
+##### postExecute
+
+Type: `Array|string`
+
+Appends script-commands to the script, parameters are processed by order. Equivalent of the `-X` switch
+
+**Example:**
+
+```js
+postExecute: [
     "SetCompressor lzma",
     "SetCompressorDictSize 16"
 ]
