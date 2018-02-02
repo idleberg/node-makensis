@@ -220,6 +220,8 @@ preExecute: [
 ]
 ```
 
+Alias: `execute`
+
 ##### postExecute
 
 Type: `Array|string`
