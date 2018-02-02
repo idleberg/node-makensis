@@ -46,6 +46,15 @@ const mapArguments = (args, options) => {
         p.args.push(`-X${key}`);
       });
     }
+  // Temporary Fallback
+  } else if (typeof options.execute !== 'undefined') {
+    if (typeof options.execute === 'string') {
+      p.args.push(`-X${options.execute}`);
+    } else {
+      options.execute.forEach((key) => {
+        p.args.push(`-X${key}`);
+      });
+    }
   }
 
   if (options.nocd === true || options.noCD === true) {
