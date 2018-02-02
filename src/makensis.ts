@@ -78,6 +78,16 @@ const compile = (script: string, options: CompilerOptions = {}) => {
     p.args.push(script);
   }
 
+  if (typeof options.postExecute !== 'undefined') {
+    if (typeof options.postExecute === 'string') {
+      p.args.push(`-X${options.postExecute}`);
+    } else {
+      options.postExecute.forEach((key) => {
+        p.args.push(`-X${key}`);
+      });
+    }
+  }
+
   return spawnMakensis(p.cmd, p.args, p.opts);
 };
 
@@ -96,6 +106,16 @@ const compileSync = (script: string, options: CompilerOptions = {}) => {
       p.args.push('--');
     }
     p.args.push(script);
+  }
+
+  if (typeof options.postExecute !== 'undefined') {
+    if (typeof options.postExecute === 'string') {
+      p.args.push(`-X${options.postExecute}`);
+    } else {
+      options.postExecute.forEach((key) => {
+        p.args.push(`-X${key}`);
+      });
+    }
   }
 
   return spawnMakensisSync(p.cmd, p.args, p.opts);

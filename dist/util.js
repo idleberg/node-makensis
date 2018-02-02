@@ -31,10 +31,15 @@ var mapArguments = function (args, options) {
             p.args.push("-D" + key + "=" + options.define[key]);
         });
     }
-    if (typeof options.execute !== 'undefined') {
-        options.execute.forEach(function (key) {
-            p.args.push("-X" + key);
-        });
+    if (typeof options.preExecute !== 'undefined') {
+        if (typeof options.preExecute === 'string') {
+            p.args.push("-X" + options.preExecute);
+        }
+        else {
+            options.preExecute.forEach(function (key) {
+                p.args.push("-X" + key);
+            });
+        }
     }
     if (options.nocd === true || options.noCD === true) {
         p.args.push('-NOCD');

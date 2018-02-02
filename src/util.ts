@@ -38,10 +38,14 @@ const mapArguments = (args, options) => {
     });
   }
 
-  if (typeof options.execute !== 'undefined') {
-    options.execute.forEach((key) => {
-      p.args.push(`-X${key}`);
-    });
+  if (typeof options.preExecute !== 'undefined') {
+    if (typeof options.preExecute === 'string') {
+      p.args.push(`-X${options.preExecute}`);
+    } else {
+      options.preExecute.forEach((key) => {
+        p.args.push(`-X${key}`);
+      });
+    }
   }
 
   if (options.nocd === true || options.noCD === true) {
