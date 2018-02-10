@@ -133,7 +133,6 @@ var objectify = function (input, key) {
 exports.objectify = objectify;
 var objectifyHelp = function (input) {
     var lines = input.split('\n');
-    // console.log(lines)
     lines.sort();
     var output = {};
     lines.forEach(function (line) {
