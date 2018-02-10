@@ -133,11 +133,14 @@ var objectify = function (input, key) {
 exports.objectify = objectify;
 var objectifyHelp = function (input) {
     var lines = input.split('\n');
+    // console.log(lines)
+    lines.sort();
     var output = {};
     lines.forEach(function (line) {
         var command = line.substr(0, line.indexOf(' '));
         var usage = line.substr(line.indexOf(' ') + 1);
-        output[command] = usage;
+        if (command)
+            output[command] = usage;
     });
     return output;
 };

@@ -151,6 +151,7 @@ const objectify = (input, key = null): Object => {
 
 const objectifyHelp = (input: string): Object => {
   let lines = input.split('\n');
+  lines.sort();
 
   let output = {};
 
@@ -158,7 +159,7 @@ const objectifyHelp = (input: string): Object => {
     let command = line.substr(0, line.indexOf(' '));
     let usage = line.substr(line.indexOf(' ') + 1);
 
-    output[command] = usage;
+    if (command) output[command] = usage;
   });
 
   return output;
