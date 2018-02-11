@@ -138,6 +138,10 @@ var objectifyHelp = function (input) {
     lines.forEach(function (line) {
         var command = line.substr(0, line.indexOf(' '));
         var usage = line.substr(line.indexOf(' ') + 1);
+        // Workaround
+        if (['!AddIncludeDir', '!AddPluginDir'].indexOf(command) !== -1) {
+            command = command.toLowerCase();
+        }
         if (command)
             output[command] = usage;
     });

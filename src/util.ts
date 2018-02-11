@@ -159,6 +159,11 @@ const objectifyHelp = (input: string): Object => {
     let command = line.substr(0, line.indexOf(' '));
     let usage = line.substr(line.indexOf(' ') + 1);
 
+    // Workaround
+    if (['!AddIncludeDir', '!AddPluginDir'].indexOf(command) !== -1) {
+      command = command.toLowerCase();
+    }
+
     if (command) output[command] = usage;
   });
 
