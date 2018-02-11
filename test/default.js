@@ -35,7 +35,11 @@ test('Print makensis version as JSON', t => {
   let expected = version;
   let actual = makensis.versionSync({json: true}).stdout;
 
-  actual.version = `v${actual.version}`;
+  if (expected.startsWith('v')) {
+    expected = expected.substr(1);
+  }
+
+  actual.version = `${actual.version}`;
   actual = JSON.stringify(actual);
   expected = JSON.stringify({ version: expected });
 
@@ -57,10 +61,14 @@ test('Print makensis version as JSON [async]', t => {
   return Promise.resolve(makensis.version({json: true}))
   .then(output => {
     let expected = version;
+
+    if (expected.startsWith('v')) {
+      expected = expected.substr(1);
+    }
     expected = JSON.stringify({ version: expected });
 
     let actual = output.stdout;
-    actual.version = `v${actual.version}`;
+    actual.version = `${actual.version}`;
     actual = JSON.stringify(actual);
 
     t.is(actual, expected);
