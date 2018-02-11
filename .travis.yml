@@ -25,6 +25,7 @@ addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
+    - sourceline: 'deb http://deb.debian.org/debian experimental main'
     packages:
     - g++-4.8
 notifications:
