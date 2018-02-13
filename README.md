@@ -16,7 +16,7 @@ On non-Windows platforms, you can usually install NSIS with your package manager
 
 ```sh
 # Debian
-sudo apt-get install nsis
+sudo apt-get -t experimental install nsis
 
 # Red Hat
 sudo dnf install nsis
@@ -276,6 +276,11 @@ Return output from `makensis` as an object
 Type: `string`
 
 Specifies a custom path to `makensis`
+
+## Related
+
+- [atom-language-nsis](https://atom.io/packages/language-nsis) - NSIS package for Atom
+- [vscode-nsis](https://marketplace.visualstudio.com/items?itemName=idleberg.nsis) - NSIS package for Visual Studio Code
 
 ## License
 

@@ -8,7 +8,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/idleberg/node-makensis.git"
+    "url": "https://github.com/idleberg/node-makensis.git"
   },
   "keywords": [
     "nsis",
@@ -27,6 +27,7 @@
   },
   "scripts": {
     "build": "tsc -p ./",
+    "lint": "tslint --project .",
     "prepublish": "gulp lint && npm run build",
     "test": "node_modules/.bin/ava ./test/default.js --verbose",
     "test:wine": "node_modules/.bin/ava ./test/wine.js --verbose"
