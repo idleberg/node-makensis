@@ -2,7 +2,5 @@
 .editorconfig
 .travis.yml
 gulpfile.json
-package-lock.json
 tsconfig.json
 tslint.json
-yarn.lock
