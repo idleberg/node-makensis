@@ -273,7 +273,7 @@ const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object): Obje
   child.stderr = stringify(child.stderr);
   child = formatOutput(child, args, opts);
 
-  if (child.stdout.toString().indexOf('warning: ') !== -1) {
+  if (child.stdout.toString().indexOf(' warning: ') !== -1) {
     hasWarnings++;
   }
 

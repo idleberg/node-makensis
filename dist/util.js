@@ -233,7 +233,7 @@ var spawnMakensisSync = function (cmd, args, opts) {
     child.stdout = stringify(child.stdout);
     child.stderr = stringify(child.stderr);
     child = formatOutput(child, args, opts);
-    if (child.stdout.toString().indexOf('warning: ') !== -1) {
+    if (child.stdout.toString().indexOf(' warning: ') !== -1) {
         hasWarnings++;
     }
     var output = {
