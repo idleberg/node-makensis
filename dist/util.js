@@ -205,16 +205,18 @@ var spawnMakensis = function (cmd, args, opts) {
             stdout: '',
             stderr: ''
         };
+        var warnings = 0;
         var child = child_process_1.spawn(cmd, args, opts);
         child.stdout.on('data', function (line) {
-            stream.stdout += stringify(line);
+            line = stringify(line);
+            warnings = hasWarnings(line);
+            stream.stdout += line;
         });
         child.stderr.on('data', function (line) {
             stream.stderr += stringify(line);
         });
         child.on('close', function (code) {
             stream = formatOutput(stream, args, opts);
-            var warnings = hasWarnings(stream.stdout);
             var output = {
                 'status': code,
                 'stdout': stream.stdout,
@@ -235,8 +237,8 @@ var spawnMakensisSync = function (cmd, args, opts) {
     var child = child_process_1.spawnSync(cmd, args, opts);
     child.stdout = stringify(child.stdout);
     child.stderr = stringify(child.stderr);
+    var warnings = hasWarnings(child.stdout);
     child = formatOutput(child, args, opts);
-    var warnings = hasWarnings(child.stdout.toString());
     var output = {
         'status': child.status,
         'stdout': child.stdout,

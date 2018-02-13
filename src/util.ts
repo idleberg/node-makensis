@@ -241,11 +241,15 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
       stdout: '',
       stderr: ''
     };
+    let warnings = 0;
 
     const child: any = spawn(cmd, args, opts);
 
     child.stdout.on('data', (line) => {
-      stream.stdout += stringify(line);
+      line = stringify(line);
+
+      warnings = hasWarnings(line);
+      stream.stdout += line;
     });
 
     child.stderr.on('data', (line) => {
@@ -254,7 +258,6 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
 
     child.on('close', (code) => {
       stream = formatOutput(stream, args, opts);
-      let warnings = hasWarnings(stream.stdout);
 
       const output: Object = {
         'status': code,
@@ -277,9 +280,10 @@ const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object): Obje
 
   child.stdout = stringify(child.stdout);
   child.stderr = stringify(child.stderr);
-  child = formatOutput(child, args, opts);
 
-  let warnings = hasWarnings(child.stdout.toString());
+  let warnings = hasWarnings(child.stdout);
+
+  child = formatOutput(child, args, opts);
 
   let output: Object = {
     'status': child.status,
