@@ -104,6 +104,16 @@ const isInteger = (x): boolean => {
   return x % 2 === 0;
 };
 
+const hasWarnings = (line: string): number => {
+  let match = line.match(/(\d+) warnings?\:/);
+
+  if (match !== null) {
+    return parseInt(match[1]);
+  }
+
+  return 0;
+};
+
 const formatOutput = (stream, args, opts): Object => {
   if (args[0] === '-CMDHELP') {
     // CMDHELP writes to stderr by default, let's fix this
@@ -231,15 +241,14 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
       stdout: '',
       stderr: ''
     };
-    let hasWarnings = 0;
+    let warnings = 0;
 
     const child: any = spawn(cmd, args, opts);
 
     child.stdout.on('data', (line) => {
-      if (line.indexOf('warning: ') !== -1) {
-        hasWarnings++;
-      }
-      stream.stdout += stringify(line);
+      line = stringify(line);
+      warnings = hasWarnings(line);
+      stream.stdout += line;
     });
 
     child.stderr.on('data', (line) => {
@@ -253,7 +262,7 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
         'status': code,
         'stdout': stream.stdout,
         'stderr': stream.stderr,
-        'warnings': hasWarnings
+        'warnings': warnings
       };
 
       if (code === 0) {
@@ -267,21 +276,19 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
 
 const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object): Object => {
   let child: any = spawnSync(cmd, args, opts);
-  let hasWarnings = 0;
+  let warnings = 0;
 
   child.stdout = stringify(child.stdout);
   child.stderr = stringify(child.stderr);
   child = formatOutput(child, args, opts);
 
-  if (child.stdout.toString().indexOf(' warning: ') !== -1) {
-    hasWarnings++;
-  }
+  warnings = hasWarnings(child.stdout.toString());
 
   let output: Object = {
     'status': child.status,
     'stdout': child.stdout,
     'stderr': child.stderr,
-    'warnings': hasWarnings
+    'warnings': warnings
   };
 
   return output;

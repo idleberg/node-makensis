@@ -88,6 +88,13 @@ var stringify = function (data) {
 var isInteger = function (x) {
     return x % 2 === 0;
 };
+var hasWarnings = function (line) {
+    var match = line.match(/(\d+) warnings?\:/);
+    if (match !== null) {
+        return parseInt(match[1]);
+    }
+    return 0;
+};
 var formatOutput = function (stream, args, opts) {
     if (args[0] === '-CMDHELP') {
         // CMDHELP writes to stderr by default, let's fix this
@@ -198,13 +205,12 @@ var spawnMakensis = function (cmd, args, opts) {
             stdout: '',
             stderr: ''
         };
-        var hasWarnings = 0;
+        var warnings = 0;
         var child = child_process_1.spawn(cmd, args, opts);
         child.stdout.on('data', function (line) {
-            if (line.indexOf('warning: ') !== -1) {
-                hasWarnings++;
-            }
-            stream.stdout += stringify(line);
+            line = stringify(line);
+            warnings = hasWarnings(line);
+            stream.stdout += line;
         });
         child.stderr.on('data', function (line) {
             stream.stderr += stringify(line);
@@ -215,7 +221,7 @@ var spawnMakensis = function (cmd, args, opts) {
                 'status': code,
                 'stdout': stream.stdout,
                 'stderr': stream.stderr,
-                'warnings': hasWarnings
+                'warnings': warnings
             };
             if (code === 0) {
                 resolve(output);
@@ -229,18 +235,16 @@ var spawnMakensis = function (cmd, args, opts) {
 exports.spawnMakensis = spawnMakensis;
 var spawnMakensisSync = function (cmd, args, opts) {
     var child = child_process_1.spawnSync(cmd, args, opts);
-    var hasWarnings = 0;
+    var warnings = 0;
     child.stdout = stringify(child.stdout);
     child.stderr = stringify(child.stderr);
     child = formatOutput(child, args, opts);
-    if (child.stdout.toString().indexOf(' warning: ') !== -1) {
-        hasWarnings++;
-    }
+    warnings = hasWarnings(child.stdout.toString());
     var output = {
         'status': child.status,
         'stdout': child.stdout,
         'stderr': child.stderr,
-        'warnings': hasWarnings
+        'warnings': warnings
     };
     return output;
 };
