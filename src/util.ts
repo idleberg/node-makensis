@@ -28,7 +28,7 @@ const mapArguments = (args, options) => {
   }
 
   // return unless compile command
-  if (args.length > 1 || args[0] === '-CMDHELP') {
+  if (args.length > 1 || args.indexOf('-CMDHELP') !== -1) {
     return p;
   }
 
@@ -115,7 +115,7 @@ const hasWarnings = (line: string): number => {
 };
 
 const formatOutput = (stream, args, opts): Object => {
-  if (args[0] === '-CMDHELP') {
+  if (args.indexOf('-CMDHELP') !== -1) {
     // CMDHELP writes to stderr by default, let's fix this
     [stream.stdout, stream.stderr] = [stream.stderr, ''];
   }
