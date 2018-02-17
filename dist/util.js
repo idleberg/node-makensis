@@ -23,7 +23,7 @@ var mapArguments = function (args, options) {
         p.opts.shell = options.shell;
     }
     // return unless compile command
-    if (args.length > 1 || args[0] === '-CMDHELP') {
+    if (args.length > 1 || args.indexOf('-CMDHELP') !== -1) {
         return p;
     }
     if (typeof options.define !== 'undefined') {
@@ -96,7 +96,7 @@ var hasWarnings = function (line) {
     return 0;
 };
 var formatOutput = function (stream, args, opts) {
-    if (args[0] === '-CMDHELP') {
+    if (args.indexOf('-CMDHELP') !== -1) {
         // CMDHELP writes to stderr by default, let's fix this
         _a = [stream.stderr, ''], stream.stdout = _a[0], stream.stderr = _a[1];
     }
