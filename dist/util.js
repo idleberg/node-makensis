@@ -101,24 +101,20 @@ var formatOutput = function (stream, args, opts) {
         _a = [stream.stderr, ''], stream.stdout = _a[0], stream.stderr = _a[1];
     }
     if (opts.json === true) {
-        switch (args[0]) {
-            case '-CMDHELP':
-                if (typeof args[1] === 'undefined' || args[1] === '') {
-                    stream.stdout = objectifyHelp(stream.stdout);
-                }
-                else {
-                    stream.stdout = objectify(stream.stdout, 'help');
-                }
-                break;
-            case '-HDRINFO':
-                stream.stdout = objectifyFlags(stream.stdout);
-                break;
-            case '-VERSION':
-                stream.stdout = objectify(stream.stdout, 'version');
-                break;
+        if (args.indexOf('-CMDHELP') !== -1) {
+            if (args.length > 1) {
+                stream.stdout = objectify(stream.stdout, 'help');
+            }
+            else {
+                stream.stdout = objectifyHelp(stream.stdout);
+            }
         }
-    }
-    else {
+        else if (args.indexOf('-HDRINFO') !== -1) {
+            stream.stdout = objectifyFlags(stream.stdout);
+        }
+        else if (args.indexOf('-VERSION') !== -1) {
+            stream.stdout = objectify(stream.stdout, 'version');
+        }
     }
     return stream;
     var _a;
