@@ -4,7 +4,7 @@ os:
 - osx
 before_install:
 # - if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get update && sudo apt-get -t experimental install nsis --allow-unauthenticated -y; fi
-- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get install nsis wine wget; wget -O nsis-setup.exe https://sourceforge.net/projects/nsis/files/NSIS%203/3.03/nsis-3.03-setup.exe/download && wine nsis-setup.exe /S0; wine "C:\Program Files (x86)\NSIS\makensis.exe" -VERSION; fi
+- if [[ $TRAVIS_OS_NAME == 'linux' ]]; then sudo apt-get install nsis; fi
 - if [[ $TRAVIS_OS_NAME == 'osx' ]]; then brew update && brew install nsis; fi
 language: node_js
 node_js:
