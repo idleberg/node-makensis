@@ -39,7 +39,6 @@ test('Print makensis version as JSON', t => {
     expected = expected.substr(1);
   }
 
-  actual.version = `${actual.version}`;
   actual = JSON.stringify(actual);
   expected = JSON.stringify({ version: expected });
 
