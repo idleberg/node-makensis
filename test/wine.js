@@ -109,12 +109,12 @@ test('Wine: Print compiler information [async]', t => {
   })
 });
 
-test('Wine: Print help for all commands', t => {
-  const expected = cmdHelp;
-  const actual = makensis.cmdHelpSync({wine: true}).stdout;
+// test('Wine: Print help for all commands', t => {
+//   const expected = cmdHelp;
+//   const actual = makensis.cmdHelpSync({wine: true}).stdout;
 
-  t.is(actual, expected);
-});
+//   t.is(actual, expected);
+// });
 
 // test('Wine: Print help for all commands [async]', t => {
 //   return Promise.resolve(makensis.cmdHelp({wine: true}))
