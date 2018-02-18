@@ -71,7 +71,7 @@ makensis.compile('/path/to/installer.nsi', options)
     try {
         let output = await makensis.version();
         console.log(output.stdout);
-    } catch(err) {
+    } catch(output) {
         console.error(`Exit Code ${output.status}: ${output.stderr}`);
     }
 })();
