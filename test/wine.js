@@ -23,8 +23,8 @@ test('Wine found in PATH environmental variable', t => {
 // Expected values
 const version = spawnSync('wine', ['makensis', '-VERSION']).stdout.toString().trim();
 const hdrInfo = spawnSync('wine', ['makensis', '-HDRINFO']).stdout.toString().trim();
-const cmdHelp = spawnSync('wine', ['makensis', '-CMDHELP']).stderr.toString().trim();
-const outFile = spawnSync('wine', ['makensis', '-CMDHELP', 'OutFile']).stderr.toString().trim();
+const cmdHelp = spawnSync('wine', ['makensis', '-CMDHELP']).stderr.toString().trim().replace(/\r\n/g, '\n');
+const outFile = spawnSync('wine', ['makensis', '-CMDHELP', 'OutFile']).stderr.toString().trim().replace(/\r\n/g, '\n');
 
 test('Wine: Print makensis version', t => {
   const expected = version;
@@ -109,66 +109,66 @@ test('Wine: Print compiler information [async]', t => {
   })
 });
 
-// test('Wine: Print help for all commands', t => {
-//   const expected = cmdHelp;
-//   const actual = makensis.cmdHelpSync({wine: true}).stdout;
+test('Wine: Print help for all commands', t => {
+  const expected = cmdHelp;
+  const actual = makensis.cmdHelpSync({wine: true}).stdout;
 
-//   t.is(actual, expected);
-// });
+  t.is(actual, expected);
+});
 
-// test('Wine: Print help for all commands [async]', t => {
-//   return Promise.resolve(makensis.cmdHelp({wine: true}))
-//   .then(output => {
-//     // const expected = cmdHelp;
-//     // const actual = output.stderr;
+test('Wine: Print help for all commands [async]', t => {
+  return Promise.resolve(makensis.cmdHelp({wine: true}))
+  .then(output => {
+    // const expected = cmdHelp;
+    // const actual = output.stderr;
 
-//     // t.is(actual, expected);
-//     t.pass();
-//   })
-//   .catch(output => {
-//     // NSIS < 3.03
-//     t.log('Legacy NSIS');
-//     const expected = cmdHelp;
-//     const actual = output.stdout;
+    // t.is(actual, expected);
+    t.pass();
+  })
+  .catch(output => {
+    // NSIS < 3.03
+    t.log('Legacy NSIS');
+    const expected = cmdHelp;
+    const actual = output.stdout;
 
-//     t.is(actual, expected);
-//   });
-// });
+    t.is(actual, expected);
+  });
+});
 
-// test('Wine: Print help for OutFile command', t => {
-//   const expected = outFile;
-//   const actual = makensis.cmdHelpSync('OutFile', {wine: true}).stdout;
+test('Wine: Print help for OutFile command', t => {
+  const expected = outFile;
+  const actual = makensis.cmdHelpSync('OutFile', {wine: true}).stdout;
 
-//   t.is(actual, expected);
-// });
+  t.is(actual, expected);
+});
 
-// test('Wine: Print help for OutFile command [async]', t => {
-//   return Promise.resolve(makensis.cmdHelp('OutFile', {wine: true}))
-//   .then(output => {
-//     const expected = outFile;
-//     const actual = output.stdout;
+test('Wine: Print help for OutFile command [async]', t => {
+  return Promise.resolve(makensis.cmdHelp('OutFile', {wine: true}))
+  .then(output => {
+    const expected = outFile;
+    const actual = output.stdout;
 
-//     t.is(actual, expected);
-//   })
-//   .catch(output => {
-//     // NSIS < 3.03
-//     t.log('Legacy NSIS');
-//     const expected = outFile;
-//     const actual = output.stdout;
+    t.is(actual, expected);
+  })
+  .catch(output => {
+    // NSIS < 3.03
+    t.log('Legacy NSIS');
+    const expected = outFile;
+    const actual = output.stdout;
 
-//     t.is(actual, expected);
-//   });
-// });
+    t.is(actual, expected);
+  });
+});
 
-// test('Wine: Print help for OutFile command as JSON', t => {
-//   let expected = outFile;
-//   let actual = makensis.cmdHelpSync('OutFile', {wine: true, json: true}).stdout;
+test('Wine: Print help for OutFile command as JSON', t => {
+  let expected = outFile;
+  let actual = makensis.cmdHelpSync('OutFile', {wine: true, json: true}).stdout;
 
-//   actual = JSON.stringify(actual);
-//   expected = JSON.stringify({'help': expected });
+  actual = JSON.stringify(actual);
+  expected = JSON.stringify({'help': expected });
 
-//   t.is(actual, expected);
-// });
+  t.is(actual, expected);
+});
 
 test('Wine: Compilation', t => {
   const expected = 0;
