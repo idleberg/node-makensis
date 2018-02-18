@@ -102,15 +102,16 @@ var formatOutput = function (stream, args, opts) {
     }
     if (opts.json === true) {
         if (args.indexOf('-CMDHELP') !== -1) {
-            if (args.length > 1) {
-                stream.stdout = objectify(stream.stdout, 'help');
+            var minLength = (opts.wine === true) ? 2 : 1;
+            if (args.length === minLength) {
+                stream.stdout = objectifyHelp(stream.stdout, opts);
             }
             else {
-                stream.stdout = objectifyHelp(stream.stdout);
+                stream.stdout = objectify(stream.stdout, 'help');
             }
         }
         else if (args.indexOf('-HDRINFO') !== -1) {
-            stream.stdout = objectifyFlags(stream.stdout);
+            stream.stdout = objectifyFlags(stream.stdout, opts);
         }
         else if (args.indexOf('-VERSION') !== -1) {
             stream.stdout = objectify(stream.stdout, 'version');
@@ -134,8 +135,8 @@ var objectify = function (input, key) {
     return output;
 };
 exports.objectify = objectify;
-var objectifyHelp = function (input) {
-    var lines = input.replace('\r\n', '\n').split('\n');
+var objectifyHelp = function (input, opts) {
+    var lines = splitLines(input, opts);
     lines.sort();
     var output = {};
     lines.forEach(function (line) {
@@ -150,8 +151,8 @@ var objectifyHelp = function (input) {
     });
     return output;
 };
-var objectifyFlags = function (input) {
-    var lines = input.replace('\r\n', '\n').split('\n');
+var objectifyFlags = function (input, opts) {
+    var lines = splitLines(input, opts);
     var filteredLines = lines.filter(function (line) {
         if (line !== '') {
             return line;
@@ -195,6 +196,11 @@ var objectifyFlags = function (input) {
     return output;
 };
 exports.objectifyFlags = objectifyFlags;
+var splitLines = function (input, opts) {
+    var lineBreak = (os_1.platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
+    var output = input.split(lineBreak);
+    return output;
+};
 var spawnMakensis = function (cmd, args, opts) {
     return new Promise(function (resolve, reject) {
         var stream = {
