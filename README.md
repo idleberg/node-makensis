@@ -58,13 +58,23 @@ const options = {
     }
 }
 
-// Asynchronous
+// Asynchronous #1
 makensis.compile('/path/to/installer.nsi', options)
 .then(output => {
     console.log('Standard output:\n' + output.stdout);
 }).catch(output => {
     console.error(`Exit Code ${output.status}: ${output.stderr}`);
 });
+
+// Asynchronous #2
+(async () => {
+    try {
+        let output = await makensis.version();
+        console.log(output.stdout);
+    } catch(err) {
+        console.error(`Exit Code ${output.status}: ${output.stderr}`);
+    }
+})();
 
 // Synchronous
 let output = makensis.compileSync('/path/to/installer.nsi', options);
