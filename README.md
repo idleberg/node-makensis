@@ -42,7 +42,7 @@ Use ES6 imports or `require()` to include the module:
 // ECMAScript Import
 import * as makensis from 'makensis';
 
-// Node Require
+// CommonJS Require
 const makensis = require('makensis');
 ```
 
