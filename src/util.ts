@@ -122,13 +122,15 @@ const formatOutput = (stream, args, opts): Object => {
 
   if (opts.json === true) {
     if (args.indexOf('-CMDHELP') !== -1) {
-      if (args.length > 1) {
-        stream.stdout = objectify(stream.stdout, 'help');
+      let minLength = (opts.wine === true) ? 2 : 1;
+
+      if (args.length === minLength) {
+        stream.stdout = objectifyHelp(stream.stdout, opts);
       } else {
-        stream.stdout = objectifyHelp(stream.stdout);
+        stream.stdout = objectify(stream.stdout, 'help');
       }
     } else if (args.indexOf('-HDRINFO') !== -1) {
-      stream.stdout = objectifyFlags(stream.stdout);
+      stream.stdout = objectifyFlags(stream.stdout, opts);
     } else if (args.indexOf('-VERSION') !== -1) {
       stream.stdout = objectify(stream.stdout, 'version');
     }
@@ -153,8 +155,8 @@ const objectify = (input, key = null): Object => {
   return output;
 };
 
-const objectifyHelp = (input: string): Object => {
-  let lines = input.replace('\r\n', '\n').split('\n');
+const objectifyHelp = (input: string, opts: any): Object => {
+  let lines = splitLines(input, opts);
   lines.sort();
 
   let output = {};
@@ -174,8 +176,8 @@ const objectifyHelp = (input: string): Object => {
   return output;
 };
 
-const objectifyFlags = (input: string): Object => {
-  let lines = input.replace('\r\n', '\n').split('\n');
+const objectifyFlags = (input: string, opts: any): Object => {
+  let lines = splitLines(input, opts);
 
   let filteredLines = lines.filter((line) => {
     if (line !== '') {
@@ -225,6 +227,13 @@ const objectifyFlags = (input: string): Object => {
   });
 
   output['defined_symbols'] = tableSymbols;
+
+  return output;
+};
+
+const splitLines = (input: string, opts: any): Array<string> => {
+  let lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
+  let output = input.split(lineBreak);
 
   return output;
 };
