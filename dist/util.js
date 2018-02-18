@@ -135,7 +135,7 @@ var objectify = function (input, key) {
 };
 exports.objectify = objectify;
 var objectifyHelp = function (input) {
-    var lines = input.split('\n');
+    var lines = input.replace('\r\n', '\n').split('\n');
     lines.sort();
     var output = {};
     lines.forEach(function (line) {
@@ -151,7 +151,7 @@ var objectifyHelp = function (input) {
     return output;
 };
 var objectifyFlags = function (input) {
-    var lines = input.split('\n');
+    var lines = input.replace('\r\n', '\n').split('\n');
     var filteredLines = lines.filter(function (line) {
         if (line !== '') {
             return line;

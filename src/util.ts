@@ -154,7 +154,7 @@ const objectify = (input, key = null): Object => {
 };
 
 const objectifyHelp = (input: string): Object => {
-  let lines = input.split('\n');
+  let lines = input.replace('\r\n', '\n').split('\n');
   lines.sort();
 
   let output = {};
@@ -175,7 +175,7 @@ const objectifyHelp = (input: string): Object => {
 };
 
 const objectifyFlags = (input: string): Object => {
-  let lines = input.split('\n');
+  let lines = input.replace('\r\n', '\n').split('\n');
 
   let filteredLines = lines.filter((line) => {
     if (line !== '') {
