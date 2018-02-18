@@ -1,6 +1,7 @@
 // Dependencies
 import * as makensis from '../dist/makensis';
 import { spawnSync } from 'child_process';
+import { platform } from 'os';
 import { test } from 'ava';
 
 // Generate script using compiler flags
@@ -19,7 +20,8 @@ const outFile = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stderr.toString()
 
 // Let's run the tests
 test('MakeNSIS found in PATH environmental variable', t => {
-  const actual = spawnSync('which', ['makensis']).stdout.toString().trim();
+  const which = (platform() === 'win32') ? 'where' : 'which';
+  const actual = spawnSync(which, ['makensis']).stdout.toString().trim();
 
   t.not(actual, '');
 });
