@@ -69,7 +69,7 @@ makensis.compile('/path/to/installer.nsi', options)
 // Asynchronous #2
 (async () => {
     try {
-        let output = await makensiscompile('/path/to/installer.nsi', options);
+        let output = await makensis.compile('/path/to/installer.nsi', options);
         console.log('Standard output:\n' + output.stdout);
     } catch(output) {
         console.error(`Exit Code ${output.status}: ${output.stderr}`);
