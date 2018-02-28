@@ -61,7 +61,7 @@ const options = {
 // Asynchronous #1
 makensis.compile('/path/to/installer.nsi', options)
 .then(output => {
-    `Standard output:\n${output.stdout}`
+    console.log(`Standard output:\n${output.stdout}`);
 }).catch(output => {
     console.error(`Exit Code ${output.status}: ${output.stderr}`);
 });
@@ -70,7 +70,7 @@ makensis.compile('/path/to/installer.nsi', options)
 (async () => {
     try {
         let output = await makensis.compile('/path/to/installer.nsi', options);
-        `Standard output:\n${output.stdout}`
+        console.log(`Standard output:\n${output.stdout}`);
     } catch(output) {
         console.error(`Exit Code ${output.status}: ${output.stderr}`);
     }
@@ -80,7 +80,7 @@ makensis.compile('/path/to/installer.nsi', options)
 let output = makensis.compileSync('/path/to/installer.nsi', options);
 
 if (output.status === 0) {
-    console.log('Standard output:\n' + output.stdout);
+    console.log(`Standard output:\n${output.stdout}`);
 } else {
     console.error(`Exit Code ${output.status}: ${output.stderr}`);
 }
