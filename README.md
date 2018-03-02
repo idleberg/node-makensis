@@ -56,7 +56,7 @@ const options = {
     define: {
         'SPECIAL_BUILD': true
     }
-}
+};
 
 // Asynchronous #1
 makensis.compile('/path/to/installer.nsi', options)
