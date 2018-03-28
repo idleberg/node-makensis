@@ -62,7 +62,8 @@ const options = {
 makensis.compile('/path/to/installer.nsi', options)
 .then(output => {
     console.log(`Standard output:\n${output.stdout}`);
-}).catch(output => {
+})
+.catch(output => {
     console.error(`Exit Code ${output.status}: ${output.stderr}`);
 });
 
@@ -98,7 +99,7 @@ Compiles specified script with MakeNSIS. The script can be omitted in favor of [
 
 Usage: `compileSync(script, [options])`
 
-Compiles specified script with MakeNSIS. The script can be omitted in favor of [`preExecute`](#preExecute) / [`postExecute`](#postExecute)..
+Compiles specified script with MakeNSIS. The script can be omitted in favor of [`preExecute`](#preExecute) / [`postExecute`](#postExecute).
 
 #### version
 
