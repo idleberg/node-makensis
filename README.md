@@ -99,7 +99,7 @@ Compiles specified script with MakeNSIS. The script can be omitted in favor of [
 
 Usage: `compileSync(script, [options])`
 
-Compiles specified script with MakeNSIS. The script can be omitted in favor of [`preExecute`](#preExecute) / [`postExecute`](#postExecute)..
+Compiles specified script with MakeNSIS. The script can be omitted in favor of [`preExecute`](#preExecute) / [`postExecute`](#postExecute).
 
 #### version
 
