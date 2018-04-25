@@ -199,7 +199,7 @@ Type: `boolean`
 
 Will only run the preprocessor and print the result to stdout. The safe version will not execute instructions like [`!appendfile`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!appendfile.md) or [`!system`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!system.md). [`!packhdr`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!packhdr.md) and [`!finalize`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md) are never executed. Equivalent of the `-PPO / SAFEPPO` switches.
 
-Alias: `PPO` / `safeppo`
+Aliases: `PPO` / `safeppo`
 
 ##### define
 
@@ -218,7 +218,7 @@ define: {
 
 ##### preExecute
 
-Type: `Array|string`
+Type: `Array<string>|string`
 
 Prepends script-commands to the script, parameters are processed by order. Equivalent of the `-X` switch
 
@@ -235,7 +235,7 @@ Alias: `execute`
 
 ##### postExecute
 
-Type: `Array|string`
+Type: `Array<string>|string`
 
 Appends script-commands to the script, parameters are processed by order. Equivalent of the `-X` switch
 
