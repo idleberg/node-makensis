@@ -6,10 +6,10 @@ import { test } from 'ava';
 
 // Generate script using compiler flags
 const scriptDefault = [
-'OutFile test.exe',
-'Section -default',
-'Nop',
-'SectionEnd'
+  'OutFile test.exe',
+  'Section -default',
+  'Nop',
+  'SectionEnd'
 ];
 
 // Expected values
