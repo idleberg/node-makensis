@@ -18,6 +18,7 @@
   "devDependencies": {
     "@types/node": "^10.0.3",
     "ava": "^1.0.0-beta.4",
+    "eclint": "^2.7.0",
     "gulp": "^4.0.0",
     "gulp-debug": "^4.0.0",
     "gulp-jsonlint": "^1.2.1",
@@ -27,7 +28,7 @@
   },
   "scripts": {
     "build": "tsc -p ./",
-    "lint": "tslint --project .",
+    "lint": "eclint check && tslint --project .",
     "prepublish": "gulp lint && npm run build",
     "test": "node_modules/.bin/ava ./test/default.js --verbose",
     "test:wine": "node_modules/.bin/ava ./test/wine.js --verbose"
