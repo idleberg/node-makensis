@@ -7,7 +7,7 @@ import { mapArguments, spawnMakensis, spawnMakensisSync } from './util';
  * @returns {string} - usage description
  */
 const cmdHelp = (command: string = '', options: CompilerOptions = {}) => {
-  Object.assign(options, { verbose: 0 });
+  options = { ...options, verbose: 0 };
 
   const p = mapArguments(['-CMDHELP'], options);
 
@@ -25,7 +25,7 @@ const cmdHelp = (command: string = '', options: CompilerOptions = {}) => {
  * @returns {string} - usage description
  */
 const cmdHelpSync = (command: string = '', options: CompilerOptions = {}) => {
-  Object.assign(options, { verbose: 0 });
+  options = { ...options, verbose: 0 };
 
   const p = mapArguments(['-CMDHELP'], options);
 
@@ -42,7 +42,7 @@ const cmdHelpSync = (command: string = '', options: CompilerOptions = {}) => {
  * @returns {string} - compiler options
  */
 const hdrInfo =  (options: CompilerOptions = {}) => {
-  Object.assign(options, { verbose: 0 });
+  options = { ...options, verbose: 0 };
 
   const p = mapArguments(['-HDRINFO'], options);
 
@@ -54,7 +54,7 @@ const hdrInfo =  (options: CompilerOptions = {}) => {
  * @returns {string} - compiler options
  */
 const hdrInfoSync = (options: CompilerOptions = {}) => {
-  Object.assign(options, { verbose: 0 });
+  options = { ...options, verbose: 0 };
 
   let p = mapArguments(['-HDRINFO'], options);
 
@@ -67,8 +67,6 @@ const hdrInfoSync = (options: CompilerOptions = {}) => {
  * @param {Object} options - compiler options
  */
 const compile = (script: string, options: CompilerOptions = {}) => {
-  Object.assign(options, {});
-
   const p = mapArguments([], options);
 
   if (script) {
@@ -97,8 +95,6 @@ const compile = (script: string, options: CompilerOptions = {}) => {
  * @param {Object} options - compiler options
  */
 const compileSync = (script: string, options: CompilerOptions = {}) => {
-  Object.assign(options, {});
-
   let p = mapArguments([], options);
 
   if (script) {
@@ -127,7 +123,7 @@ const compileSync = (script: string, options: CompilerOptions = {}) => {
  * @returns {string} - compiler version
  */
 const version = (options: CompilerOptions = {}) => {
-  Object.assign(options, { verbose: 0 });
+  options = { ...options, verbose: 0 };
 
   const p = mapArguments(['-VERSION'], options);
 
@@ -140,7 +136,7 @@ const version = (options: CompilerOptions = {}) => {
  * @returns {string} - compiler version
  */
 const versionSync = (options: CompilerOptions = {}) => {
-  Object.assign(options, { verbose: 0 });
+  options = { ...options, verbose: 0 };
 
   const p = mapArguments(['-VERSION'], options);
 
