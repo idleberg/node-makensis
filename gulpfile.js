@@ -1,11 +1,11 @@
- /*
+/**
  * vscode-gulpfile.js
  *
  * Copyright (c) 2016, 2017 Jan T. Sott
  * Licensed under the MIT license.
  */
 
- // Dependencies
+// Dependencies
 const gulp = require('gulp');
 const debug = require('gulp-debug');
 const tslint = require('gulp-tslint');
