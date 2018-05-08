@@ -1,4 +1,12 @@
 "use strict";
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = require("./util");
 /**
@@ -10,7 +18,7 @@ var util_1 = require("./util");
 var cmdHelp = function (command, options) {
     if (command === void 0) { command = ''; }
     if (options === void 0) { options = {}; }
-    Object.assign(options, { verbose: 0 });
+    options = __assign({}, options, { verbose: 0 });
     var p = util_1.mapArguments(['-CMDHELP'], options);
     if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
         p.args.push(command);
@@ -27,7 +35,7 @@ exports.cmdHelp = cmdHelp;
 var cmdHelpSync = function (command, options) {
     if (command === void 0) { command = ''; }
     if (options === void 0) { options = {}; }
-    Object.assign(options, { verbose: 0 });
+    options = __assign({}, options, { verbose: 0 });
     var p = util_1.mapArguments(['-CMDHELP'], options);
     if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
         p.args.push(command);
@@ -42,7 +50,7 @@ exports.cmdHelpSync = cmdHelpSync;
  */
 var hdrInfo = function (options) {
     if (options === void 0) { options = {}; }
-    Object.assign(options, { verbose: 0 });
+    options = __assign({}, options, { verbose: 0 });
     var p = util_1.mapArguments(['-HDRINFO'], options);
     return util_1.spawnMakensis(p.cmd, p.args, p.opts);
 };
@@ -53,7 +61,7 @@ exports.hdrInfo = hdrInfo;
  */
 var hdrInfoSync = function (options) {
     if (options === void 0) { options = {}; }
-    Object.assign(options, { verbose: 0 });
+    options = __assign({}, options, { verbose: 0 });
     var p = util_1.mapArguments(['-HDRINFO'], options);
     return util_1.spawnMakensisSync(p.cmd, p.args, p.opts);
 };
@@ -65,7 +73,6 @@ exports.hdrInfoSync = hdrInfoSync;
  */
 var compile = function (script, options) {
     if (options === void 0) { options = {}; }
-    Object.assign(options, {});
     var p = util_1.mapArguments([], options);
     if (script) {
         if (p.cmd === 'wine') {
@@ -93,7 +100,6 @@ exports.compile = compile;
  */
 var compileSync = function (script, options) {
     if (options === void 0) { options = {}; }
-    Object.assign(options, {});
     var p = util_1.mapArguments([], options);
     if (script) {
         if (p.cmd === 'wine') {
@@ -121,7 +127,7 @@ exports.compileSync = compileSync;
  */
 var version = function (options) {
     if (options === void 0) { options = {}; }
-    Object.assign(options, { verbose: 0 });
+    options = __assign({}, options, { verbose: 0 });
     var p = util_1.mapArguments(['-VERSION'], options);
     return util_1.spawnMakensis(p.cmd, p.args, p.opts);
 };
@@ -133,7 +139,7 @@ exports.version = version;
  */
 var versionSync = function (options) {
     if (options === void 0) { options = {}; }
-    Object.assign(options, { verbose: 0 });
+    options = __assign({}, options, { verbose: 0 });
     var p = util_1.mapArguments(['-VERSION'], options);
     return util_1.spawnMakensisSync(p.cmd, p.args, p.opts);
 };
