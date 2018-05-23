@@ -31,3 +31,7 @@ addons:
     - g++-4.8
 notifications:
   email: false
+scripts:
+  - npm install codecov -g
+after_success:
+  - codecov
