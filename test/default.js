@@ -5,11 +5,12 @@ import { platform } from 'os';
 import { test } from 'ava';
 
 // Generate script using compiler flags
+const devNull = (platform() === 'win32') ? 'NUL' : '/dev/null';
 const scriptDefault = [
-  'OutFile test.exe',
-  'Section -default',
-  'Nop',
-  'SectionEnd'
+  `OutFile ${devNull}`,
+  `Section -default`,
+  `Nop`,
+  `SectionEnd`
 ];
 
 // Expected values
