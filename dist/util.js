@@ -96,6 +96,7 @@ var hasWarnings = function (line) {
     return 0;
 };
 var formatOutput = function (stream, args, opts) {
+    var _a;
     if (args.indexOf('-CMDHELP') !== -1) {
         // CMDHELP writes to stderr by default, let's fix this
         _a = [stream.stderr, ''], stream.stdout = _a[0], stream.stderr = _a[1];
@@ -118,7 +119,6 @@ var formatOutput = function (stream, args, opts) {
         }
     }
     return stream;
-    var _a;
 };
 var objectify = function (input, key) {
     if (key === void 0) { key = null; }
