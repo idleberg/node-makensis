@@ -63,7 +63,7 @@ makensis.compile('/path/to/installer.nsi', options)
 .then(output => {
     console.log(`Standard output:\n${output.stdout}`);
 })
-.catch(output => {
+.catch (output => {
     console.error(`Exit Code ${output.status}: ${output.stderr}`);
 });
 
@@ -72,7 +72,7 @@ makensis.compile('/path/to/installer.nsi', options)
     try {
         let output = await makensis.compile('/path/to/installer.nsi', options);
         console.log(`Standard output:\n${output.stdout}`);
-    } catch(output) {
+    } catch (output) {
         console.error(`Exit Code ${output.status}: ${output.stderr}`);
     }
 })();
