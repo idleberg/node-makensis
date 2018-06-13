@@ -5,12 +5,11 @@ import { test } from 'ava';
 
 // Generate script using compiler flags
 const scriptDefault = [
-  'OutFile test.exe',
+  'OutFile NUL',
   'Section -default',
   'Nop',
   'SectionEnd'
 ];
-
 
 // These test require NSIS to be setup properly, with makensis in your
 // PATH environmental variable
