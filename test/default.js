@@ -5,9 +5,9 @@ import { platform } from 'os';
 import { test } from 'ava';
 
 // Generate script using compiler flags
-const devNull = (platform() === 'win32') ? 'NUL' : '/dev/null';
+const nullDevice = (platform() === 'win32') ? 'NUL' : '/dev/null';
 const scriptDefault = [
-  `OutFile ${devNull}`,
+  `OutFile ${nullDevice}`,
   `Section -default`,
   `Nop`,
   `SectionEnd`
