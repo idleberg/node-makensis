@@ -143,11 +143,25 @@ const versionSync = (options: CompilerOptions = {}) => {
   return spawnMakensisSync(p.cmd, p.args, p.opts);
 };
 
+/**
+ * Returns NSIS directory
+ * @param {Object} options - compiler options
+ * @returns {string} - compiler version
+ */
+const getNsisDirSync = () => {
+  options = { ...options, json: true };
+
+  const hdrinfo: any = hdrInfoSync(options);
+
+  return hdrinfo.stdout.defined_symbols.NSISDIR;
+};
+
 export {
   cmdHelp,
   cmdHelpSync,
   compile,
   compileSync,
+  getNsisDirSync,
   hdrInfo,
   hdrInfoSync,
   version,
