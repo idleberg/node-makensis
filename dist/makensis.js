@@ -144,3 +144,14 @@ var versionSync = function (options) {
     return util_1.spawnMakensisSync(p.cmd, p.args, p.opts);
 };
 exports.versionSync = versionSync;
+/**
+ * Returns NSIS directory
+ * @param {Object} options - compiler options
+ * @returns {string} - compiler version
+ */
+var getNsisDirSync = function () {
+    options = __assign({}, options, { json: true });
+    var hdrinfo = hdrInfoSync(options);
+    return hdrinfo.stdout.defined_symbols.NSISDIR;
+};
+exports.getNsisDirSync = getNsisDirSync;
