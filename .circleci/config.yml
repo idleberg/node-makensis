@@ -1,4 +1,9 @@
 version: 2
+dependencies:
+  pre:
+    - deb http://deb.debian.org/debian experimental main
+    - apt-get update
+    - apt-get -t experimental install nsis
 jobs:
   build:
     working_directory: ~/repo
