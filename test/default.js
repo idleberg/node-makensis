@@ -1,6 +1,8 @@
 // Dependencies
 import * as makensis from '../dist/makensis';
 import { spawnSync } from 'child_process';
+import { exists, existsSync } from 'fs';
+import { join } from 'path';
 import { platform } from 'os';
 import { test } from 'ava';
 
@@ -271,5 +273,27 @@ test('Strict compilation with warning [async]', t => {
     const actual = output.status;
 
     t.not(actual, expected)
+  });
+});
+
+test('Get ${NSISDIR}', t => {
+  const nsisDir = makensis.nsisDirSync();
+  const nsisCfg = join(nsisDir, 'nsisconf.nsh')
+
+  const expected = true;
+  const actual = existsSync(nsisCfg);
+
+  t.is(actual, expected);
+});
+
+test('Get ${NSISDIR} [async]', t => {
+  return Promise.resolve(makensis.nsisDir())
+  .then(nsisDir => {
+    const nsisCfg = join(nsisDir, 'nsisconf.nsh')
+
+    const expected = true;
+    const actual = existsSync(nsisCfg);
+
+    t.is(actual, expected)
   });
 });
