@@ -278,7 +278,7 @@ test('Strict compilation with warning [async]', t => {
 
 test('Get ${NSISDIR}', t => {
   const nsisDir = makensis.nsisDirSync();
-  const nsisCfg = join(nsisDir, 'Includes', 'MUI2.nsh');
+  const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
 
   const expected = true;
   const actual = existsSync(nsisCfg);
@@ -289,7 +289,7 @@ test('Get ${NSISDIR}', t => {
 test('Get ${NSISDIR} [async]', t => {
   return Promise.resolve(makensis.nsisDir())
   .then(nsisDir => {
-    const nsisCfg = join(nsisDir, 'Includes', 'MUI2.nsh');
+    const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
 
     const expected = true;
     const actual = existsSync(nsisCfg);

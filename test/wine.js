@@ -277,7 +277,7 @@ test('Wine: Strict compilation with warning [async]', t => {
 test('Get ${NSISDIR}', t => {
   const nsisDir = makensis.nsisDirSync({wine: true});
   let nsisCfg = spawnSync('winepath', [nsisDir]).stdout.toString().trim();
-  nsisCfg = join(nsisCfg, 'Includes', 'MUI2.nsh');
+  nsisCfg = join(nsisCfg, 'Include', 'MUI2.nsh');
 
   const expected = true;
   const actual = existsSync(nsisCfg);
@@ -289,7 +289,7 @@ test('Get ${NSISDIR} [async]', t => {
   return Promise.resolve(makensis.nsisDir({wine: true}))
   .then(nsisDir => {
     let nsisCfg = spawnSync('winepath', [nsisDir]).stdout.toString().trim();
-    nsisCfg = join(nsisCfg, 'Includes', 'MUI2.nsh');
+    nsisCfg = join(nsisCfg, 'Include', 'MUI2.nsh');
 
     const expected = true;
     const actual = existsSync(nsisCfg);
