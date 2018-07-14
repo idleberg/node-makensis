@@ -107,7 +107,7 @@ test('Wine: Print compiler information [async]', t => {
     const actual = output.stdout;
 
     t.is(actual, expected);
-  })
+  });
 });
 
 test('Wine: Print help for all commands', t => {

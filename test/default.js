@@ -109,7 +109,7 @@ test('Print compiler information [async]', t => {
     const actual = output.stdout;
 
     t.is(actual, expected);
-  })
+  });
 });
 
 test('Print help for all commands', t => {
@@ -290,12 +290,19 @@ test('Get ${NSISDIR} [async]', t => {
   return Promise.resolve(makensis.nsisDir())
   .then(nsisDir => {
     const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
-    console.log(nsisDir);
-    console.log(nsisCfg);
 
     const expected = true;
     const actual = existsSync(nsisCfg);
 
     t.is(actual, expected)
-  });
+  }).catch(output => {
+    // NSIS < 3.03
+    t.log('Legacy NSIS');
+    const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
+
+    const expected = true;
+    const actual = existsSync(nsisCfg);
+
+    t.is(actual, expected)
+  })
 });
