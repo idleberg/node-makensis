@@ -158,8 +158,9 @@ const nsisDir = (options: CompilerOptions = {}) => {
     return hdrinfo.stdout.defined_symbols.NSISDIR;
   })
   .catch(hdrinfo => {
+    // NSIS < 3.03
     return hdrinfo.stdout.defined_symbols.NSISDIR;
-  });;
+  });
 };
 
 /**
