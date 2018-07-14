@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run:
           name: Installing NSIS
-          command: 'sudo apt-get update;sudo apt-get install deb;sudo deb http://deb.debian.org/debian experimental main; sudo apt-get update; sudo apt-get -t experimental install nsis'
+          command: 'sudo apt-get update; sudo apt-get install nsis; makensis -HDRINFO'
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
