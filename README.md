@@ -137,9 +137,15 @@ Usage: `cmdHelpSync([command], [options])`
 
 Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
 
-#### getNsisDirSync
+#### nsisDir
 
-Usage: `getNsisDirSync([options])`
+Usage: `nsisDir([options])`
+
+Returns the path of `${NSISDIR}`.
+
+#### nsisDirSync
+
+Usage: `nsisDirSync([options])`
 
 Returns the path of `${NSISDIR}`.
 
