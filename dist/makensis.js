@@ -149,9 +149,24 @@ exports.versionSync = versionSync;
  * @param {Object} options - compiler options
  * @returns {string} - compiler version
  */
-var getNsisDirSync = function () {
+var nsisDir = function (options) {
+    if (options === void 0) { options = {}; }
+    options = __assign({}, options, { json: true });
+    var output = hdrInfo(options);
+    return Promise.resolve(output).then(function (hdrinfo) {
+        return hdrinfo.stdout.defined_symbols.NSISDIR;
+    });
+};
+exports.nsisDir = nsisDir;
+/**
+ * Returns NSIS directory
+ * @param {Object} options - compiler options
+ * @returns {string} - compiler version
+ */
+var nsisDirSync = function (options) {
+    if (options === void 0) { options = {}; }
     options = __assign({}, options, { json: true });
     var hdrinfo = hdrInfoSync(options);
     return hdrinfo.stdout.defined_symbols.NSISDIR;
 };
-exports.getNsisDirSync = getNsisDirSync;
+exports.nsisDirSync = nsisDirSync;
