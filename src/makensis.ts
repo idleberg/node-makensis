@@ -153,9 +153,13 @@ const nsisDir = (options: CompilerOptions = {}) => {
 
   const output: any = hdrInfo(options);
 
-  return Promise.resolve(output).then(hdrinfo => {
+  return Promise.resolve(output)
+  .then(hdrinfo => {
     return hdrinfo.stdout.defined_symbols.NSISDIR;
-  });
+  })
+  .catch(hdrinfo => {
+    return hdrinfo.stdout.defined_symbols.NSISDIR;
+  });;
 };
 
 /**

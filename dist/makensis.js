@@ -153,9 +153,14 @@ var nsisDir = function (options) {
     if (options === void 0) { options = {}; }
     options = __assign({}, options, { json: true });
     var output = hdrInfo(options);
-    return Promise.resolve(output).then(function (hdrinfo) {
+    return Promise.resolve(output)
+        .then(function (hdrinfo) {
+        return hdrinfo.stdout.defined_symbols.NSISDIR;
+    })
+        .catch(function (hdrinfo) {
         return hdrinfo.stdout.defined_symbols.NSISDIR;
     });
+    ;
 };
 exports.nsisDir = nsisDir;
 /**
