@@ -290,6 +290,8 @@ test('Get ${NSISDIR} [async]', t => {
   return Promise.resolve(makensis.nsisDir())
   .then(nsisDir => {
     const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
+    console.log(nsisDir);
+    console.log(nsisCfg);
 
     const expected = true;
     const actual = existsSync(nsisCfg);
