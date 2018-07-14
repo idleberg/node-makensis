@@ -280,9 +280,6 @@ test('Get ${NSISDIR}', t => {
   const nsisDir = makensis.nsisDirSync();
   const nsisCfg = join(nsisDir, 'nsisconf.nsh')
 
-  console.log('nsisDir', nsisDir);
-  console.log('nsisCfg', nsisCfg);
-
   const expected = true;
   const actual = existsSync(nsisCfg);
 
