@@ -148,7 +148,22 @@ const versionSync = (options: CompilerOptions = {}) => {
  * @param {Object} options - compiler options
  * @returns {string} - compiler version
  */
-const getNsisDirSync = () => {
+const nsisDir = (options: CompilerOptions = {}) => {
+  options = { ...options, json: true };
+
+  const output: any = hdrInfo(options);
+
+  return Promise.resolve(output).then(hdrinfo => {
+    return hdrinfo.stdout.defined_symbols.NSISDIR;
+  });
+};
+
+/**
+ * Returns NSIS directory
+ * @param {Object} options - compiler options
+ * @returns {string} - compiler version
+ */
+const nsisDirSync = (options: CompilerOptions = {}) => {
   options = { ...options, json: true };
 
   const hdrinfo: any = hdrInfoSync(options);
@@ -161,9 +176,10 @@ export {
   cmdHelpSync,
   compile,
   compileSync,
-  getNsisDirSync,
   hdrInfo,
   hdrInfoSync,
+  nsisDir,
+  nsisDirSync,
   version,
   versionSync
 };
