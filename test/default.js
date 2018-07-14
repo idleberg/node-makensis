@@ -295,16 +295,5 @@ test('Get ${NSISDIR} [async]', t => {
     const actual = existsSync(nsisCfg);
 
     t.is(actual, expected)
-  }).catch(nsisDir => {
-    // NSIS < 3.03
-    t.log('Legacy NSIS');
-    console.log(nsisDir);
-    console.log(JSON.stringify(nsisDir, null, 2));
-    const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
-
-    const expected = true;
-    const actual = existsSync(nsisCfg);
-
-    t.is(actual, expected)
-  })
+  });
 });
