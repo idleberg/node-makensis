@@ -151,14 +151,20 @@ exports.versionSync = versionSync;
  */
 var nsisDir = function (options) {
     if (options === void 0) { options = {}; }
-    options = __assign({}, options, { json: true });
-    var output = hdrInfo(options);
+    var hdrOptions = __assign({}, options, { json: true });
+    var output = hdrInfo(hdrOptions);
     return Promise.resolve(output)
         .then(function (hdrinfo) {
+        if (options.json === true) {
+            return util_1.objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
+        }
         return hdrinfo.stdout.defined_symbols.NSISDIR;
     })
         .catch(function (hdrinfo) {
         // NSIS < 3.03
+        if (options.json === true) {
+            return util_1.objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
+        }
         return hdrinfo.stdout.defined_symbols.NSISDIR;
     });
 };
@@ -170,8 +176,11 @@ exports.nsisDir = nsisDir;
  */
 var nsisDirSync = function (options) {
     if (options === void 0) { options = {}; }
-    options = __assign({}, options, { json: true });
-    var hdrinfo = hdrInfoSync(options);
+    var hdrOptions = __assign({}, options, { json: true });
+    var hdrinfo = hdrInfoSync(hdrOptions);
+    if (options.json === true) {
+        return util_1.objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
+    }
     return hdrinfo.stdout.defined_symbols.NSISDIR;
 };
 exports.nsisDirSync = nsisDirSync;
