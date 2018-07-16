@@ -1,4 +1,4 @@
-import { mapArguments, spawnMakensis, spawnMakensisSync } from './util';
+import { mapArguments, objectify, spawnMakensis, spawnMakensisSync } from './util';
 
 /**
  * Returns usage information for a command, or list all commands
@@ -149,16 +149,23 @@ const versionSync = (options: CompilerOptions = {}) => {
  * @returns {string} - compiler version
  */
 const nsisDir = (options: CompilerOptions = {}) => {
-  options = { ...options, json: true };
-
-  const output: any = hdrInfo(options);
+  const hdrOptions = { ...options, json: true };
+  const output: any = hdrInfo(hdrOptions);
 
   return Promise.resolve(output)
   .then(hdrinfo => {
+    if (options.json === true) {
+      return objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
+    }
+
     return hdrinfo.stdout.defined_symbols.NSISDIR;
   })
   .catch(hdrinfo => {
     // NSIS < 3.03
+    if (options.json === true) {
+      return objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
+    }
+
     return hdrinfo.stdout.defined_symbols.NSISDIR;
   });
 };
@@ -169,9 +176,12 @@ const nsisDir = (options: CompilerOptions = {}) => {
  * @returns {string} - compiler version
  */
 const nsisDirSync = (options: CompilerOptions = {}) => {
-  options = { ...options, json: true };
+  const hdrOptions = { ...options, json: true };
+  const hdrinfo: any = hdrInfoSync(hdrOptions);
 
-  const hdrinfo: any = hdrInfoSync(options);
+  if (options.json === true) {
+      return objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
+    }
 
   return hdrinfo.stdout.defined_symbols.NSISDIR;
 };
