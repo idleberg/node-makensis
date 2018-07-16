@@ -276,7 +276,7 @@ test('Strict compilation with warning [async]', t => {
   });
 });
 
-test('Get ${NSISDIR}', t => {
+test('Print ${NSISDIR}', t => {
   const nsisDir = makensis.nsisDirSync();
   const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
 
@@ -286,10 +286,32 @@ test('Get ${NSISDIR}', t => {
   t.is(actual, expected);
 });
 
-test('Get ${NSISDIR} [async]', t => {
+test('Print ${NSISDIR} [async]', t => {
   return Promise.resolve(makensis.nsisDir())
   .then(nsisDir => {
     const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
+
+    const expected = true;
+    const actual = existsSync(nsisCfg);
+
+    t.is(actual, expected)
+  });
+});
+
+test('Print ${NSISDIR} as JSON', t => {
+  const nsisDir = makensis.nsisDirSync({json: true}).nsisdir;
+  const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
+
+  const expected = true;
+  const actual = existsSync(nsisCfg);
+
+  t.is(actual, expected);
+});
+
+test('Print ${NSISDIR} as JSON [async]', t => {
+  return Promise.resolve(makensis.nsisDir({json: true}))
+  .then(output => {
+    const nsisCfg = join(output.nsisdir, 'Include', 'MUI2.nsh');
 
     const expected = true;
     const actual = existsSync(nsisCfg);

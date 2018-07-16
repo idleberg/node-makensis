@@ -297,3 +297,25 @@ test('Get ${NSISDIR} [async]', t => {
     t.is(actual, expected)
   });
 });
+
+test('Print ${NSISDIR} as JSON', t => {
+  const nsisDir = makensis.nsisDirSync({wine: true, json: true}).nsisdir;
+  const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
+
+  const expected = true;
+  const actual = existsSync(nsisCfg);
+
+  t.is(actual, expected);
+});
+
+test('Print ${NSISDIR} as JSON [async]', t => {
+  return Promise.resolve(makensis.nsisDir({wine: true, json: true}))
+  .then(output => {
+    const nsisCfg = join(output.nsisdir, 'Include', 'MUI2.nsh');
+
+    const expected = true;
+    const actual = existsSync(nsisCfg);
+
+    t.is(actual, expected)
+  });
+});
