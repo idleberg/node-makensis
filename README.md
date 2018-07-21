@@ -59,7 +59,7 @@ const options = {
 };
 
 // Asynchronous: Promise API
-makensis.compile('/path/to/installer.nsi', options)
+makensis.compile('path/to/installer.nsi', options)
 .then(output => {
     console.log(`Standard output:\n${output.stdout}`);
 })
@@ -70,7 +70,7 @@ makensis.compile('/path/to/installer.nsi', options)
 // Asynchronous: async/await
 (async () => {
     try {
-        let output = await makensis.compile('/path/to/installer.nsi', options);
+        let output = await makensis.compile('path/to/installer.nsi', options);
         console.log(`Standard output:\n${output.stdout}`);
     } catch (output) {
         console.error(`Exit Code ${output.status}: ${output.stderr}`);
@@ -78,7 +78,7 @@ makensis.compile('/path/to/installer.nsi', options)
 })();
 
 // Synchronous
-let output = makensis.compileSync('/path/to/installer.nsi', options);
+let output = makensis.compileSync('path/to/installer.nsi', options);
 
 if (output.status === 0) {
     console.log(`Standard output:\n${output.stdout}`);
