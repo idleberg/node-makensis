@@ -1,10 +1,10 @@
 # makensis
 
-[![npm](https://img.shields.io/npm/l/makensis.svg?style=flat-square)](https://www.npmjs.org/package/makensis)
-[![npm](https://img.shields.io/npm/v/makensis.svg?style=flat-square)](https://www.npmjs.org/package/makensis)
-[![Travis](https://img.shields.io/travis/idleberg/node-makensis.svg?style=flat-square)](https://travis-ci.org/idleberg/node-makensis)
-[![CircleCI](https://img.shields.io/circleci/project/idleberg/node-makensis.svg?style=flat-square)](https://circleci.com/gh/idleberg/node-makensis)
-[![David](https://img.shields.io/david/dev/idleberg/node-makensis.svg?style=flat-square)](https://david-dm.org/idleberg/node-makensis?type=dev)
+[![npm](https://flat.badgen.net/npm/license/makensis)](https://www.npmjs.org/package/makensis)
+[![npm](https://flat.badgen.net/npm/v/makensis)](https://www.npmjs.org/package/makensis)
+[![Travis](https://flat.badgen.net/travis/idleberg/node-makensis)](https://travis-ci.org/idleberg/node-makensis)
+[![CircleCI](https://flat.badgen.net/circleci/github/idleberg/node-makensis)](https://circleci.com/gh/idleberg/node-makensis)
+[![David](https://flat.badgen.net/david/dev/idleberg/node-makensis)](https://david-dm.org/idleberg/node-makensis?type=dev)
 
 A Node wrapper for `makensis`, the compiler for NSIS installers. Supports both, native and [Wine](http://winehq.org/).
 
