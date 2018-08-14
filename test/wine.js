@@ -3,7 +3,7 @@ import * as makensis from '../dist/makensis';
 import { spawnSync } from 'child_process';
 import { exists, existsSync } from 'fs';
 import { join } from 'path';
-import { test } from 'ava';
+import test from 'ava';
 
 // Generate script using compiler flags
 const scriptDefault = [

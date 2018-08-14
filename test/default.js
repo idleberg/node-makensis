@@ -4,7 +4,7 @@ import { spawnSync } from 'child_process';
 import { exists, existsSync } from 'fs';
 import { join } from 'path';
 import { platform } from 'os';
-import { test } from 'ava';
+import test from 'ava';
 
 // Generate script using compiler flags
 const nullDevice = (platform() === 'win32') ? 'NUL' : '/dev/null';
