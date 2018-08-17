@@ -133,7 +133,7 @@ test('Print makensis license as JSON [async]', t => {
     t.log('Legacy NSIS');
     const expected = license;
     let actual = output.stdout;
-    actual.version = `${actual.license}`;
+    actual.license = `${actual.license}`;
     actual = JSON.stringify(actual);
 
     t.is(actual, expected);
