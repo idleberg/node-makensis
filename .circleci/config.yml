@@ -10,8 +10,8 @@ jobs:
           name: Installing NSIS
           command: 'sudo apt-get update; sudo apt-get install nsis'
       - run:
-          name: Print NSIS version & flags
-          command: 'makensis -VERSION && makensis -HDRINFO'
+          name: Print NSIS version
+          command: 'makensis -VERSION'
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
