@@ -336,7 +336,7 @@ test('Wine: Strict compilation with warning [async]', t => {
   });
 });
 
-test('Print ${NSISDIR}', t => {
+test('Wine: Print ${NSISDIR}', t => {
   const nsisDir = makensis.nsisDirSync({wine: true});
   let nsisCfg = spawnSync('winepath', [nsisDir]).stdout.toString().trim();
   nsisCfg = join(nsisCfg, 'Include', 'MUI2.nsh');
@@ -347,7 +347,7 @@ test('Print ${NSISDIR}', t => {
   t.is(actual, expected);
 });
 
-test('Print ${NSISDIR} [async]', t => {
+test('Wine: Print ${NSISDIR} [async]', t => {
   return Promise.resolve(makensis.nsisDir({wine: true}))
   .then(nsisDir => {
     let nsisCfg = spawnSync('winepath', [nsisDir]).stdout.toString().trim();
@@ -360,7 +360,7 @@ test('Print ${NSISDIR} [async]', t => {
   });
 });
 
-test('Print ${NSISDIR} as JSON', t => {
+test('Wine: Print ${NSISDIR} as JSON', t => {
   const nsisDir = makensis.nsisDirSync({wine: true, json: true}).nsisdir;
   const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
 
@@ -370,7 +370,7 @@ test('Print ${NSISDIR} as JSON', t => {
   t.is(actual, expected);
 });
 
-test('Print ${NSISDIR} as JSON [async]', t => {
+test('Wine: Print ${NSISDIR} as JSON [async]', t => {
   return Promise.resolve(makensis.nsisDir({wine: true, json: true}))
   .then(output => {
     const nsisCfg = join(output.nsisdir, 'Include', 'MUI2.nsh');
