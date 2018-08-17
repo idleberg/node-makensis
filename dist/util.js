@@ -114,6 +114,9 @@ var formatOutput = function (stream, args, opts) {
         else if (args.indexOf('-HDRINFO') !== -1) {
             stream.stdout = objectifyFlags(stream.stdout, opts);
         }
+        else if (args.indexOf('-LICENSE') !== -1) {
+            stream.stdout = objectify(stream.stdout, 'license');
+        }
         else if (args.indexOf('-VERSION') !== -1) {
             stream.stdout = objectify(stream.stdout, 'version');
         }

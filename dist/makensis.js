@@ -1,11 +1,14 @@
 "use strict";
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = require("./util");
@@ -144,6 +147,28 @@ var versionSync = function (options) {
     return util_1.spawnMakensisSync(p.cmd, p.args, p.opts);
 };
 exports.versionSync = versionSync;
+/**
+ * Returns MakeNSIS software license
+ * @param {Object} options - compiler options
+ * @returns {string} - compiler license
+ */
+var license = function (options) {
+    if (options === void 0) { options = {}; }
+    var p = util_1.mapArguments(['-LICENSE'], options);
+    return util_1.spawnMakensis(p.cmd, p.args, p.opts);
+};
+exports.license = license;
+/**
+ * Returns MakeNSIS software license
+ * @param {Object} options - compiler options
+ * @returns {string} - compiler license
+ */
+var licenseSync = function (options) {
+    if (options === void 0) { options = {}; }
+    var p = util_1.mapArguments(['-LICENSE'], options);
+    return util_1.spawnMakensisSync(p.cmd, p.args, p.opts);
+};
+exports.licenseSync = licenseSync;
 /**
  * Returns NSIS directory
  * @param {Object} options - compiler options

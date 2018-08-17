@@ -125,6 +125,18 @@ Usage: `hdrInfoSync([options])`
 
 Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
 
+#### license
+
+Usage: `license([options])`
+
+Returns MakeNSIS software license. Equivalent of the `-LICENSE` switch.
+
+#### licenseSync
+
+Usage: `licenseSync([options])`
+
+Returns MakeNSIS software license. Equivalent of the `-LICENSE` switch.
+
 #### nsisDir
 
 Usage: `nsisDir([options])`
