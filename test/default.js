@@ -82,8 +82,8 @@ test('Print makensis version as JSON [async]', t => {
 });
 
 test('Print makensis license', t => {
-  const expected = license;
-  const actual = makensis.licenseSync().stdout;
+  let expected = license;
+  let actual = makensis.licenseSync().stdout;
 
   t.is(actual, expected);
 });
