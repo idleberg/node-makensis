@@ -16,10 +16,11 @@ const scriptDefault = [
 ];
 
 // Expected values
-const version = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
-const hdrInfo = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
 const cmdHelp = spawnSync('makensis', ['-CMDHELP']).stderr.toString().trim();
+const hdrInfo = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
 const outFile = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stderr.toString().trim();
+const license = spawnSync('makensis', ['-LICENSE']).stdout.toString().trim();
+const version = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
 
 // Let's run the tests
 test('MakeNSIS found in PATH environmental variable', t => {
@@ -73,6 +74,49 @@ test('Print makensis version as JSON [async]', t => {
 
     let actual = output.stdout;
     actual.version = `${actual.version}`;
+    actual = JSON.stringify(actual);
+
+    t.is(actual, expected);
+  })
+  .catch();
+});
+
+test('Print makensis license', t => {
+  const expected = license;
+  const actual = makensis.licenseSync().stdout;
+
+  t.is(actual, expected);
+});
+
+test('Print makensis license as JSON', t => {
+  let expected = license;
+  let actual = makensis.licenseSync({json: true}).stdout;
+
+  actual = JSON.stringify(actual);
+  expected = JSON.stringify({ license: expected });
+
+  t.is(actual, expected);
+});
+
+test('Print makensis license [async]', t => {
+  return Promise.resolve(makensis.license())
+  .then(output => {
+    const expected = license;
+    const actual = output.stdout;
+
+    t.is(actual, expected);
+  })
+  .catch();
+});
+
+test('Print makensis license as JSON [async]', t => {
+  return Promise.resolve(makensis.license({json: true}))
+  .then(output => {
+    let expected = license;
+    expected = JSON.stringify({ license: expected });
+
+    let actual = output.stdout;
+    actual.license = `${actual.license}`;
     actual = JSON.stringify(actual);
 
     t.is(actual, expected);

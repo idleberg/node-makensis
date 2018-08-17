@@ -22,10 +22,11 @@ test('Wine found in PATH environmental variable', t => {
 });
 
 // Expected values
-const version = spawnSync('wine', ['makensis', '-VERSION']).stdout.toString().trim();
-const hdrInfo = spawnSync('wine', ['makensis', '-HDRINFO']).stdout.toString().trim();
 const cmdHelp = spawnSync('wine', ['makensis', '-CMDHELP']).stderr.toString().trim().replace(/\r\n/g, '\n');
+const hdrInfo = spawnSync('wine', ['makensis', '-HDRINFO']).stdout.toString().trim();
 const outFile = spawnSync('wine', ['makensis', '-CMDHELP', 'OutFile']).stderr.toString().trim().replace(/\r\n/g, '\n');
+const license = spawnSync('wine', ['makensis', '-LICENSE']).stdout.toString().trim();
+const version = spawnSync('wine', ['makensis', '-VERSION']).stdout.toString().trim();
 
 test('Wine: Print makensis version', t => {
   const expected = version;
@@ -71,6 +72,49 @@ test('Wine: Print makensis version as JSON [async]', t => {
 
     let actual = output.stdout;
     actual.version = `${actual.version}`;
+    actual = JSON.stringify(actual);
+
+    t.is(actual, expected);
+  })
+  .catch();
+});
+
+test('Wine: Print makensis license', t => {
+  const expected = license;
+  const actual = makensis.licenseSync().stdout;
+
+  t.is(actual, expected);
+});
+
+test('Wine: Print makensis license as JSON', t => {
+  let expected = license;
+  let actual = makensis.licenseSync({wine: true, json: true}).stdout;
+
+  actual = JSON.stringify(actual);
+  expected = JSON.stringify({ license: expected });
+
+  t.is(actual, expected);
+});
+
+test('Wine: Print makensis license [async]', t => {
+  return Promise.resolve(makensis.license({wine: true}))
+  .then(output => {
+    const expected = license;
+    const actual = output.stdout;
+
+    t.is(actual, expected);
+  })
+  .catch();
+});
+
+test('Wine: Print makensis license as JSON [async]', t => {
+  return Promise.resolve(makensis.license({wine: true, json: true}))
+  .then(output => {
+    let expected = license;
+    expected = JSON.stringify({ license: expected });
+
+    let actual = output.stdout;
+    actual.license = `${actual.license}`;
     actual = JSON.stringify(actual);
 
     t.is(actual, expected);
@@ -274,7 +318,7 @@ test('Wine: Strict compilation with warning [async]', t => {
   });
 });
 
-test('Get ${NSISDIR}', t => {
+test('Print ${NSISDIR}', t => {
   const nsisDir = makensis.nsisDirSync({wine: true});
   let nsisCfg = spawnSync('winepath', [nsisDir]).stdout.toString().trim();
   nsisCfg = join(nsisCfg, 'Include', 'MUI2.nsh');
@@ -285,7 +329,7 @@ test('Get ${NSISDIR}', t => {
   t.is(actual, expected);
 });
 
-test('Get ${NSISDIR} [async]', t => {
+test('Print ${NSISDIR} [async]', t => {
   return Promise.resolve(makensis.nsisDir({wine: true}))
   .then(nsisDir => {
     let nsisCfg = spawnSync('winepath', [nsisDir]).stdout.toString().trim();
