@@ -11,7 +11,7 @@ jobs:
           command: 'sudo apt-get update; sudo apt-get install nsis'
       - run:
           name: Print NSIS version
-          command: 'makensis -VERSION; echo ""; makensis -HDRINFO || true'
+          command: 'makensis -VERSION; echo \n; makensis -HDRINFO || true'
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
