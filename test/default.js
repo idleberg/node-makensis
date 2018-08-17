@@ -106,7 +106,14 @@ test('Print makensis license [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch();
+  .catch(output => {
+    // NSIS < 3.03
+    t.log('Legacy NSIS');
+    const expected = license;
+    const actual = output.stdout;
+
+    t.is(actual, expected);
+  });
 });
 
 test('Print makensis license as JSON [async]', t => {
@@ -121,7 +128,14 @@ test('Print makensis license as JSON [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch();
+  .catch(output => {
+    // NSIS < 3.03
+    t.log('Legacy NSIS');
+    const expected = license;
+    const actual = output.stdout;
+
+    t.is(actual, expected);
+  });
 });
 
 test('Print compiler information', t => {
