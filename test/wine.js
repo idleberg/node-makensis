@@ -80,8 +80,8 @@ test('Wine: Print makensis version as JSON [async]', t => {
 });
 
 test('Wine: Print makensis license', t => {
-  const expected = license;
-  const actual = makensis.licenseSync().stdout;
+  let expected = license;
+  let actual = makensis.licenseSync().stdout;
 
   t.is(actual, expected);
 });
@@ -104,7 +104,14 @@ test('Wine: Print makensis license [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch();
+  .catch(output => {
+    // NSIS < 3.03
+    t.log('Legacy NSIS');
+    const expected = license;
+    const actual = output.stdout;
+
+    t.is(actual, expected);
+  });
 });
 
 test('Wine: Print makensis license as JSON [async]', t => {
@@ -119,7 +126,18 @@ test('Wine: Print makensis license as JSON [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch();
+  .catch(output => {
+    // NSIS < 3.03
+    t.log('Legacy NSIS');
+    let expected = license;
+    expected = JSON.stringify({ license: expected });
+
+    let actual = output.stdout;
+    actual.license = `${actual.license}`;
+    actual = JSON.stringify(actual);
+
+    t.is(actual, expected);
+  });
 });
 
 test('Wine: Print compiler information', t => {
