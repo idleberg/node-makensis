@@ -144,6 +144,29 @@ const versionSync = (options: CompilerOptions = {}) => {
 };
 
 /**
+ * Returns MakeNSIS software license
+ * @param {Object} options - compiler options
+ * @returns {string} - compiler license
+ */
+const license = (options: CompilerOptions = {}) => {
+
+  const p = mapArguments(['-LICENSE'], options);
+
+  return spawnMakensis(p.cmd, p.args, p.opts);
+};
+
+/**
+ * Returns MakeNSIS software license
+ * @param {Object} options - compiler options
+ * @returns {string} - compiler license
+ */
+const licenseSync = (options: CompilerOptions = {}) => {
+  const p = mapArguments(['-LICENSE'], options);
+
+  return spawnMakensisSync(p.cmd, p.args, p.opts);
+};
+
+/**
  * Returns NSIS directory
  * @param {Object} options - compiler options
  * @returns {string} - compiler version
@@ -193,6 +216,8 @@ export {
   compileSync,
   hdrInfo,
   hdrInfoSync,
+  license,
+  licenseSync,
   nsisDir,
   nsisDirSync,
   version,
