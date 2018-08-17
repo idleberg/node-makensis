@@ -131,7 +131,9 @@ test('Print makensis license as JSON [async]', t => {
   .catch(output => {
     // NSIS < 3.03
     t.log('Legacy NSIS');
-    const expected = license;
+    let expected = license;
+    expected = JSON.stringify({ license: expected });
+
     let actual = output.stdout;
     actual.license = `${actual.license}`;
     actual = JSON.stringify(actual);
