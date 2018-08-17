@@ -89,6 +89,18 @@ if (output.status === 0) {
 
 ### Methods
 
+#### cmdHelp
+
+Usage: `cmdHelp([command], [options])`
+
+Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
+
+#### cmdHelpSync
+
+Usage: `cmdHelpSync([command], [options])`
+
+Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
+
 #### compile
 
 Usage: `compile(script, [options])`
@@ -100,18 +112,6 @@ Compiles specified script with MakeNSIS. The script can be omitted in favor of [
 Usage: `compileSync(script, [options])`
 
 Compiles specified script with MakeNSIS. The script can be omitted in favor of [`preExecute`](#preExecute) / [`postExecute`](#postExecute).
-
-#### version
-
-Usage: `version([options])`
-
-Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
-
-#### versionSync
-
-Usage: `versionSync([options])`
-
-Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 #### hdrInfo
 
@@ -125,18 +125,6 @@ Usage: `hdrInfoSync([options])`
 
 Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
 
-#### cmdHelp
-
-Usage: `cmdHelp([command], [options])`
-
-Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
-
-#### cmdHelpSync
-
-Usage: `cmdHelpSync([command], [options])`
-
-Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
-
 #### nsisDir
 
 Usage: `nsisDir([options])`
@@ -148,6 +136,18 @@ Returns the path of `${NSISDIR}`.
 Usage: `nsisDirSync([options])`
 
 Returns the path of `${NSISDIR}`.
+
+#### version
+
+Usage: `version([options])`
+
+Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
+
+#### versionSync
+
+Usage: `versionSync([options])`
+
+Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 ### Options
 
