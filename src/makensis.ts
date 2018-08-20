@@ -2,7 +2,7 @@ import { mapArguments, objectify, spawnMakensis, spawnMakensisSync } from './uti
 
 /**
  * Returns usage information for a command, or list all commands
- * @param [command] - an NSIS command
+ * @param command - an NSIS command
  * @param options - compiler options
  * @returns - usage description
  */
@@ -20,7 +20,7 @@ const cmdHelp = (command: string = '', options: CompilerOptions = {}) => {
 
 /**
  * Returns usage information for a command, or list all commands
- * @param [command] - an NSIS command
+ * @param command - an NSIS command
  * @param options - compiler options
  * @returns - usage description
  */
