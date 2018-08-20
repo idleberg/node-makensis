@@ -2,9 +2,9 @@ import { mapArguments, objectify, spawnMakensis, spawnMakensisSync } from './uti
 
 /**
  * Returns usage information for a command, or list all commands
- * @param {string} [command] - an NSIS command
- * @param {Object} options - compiler options
- * @returns {string} - usage description
+ * @param [command] - an NSIS command
+ * @param options - compiler options
+ * @returns - usage description
  */
 const cmdHelp = (command: string = '', options: CompilerOptions = {}) => {
   options = { ...options, verbose: 0 };
@@ -20,9 +20,9 @@ const cmdHelp = (command: string = '', options: CompilerOptions = {}) => {
 
 /**
  * Returns usage information for a command, or list all commands
- * @param {string} [command] - an NSIS command
- * @param {Object} options - compiler options
- * @returns {string} - usage description
+ * @param [command] - an NSIS command
+ * @param options - compiler options
+ * @returns - usage description
  */
 const cmdHelpSync = (command: string = '', options: CompilerOptions = {}) => {
   options = { ...options, verbose: 0 };
@@ -38,8 +38,8 @@ const cmdHelpSync = (command: string = '', options: CompilerOptions = {}) => {
 
 /**
  * Returns information about which options were used to compile MakeNSIS
- * @param {Object} options - compiler options
- * @returns {string} - compiler options
+ * @param options - compiler options
+ * @returns - compiler options
  */
 const hdrInfo =  (options: CompilerOptions = {}) => {
   options = { ...options, verbose: 0 };
@@ -51,7 +51,7 @@ const hdrInfo =  (options: CompilerOptions = {}) => {
 
 /**
  * Returns information about which options were used to compile MakeNSIS
- * @returns {string} - compiler options
+ * @returns - compiler options
  */
 const hdrInfoSync = (options: CompilerOptions = {}) => {
   options = { ...options, verbose: 0 };
@@ -63,8 +63,8 @@ const hdrInfoSync = (options: CompilerOptions = {}) => {
 
 /**
  * Compile specified script with MakeNSIS
- * @param {string} script - path to NSIS script
- * @param {Object} options - compiler options
+ * @param} script - path to NSIS script
+ * @param options - compiler options
  */
 const compile = (script: string, options: CompilerOptions = {}) => {
   const p = mapArguments([], options);
@@ -91,8 +91,8 @@ const compile = (script: string, options: CompilerOptions = {}) => {
 
 /**
  * Compile specified script with MakeNSIS
- * @param {string} script - path to NSIS script
- * @param {Object} options - compiler options
+ * @param script - path to NSIS script
+ * @param options - compiler options
  */
 const compileSync = (script: string, options: CompilerOptions = {}) => {
   let p = mapArguments([], options);
@@ -119,8 +119,8 @@ const compileSync = (script: string, options: CompilerOptions = {}) => {
 
 /**
  * Returns version of MakeNSIS
- * @param {Object} options - compiler options
- * @returns {string} - compiler version
+ * @param options - compiler options
+ * @returns - compiler version
  */
 const version = (options: CompilerOptions = {}) => {
   options = { ...options, verbose: 0 };
@@ -132,8 +132,8 @@ const version = (options: CompilerOptions = {}) => {
 
 /**
  * Returns version of MakeNSIS
- * @param {Object} options - compiler options
- * @returns {string} - compiler version
+ * @param options - compiler options
+ * @returns - compiler version
  */
 const versionSync = (options: CompilerOptions = {}) => {
   options = { ...options, verbose: 0 };
@@ -145,8 +145,8 @@ const versionSync = (options: CompilerOptions = {}) => {
 
 /**
  * Returns MakeNSIS software license
- * @param {Object} options - compiler options
- * @returns {string} - compiler license
+ * @param options - compiler options
+ * @returns - compiler license
  */
 const license = (options: CompilerOptions = {}) => {
 
@@ -157,8 +157,8 @@ const license = (options: CompilerOptions = {}) => {
 
 /**
  * Returns MakeNSIS software license
- * @param {Object} options - compiler options
- * @returns {string} - compiler license
+ * @param options - compiler options
+ * @returns - compiler license
  */
 const licenseSync = (options: CompilerOptions = {}) => {
   const p = mapArguments(['-LICENSE'], options);
@@ -168,8 +168,8 @@ const licenseSync = (options: CompilerOptions = {}) => {
 
 /**
  * Returns NSIS directory
- * @param {Object} options - compiler options
- * @returns {string} - compiler version
+ * @param options - compiler options
+ * @returns - compiler version
  */
 const nsisDir = (options: CompilerOptions = {}) => {
   const hdrOptions = { ...options, json: true };
@@ -195,8 +195,8 @@ const nsisDir = (options: CompilerOptions = {}) => {
 
 /**
  * Returns NSIS directory
- * @param {Object} options - compiler options
- * @returns {string} - compiler version
+ * @param options - compiler options
+ * @returns - compiler version
  */
 const nsisDirSync = (options: CompilerOptions = {}) => {
   const hdrOptions = { ...options, json: true };
