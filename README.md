@@ -12,9 +12,12 @@ A Node wrapper for `makensis`, the compiler for NSIS installers. Supports both, 
 
 Make sure that NSIS is properly installed with `makensis` in your PATH [environmental variable](http://superuser.com/a/284351/195953).
 
-On non-Windows platforms, you can usually install NSIS with your package manager:
+You can usually install NSIS with your package manager:
 
 ```sh
+# Scoop (Windows)
+scoop install nsis/nsis-3.03
+
 # Debian
 sudo apt-get -t experimental install nsis
 
