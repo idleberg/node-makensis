@@ -19,7 +19,7 @@ Download the NSIS installer from [SourceForge](https://sourceforge.net/p/nsis) a
 Alternatively, you can install NSIS using the [Scoop](https://github.com/NSIS-Dev/scoop-nsis) package manager:
 
 ```sh
-$ scoop install nsis/nsis-latest
+$ scoop install nsis/nsis
 ```
 
 ### Linux
