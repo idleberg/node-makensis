@@ -12,26 +12,43 @@ A Node wrapper for `makensis`, the compiler for NSIS installers. Supports both, 
 
 Make sure that NSIS is properly installed with `makensis` in your PATH [environmental variable](http://superuser.com/a/284351/195953).
 
-You can usually install NSIS with your package manager:
+### Windows
+
+Download the NSIS installer from [SourceForge](https://sourceforge.net/p/nsis) and run setup. Once completed, you need to edit your environmental variable manually.
+
+Alternatively, you can install NSIS using the [Scoop](https://github.com/NSIS-Dev/scoop-nsis) package manager:
 
 ```sh
-# Scoop (Windows)
-scoop install nsis/nsis-3.03
-
-# Debian
-sudo apt-get -t experimental install nsis
-
-# Red Hat
-sudo dnf install nsis
-
-# Homebrew
-brew install nsis
-
-# MacPorts
-port install nsis
+$ scoop install nsis/nsis-latest
 ```
 
-Alternatively, you can setup NSIS in your [Wine](http://winehq.org/) environment. Keep in mind that Wine writes standard streams while running `makensis`, so additional parsing of the compiler output might be necessary.
+### Linux
+
+Install NSIS from your distribution's default package manager, for example:
+
+```sh
+# Debian
+$ sudo apt-get -t experimental install nsis
+
+# Red Hat
+$ sudo dnf install nsis
+```
+
+### macOS
+
+Install NSIS using [Homebrew](http://brew.sh/) or [MacPorts](https://www.macports.org/):
+
+```sh
+# Homebrew
+$ brew install nsis
+
+# MacPorts
+$ port install nsis
+```
+
+### Wine
+
+You can setup NSIS in your [Wine](http://winehq.org/) environment, but keep in mind that Wine writes standard streams while executing `makensis`. Additional parsing of the compiler output might be necessary.
 
 ## Installation
 
