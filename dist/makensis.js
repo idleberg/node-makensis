@@ -14,9 +14,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var util_1 = require("./util");
 /**
  * Returns usage information for a command, or list all commands
- * @param {string} [command] - an NSIS command
- * @param {Object} options - compiler options
- * @returns {string} - usage description
+ * @param command - an NSIS command
+ * @param options - compiler options
+ * @returns - usage description
  */
 var cmdHelp = function (command, options) {
     if (command === void 0) { command = ''; }
@@ -31,9 +31,9 @@ var cmdHelp = function (command, options) {
 exports.cmdHelp = cmdHelp;
 /**
  * Returns usage information for a command, or list all commands
- * @param {string} [command] - an NSIS command
- * @param {Object} options - compiler options
- * @returns {string} - usage description
+ * @param command - an NSIS command
+ * @param options - compiler options
+ * @returns - usage description
  */
 var cmdHelpSync = function (command, options) {
     if (command === void 0) { command = ''; }
@@ -48,8 +48,8 @@ var cmdHelpSync = function (command, options) {
 exports.cmdHelpSync = cmdHelpSync;
 /**
  * Returns information about which options were used to compile MakeNSIS
- * @param {Object} options - compiler options
- * @returns {string} - compiler options
+ * @param options - compiler options
+ * @returns - compiler options
  */
 var hdrInfo = function (options) {
     if (options === void 0) { options = {}; }
@@ -60,7 +60,7 @@ var hdrInfo = function (options) {
 exports.hdrInfo = hdrInfo;
 /**
  * Returns information about which options were used to compile MakeNSIS
- * @returns {string} - compiler options
+ * @returns - compiler options
  */
 var hdrInfoSync = function (options) {
     if (options === void 0) { options = {}; }
@@ -71,8 +71,8 @@ var hdrInfoSync = function (options) {
 exports.hdrInfoSync = hdrInfoSync;
 /**
  * Compile specified script with MakeNSIS
- * @param {string} script - path to NSIS script
- * @param {Object} options - compiler options
+ * @param} script - path to NSIS script
+ * @param options - compiler options
  */
 var compile = function (script, options) {
     if (options === void 0) { options = {}; }
@@ -98,8 +98,8 @@ var compile = function (script, options) {
 exports.compile = compile;
 /**
  * Compile specified script with MakeNSIS
- * @param {string} script - path to NSIS script
- * @param {Object} options - compiler options
+ * @param script - path to NSIS script
+ * @param options - compiler options
  */
 var compileSync = function (script, options) {
     if (options === void 0) { options = {}; }
@@ -125,8 +125,8 @@ var compileSync = function (script, options) {
 exports.compileSync = compileSync;
 /**
  * Returns version of MakeNSIS
- * @param {Object} options - compiler options
- * @returns {string} - compiler version
+ * @param options - compiler options
+ * @returns - compiler version
  */
 var version = function (options) {
     if (options === void 0) { options = {}; }
@@ -137,8 +137,8 @@ var version = function (options) {
 exports.version = version;
 /**
  * Returns version of MakeNSIS
- * @param {Object} options - compiler options
- * @returns {string} - compiler version
+ * @param options - compiler options
+ * @returns - compiler version
  */
 var versionSync = function (options) {
     if (options === void 0) { options = {}; }
@@ -149,8 +149,8 @@ var versionSync = function (options) {
 exports.versionSync = versionSync;
 /**
  * Returns MakeNSIS software license
- * @param {Object} options - compiler options
- * @returns {string} - compiler license
+ * @param options - compiler options
+ * @returns - compiler license
  */
 var license = function (options) {
     if (options === void 0) { options = {}; }
@@ -160,8 +160,8 @@ var license = function (options) {
 exports.license = license;
 /**
  * Returns MakeNSIS software license
- * @param {Object} options - compiler options
- * @returns {string} - compiler license
+ * @param options - compiler options
+ * @returns - compiler license
  */
 var licenseSync = function (options) {
     if (options === void 0) { options = {}; }
@@ -171,8 +171,8 @@ var licenseSync = function (options) {
 exports.licenseSync = licenseSync;
 /**
  * Returns NSIS directory
- * @param {Object} options - compiler options
- * @returns {string} - compiler version
+ * @param options - compiler options
+ * @returns - compiler version
  */
 var nsisDir = function (options) {
     if (options === void 0) { options = {}; }
@@ -196,8 +196,8 @@ var nsisDir = function (options) {
 exports.nsisDir = nsisDir;
 /**
  * Returns NSIS directory
- * @param {Object} options - compiler options
- * @returns {string} - compiler version
+ * @param options - compiler options
+ * @returns - compiler version
  */
 var nsisDirSync = function (options) {
     if (options === void 0) { options = {}; }
