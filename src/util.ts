@@ -74,11 +74,11 @@ const mapArguments = (args, options) => {
   }
 
   if ((typeof options.inputcharset !== 'undefined' && options.inputcharset !== '') || (typeof options.inputCharset !== 'undefined' && options.inputCharset !== '')) {
-    p.args.push('-INPUTCHARSET', options.inputcharset);
+    p.args.push('-INPUTCHARSET', (options.inputcharset || options.inputCharset));
   }
 
   if (platform() === 'win32' && (typeof options.outputcharset !== 'undefined' && options.outputcharset !== '') || (typeof options.outputCharset !== 'undefined' && options.outputCharset !== '')) {
-    p.args.push('-OUTPUTCHARSET', options.outputcharset);
+    p.args.push('-OUTPUTCHARSET', (options.outputcharset || options.outputCharset));
   }
 
   if (options.ppo === true || options.PPO === true) {
