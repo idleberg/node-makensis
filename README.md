@@ -215,6 +215,14 @@ Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`. Equivalent of the `
 
 Alias: `noconfig`
 
+##### priority
+
+Type: `integer`
+
+Sets the compiler process priority, where x is 5=realtime, 4=high, 3=above normal, 2=normal, 1=below normal, 0=idle.  Equivalent of the `-P` switch.
+
+**Note:** Only available on Windows
+
 ##### inputCharset
 
 Type: `string`
@@ -228,6 +236,8 @@ Alias: `inputcharset`
 Type: `string`
 
 Allows you to specify the codepage used by stdout when the output is redirected (`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET` switch.
+
+**Note:** Only available on Windows
 
 Alias: `outputcharset`
 

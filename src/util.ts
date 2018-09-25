@@ -77,7 +77,7 @@ const mapArguments = (args, options) => {
     p.args.push('-INPUTCHARSET', options.inputcharset);
   }
 
-  if ((typeof options.outputcharset !== 'undefined' && options.outputcharset !== '') || (typeof options.outputCharset !== 'undefined' && options.outputCharset !== '')) {
+  if (platform() === 'win32' && (typeof options.outputcharset !== 'undefined' && options.outputcharset !== '') || (typeof options.outputCharset !== 'undefined' && options.outputCharset !== '')) {
     p.args.push('-OUTPUTCHARSET', options.outputcharset);
   }
 
@@ -89,8 +89,12 @@ const mapArguments = (args, options) => {
     p.args.push('-SAFEPPO');
   }
 
+  if (platform() === 'win32' && Number.isInteger(options.priority) && options.priority >= 0 && options.priority <= 5) {
+    p.args.push(`-P${options.priority}`);
+  }
+
   if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
-    p.args.push('-V' + options.verbose);
+    p.args.push(`-V${options.verbose}`);
   }
 
   return p;

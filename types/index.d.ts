@@ -9,6 +9,7 @@ interface CompilerOptions {
   pause?: boolean;
   postExecute?: Array<string>;
   preExecute?: Array<string>;
+  priority?: number;
   ppo?: boolean;
   safePPO?: boolean;
   strict?: boolean;
