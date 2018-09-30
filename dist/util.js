@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var charsets_1 = require("./charsets");
 var child_process_1 = require("child_process");
 var os_1 = require("os");
 var mapArguments = function (args, options) {
@@ -64,11 +65,13 @@ var mapArguments = function (args, options) {
     if (options.strict === true || options.wx === true) {
         p.args.push('-WX');
     }
-    if ((typeof options.inputcharset !== 'undefined' && options.inputcharset !== '') || (typeof options.inputCharset !== 'undefined' && options.inputCharset !== '')) {
+    if ((options.inputcharset && charsets_1.input.includes(options.inputcharset)) || charsets_1.input.includes(options.inputCharset)) {
         p.args.push('-INPUTCHARSET', (options.inputcharset || options.inputCharset));
     }
-    if (os_1.platform() === 'win32' && (typeof options.outputcharset !== 'undefined' && options.outputcharset !== '') || (typeof options.outputCharset !== 'undefined' && options.outputCharset !== '')) {
-        p.args.push('-OUTPUTCHARSET', (options.outputcharset || options.outputCharset));
+    if (os_1.platform() === 'win32') {
+        if ((options.outputcharset && charsets_1.output.includes(options.outputcharset)) || charsets_1.output.includes(options.outputCharset)) {
+            p.args.push('-OUTPUTCHARSET', (options.outputcharset || options.outputCharset));
+        }
     }
     if (options.ppo === true || options.PPO === true) {
         p.args.push('-PPO');
