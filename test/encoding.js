@@ -21,12 +21,10 @@ let options = {
 test('Compile script with correct charset', t => {
   options = { ...options, inputCharset: 'UTF8' };
 
-  const expected = 0;
-  const actual = makensis.compileSync(script['utf8'], options);
+  const expected = '';
+  const actual = makensis.compileSync(script['utf8'], options).stderr;
 
-  t.log(actual, expected);
-
-  t.is(actual.status, expected);
+  t.is(actual, expected);
 });
 
 test('Compile script with incorrect charset', t => {
@@ -52,12 +50,10 @@ test('Compile script with correct charset [async]', t => {
     // NSIS < 3.03
     t.log('Legacy NSIS');
 
-    const expected = 0;
-    const actual = output;
+    const expected = '';
+    const actual = output.stderr;
 
-    t.log(actual, expected);
-
-    t.is(actual.status, expected)
+    t.is(actual, expected)
   });
 });
 
