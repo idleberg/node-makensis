@@ -45,6 +45,14 @@ test('Compile script with correct charset [async]', t => {
     const actual = output.status;
 
     t.is(actual, expected)
+  })
+  .catch(output => {
+    // NSIS < 3.03
+    t.log('Legacy NSIS');
+    const expected = 0;
+    const actual = output.status;
+
+    t.is(actual, expected)
   });
 });
 
