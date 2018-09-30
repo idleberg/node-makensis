@@ -1,3 +1,4 @@
+import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { spawn, spawnSync } from 'child_process';
 import { platform } from 'os';
 
@@ -73,12 +74,14 @@ const mapArguments = (args, options) => {
     p.args.push('-WX');
   }
 
-  if ((typeof options.inputcharset !== 'undefined' && options.inputcharset !== '') || (typeof options.inputCharset !== 'undefined' && options.inputCharset !== '')) {
+  if ((options.inputcharset && inputCharsets.includes(options.inputcharset)) || inputCharsets.includes(options.inputCharset)) {
     p.args.push('-INPUTCHARSET', (options.inputcharset || options.inputCharset));
   }
 
-  if (platform() === 'win32' && (typeof options.outputcharset !== 'undefined' && options.outputcharset !== '') || (typeof options.outputCharset !== 'undefined' && options.outputCharset !== '')) {
-    p.args.push('-OUTPUTCHARSET', (options.outputcharset || options.outputCharset));
+  if (platform() === 'win32') {
+    if ((options.outputcharset && outputCharsets.includes(options.outputcharset)) || outputCharsets.includes(options.outputCharset)) {
+      p.args.push('-OUTPUTCHARSET', (options.outputcharset || options.outputCharset));
+    }
   }
 
   if (options.ppo === true || options.PPO === true) {
