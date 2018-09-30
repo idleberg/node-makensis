@@ -65,11 +65,11 @@ var mapArguments = function (args, options) {
     if (options.strict === true || options.wx === true) {
         p.args.push('-WX');
     }
-    if ((options.inputcharset && charsets_1.input.includes(options.inputcharset)) || charsets_1.input.includes(options.inputCharset)) {
+    if ((typeof options.inputcharset !== 'undefined' && charsets_1.input.includes(options.inputcharset)) || (typeof options.inputCharset !== 'undefined' && charsets_1.input.includes(options.inputCharset))) {
         p.args.push('-INPUTCHARSET', (options.inputcharset || options.inputCharset));
     }
     if (os_1.platform() === 'win32') {
-        if ((options.outputcharset && charsets_1.output.includes(options.outputcharset)) || charsets_1.output.includes(options.outputCharset)) {
+        if ((typeof options.outputcharset !== 'undefined' && charsets_1.output.includes(options.outputcharset)) || (typeof options.outputCharset !== 'undefined' && charsets_1.output.includes(options.outputCharset))) {
             p.args.push('-OUTPUTCHARSET', (options.outputcharset || options.outputCharset));
         }
     }
