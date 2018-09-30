@@ -15,6 +15,9 @@
     "makensis"
   ],
   "license": "MIT",
+  "dependencies": {
+    "@nsis/language-data": "^0.5.0"
+  },
   "devDependencies": {
     "@types/node": "^10.11.0",
     "ava": "^1.0.0-beta.8",
@@ -30,10 +33,8 @@
     "build": "tsc -p ./",
     "lint": "tslint --project .",
     "prepublishOnly": "gulp lint && npm run build",
-    "test": "npx ava ./test/default.js ./test/encoding.js --verbose",
+    "test": "npx ava ./test/default.js --verbose",
+    "test:encoding": "npx ava ./test/encoding.js --verbose",
     "test:wine": "npx ava ./test/wine.js --verbose"
-  },
-  "dependencies": {
-    "@nsis/language-data": "^0.5.0"
   }
 }
