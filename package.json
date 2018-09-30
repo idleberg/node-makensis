@@ -30,7 +30,10 @@
     "build": "tsc -p ./",
     "lint": "tslint --project .",
     "prepublishOnly": "gulp lint && npm run build",
-    "test": "npx ava ./test/default.js --verbose",
+    "test": "npx ava ./test/default.js ./test/encoding.js --verbose",
     "test:wine": "npx ava ./test/wine.js --verbose"
+  },
+  "dependencies": {
+    "@nsis/language-data": "^0.5.0"
   }
 }
