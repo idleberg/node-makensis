@@ -24,6 +24,8 @@ test('Compile script with correct charset', t => {
   const expected = 0;
   const actual = makensis.compileSync(script['utf8'], options).status;
 
+  t.log(actual, expected);
+
   t.is(actual, expected);
 });
 
@@ -49,8 +51,11 @@ test('Compile script with correct charset [async]', t => {
   .catch(output => {
     // NSIS < 3.03
     t.log('Legacy NSIS');
+
     const expected = 0;
     const actual = output.status;
+
+    t.log(actual, expected);
 
     t.is(actual, expected)
   });
