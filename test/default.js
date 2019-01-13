@@ -16,9 +16,9 @@ const scriptDefault = [
 ];
 
 // Expected values
-const cmdHelp = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
+const cmdHelp = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim() || spawnSync('makensis', ['-CMDHELP']).stderr.toString().trim();
 const hdrInfo = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
-const outFile = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stdout.toString().trim();
+const outFile = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stdout.toString().trim() || spawnSync('makensis', ['-CMDHELP', 'OutFile']).stderr.toString().trim();
 const license = spawnSync('makensis', ['-LICENSE']).stdout.toString().trim();
 const version = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
 
