@@ -184,11 +184,10 @@ test('Print help for all commands', t => {
 test('Print help for all commands [async]', t => {
   return Promise.resolve(makensis.cmdHelp())
   .then(output => {
-    // const expected = cmdHelp;
-    // const actual = output.stderr;
+    const expected = cmdHelp;
+    const actual = output.stderr;
 
-    // t.is(actual, expected);
-    t.pass();
+    t.is(actual, expected);
   })
   .catch(output => {
     // NSIS < 3.03
