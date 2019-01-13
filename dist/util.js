@@ -103,8 +103,8 @@ var hasWarnings = function (line) {
 };
 var formatOutput = function (stream, args, opts) {
     var _a;
-    if (args.includes('-CMDHELP') && !stream.stdout && stream.stderr) {
-        // Before NSIS 3.04, CMDHELP writes to stderr by default — let's fix this
+    if (args.includes('-CMDHELP') && stream.stdout.trim() !== '' && stream.stderr) {
+        // CMDHELP writes to stderr by default, let's fix this
         _a = [stream.stderr, ''], stream.stdout = _a[0], stream.stderr = _a[1];
     }
     if (opts.json === true) {
