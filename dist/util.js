@@ -24,7 +24,7 @@ var mapArguments = function (args, options) {
         p.opts.shell = options.shell;
     }
     // return unless compile command
-    if (args.length > 1 || args.indexOf('-CMDHELP') !== -1) {
+    if (args.length > 1 || args.includes('-CMDHELP')) {
         return p;
     }
     if (typeof options.define !== 'undefined') {
@@ -103,12 +103,12 @@ var hasWarnings = function (line) {
 };
 var formatOutput = function (stream, args, opts) {
     var _a;
-    if (args.indexOf('-CMDHELP') !== -1) {
-        // CMDHELP writes to stderr by default, let's fix this
+    if (args.includes('-CMDHELP') && !stream.stdout && stream.stderr) {
+        // Before NSIS 3.04, CMDHELP writes to stderr by default — let's fix this
         _a = [stream.stderr, ''], stream.stdout = _a[0], stream.stderr = _a[1];
     }
     if (opts.json === true) {
-        if (args.indexOf('-CMDHELP') !== -1) {
+        if (args.includes('-CMDHELP')) {
             var minLength = (opts.wine === true) ? 2 : 1;
             if (args.length === minLength) {
                 stream.stdout = objectifyHelp(stream.stdout, opts);
@@ -117,13 +117,13 @@ var formatOutput = function (stream, args, opts) {
                 stream.stdout = objectify(stream.stdout, 'help');
             }
         }
-        else if (args.indexOf('-HDRINFO') !== -1) {
+        else if (args.includes('-HDRINFO')) {
             stream.stdout = objectifyFlags(stream.stdout, opts);
         }
-        else if (args.indexOf('-LICENSE') !== -1) {
+        else if (args.includes('-LICENSE')) {
             stream.stdout = objectify(stream.stdout, 'license');
         }
-        else if (args.indexOf('-VERSION') !== -1) {
+        else if (args.includes('-VERSION')) {
             stream.stdout = objectify(stream.stdout, 'version');
         }
     }
@@ -152,7 +152,7 @@ var objectifyHelp = function (input, opts) {
         var command = line.substr(0, line.indexOf(' '));
         var usage = line.substr(line.indexOf(' ') + 1);
         // Workaround
-        if (['!AddIncludeDir', '!AddPluginDir'].indexOf(command) !== -1) {
+        if (['!AddIncludeDir', '!AddPluginDir'].includes(command)) {
             command = command.toLowerCase();
         }
         if (command)
