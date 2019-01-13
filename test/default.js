@@ -22,8 +22,6 @@ const outFile = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stdout.toString()
 const license = spawnSync('makensis', ['-LICENSE']).stdout.toString().trim();
 const version = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
 
-console.log(cmdHelp);
-
 // Let's run the tests
 test(`MakeNSIS ${version} found in PATH environmental variable`, t => {
   const which = (platform() === 'win32') ? 'where' : 'which';
