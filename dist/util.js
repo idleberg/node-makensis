@@ -103,7 +103,7 @@ var hasWarnings = function (line) {
 };
 var formatOutput = function (stream, args, opts) {
     var _a;
-    if (args.includes('-CMDHELP') && stream.stdout.trim() !== '' && stream.stderr) {
+    if (args.includes('-CMDHELP') && stream.stdout.trim() === '' && stream.stdout.trim() !== '') {
         // CMDHELP writes to stderr by default, let's fix this
         _a = [stream.stderr, ''], stream.stdout = _a[0], stream.stderr = _a[1];
     }

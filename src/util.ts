@@ -122,7 +122,7 @@ const hasWarnings = (line: string): number => {
 };
 
 const formatOutput = (stream, args, opts): Object => {
-  if (args.includes('-CMDHELP') && stream.stdout.trim() !== '' && stream.stderr) {
+  if (args.includes('-CMDHELP') && stream.stdout.trim() === '' && stream.stdout.trim() !== '') {
     // CMDHELP writes to stderr by default, let's fix this
     [stream.stdout, stream.stderr] = [stream.stderr, ''];
   }
