@@ -122,8 +122,8 @@ const hasWarnings = (line: string): number => {
 };
 
 const formatOutput = (stream, args, opts): Object => {
-  if (args.includes('-CMDHELP')) {
-    // CMDHELP writes to stderr by default, let's fix this
+  if (args.includes('-CMDHELP') && !stream.stdout && stream.stderr) {
+    // Before NSIS 3.04, CMDHELP writes to stderr by default — let's fix this
     [stream.stdout, stream.stderr] = [stream.stderr, ''];
   }
 
