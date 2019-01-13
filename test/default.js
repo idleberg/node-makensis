@@ -16,11 +16,13 @@ const scriptDefault = [
 ];
 
 // Expected values
-const cmdHelp = spawnSync('makensis', ['-CMDHELP']).stderr.toString().trim();
+const cmdHelp = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim();
 const hdrInfo = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
-const outFile = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stderr.toString().trim();
+const outFile = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stdout.toString().trim();
 const license = spawnSync('makensis', ['-LICENSE']).stdout.toString().trim();
 const version = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
+
+console.log(cmdHelp);
 
 // Let's run the tests
 test(`MakeNSIS ${version} found in PATH environmental variable`, t => {
@@ -185,7 +187,7 @@ test('Print help for all commands [async]', t => {
   return Promise.resolve(makensis.cmdHelp())
   .then(output => {
     const expected = cmdHelp;
-    const actual = output.stderr;
+    const actual = output.stdout;
 
     t.is(actual, expected);
   })
