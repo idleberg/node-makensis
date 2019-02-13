@@ -29,7 +29,7 @@ const mapArguments = (args, options) => {
   }
 
   // return unless compile command
-  if (args.length > 1 || args.indexOf('-CMDHELP') !== -1) {
+  if (args.length > 1 || args.includes('-CMDHELP')) {
     return p;
   }
 
@@ -122,13 +122,13 @@ const hasWarnings = (line: string): number => {
 };
 
 const formatOutput = (stream, args, opts): Object => {
-  if (args.indexOf('-CMDHELP') !== -1) {
+  if (args.includes('-CMDHELP')) {
     // CMDHELP writes to stderr by default, let's fix this
     [stream.stdout, stream.stderr] = [stream.stderr, ''];
   }
 
   if (opts.json === true) {
-    if (args.indexOf('-CMDHELP') !== -1) {
+    if (args.includes('-CMDHELP')) {
       let minLength = (opts.wine === true) ? 2 : 1;
 
       if (args.length === minLength) {
@@ -136,11 +136,11 @@ const formatOutput = (stream, args, opts): Object => {
       } else {
         stream.stdout = objectify(stream.stdout, 'help');
       }
-    } else if (args.indexOf('-HDRINFO') !== -1) {
+    } else if (args.includes('-HDRINFO')) {
       stream.stdout = objectifyFlags(stream.stdout, opts);
-    } else if (args.indexOf('-LICENSE') !== -1) {
+    } else if (args.includes('-LICENSE')) {
       stream.stdout = objectify(stream.stdout, 'license');
-    } else if (args.indexOf('-VERSION') !== -1) {
+    } else if (args.includes('-VERSION')) {
       stream.stdout = objectify(stream.stdout, 'version');
     }
   }
@@ -175,7 +175,7 @@ const objectifyHelp = (input: string, opts: any): Object => {
     let usage = line.substr(line.indexOf(' ') + 1);
 
     // Workaround
-    if (['!AddIncludeDir', '!AddPluginDir'].indexOf(command) !== -1) {
+    if (['!AddIncludeDir', '!AddPluginDir'].includes(command)) {
       command = command.toLowerCase();
     }
 
