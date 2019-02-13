@@ -6,6 +6,7 @@ vendor/
 # package manager files
 npm-debug.log*
 yarn-error.log
+shrinkwrap.yaml
 
 # project specific
 *.exe
