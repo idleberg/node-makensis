@@ -16,7 +16,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@nsis/language-data": "^0.5.1"
+    "@nsis/language-data": "^0.6.0"
   },
   "devDependencies": {
     "@types/node": "^10.12.18",
