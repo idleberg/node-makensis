@@ -30,7 +30,8 @@
     "typescript": "^3.2.2"
   },
   "scripts": {
-    "build": "tsc -p ./",
+    "build": "tsc --pretty --project ./",
+    "dev": "tsc --watch --pretty --project ./",
     "lint": "tslint --project .",
     "prepublishOnly": "gulp lint && npm run build",
     "test": "npx ava ./test/default.js --verbose",
