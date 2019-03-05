@@ -167,9 +167,9 @@ const licenseSync = (options: CompilerOptions = {}) => {
 };
 
 /**
- * Returns NSIS directory
+ * Returns directory where NSIS is installed
  * @param options - compiler options
- * @returns - compiler version
+ * @returns - NSIS directory
  */
 const nsisDir = (options: CompilerOptions = {}) => {
   const hdrOptions = { ...options, json: true };
