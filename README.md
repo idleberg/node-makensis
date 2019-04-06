@@ -297,7 +297,7 @@ Appends script-commands to the script, parameters are processed by order. Equiva
 
 ```js
 postExecute: [
-    'DetailPrint "That\'s all Folks!"'
+    'DetailPrint `That's all Folks!`'
 ]
 ```
 
