@@ -191,7 +191,7 @@ Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 Type: `integer`
 
-Verbosity where x is 4=all,3=no script,2=no info,1=no warnings,0=none. Equivalent of the `-V` switch.
+Verbosity where x is `4=all`, `3=no script`,`2=no info`, `1=no warnings`, `0=none`. Equivalent of the `-V` switch.
 
 ##### pause
 
@@ -219,7 +219,7 @@ Alias: `noconfig`
 
 Type: `integer`
 
-Sets the compiler process priority, where x is 5=realtime, 4=high, 3=above normal, 2=normal, 1=below normal, 0=idle.  Equivalent of the `-P` switch.
+Sets the compiler process priority, where x is `5=realtime`, `4=high`, `3=above normal`, `2=normal`, `1=below normal`, `0=idle`.  Equivalent of the `-P` switch.
 
 **Note:** Only available on Windows
 
@@ -297,8 +297,7 @@ Appends script-commands to the script, parameters are processed by order. Equiva
 
 ```js
 postExecute: [
-    "SetCompressor lzma",
-    "SetCompressorDictSize 16"
+    'DetailPrint `That's all Folks!`'
 ]
 ```
 
