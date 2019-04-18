@@ -170,9 +170,9 @@ var licenseSync = function (options) {
 };
 exports.licenseSync = licenseSync;
 /**
- * Returns NSIS directory
+ * Returns directory where NSIS is installed to
  * @param options - compiler options
- * @returns - compiler version
+ * @returns - NSIS directory
  */
 var nsisDir = function (options) {
     if (options === void 0) { options = {}; }
