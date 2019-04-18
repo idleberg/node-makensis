@@ -374,10 +374,10 @@
   dependencies:
     arrify "^1.0.1"
 
-"@nsis/language-data@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@nsis/language-data/-/language-data-0.7.0.tgz#efeb07a7c10bc5e52377a07020a109a835bc3ab1"
-  integrity sha512-dDXKZawo2fW0Cdvnd4T8TmdaNbU81mrzOcVDnh1CPpgJ6PQTCgvzpPQLQVI7bypnlGvG1f9fCcUPm2Fuh+NWhw==
+"@nsis/language-data@^0.7.1":
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/@nsis/language-data/-/language-data-0.7.1.tgz#5641317ac100a38e4290be6d4c1e4166acae47c5"
+  integrity sha512-KqRRvwOXnNsSEpTufe53ws4cSf5BgCh7rJLAAgrBeatefBT4SDpyjfGw8J/YisI4XYAKO9c4IZXSpCkRIQbn1Q==
 
 "@types/events@*":
   version "3.0.0"
