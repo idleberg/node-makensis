@@ -167,7 +167,7 @@ const licenseSync = (options: CompilerOptions = {}) => {
 };
 
 /**
- * Returns directory where NSIS is installed
+ * Returns directory where NSIS is installed to
  * @param options - compiler options
  * @returns - NSIS directory
  */
