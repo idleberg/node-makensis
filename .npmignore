@@ -12,7 +12,6 @@ shrinkwrap.yaml
 .circleci/
 .editorconfig
 src/
-test/
 types/
 tsconfig.tsbuildinfo
 
