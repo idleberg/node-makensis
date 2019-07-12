@@ -14,15 +14,15 @@ var mapArguments = function (args, options) {
         p.cmd = 'wine';
         p.args.unshift(cmd);
     }
-    if (typeof options.cwd !== 'undefined' && options.cwd !== '') {
-        p.opts.cwd = options.cwd;
-    }
-    if (typeof options.detached !== 'undefined') {
-        p.opts.detached = options.detached;
-    }
-    if (typeof options.shell !== 'undefined' && options.shell !== '') {
-        p.opts.shell = options.shell;
-    }
+    // if (typeof options.cwd !== 'undefined' && options.cwd !== '') {
+    //   p.opts.cwd = options.cwd;
+    // }
+    // if (typeof options.detached !== 'undefined') {
+    //   p.opts.detached = options.detached;
+    // }
+    // if (typeof options.shell !== 'undefined' && options.shell !== '') {
+    //   p.opts.shell = options.shell;
+    // }
     // return unless compile command
     if (args.length > 1 || args.includes('-CMDHELP')) {
         return p;
@@ -210,14 +210,15 @@ var splitLines = function (input, opts) {
     var output = input.split(lineBreak);
     return output;
 };
-var spawnMakensis = function (cmd, args, opts) {
+var spawnMakensis = function (cmd, args, opts, spawnOpts) {
+    if (spawnOpts === void 0) { spawnOpts = {}; }
     return new Promise(function (resolve, reject) {
         var stream = {
             stdout: '',
             stderr: ''
         };
         var warnings = 0;
-        var child = child_process_1.spawn(cmd, args, opts);
+        var child = child_process_1.spawn(cmd, args, spawnOpts);
         child.stdout.on('data', function (line) {
             line = stringify(line);
             warnings = hasWarnings(line);
@@ -244,8 +245,9 @@ var spawnMakensis = function (cmd, args, opts) {
     });
 };
 exports.spawnMakensis = spawnMakensis;
-var spawnMakensisSync = function (cmd, args, opts) {
-    var child = child_process_1.spawnSync(cmd, args, opts);
+var spawnMakensisSync = function (cmd, args, opts, spawnOpts) {
+    if (spawnOpts === void 0) { spawnOpts = {}; }
+    var child = child_process_1.spawnSync(cmd, args, spawnOpts);
     child.stdout = stringify(child.stdout);
     child.stderr = stringify(child.stderr);
     var warnings = hasWarnings(child.stdout);
