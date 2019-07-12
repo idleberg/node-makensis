@@ -111,95 +111,93 @@ if (output.status === 0) {
 
 #### cmdHelp
 
-Usage: `cmdHelp([command], [options])`
+Usage: `cmdHelp([command], [options], [spawnOptions])`
 
 Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
 
 #### cmdHelpSync
 
-Usage: `cmdHelpSync([command], [options])`
+Usage: `cmdHelpSync([command], [options], [spawnOptions])`
 
 Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
 
 #### compile
 
-Usage: `compile(script, [options])`
+Usage: `compile(script, [options], [spawnOptions])`
 
 Compiles specified script with MakeNSIS. The script can be omitted in favor of [`preExecute`](#preExecute) / [`postExecute`](#postExecute).
 
 #### compileSync
 
-Usage: `compileSync(script, [options])`
+Usage: `compileSync(script, [options], [spawnOptions])`
 
 Compiles specified script with MakeNSIS. The script can be omitted in favor of [`preExecute`](#preExecute) / [`postExecute`](#postExecute).
 
 #### hdrInfo
 
-Usage: `hdrInfo([options])`
+Usage: `hdrInfo([options], [spawnOptions])`
 
 Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
 
 #### hdrInfoSync
 
-Usage: `hdrInfoSync([options])`
+Usage: `hdrInfoSync([options], [spawnOptions])`
 
 Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
 
 #### license
 
-Usage: `license([options])`
+Usage: `license([options], [spawnOptions])`
 
 Returns MakeNSIS software license. Equivalent of the `-LICENSE` switch.
 
 #### licenseSync
 
-Usage: `licenseSync([options])`
+Usage: `licenseSync([options], [spawnOptions])`
 
 Returns MakeNSIS software license. Equivalent of the `-LICENSE` switch.
 
 #### nsisDir
 
-Usage: `nsisDir([options])`
+Usage: `nsisDir([options], [spawnOptions])`
 
 Returns the path of `${NSISDIR}`.
 
 #### nsisDirSync
 
-Usage: `nsisDirSync([options])`
+Usage: `nsisDirSync([options], [spawnOptions])`
 
 Returns the path of `${NSISDIR}`.
 
 #### version
 
-Usage: `version([options])`
+Usage: `version([options], [spawnOptions])`
 
 Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 #### versionSync
 
-Usage: `versionSync([options])`
+Usage: `versionSync([options], [spawnOptions])`
 
 Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 ### Options
 
-#### MakeNSIS
-
 **Note:** Some of these options are limited to NSIS v3 (see the [changelog](http://nsis.sourceforge.net/Docs) for details)
 
-##### verbose
+#### verbose
 
 Type: `integer`
 
 Verbosity where x is `4=all`, `3=no script`,`2=no info`, `1=no warnings`, `0=none`. Equivalent of the `-V` switch.
 
-##### pause
+#### pause
 
 Type: `boolean`
 
 Pauses after execution. Equivalent of the `-PAUSE` switch.
 
-##### noCD
+#### noCD
 
 Type: `boolean`
 
@@ -207,7 +205,7 @@ Disables the current directory change to that of the .nsi file. Equivalent of th
 
 Alias: `nocd`
 
-##### noConfig
+#### noConfig
 
 Type: `boolean`
 
@@ -215,7 +213,7 @@ Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`. Equivalent of the `
 
 Alias: `noconfig`
 
-##### priority
+#### priority
 
 Type: `integer`
 
@@ -223,7 +221,7 @@ Sets the compiler process priority, where x is `5=realtime`, `4=high`, `3=above 
 
 **Note:** Only available on Windows
 
-##### inputCharset
+#### inputCharset
 
 Type: `string`
 
@@ -231,7 +229,7 @@ allows you to specify a specific codepage for files without a BOM (`ACP|OEM|CP#|
 
 Alias: `inputcharset`
 
-##### outputCharset
+#### outputCharset
 
 Type: `string`
 
@@ -241,13 +239,13 @@ Allows you to specify the codepage used by stdout when the output is redirected 
 
 Alias: `outputcharset`
 
-##### strict
+#### strict
 
 Type: `boolean`
 
 Treat warnings as errors. Equivalent of the `-WX` switch.
 
-##### ppo / safePPO
+#### ppo / safePPO
 
 Type: `boolean`
 
@@ -255,7 +253,7 @@ Will only run the preprocessor and print the result to stdout. The safe version 
 
 Aliases: `PPO` / `safeppo`
 
-##### define
+#### define
 
 Type: `Object`
 
@@ -270,7 +268,7 @@ define: {
 }
 ```
 
-##### preExecute
+#### preExecute
 
 Type: `Array<string>|string`
 
@@ -287,7 +285,7 @@ preExecute: [
 
 Alias: `execute`
 
-##### postExecute
+#### postExecute
 
 Type: `Array<string>|string`
 
@@ -301,41 +299,19 @@ postExecute: [
 ]
 ```
 
-##### wine
+#### wine
 
 Type: `boolean`
 
 Run `makensis` on [Wine](http://winehq.org/)
 
-#### Spawn
-
-##### cwd
-
-Type: `string`
-
-Current working directory of the child process
-
-##### detached
-
-Type: `boolean`
-
-Prepare child to run independently of its parent process. Specific behavior depends on the platform, see [`options.detached`](https://nodejs.org/api/child_process.html#child_process_options_detached).
-
-##### shell
-
-Type: `boolean|string`
-
-If true, runs command inside of a shell. Uses `/bin/sh` on UNIX, and `process.env.ComSpec` on Windows. A different shell can be specified as a string. See [Shell Requirements](https://nodejs.org/api/child_process.html#child_process_shell_requirements) and [Default Windows Shell](https://nodejs.org/api/child_process.html#child_process_default_windows_shell).
-
-#### Other
-
-##### json
+#### json
 
 Type: `boolean`
 
 Return output from `makensis` as an object
 
-##### pathToMakensis
+#### pathToMakensis
 
 Type: `string`
 
