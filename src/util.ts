@@ -1,5 +1,5 @@
 import { input as inputCharsets, output as outputCharsets } from './charsets';
-import { spawn, spawnSync } from 'child_process';
+import { spawn, spawnSync, SpawnOptions } from 'child_process';
 import { platform } from 'os';
 
 const mapArguments = (args, options) => {
@@ -16,17 +16,17 @@ const mapArguments = (args, options) => {
     p.args.unshift(cmd);
   }
 
-  if (typeof options.cwd !== 'undefined' && options.cwd !== '') {
-    p.opts.cwd = options.cwd;
-  }
+  // if (typeof options.cwd !== 'undefined' && options.cwd !== '') {
+  //   p.opts.cwd = options.cwd;
+  // }
 
-  if (typeof options.detached !== 'undefined') {
-    p.opts.detached = options.detached;
-  }
+  // if (typeof options.detached !== 'undefined') {
+  //   p.opts.detached = options.detached;
+  // }
 
-  if (typeof options.shell !== 'undefined' && options.shell !== '') {
-    p.opts.shell = options.shell;
-  }
+  // if (typeof options.shell !== 'undefined' && options.shell !== '') {
+  //   p.opts.shell = options.shell;
+  // }
 
   // return unless compile command
   if (args.length > 1 || args.includes('-CMDHELP')) {
@@ -247,7 +247,7 @@ const splitLines = (input: string, opts: any): Array<string> => {
   return output;
 };
 
-const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
+const spawnMakensis = (cmd: string, args: Array<string>, opts: any, spawnOpts: SpawnOptions = {}): Object => {
   return new Promise<Object>((resolve, reject) => {
     let stream: any = {
       stdout: '',
@@ -255,7 +255,7 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
     };
     let warnings = 0;
 
-    const child: any = spawn(cmd, args, opts);
+    const child: any = spawn(cmd, args, spawnOpts);
 
     child.stdout.on('data', (line) => {
       line = stringify(line);
@@ -287,8 +287,8 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any): Object => {
   });
 };
 
-const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object): Object => {
-  let child: any = spawnSync(cmd, args, opts);
+const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object, spawnOpts: SpawnOptions = {}): Object => {
+  let child: any = spawnSync(cmd, args, spawnOpts);
 
   child.stdout = stringify(child.stdout);
   child.stderr = stringify(child.stderr);
