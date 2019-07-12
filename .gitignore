@@ -14,7 +14,7 @@ tsconfig.tsbuildinfo
 # project specific
 *.exe
 *.nsi
-!test/fixtures/*nsi
+!test/fixtures/*.nsi
 test.js
 test.ts
 todo.md
