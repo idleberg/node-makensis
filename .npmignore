@@ -1,3 +1,23 @@
+# dependencies
+bower_components/
+node_modules/
+vendor/
+
+# package manager files
+npm-debug.log*
+yarn-error.log
+shrinkwrap.yaml
+
+# development
+tsconfig.tsbuildinfo
+
+# project specific
+*.exe
+*.nsi
+test.js
+test.ts
+todo.md
+
 # folders
 .circleci/
 .editorconfig
@@ -11,13 +31,3 @@ types/
 gulpfile.js
 tsconfig.json
 tslint.json
-
-# development
-tsconfig.tsbuildinfo
-
-# project specific
-*.exe
-*.nsi
-test.js
-test.ts
-todo.md
