@@ -16,11 +16,6 @@ interface CompilerOptions {
   verbose?: number;
   wine?: boolean;
 
-  // child_process
-  cwd?: string;
-  detached?: boolean;
-  shell?: string;
-
   // library
   pathToMakensis?: string;
 }
