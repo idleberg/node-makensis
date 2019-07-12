@@ -16,28 +16,27 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@nsis/language-data": "^0.7.1",
-    "get-stdin": "^7.0.0"
+    "@nsis/language-data": "^0.7.1"
   },
   "devDependencies": {
-    "@types/node": "^11.13.4",
-    "ava": "^1.4.1",
-    "gulp": "^4.0.0",
+    "@types/node": "^12.6.2",
+    "ava": "^2.2.0",
+    "gulp": "^4.0.2",
     "gulp-debug": "^4.0.0",
     "gulp-jsonlint": "^1.3.0",
     "gulp-tslint": "^8.1.4",
-    "husky": "^1.3.1",
-    "tslint": "^5.16.0",
+    "husky": "^3.0.0",
+    "tslint": "^5.18.0",
     "typedoc": "^0.14.2",
-    "typescript": "^3.4.3"
+    "typescript": "^3.5.3"
   },
   "scripts": {
     "build": "tsc --pretty --project ./",
     "dev": "tsc --watch --pretty --project ./",
     "lint": "tslint --project .",
     "prepublishOnly": "gulp lint && npm run build",
-    "test": "npx ava ./test/default.js --verbose",
-    "test:encoding": "npx ava ./test/encoding.js --verbose",
-    "test:wine": "npx ava ./test/wine.js --verbose"
+    "test": "ava ./test/default.js --verbose",
+    "test:encoding": "ava ./test/encoding.js --verbose",
+    "test:wine": "ava ./test/wine.js --verbose"
   }
 }
