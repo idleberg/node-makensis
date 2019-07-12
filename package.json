@@ -35,7 +35,7 @@
     "dev": "tsc --watch --pretty --project ./",
     "lint": "tslint --project .",
     "prepublishOnly": "gulp lint && npm run build",
-    "test": "ava ./test/default.js --verbose",
+    "test": "ava ./test/default.js ./test/encoding.js --verbose",
     "test:encoding": "ava ./test/encoding.js --verbose",
     "test:wine": "ava ./test/wine.js --verbose"
   }
