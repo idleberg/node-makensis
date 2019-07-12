@@ -9,6 +9,11 @@ yarn-error.log
 shrinkwrap.yaml
 
 # development
+.circleci/
+.editorconfig
+src/
+test/
+types/
 tsconfig.tsbuildinfo
 
 # project specific
@@ -17,13 +22,6 @@ tsconfig.tsbuildinfo
 test.js
 test.ts
 todo.md
-
-# folders
-.circleci/
-.editorconfig
-src/
-test/
-types/
 
 # files
 .gitignore
