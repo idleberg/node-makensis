@@ -3,15 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var charsets_1 = require("./charsets");
 var child_process_1 = require("child_process");
 var os_1 = require("os");
-var mapArguments = function (compilerFlags, options) {
+var mapArguments = function (compilerArgs, options) {
     var cmd = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
-    var compilerArgs = compilerFlags;
+    // const compilerArgs: string[] = compilerArgs;
     if (os_1.platform() !== 'win32' && options.wine === true) {
         cmd = 'wine';
-        compilerFlags.unshift(cmd);
+        compilerArgs.unshift(cmd);
     }
     // return unless compile command
-    if (compilerFlags.length > 1 || compilerFlags.includes('-CMDHELP')) {
+    if (compilerArgs.length > 1 || compilerArgs.includes('-CMDHELP')) {
         return [cmd, compilerArgs];
     }
     if (typeof options.define !== 'undefined') {
