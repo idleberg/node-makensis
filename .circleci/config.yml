@@ -1,7 +1,7 @@
 version: 2.1
 
 commands:
-  lint-and-test:
+  run-tests:
     steps:
       - checkout
       - run:
@@ -31,13 +31,13 @@ jobs:
     docker:
       - image: circleci/node:latest
     steps:
-      - lint-and-test
+      - run-tests
 
   node-lts:
     docker:
       - image: circleci/node:lts
     steps:
-      - lint-and-test
+      - run-tests
 
 workflows:
   node-multi-build:
