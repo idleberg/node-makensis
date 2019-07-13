@@ -11,7 +11,7 @@ var mapArguments = function (args, options) {
     }
     // return unless compile command
     if (args.length > 1 || args.includes('-CMDHELP')) {
-        return [cmd, args, { json: options.json, wine: options.wine }];
+        return [cmd, args];
     }
     if (typeof options.define !== 'undefined') {
         Object.keys(options.define).forEach(function (key) {
@@ -71,7 +71,7 @@ var mapArguments = function (args, options) {
     if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
         args.push("-V" + options.verbose);
     }
-    return [cmd, args, { json: options.json, wine: options.wine }];
+    return [cmd, args];
 };
 exports.mapArguments = mapArguments;
 var stringify = function (data) {

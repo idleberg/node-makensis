@@ -12,7 +12,7 @@ const mapArguments = (args, options) => {
 
   // return unless compile command
   if (args.length > 1 || args.includes('-CMDHELP')) {
-    return [cmd, args, {json: options.json, wine: options.wine}];
+    return [cmd, args];
   }
 
   if (typeof options.define !== 'undefined') {
@@ -82,7 +82,7 @@ const mapArguments = (args, options) => {
     args.push(`-V${options.verbose}`);
   }
 
-  return [cmd, args, {json: options.json, wine: options.wine}];
+  return [cmd, args];
 };
 
 const stringify = (data): string => {
