@@ -1,8 +1,7 @@
 version: 2.1
 
 commands:
-  run-tests:
-    working_directory: ~/repo
+  run_tests:
     steps:
       - checkout
       - run:
@@ -28,19 +27,19 @@ commands:
           command: yarn test
 
 jobs:
-  node-lts:
+  node_lts:
     docker:
       - image: circleci/node:lts
     steps:
-      - run-tests
-  node-latest:
+      - run_tests
+  node_latest:
     docker:
       - image: circleci/node:latest
     steps:
-      - run-tests
+      - run_tests
 
 workflows:
   node-multi-build:
     jobs:
-      - node-lts
-      - node-latest
+      - node_lts
+      - node_latest
