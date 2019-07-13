@@ -1,4 +1,5 @@
-version: 2
+version: 2.1
+
 commands:
   build:
     working_directory: ~/repo
