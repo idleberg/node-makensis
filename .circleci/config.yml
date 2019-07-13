@@ -8,8 +8,11 @@ commands:
           name: Installing NSIS
           command: 'sudo apt-get update; sudo apt-get install nsis'
       - run:
-          name: Print NSIS version
-          command: 'makensis -VERSION'
+          name: Print versions
+          command: |
+            node --version
+            yarn --version
+            makensis -VERSION
       - restore_cache:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
