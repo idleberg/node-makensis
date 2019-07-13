@@ -23,11 +23,11 @@ var cmdHelp = function (command, options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
     options = __assign({}, options, { verbose: 0 });
-    var p = util_1.mapArguments(['-CMDHELP'], options);
+    var _a = util_1.mapArguments(['-CMDHELP'], options), cmd = _a[0], args = _a[1];
     if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
-        p.args.push(command);
+        args.push(command);
     }
-    return util_1.spawnMakensis(p.cmd, p.args, p.opts, spawnOpts);
+    return util_1.spawnMakensis(cmd, args, options, spawnOpts);
 };
 exports.cmdHelp = cmdHelp;
 /**
@@ -41,11 +41,11 @@ var cmdHelpSync = function (command, options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
     options = __assign({}, options, { verbose: 0 });
-    var p = util_1.mapArguments(['-CMDHELP'], options);
+    var _a = util_1.mapArguments(['-CMDHELP'], options), cmd = _a[0], args = _a[1];
     if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
-        p.args.push(command);
+        args.push(command);
     }
-    return util_1.spawnMakensisSync(p.cmd, p.args, p.opts, spawnOpts);
+    return util_1.spawnMakensisSync(cmd, args, options, spawnOpts);
 };
 exports.cmdHelpSync = cmdHelpSync;
 /**
@@ -57,8 +57,8 @@ var hdrInfo = function (options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
     options = __assign({}, options, { verbose: 0 });
-    var p = util_1.mapArguments(['-HDRINFO'], options);
-    return util_1.spawnMakensis(p.cmd, p.args, p.opts, spawnOpts);
+    var _a = util_1.mapArguments(['-HDRINFO'], options), cmd = _a[0], args = _a[1];
+    return util_1.spawnMakensis(cmd, args, options, spawnOpts);
 };
 exports.hdrInfo = hdrInfo;
 /**
@@ -69,8 +69,8 @@ var hdrInfoSync = function (options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
     options = __assign({}, options, { verbose: 0 });
-    var p = util_1.mapArguments(['-HDRINFO'], options);
-    return util_1.spawnMakensisSync(p.cmd, p.args, p.opts, spawnOpts);
+    var _a = util_1.mapArguments(['-HDRINFO'], options), cmd = _a[0], args = _a[1];
+    return util_1.spawnMakensisSync(cmd, args, options, spawnOpts);
 };
 exports.hdrInfoSync = hdrInfoSync;
 /**
@@ -81,24 +81,24 @@ exports.hdrInfoSync = hdrInfoSync;
 var compile = function (script, options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
-    var p = util_1.mapArguments([], options);
+    var _a = util_1.mapArguments([], options), cmd = _a[0], args = _a[1];
     if (script) {
-        if (p.cmd === 'wine') {
-            p.args.push('--');
+        if (cmd === 'wine') {
+            args.push('--');
         }
-        p.args.push(script);
+        args.push(script);
     }
     if (typeof options.postExecute !== 'undefined') {
         if (typeof options.postExecute === 'string') {
-            p.args.push("-X" + options.postExecute);
+            args.push("-X" + options.postExecute);
         }
         else {
             options.postExecute.forEach(function (key) {
-                p.args.push("-X" + key);
+                args.push("-X" + key);
             });
         }
     }
-    return util_1.spawnMakensis(p.cmd, p.args, p.opts, spawnOpts);
+    return util_1.spawnMakensis(cmd, args, options, spawnOpts);
 };
 exports.compile = compile;
 /**
@@ -109,24 +109,24 @@ exports.compile = compile;
 var compileSync = function (script, options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
-    var p = util_1.mapArguments([], options);
+    var _a = util_1.mapArguments([], options), cmd = _a[0], args = _a[1];
     if (script) {
-        if (p.cmd === 'wine') {
-            p.args.push('--');
+        if (cmd === 'wine') {
+            args.push('--');
         }
-        p.args.push(script);
+        args.push(script);
     }
     if (typeof options.postExecute !== 'undefined') {
         if (typeof options.postExecute === 'string') {
-            p.args.push("-X" + options.postExecute);
+            args.push("-X" + options.postExecute);
         }
         else {
             options.postExecute.forEach(function (key) {
-                p.args.push("-X" + key);
+                args.push("-X" + key);
             });
         }
     }
-    return util_1.spawnMakensisSync(p.cmd, p.args, p.opts, spawnOpts);
+    return util_1.spawnMakensisSync(cmd, args, options, spawnOpts);
 };
 exports.compileSync = compileSync;
 /**
@@ -138,8 +138,8 @@ var version = function (options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
     options = __assign({}, options, { verbose: 0 });
-    var p = util_1.mapArguments(['-VERSION'], options);
-    return util_1.spawnMakensis(p.cmd, p.args, p.opts, spawnOpts);
+    var _a = util_1.mapArguments(['-VERSION'], options), cmd = _a[0], args = _a[1];
+    return util_1.spawnMakensis(cmd, args, options, spawnOpts);
 };
 exports.version = version;
 /**
@@ -151,8 +151,8 @@ var versionSync = function (options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
     options = __assign({}, options, { verbose: 0 });
-    var p = util_1.mapArguments(['-VERSION'], options);
-    return util_1.spawnMakensisSync(p.cmd, p.args, p.opts, spawnOpts);
+    var _a = util_1.mapArguments(['-VERSION'], options), cmd = _a[0], args = _a[1];
+    return util_1.spawnMakensisSync(cmd, args, options, spawnOpts);
 };
 exports.versionSync = versionSync;
 /**
@@ -163,8 +163,8 @@ exports.versionSync = versionSync;
 var license = function (options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
-    var p = util_1.mapArguments(['-LICENSE'], options);
-    return util_1.spawnMakensis(p.cmd, p.args, p.opts, spawnOpts);
+    var _a = util_1.mapArguments(['-LICENSE'], options), cmd = _a[0], args = _a[1];
+    return util_1.spawnMakensis(cmd, args, options, spawnOpts);
 };
 exports.license = license;
 /**
@@ -175,8 +175,8 @@ exports.license = license;
 var licenseSync = function (options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
-    var p = util_1.mapArguments(['-LICENSE'], options);
-    return util_1.spawnMakensisSync(p.cmd, p.args, p.opts, spawnOpts);
+    var _a = util_1.mapArguments(['-LICENSE'], options), cmd = _a[0], args = _a[1];
+    return util_1.spawnMakensisSync(cmd, args, options, spawnOpts);
 };
 exports.licenseSync = licenseSync;
 /**
