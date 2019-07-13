@@ -25,14 +25,12 @@ commands:
 
 jobs:
   node-latest:
-    working_directory: ~/repo
     docker:
       - image: circleci/node:latest
     steps:
       - lint-and-test
 
   node-lts:
-    working_directory: ~/repo
     docker:
       - image: circleci/node:lts
     steps:
