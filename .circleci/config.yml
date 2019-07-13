@@ -1,9 +1,7 @@
 version: 2
-jobs:
+commands:
   build:
     working_directory: ~/repo
-    docker:
-      - image: circleci/node:latest
     steps:
       - checkout
       - run:
@@ -27,3 +25,21 @@ jobs:
       - run:
           name: Running Tests
           command: npm run test
+
+jobs:
+  node-latest:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - build
+  node-lts:
+    docker:
+      - image: circleci/node:lts
+    steps:
+      - build
+
+workflows:
+  node-multi-build:
+    jobs:
+      - node-latest
+      - node-lts
