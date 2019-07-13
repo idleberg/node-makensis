@@ -3,15 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var charsets_1 = require("./charsets");
 var child_process_1 = require("child_process");
 var os_1 = require("os");
-var mapArguments = function (args, options) {
+var mapArguments = function (compilerFlags, options) {
     var cmd = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
-    var compilerArgs = [];
+    var compilerArgs = compilerFlags;
     if (os_1.platform() !== 'win32' && options.wine === true) {
         cmd = 'wine';
-        compilerArgs.unshift(cmd);
+        compilerFlags.unshift(cmd);
     }
     // return unless compile command
-    if (args.length > 1 || args.includes('-CMDHELP')) {
+    if (compilerFlags.length > 1 || compilerFlags.includes('-CMDHELP')) {
         return [cmd, compilerArgs];
     }
     if (typeof options.define !== 'undefined') {
@@ -232,13 +232,13 @@ var spawnMakensis = function (cmd, args, opts, spawnOpts) {
     });
 };
 exports.spawnMakensis = spawnMakensis;
-var spawnMakensisSync = function (cmd, args, options, spawnOpts) {
+var spawnMakensisSync = function (cmd, args, opts, spawnOpts) {
     if (spawnOpts === void 0) { spawnOpts = {}; }
     var child = child_process_1.spawnSync(cmd, args, spawnOpts);
     child.stdout = stringify(child.stdout);
     child.stderr = stringify(child.stderr);
     var warnings = hasWarnings(child.stdout);
-    child = formatOutput(child, args, options);
+    child = formatOutput(child, args, opts);
     var output = {
         'status': child.status,
         'stdout': child.stdout,
