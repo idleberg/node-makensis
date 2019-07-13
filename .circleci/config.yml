@@ -1,7 +1,7 @@
 version: 2.1
 
 commands:
-  test-nodejs:
+  lint-and-test:
     steps:
       - checkout
       - run:
