@@ -5,87 +5,74 @@ var child_process_1 = require("child_process");
 var os_1 = require("os");
 var mapArguments = function (args, options) {
     var cmd = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
-    var p = {
-        cmd: cmd,
-        args: args,
-        opts: options
-    };
+    var compilerArgs = [];
     if (os_1.platform() !== 'win32' && options.wine === true) {
-        p.cmd = 'wine';
-        p.args.unshift(cmd);
+        cmd = 'wine';
+        compilerArgs.unshift(cmd);
     }
-    // if (typeof options.cwd !== 'undefined' && options.cwd !== '') {
-    //   p.opts.cwd = options.cwd;
-    // }
-    // if (typeof options.detached !== 'undefined') {
-    //   p.opts.detached = options.detached;
-    // }
-    // if (typeof options.shell !== 'undefined' && options.shell !== '') {
-    //   p.opts.shell = options.shell;
-    // }
     // return unless compile command
     if (args.length > 1 || args.includes('-CMDHELP')) {
-        return p;
+        return [cmd, compilerArgs];
     }
     if (typeof options.define !== 'undefined') {
         Object.keys(options.define).forEach(function (key) {
-            p.args.push("-D" + key + "=" + options.define[key]);
+            compilerArgs.push("-D" + key + "=" + options.define[key]);
         });
     }
     if (typeof options.preExecute !== 'undefined') {
         if (typeof options.preExecute === 'string') {
-            p.args.push("-X" + options.preExecute);
+            compilerArgs.push("-X" + options.preExecute);
         }
         else {
             options.preExecute.forEach(function (key) {
-                p.args.push("-X" + key);
+                compilerArgs.push("-X" + key);
             });
         }
         // Temporary Fallback
     }
     else if (typeof options.execute !== 'undefined') {
         if (typeof options.execute === 'string') {
-            p.args.push("-X" + options.execute);
+            compilerArgs.push("-X" + options.execute);
         }
         else {
             options.execute.forEach(function (key) {
-                p.args.push("-X" + key);
+                compilerArgs.push("-X" + key);
             });
         }
     }
     if (options.nocd === true || options.noCD === true) {
-        p.args.push('-NOCD');
+        compilerArgs.push('-NOCD');
     }
     if (options.noconfig === true || options.noConfig === true) {
-        p.args.push('-NOCONFIG');
+        compilerArgs.push('-NOCONFIG');
     }
     if (options.pause === true) {
-        p.args.push('-PAUSE');
+        compilerArgs.push('-PAUSE');
     }
     if (options.strict === true || options.wx === true) {
-        p.args.push('-WX');
+        compilerArgs.push('-WX');
     }
     if ((typeof options.inputcharset !== 'undefined' && charsets_1.input.includes(options.inputcharset)) || (typeof options.inputCharset !== 'undefined' && charsets_1.input.includes(options.inputCharset))) {
-        p.args.push('-INPUTCHARSET', (options.inputcharset || options.inputCharset));
+        compilerArgs.push('-INPUTCHARSET', (options.inputcharset || options.inputCharset));
     }
     if (os_1.platform() === 'win32') {
         if ((typeof options.outputcharset !== 'undefined' && charsets_1.output.includes(options.outputcharset)) || (typeof options.outputCharset !== 'undefined' && charsets_1.output.includes(options.outputCharset))) {
-            p.args.push('-OUTPUTCHARSET', (options.outputcharset || options.outputCharset));
+            compilerArgs.push('-OUTPUTCHARSET', (options.outputcharset || options.outputCharset));
         }
     }
     if (options.ppo === true || options.PPO === true) {
-        p.args.push('-PPO');
+        compilerArgs.push('-PPO');
     }
     if (options.safeppo === true || options.safePPO === true) {
-        p.args.push('-SAFEPPO');
+        compilerArgs.push('-SAFEPPO');
     }
     if (os_1.platform() === 'win32' && Number.isInteger(options.priority) && options.priority >= 0 && options.priority <= 5) {
-        p.args.push("-P" + options.priority);
+        compilerArgs.push("-P" + options.priority);
     }
     if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
-        p.args.push("-V" + options.verbose);
+        compilerArgs.push("-V" + options.verbose);
     }
-    return p;
+    return [cmd, compilerArgs];
 };
 exports.mapArguments = mapArguments;
 var stringify = function (data) {
@@ -245,13 +232,13 @@ var spawnMakensis = function (cmd, args, opts, spawnOpts) {
     });
 };
 exports.spawnMakensis = spawnMakensis;
-var spawnMakensisSync = function (cmd, args, opts, spawnOpts) {
+var spawnMakensisSync = function (cmd, args, options, spawnOpts) {
     if (spawnOpts === void 0) { spawnOpts = {}; }
     var child = child_process_1.spawnSync(cmd, args, spawnOpts);
     child.stdout = stringify(child.stdout);
     child.stderr = stringify(child.stderr);
     var warnings = hasWarnings(child.stdout);
-    child = formatOutput(child, args, opts);
+    child = formatOutput(child, args, options);
     var output = {
         'status': child.status,
         'stdout': child.stdout,

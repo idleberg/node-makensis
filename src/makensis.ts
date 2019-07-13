@@ -10,13 +10,13 @@ import { SpawnOptions } from 'child_process';
 const cmdHelp = (command: string = '', options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
   options = { ...options, verbose: 0 };
 
-  const p = mapArguments(['-CMDHELP'], options);
+  const [cmd, args] = mapArguments(['-CMDHELP'], options);
 
   if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
-    p.args.push(command);
+    args.push(command);
   }
 
-  return spawnMakensis(p.cmd, p.args, p.opts, spawnOpts);
+  return spawnMakensis(cmd, args, options, spawnOpts);
 };
 
 /**
@@ -28,13 +28,13 @@ const cmdHelp = (command: string = '', options: CompilerOptions = {}, spawnOpts:
 const cmdHelpSync = (command: string = '', options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
   options = { ...options, verbose: 0 };
 
-  const p = mapArguments(['-CMDHELP'], options);
+  const [cmd, args] = mapArguments(['-CMDHELP'], options);
 
   if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
-    p.args.push(command);
+    args.push(command);
   }
 
-  return spawnMakensisSync(p.cmd, p.args, p.opts, spawnOpts);
+  return spawnMakensisSync(cmd, args, options, spawnOpts);
 };
 
 /**
@@ -45,9 +45,9 @@ const cmdHelpSync = (command: string = '', options: CompilerOptions = {}, spawnO
 const hdrInfo =  (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
   options = { ...options, verbose: 0 };
 
-  const p = mapArguments(['-HDRINFO'], options);
+  const [cmd, args] = mapArguments(['-HDRINFO'], options);
 
-  return spawnMakensis(p.cmd, p.args, p.opts, spawnOpts);
+  return spawnMakensis(cmd, args, options, spawnOpts);
 };
 
 /**
@@ -57,9 +57,9 @@ const hdrInfo =  (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) =
 const hdrInfoSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
   options = { ...options, verbose: 0 };
 
-  let p = mapArguments(['-HDRINFO'], options);
+  let [cmd, args] = mapArguments(['-HDRINFO'], options);
 
-  return spawnMakensisSync(p.cmd, p.args, p.opts, spawnOpts);
+  return spawnMakensisSync(cmd, args, options, spawnOpts);
 };
 
 /**
@@ -68,26 +68,26 @@ const hdrInfoSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}
  * @param options - compiler options
  */
 const compile = (script: string, options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
-  const p = mapArguments([], options);
+  const [cmd, args] = mapArguments([], options);
 
   if (script) {
-    if (p.cmd === 'wine') {
-      p.args.push('--');
+    if (cmd === 'wine') {
+      args.push('--');
     }
-    p.args.push(script);
+    args.push(script);
   }
 
   if (typeof options.postExecute !== 'undefined') {
     if (typeof options.postExecute === 'string') {
-      p.args.push(`-X${options.postExecute}`);
+      args.push(`-X${options.postExecute}`);
     } else {
       options.postExecute.forEach((key) => {
-        p.args.push(`-X${key}`);
+        args.push(`-X${key}`);
       });
     }
   }
 
-  return spawnMakensis(p.cmd, p.args, p.opts, spawnOpts);
+  return spawnMakensis(cmd, args, options, spawnOpts);
 };
 
 /**
@@ -96,26 +96,26 @@ const compile = (script: string, options: CompilerOptions = {}, spawnOpts: Spawn
  * @param options - compiler options
  */
 const compileSync = (script: string, options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
-  let p = mapArguments([], options);
+  let [cmd, args] = mapArguments([], options);
 
   if (script) {
-    if (p.cmd === 'wine') {
-      p.args.push('--');
+    if (cmd === 'wine') {
+      args.push('--');
     }
-    p.args.push(script);
+    args.push(script);
   }
 
   if (typeof options.postExecute !== 'undefined') {
     if (typeof options.postExecute === 'string') {
-      p.args.push(`-X${options.postExecute}`);
+      args.push(`-X${options.postExecute}`);
     } else {
       options.postExecute.forEach((key) => {
-        p.args.push(`-X${key}`);
+        args.push(`-X${key}`);
       });
     }
   }
 
-  return spawnMakensisSync(p.cmd, p.args, p.opts, spawnOpts);
+  return spawnMakensisSync(cmd, args, options, spawnOpts);
 };
 
 /**
@@ -126,9 +126,9 @@ const compileSync = (script: string, options: CompilerOptions = {}, spawnOpts: S
 const version = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
   options = { ...options, verbose: 0 };
 
-  const p = mapArguments(['-VERSION'], options);
+  const [cmd, args] = mapArguments(['-VERSION'], options);
 
-  return spawnMakensis(p.cmd, p.args, p.opts, spawnOpts);
+  return spawnMakensis(cmd, args, options, spawnOpts);
 };
 
 /**
@@ -139,9 +139,9 @@ const version = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) =>
 const versionSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
   options = { ...options, verbose: 0 };
 
-  const p = mapArguments(['-VERSION'], options);
+  const [cmd, args] = mapArguments(['-VERSION'], options);
 
-  return spawnMakensisSync(p.cmd, p.args, p.opts, spawnOpts);
+  return spawnMakensisSync(cmd, args, options, spawnOpts);
 };
 
 /**
@@ -151,9 +151,9 @@ const versionSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}
  */
 const license = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
 
-  const p = mapArguments(['-LICENSE'], options);
+  const [cmd, args] = mapArguments(['-LICENSE'], options);
 
-  return spawnMakensis(p.cmd, p.args, p.opts, spawnOpts);
+  return spawnMakensis(cmd, args, options, spawnOpts);
 };
 
 /**
@@ -162,9 +162,9 @@ const license = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) =>
  * @returns - compiler license
  */
 const licenseSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
-  const p = mapArguments(['-LICENSE'], options);
+  const [cmd, args] = mapArguments(['-LICENSE'], options);
 
-  return spawnMakensisSync(p.cmd, p.args, p.opts, spawnOpts);
+  return spawnMakensisSync(cmd, args, options, spawnOpts);
 };
 
 /**
