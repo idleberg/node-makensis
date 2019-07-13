@@ -2,17 +2,17 @@ import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { spawn, spawnSync, SpawnOptions } from 'child_process';
 import { platform } from 'os';
 
-const mapArguments = (args, options): any => {
+const mapArguments = (compilerFlags, options) => {
   let cmd: string = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
-  const compilerArgs: string[] = [];
+  const compilerArgs: string[] = compilerFlags;
 
   if (platform() !== 'win32' && options.wine === true) {
     cmd = 'wine';
-    compilerArgs.unshift(cmd);
+    compilerFlags.unshift(cmd);
   }
 
   // return unless compile command
-  if (args.length > 1 || args.includes('-CMDHELP')) {
+  if (compilerFlags.length > 1 || compilerFlags.includes('-CMDHELP')) {
     return [cmd, compilerArgs];
   }
 
@@ -270,7 +270,7 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any, spawnOpts: S
   });
 };
 
-const spawnMakensisSync = (cmd: string, args: Array<string>, options: Object, spawnOpts: SpawnOptions = {}): Object => {
+const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object, spawnOpts: SpawnOptions = {}): Object => {
   let child: any = spawnSync(cmd, args, spawnOpts);
 
   child.stdout = stringify(child.stdout);
@@ -278,7 +278,7 @@ const spawnMakensisSync = (cmd: string, args: Array<string>, options: Object, sp
 
   let warnings = hasWarnings(child.stdout);
 
-  child = formatOutput(child, args, options);
+  child = formatOutput(child, args, opts);
 
   let output: Object = {
     'status': child.status,

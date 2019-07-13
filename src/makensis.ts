@@ -10,7 +10,7 @@ import { SpawnOptions } from 'child_process';
 const cmdHelp = (command: string = '', options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
   options = { ...options, verbose: 0 };
 
-  const [cmd, args] = mapArguments(['-CMDHELP'], options);
+  const [cmd, args]: any = mapArguments(['-CMDHELP'], options);
 
   if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
     args.push(command);
@@ -28,7 +28,7 @@ const cmdHelp = (command: string = '', options: CompilerOptions = {}, spawnOpts:
 const cmdHelpSync = (command: string = '', options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
   options = { ...options, verbose: 0 };
 
-  const [cmd, args] = mapArguments(['-CMDHELP'], options);
+  const [cmd, args]: any = mapArguments(['-CMDHELP'], options);
 
   if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
     args.push(command);
@@ -45,7 +45,7 @@ const cmdHelpSync = (command: string = '', options: CompilerOptions = {}, spawnO
 const hdrInfo =  (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
   options = { ...options, verbose: 0 };
 
-  const [cmd, args] = mapArguments(['-HDRINFO'], options);
+  const [cmd, args]: any = mapArguments(['-HDRINFO'], options);
 
   return spawnMakensis(cmd, args, options, spawnOpts);
 };
@@ -57,7 +57,7 @@ const hdrInfo =  (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) =
 const hdrInfoSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
   options = { ...options, verbose: 0 };
 
-  let [cmd, args] = mapArguments(['-HDRINFO'], options);
+  const [cmd, args]: any = mapArguments(['-HDRINFO'], options);
 
   return spawnMakensisSync(cmd, args, options, spawnOpts);
 };
@@ -68,7 +68,7 @@ const hdrInfoSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}
  * @param options - compiler options
  */
 const compile = (script: string, options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
-  const [cmd, args] = mapArguments([], options);
+  const [cmd, args]: any = mapArguments([], options);
 
   if (script) {
     if (cmd === 'wine') {
@@ -96,7 +96,7 @@ const compile = (script: string, options: CompilerOptions = {}, spawnOpts: Spawn
  * @param options - compiler options
  */
 const compileSync = (script: string, options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
-  let [cmd, args] = mapArguments([], options);
+  const [cmd, args]: any = mapArguments([], options);
 
   if (script) {
     if (cmd === 'wine') {
@@ -126,7 +126,7 @@ const compileSync = (script: string, options: CompilerOptions = {}, spawnOpts: S
 const version = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
   options = { ...options, verbose: 0 };
 
-  const [cmd, args] = mapArguments(['-VERSION'], options);
+  const [cmd, args]: any = mapArguments(['-VERSION'], options);
 
   return spawnMakensis(cmd, args, options, spawnOpts);
 };
@@ -139,7 +139,7 @@ const version = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) =>
 const versionSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
   options = { ...options, verbose: 0 };
 
-  const [cmd, args] = mapArguments(['-VERSION'], options);
+  const [cmd, args]: any = mapArguments(['-VERSION'], options);
 
   return spawnMakensisSync(cmd, args, options, spawnOpts);
 };
@@ -151,7 +151,7 @@ const versionSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}
  */
 const license = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
 
-  const [cmd, args] = mapArguments(['-LICENSE'], options);
+  const [cmd, args]: any = mapArguments(['-LICENSE'], options);
 
   return spawnMakensis(cmd, args, options, spawnOpts);
 };
@@ -162,7 +162,7 @@ const license = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) =>
  * @returns - compiler license
  */
 const licenseSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
-  const [cmd, args] = mapArguments(['-LICENSE'], options);
+  const [cmd, args]: any = mapArguments(['-LICENSE'], options);
 
   return spawnMakensisSync(cmd, args, options, spawnOpts);
 };
