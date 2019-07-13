@@ -2,17 +2,17 @@ import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { spawn, spawnSync, SpawnOptions } from 'child_process';
 import { platform } from 'os';
 
-const mapArguments = (compilerFlags, options) => {
+const mapArguments = (compilerArgs, options) => {
   let cmd: string = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
-  const compilerArgs: string[] = compilerFlags;
+  // const compilerArgs: string[] = compilerArgs;
 
   if (platform() !== 'win32' && options.wine === true) {
     cmd = 'wine';
-    compilerFlags.unshift(cmd);
+    compilerArgs.unshift(cmd);
   }
 
   // return unless compile command
-  if (compilerFlags.length > 1 || compilerFlags.includes('-CMDHELP')) {
+  if (compilerArgs.length > 1 || compilerArgs.includes('-CMDHELP')) {
     return [cmd, compilerArgs];
   }
 
