@@ -28,19 +28,19 @@ commands:
           command: yarn test
 
 jobs:
-  node-latest:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - build
   node-lts:
     docker:
       - image: circleci/node:lts
+    steps:
+      - build
+  node-latest:
+    docker:
+      - image: circleci/node:latest
     steps:
       - build
 
 workflows:
   node-multi-build:
     jobs:
-      - node-latest
       - node-lts
+      - node-latest
