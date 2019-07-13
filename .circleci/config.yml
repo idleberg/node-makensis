@@ -1,7 +1,9 @@
-version: 2.1
-
-commands:
-  run_tests:
+version: 2
+jobs:
+  node-latest:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:latest
     steps:
       - checkout
       - run:
@@ -14,32 +16,35 @@ commands:
           key: dependency-cache-{{ checksum "package.json" }}
       - run:
           name: Installing Dependencies
-          command: yarn
+          command: npm install
       - save_cache:
           key: dependency-cache-{{ checksum "package.json" }}
           paths:
             - ./node_modules
       - run:
-          name: Running Linter
-          command: yarn lint
-      - run:
           name: Running Tests
-          command: yarn test
-
-jobs:
-  node_lts:
+          command: npm test
+  node-lts:
+    working_directory: ~/repo
     docker:
       - image: circleci/node:lts
     steps:
-      - run_tests
-  node_latest:
-    docker:
-      - image: circleci/node:latest
-    steps:
-      - run_tests
-
-workflows:
-  node-multi-build:
-    jobs:
-      - node_lts
-      - node_latest
+      - checkout
+      - run:
+          name: Installing NSIS
+          command: 'sudo apt-get update; sudo apt-get install nsis'
+      - run:
+          name: Print NSIS version
+          command: 'makensis -VERSION'
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Installing Dependencies
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Running Tests
+          command: npm test
