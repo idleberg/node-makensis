@@ -3,76 +3,75 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var charsets_1 = require("./charsets");
 var child_process_1 = require("child_process");
 var os_1 = require("os");
-var mapArguments = function (compilerArgs, options) {
+var mapArguments = function (args, options) {
     var cmd = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
-    // const compilerArgs: string[] = compilerArgs;
     if (os_1.platform() !== 'win32' && options.wine === true) {
         cmd = 'wine';
-        compilerArgs.unshift(cmd);
+        args.unshift(cmd);
     }
     // return unless compile command
-    if (compilerArgs.length > 1 || compilerArgs.includes('-CMDHELP')) {
-        return [cmd, compilerArgs];
+    if (args.length > 1 || args.includes('-CMDHELP')) {
+        return [cmd, args, { json: options.json, wine: options.wine }];
     }
     if (typeof options.define !== 'undefined') {
         Object.keys(options.define).forEach(function (key) {
-            compilerArgs.push("-D" + key + "=" + options.define[key]);
+            args.push("-D" + key + "=" + options.define[key]);
         });
     }
     if (typeof options.preExecute !== 'undefined') {
         if (typeof options.preExecute === 'string') {
-            compilerArgs.push("-X" + options.preExecute);
+            args.push("-X" + options.preExecute);
         }
         else {
             options.preExecute.forEach(function (key) {
-                compilerArgs.push("-X" + key);
+                args.push("-X" + key);
             });
         }
         // Temporary Fallback
     }
     else if (typeof options.execute !== 'undefined') {
         if (typeof options.execute === 'string') {
-            compilerArgs.push("-X" + options.execute);
+            args.push("-X" + options.execute);
         }
         else {
             options.execute.forEach(function (key) {
-                compilerArgs.push("-X" + key);
+                args.push("-X" + key);
             });
         }
     }
     if (options.nocd === true || options.noCD === true) {
-        compilerArgs.push('-NOCD');
+        args.push('-NOCD');
     }
     if (options.noconfig === true || options.noConfig === true) {
-        compilerArgs.push('-NOCONFIG');
+        args.push('-NOCONFIG');
     }
     if (options.pause === true) {
-        compilerArgs.push('-PAUSE');
+        args.push('-PAUSE');
     }
     if (options.strict === true || options.wx === true) {
-        compilerArgs.push('-WX');
+        args.push('-WX');
     }
     if ((typeof options.inputcharset !== 'undefined' && charsets_1.input.includes(options.inputcharset)) || (typeof options.inputCharset !== 'undefined' && charsets_1.input.includes(options.inputCharset))) {
-        compilerArgs.push('-INPUTCHARSET', (options.inputcharset || options.inputCharset));
+        args.push('-INPUTCHARSET', (options.inputcharset || options.inputCharset));
     }
     if (os_1.platform() === 'win32') {
         if ((typeof options.outputcharset !== 'undefined' && charsets_1.output.includes(options.outputcharset)) || (typeof options.outputCharset !== 'undefined' && charsets_1.output.includes(options.outputCharset))) {
-            compilerArgs.push('-OUTPUTCHARSET', (options.outputcharset || options.outputCharset));
+            args.push('-OUTPUTCHARSET', (options.outputcharset || options.outputCharset));
         }
     }
     if (options.ppo === true || options.PPO === true) {
-        compilerArgs.push('-PPO');
+        args.push('-PPO');
     }
     if (options.safeppo === true || options.safePPO === true) {
-        compilerArgs.push('-SAFEPPO');
+        args.push('-SAFEPPO');
     }
     if (os_1.platform() === 'win32' && Number.isInteger(options.priority) && options.priority >= 0 && options.priority <= 5) {
-        compilerArgs.push("-P" + options.priority);
+        args.push("-P" + options.priority);
     }
     if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
-        compilerArgs.push("-V" + options.verbose);
+        args.push("-V" + options.verbose);
     }
-    return [cmd, compilerArgs];
+    return [cmd, args, { json: options.json, wine: options.wine }];
 };
 exports.mapArguments = mapArguments;
 var stringify = function (data) {
