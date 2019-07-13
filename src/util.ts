@@ -3,16 +3,19 @@ import { spawn, spawnSync, SpawnOptions } from 'child_process';
 import { platform } from 'os';
 
 const mapArguments = (args, options) => {
-  let cmd: string = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
+  const pathToMakensis: string = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
+  let cmd: string;
 
   if (platform() !== 'win32' && options.wine === true) {
     cmd = 'wine';
-    args.unshift(cmd);
+    args.unshift(pathToMakensis);
+  } else {
+    cmd = pathToMakensis;
   }
 
   // return unless compile command
   if (args.length > 1 || args.includes('-CMDHELP')) {
-    return [cmd, args];
+    return [cmd, args, {json: options.json, wine: options.wine}];
   }
 
   if (typeof options.define !== 'undefined') {
@@ -82,7 +85,7 @@ const mapArguments = (args, options) => {
     args.push(`-V${options.verbose}`);
   }
 
-  return [cmd, args];
+  return [cmd, args, {json: options.json, wine: options.wine}];
 };
 
 const stringify = (data): string => {

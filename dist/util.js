@@ -4,14 +4,18 @@ var charsets_1 = require("./charsets");
 var child_process_1 = require("child_process");
 var os_1 = require("os");
 var mapArguments = function (args, options) {
-    var cmd = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
+    var pathToMakensis = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
+    var cmd;
     if (os_1.platform() !== 'win32' && options.wine === true) {
         cmd = 'wine';
-        args.unshift(cmd);
+        args.unshift(pathToMakensis);
+    }
+    else {
+        cmd = pathToMakensis;
     }
     // return unless compile command
     if (args.length > 1 || args.includes('-CMDHELP')) {
-        return [cmd, args];
+        return [cmd, args, { json: options.json, wine: options.wine }];
     }
     if (typeof options.define !== 'undefined') {
         Object.keys(options.define).forEach(function (key) {
@@ -71,7 +75,7 @@ var mapArguments = function (args, options) {
     if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
         args.push("-V" + options.verbose);
     }
-    return [cmd, args];
+    return [cmd, args, { json: options.json, wine: options.wine }];
 };
 exports.mapArguments = mapArguments;
 var stringify = function (data) {
