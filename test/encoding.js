@@ -6,7 +6,7 @@ import test from 'ava';
 
 // Compiler arguments
 const script = {
-  cp850: join(__dirname, 'fixtures', 'cp850.nsi'),
+  // cp850: join(__dirname, 'fixtures', 'cp850.nsi'),
   utf8: join(__dirname, 'fixtures', 'utf8.nsi')
 }
 const nullDevice = (platform() === 'win32') ? 'NUL' : '/dev/null';
