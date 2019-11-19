@@ -1,4 +1,11 @@
 "use strict";
+var __spreadArrays = (this && this.__spreadArrays) || function () {
+    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+            r[k] = a[j];
+    return r;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var language_data_1 = require("@nsis/language-data");
 var codePages = [];
@@ -8,18 +15,18 @@ Object.keys(language_data_1.meta).forEach(function (key, index) {
         codePages.push("CP" + codePage);
     }
 });
-var input = [
+var input = __spreadArrays([
     'ACP'
-].concat(codePages, [
+], codePages, [
     'OEM',
     'UTF8',
     'UTF16BE',
     'UTF16LE'
 ]);
 exports.input = input;
-var output = [
+var output = __spreadArrays([
     'ACP'
-].concat(codePages, [
+], codePages, [
     'OEM',
     'UTF16BE',
     'UTF16BEBOM',

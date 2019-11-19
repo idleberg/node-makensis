@@ -22,7 +22,7 @@ var cmdHelp = function (command, options, spawnOpts) {
     if (command === void 0) { command = ''; }
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
-    options = __assign({}, options, { verbose: 0 });
+    options = __assign(__assign({}, options), { verbose: 0 });
     var _a = util_1.mapArguments(['-CMDHELP'], options), cmd = _a[0], args = _a[1], opts = _a[2];
     if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
         args.push(command);
@@ -40,7 +40,7 @@ var cmdHelpSync = function (command, options, spawnOpts) {
     if (command === void 0) { command = ''; }
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
-    options = __assign({}, options, { verbose: 0 });
+    options = __assign(__assign({}, options), { verbose: 0 });
     var _a = util_1.mapArguments(['-CMDHELP'], options), cmd = _a[0], args = _a[1], opts = _a[2];
     if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
         args.push(command);
@@ -56,7 +56,7 @@ exports.cmdHelpSync = cmdHelpSync;
 var hdrInfo = function (options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
-    options = __assign({}, options, { verbose: 0 });
+    options = __assign(__assign({}, options), { verbose: 0 });
     var _a = util_1.mapArguments(['-HDRINFO'], options), cmd = _a[0], args = _a[1], opts = _a[2];
     return util_1.spawnMakensis(cmd, args, opts, spawnOpts);
 };
@@ -68,7 +68,7 @@ exports.hdrInfo = hdrInfo;
 var hdrInfoSync = function (options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
-    options = __assign({}, options, { verbose: 0 });
+    options = __assign(__assign({}, options), { verbose: 0 });
     var _a = util_1.mapArguments(['-HDRINFO'], options), cmd = _a[0], args = _a[1], opts = _a[2];
     return util_1.spawnMakensisSync(cmd, args, opts, spawnOpts);
 };
@@ -137,7 +137,7 @@ exports.compileSync = compileSync;
 var version = function (options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
-    options = __assign({}, options, { verbose: 0 });
+    options = __assign(__assign({}, options), { verbose: 0 });
     var _a = util_1.mapArguments(['-VERSION'], options), cmd = _a[0], args = _a[1], opts = _a[2];
     return util_1.spawnMakensis(cmd, args, opts, spawnOpts);
 };
@@ -150,7 +150,7 @@ exports.version = version;
 var versionSync = function (options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
-    options = __assign({}, options, { verbose: 0 });
+    options = __assign(__assign({}, options), { verbose: 0 });
     var _a = util_1.mapArguments(['-VERSION'], options), cmd = _a[0], args = _a[1], opts = _a[2];
     return util_1.spawnMakensisSync(cmd, args, opts, spawnOpts);
 };
@@ -187,7 +187,7 @@ exports.licenseSync = licenseSync;
 var nsisDir = function (options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
-    var hdrOptions = __assign({}, options, { json: true });
+    var hdrOptions = __assign(__assign({}, options), { json: true });
     var output = hdrInfo(hdrOptions);
     return Promise.resolve(output)
         .then(function (hdrinfo) {
@@ -213,7 +213,7 @@ exports.nsisDir = nsisDir;
 var nsisDirSync = function (options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
-    var hdrOptions = __assign({}, options, { json: true });
+    var hdrOptions = __assign(__assign({}, options), { json: true });
     var hdrinfo = hdrInfoSync(hdrOptions);
     if (options.json === true) {
         return util_1.objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
