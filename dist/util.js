@@ -34,6 +34,7 @@ var mapArguments = function (args, options) {
         // Temporary Fallback
     }
     else if (typeof options.execute !== 'undefined') {
+        console.warn('Deprecation Warning: The \'execute\' option will be removed in the next minor version, please upgrade your script to use \'preExecute\' instead');
         if (typeof options.execute === 'string') {
             args.push("-X" + options.execute);
         }
