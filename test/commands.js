@@ -236,13 +236,13 @@ test('Print help for OutFile command as JSON', t => {
 
 test('Compilation', t => {
   const expected = 0;
-  const actual = makensis.compileSync(null, { postExecute: scriptDefault }).status;
+  const actual = makensis.compileSync(null, { preExecute: scriptDefault }).status;
 
   t.is(actual, expected);
 });
 
 test('Compilation [async]', t => {
-  return Promise.resolve(makensis.compile(null, { postExecute: scriptDefault }))
+  return Promise.resolve(makensis.compile(null, { preExecute: scriptDefault }))
   .then(output => {
     const expected = 0;
     const actual = output.status;
@@ -256,7 +256,7 @@ test('Compilation with warning', t => {
   const scriptWithWarning = scriptDefault.concat(['!warning']);
 
   const expected = 0;
-  const actual = makensis.compileSync(null, { postExecute: scriptWithWarning }).status;
+  const actual = makensis.compileSync(null, { preExecute: scriptWithWarning }).status;
 
   t.is(actual, expected);
 });
@@ -264,7 +264,7 @@ test('Compilation with warning', t => {
 test('Compilation with warning as JSON', t => {
   const expected = 1;
   const scriptWithWarning = scriptDefault.concat(['!warning']);
-  const actual = makensis.compileSync(null, { postExecute: scriptWithWarning, json: true }).warnings;
+  const actual = makensis.compileSync(null, { preExecute: scriptWithWarning, json: true }).warnings;
 
   t.is(actual, expected);
 });
@@ -272,7 +272,7 @@ test('Compilation with warning as JSON', t => {
 test('Compilation with warning [async]', t => {
   const scriptWithWarning = scriptDefault.concat(['!warning']);
 
-  return Promise.resolve(makensis.compile(null, { postExecute: scriptWithWarning }))
+  return Promise.resolve(makensis.compile(null, { preExecute: scriptWithWarning }))
   .then( output => {
     const expected = 0;
     const actual = output.status;
@@ -285,7 +285,7 @@ test('Compilation with warning [async]', t => {
 test('Compilation with warning as JSON [async]', t => {
   const scriptWithWarning = scriptDefault.concat(['!warning']);
 
-  return Promise.resolve(makensis.compile(null, { postExecute: scriptWithWarning, json: true }))
+  return Promise.resolve(makensis.compile(null, { preExecute: scriptWithWarning, json: true }))
   .then( output => {
     const expected = 1;
     const actual = output.warnings;
@@ -299,7 +299,7 @@ test('Compilation with error', t => {
   const scriptWithError = scriptDefault.concat(['!error']);
 
   const expected = 0;
-  const actual = makensis.compileSync(null, { postExecute: scriptWithError}).status;
+  const actual = makensis.compileSync(null, { preExecute: scriptWithError}).status;
 
   t.not(actual, expected);
 });
@@ -307,7 +307,7 @@ test('Compilation with error', t => {
 test('Compilation with error [async]', t => {
   let scriptWithError = scriptDefault.concat(['!error']);
 
-  return Promise.resolve(makensis.compile(null, { postExecute: scriptWithError}))
+  return Promise.resolve(makensis.compile(null, { preExecute: scriptWithError}))
   .catch(output => {
     const expected = 0;
     const actual = output.status;
@@ -320,7 +320,7 @@ test('Strict compilation with warning', t => {
   const scriptWithWarning = scriptDefault.concat(['!warning']);
 
   const expected = 0;
-  const actual = makensis.compileSync(null, { postExecute: scriptWithWarning, strict: true }).status;
+  const actual = makensis.compileSync(null, { preExecute: scriptWithWarning, strict: true }).status;
 
   t.not(actual, expected);
 });
@@ -328,7 +328,7 @@ test('Strict compilation with warning', t => {
 test('Strict compilation with warning [async]', t => {
   const scriptWithWarning = scriptDefault.concat(['!warning']);
 
-  return Promise.resolve(makensis.compile(null, { postExecute: scriptWithWarning, strict: true }))
+  return Promise.resolve(makensis.compile(null, { preExecute: scriptWithWarning, strict: true }))
   .catch(output => {
     const expected = 0;
     const actual = output.status;
