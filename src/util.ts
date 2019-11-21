@@ -1,6 +1,35 @@
-import { input as inputCharsets, output as outputCharsets } from './charsets';
+import {input as inputCharsets, output as outputCharsets } from './charsets';
 import { spawn, spawnSync, SpawnOptions } from 'child_process';
 import { platform } from 'os';
+
+const splitCommands = data => {
+  const args = [];
+
+  if (typeof data !== 'undefined') {
+
+    if (typeof data === 'string') {
+      if (data.trim().includes('\n')) {
+        const lines = data.trim().split('\n');
+
+        lines.forEach( line => {
+          if (line.trim().length) {
+            args.push(`-X${line}`);
+          }
+        });
+      } else {
+        args.push(`-X${data}`);
+      }
+    } else {
+      data.forEach( key => {
+       if (key.trim().length) {
+          args.push(`-X${key}`);
+        }
+      });
+    }
+  }
+
+  return args;
+};
 
 const mapArguments = (args, options) => {
   const pathToMakensis: string = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
@@ -24,26 +53,9 @@ const mapArguments = (args, options) => {
     });
   }
 
-  if (typeof options.preExecute !== 'undefined') {
-    if (typeof options.preExecute === 'string') {
-      if (options.preExecute.trim().includes('\n')) {
-        const lines = options.preExecute.trim().split('\n');
-
-        lines.forEach( line => {
-          if (line.trim().length) {
-            args.push(`-X${line}`);
-          }
-        });
-      } else {
-        args.push(`-X${options.preExecute}`);
-      }
-    } else {
-      options.preExecute.forEach( key => {
-       if (key.trim().length) {
-          args.push(`-X${key}`);
-        }
-      });
-    }
+  const preExecuteArgs = splitCommands(options.preExecute);
+  if (preExecuteArgs.length) {
+    args.push(...preExecuteArgs);
   }
 
   if (options.nocd === true || options.noCD === true) {
@@ -300,5 +312,6 @@ export {
   objectify,
   objectifyFlags,
   spawnMakensis,
-  spawnMakensisSync
+  spawnMakensisSync,
+  splitCommands
 };
