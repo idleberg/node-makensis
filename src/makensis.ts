@@ -79,9 +79,16 @@ const compile = (script: string, options: CompilerOptions = {}, spawnOpts: Spawn
 
   if (typeof options.postExecute !== 'undefined') {
     if (typeof options.postExecute === 'string') {
+      if (options.postExecute.trim().includes('\n')) {
+        const lines = options.postExecute.trim().split('\n');
+
+        lines.forEach( line => {
+          args.push(`-X${line}`);
+        });
+      }
       args.push(`-X${options.postExecute}`);
     } else {
-      options.postExecute.forEach((key) => {
+      options.postExecute.forEach( key => {
         args.push(`-X${key}`);
       });
     }

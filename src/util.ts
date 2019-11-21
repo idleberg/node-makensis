@@ -19,16 +19,23 @@ const mapArguments = (args, options) => {
   }
 
   if (typeof options.define !== 'undefined') {
-    Object.keys(options.define).forEach((key) => {
+    Object.keys(options.define).forEach( key => {
       args.push(`-D${key}=${options.define[key]}`);
     });
   }
 
   if (typeof options.preExecute !== 'undefined') {
     if (typeof options.preExecute === 'string') {
+      if (options.preExecute.trim().includes('\n')) {
+        const lines = options.preExecute.trim().split('\n');
+
+        lines.forEach( line => {
+          args.push(`-X${line}`);
+        });
+      }
       args.push(`-X${options.preExecute}`);
     } else {
-      options.preExecute.forEach((key) => {
+      options.preExecute.forEach( key => {
         args.push(`-X${key}`);
       });
     }

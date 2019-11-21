@@ -90,6 +90,12 @@ var compile = function (script, options, spawnOpts) {
     }
     if (typeof options.postExecute !== 'undefined') {
         if (typeof options.postExecute === 'string') {
+            if (options.postExecute.trim().includes('\n')) {
+                var lines = options.postExecute.trim().split('\n');
+                lines.forEach(function (line) {
+                    args.push("-X" + line);
+                });
+            }
             args.push("-X" + options.postExecute);
         }
         else {
