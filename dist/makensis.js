@@ -93,14 +93,20 @@ var compile = function (script, options, spawnOpts) {
             if (options.postExecute.trim().includes('\n')) {
                 var lines = options.postExecute.trim().split('\n');
                 lines.forEach(function (line) {
-                    args.push("-X" + line);
+                    if (line.trim().length) {
+                        args.push("-X" + line);
+                    }
                 });
             }
-            args.push("-X" + options.postExecute);
+            else {
+                args.push("-X" + options.postExecute);
+            }
         }
         else {
             options.postExecute.forEach(function (key) {
-                args.push("-X" + key);
+                if (key.trim().length) {
+                    args.push("-X" + key);
+                }
             });
         }
     }

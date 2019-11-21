@@ -27,14 +27,20 @@ var mapArguments = function (args, options) {
             if (options.preExecute.trim().includes('\n')) {
                 var lines = options.preExecute.trim().split('\n');
                 lines.forEach(function (line) {
-                    args.push("-X" + line);
+                    if (line.trim().length) {
+                        args.push("-X" + line);
+                    }
                 });
             }
-            args.push("-X" + options.preExecute);
+            else {
+                args.push("-X" + options.preExecute);
+            }
         }
         else {
             options.preExecute.forEach(function (key) {
-                args.push("-X" + key);
+                if (key.trim().length) {
+                    args.push("-X" + key);
+                }
             });
         }
     }

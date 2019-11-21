@@ -30,13 +30,18 @@ const mapArguments = (args, options) => {
         const lines = options.preExecute.trim().split('\n');
 
         lines.forEach( line => {
-          args.push(`-X${line}`);
+          if (line.trim().length) {
+            args.push(`-X${line}`);
+          }
         });
+      } else {
+        args.push(`-X${options.preExecute}`);
       }
-      args.push(`-X${options.preExecute}`);
     } else {
       options.preExecute.forEach( key => {
-        args.push(`-X${key}`);
+       if (key.trim().length) {
+          args.push(`-X${key}`);
+        }
       });
     }
   }
