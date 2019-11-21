@@ -7,8 +7,8 @@ interface CompilerOptions {
   noConfig?: boolean;
   outputCharset?: string;
   pause?: boolean;
-  postExecute?: Array<string>;
-  preExecute?: Array<string>;
+  postExecute?: string | string[];
+  preExecute?: string | string[];
   priority?: number;
   ppo?: boolean;
   safePPO?: boolean;

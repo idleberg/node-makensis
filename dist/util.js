@@ -24,6 +24,12 @@ var mapArguments = function (args, options) {
     }
     if (typeof options.preExecute !== 'undefined') {
         if (typeof options.preExecute === 'string') {
+            if (options.preExecute.trim().includes('\n')) {
+                var lines = options.preExecute.trim().split('\n');
+                lines.forEach(function (line) {
+                    args.push("-X" + line);
+                });
+            }
             args.push("-X" + options.preExecute);
         }
         else {
