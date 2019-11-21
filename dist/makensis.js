@@ -88,27 +88,29 @@ var compile = function (script, options, spawnOpts) {
         }
         args.push(script);
     }
-    if (typeof options.postExecute !== 'undefined') {
-        if (typeof options.postExecute === 'string') {
-            if (options.postExecute.trim().includes('\n')) {
-                var lines = options.postExecute.trim().split('\n');
-                lines.forEach(function (line) {
-                    if (line.trim().length) {
-                        args.push("-X" + line);
-                    }
-                });
-            }
-            else {
-                args.push("-X" + options.postExecute);
-            }
-        }
-        else {
-            options.postExecute.forEach(function (key) {
-                if (key.trim().length) {
-                    args.push("-X" + key);
-                }
-            });
-        }
+    // if (typeof options.postExecute !== 'undefined') {
+    //   if (typeof options.postExecute === 'string') {
+    //     if (options.postExecute.trim().includes('\n')) {
+    //       const lines = options.postExecute.trim().split('\n');
+    //       lines.forEach( line => {
+    //         if (line.trim().length) {
+    //           args.push(`-X${line}`);
+    //         }
+    //       });
+    //     } else {
+    //       args.push(`-X${options.postExecute}`);
+    //     }
+    //   } else {
+    //     options.postExecute.forEach( key => {
+    //       if (key.trim().length) {
+    //         args.push(`-X${key}`);
+    //       }
+    //     });
+    //   }
+    // }
+    var postExecuteArgs = util_1.splitCommands(options.postExecute);
+    if (postExecuteArgs.length) {
+        args.push.apply(args, postExecuteArgs);
     }
     return util_1.spawnMakensis(cmd, args, opts, spawnOpts);
 };

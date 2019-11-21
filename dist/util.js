@@ -3,6 +3,33 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var charsets_1 = require("./charsets");
 var child_process_1 = require("child_process");
 var os_1 = require("os");
+var splitCommands = function (data) {
+    var args = [];
+    if (typeof data !== 'undefined') {
+        if (typeof data === 'string') {
+            if (data.trim().includes('\n')) {
+                var lines = data.trim().split('\n');
+                lines.forEach(function (line) {
+                    if (line.trim().length) {
+                        args.push("-X" + line);
+                    }
+                });
+            }
+            else {
+                args.push("-X" + data);
+            }
+        }
+        else {
+            data.forEach(function (key) {
+                if (key.trim().length) {
+                    args.push("-X" + key);
+                }
+            });
+        }
+    }
+    return args;
+};
+exports.splitCommands = splitCommands;
 var mapArguments = function (args, options) {
     var pathToMakensis = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
     var cmd;
@@ -22,27 +49,9 @@ var mapArguments = function (args, options) {
             args.push("-D" + key + "=" + options.define[key]);
         });
     }
-    if (typeof options.preExecute !== 'undefined') {
-        if (typeof options.preExecute === 'string') {
-            if (options.preExecute.trim().includes('\n')) {
-                var lines = options.preExecute.trim().split('\n');
-                lines.forEach(function (line) {
-                    if (line.trim().length) {
-                        args.push("-X" + line);
-                    }
-                });
-            }
-            else {
-                args.push("-X" + options.preExecute);
-            }
-        }
-        else {
-            options.preExecute.forEach(function (key) {
-                if (key.trim().length) {
-                    args.push("-X" + key);
-                }
-            });
-        }
+    var preExecuteArgs = splitCommands(options.preExecute);
+    if (preExecuteArgs.length) {
+        args.push.apply(args, preExecuteArgs);
     }
     if (options.nocd === true || options.noCD === true) {
         args.push('-NOCD');
