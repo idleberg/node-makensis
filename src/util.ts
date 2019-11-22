@@ -6,7 +6,6 @@ const splitCommands = data => {
   const args = [];
 
   if (typeof data !== 'undefined') {
-
     if (typeof data === 'string') {
       if (data.trim().includes('\n')) {
         const lines = data.trim().split('\n');
