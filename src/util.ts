@@ -169,7 +169,7 @@ const objectifyHelp = (input: string, opts: any): Object => {
 
   let output = {};
 
-  lines.forEach((line) => {
+  lines.forEach( line => {
     let command = line.substr(0, line.indexOf(' '));
     const usage = line.substr(line.indexOf(' ') + 1);
 
@@ -187,7 +187,7 @@ const objectifyHelp = (input: string, opts: any): Object => {
 const objectifyFlags = (input: string, opts: any): Object => {
   const lines = splitLines(input, opts);
 
-  let filteredLines = lines.filter((line) => {
+  let filteredLines = lines.filter( line => {
     if (line !== '') {
       return line;
     }
@@ -199,7 +199,7 @@ const objectifyFlags = (input: string, opts: any): Object => {
   let symbols;
 
   // Split sizes
-  filteredLines.forEach((line) => {
+  filteredLines.forEach( line => {
     let obj = {};
 
     if (line.startsWith('Size of ')) {
@@ -219,7 +219,7 @@ const objectifyFlags = (input: string, opts: any): Object => {
   output['sizes'] = tableSizes;
 
   // Split symbols
-  symbols.forEach((symbol) => {
+  symbols.forEach( symbol => {
     const pair = symbol.split('=');
     const obj = {};
 
@@ -264,7 +264,7 @@ const detectOutfile = (str: string): string => {
 };
 
 const spawnMakensis = (cmd: string, args: Array<string>, opts: any, spawnOpts: SpawnOptions = {}): Object => {
-  return new Promise<Object>((resolve, reject) => {
+  return new Promise<Object>( (resolve, reject) => {
     let stream: any = {
       stdout: '',
       stderr: ''
@@ -275,7 +275,7 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any, spawnOpts: S
 
     const child: any = spawn(cmd, args, spawnOpts);
 
-    child.stdout.on('data', (line) => {
+    child.stdout.on('data', line => {
       line = stringify(line);
 
       warnings += hasWarnings(line);
@@ -287,11 +287,11 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any, spawnOpts: S
       stream.stdout += line;
     });
 
-    child.stderr.on('data', (line) => {
+    child.stderr.on('data', line => {
       stream.stderr += stringify(line);
     });
 
-    child.on('close', (code) => {
+    child.on('close', code => {
       stream = formatOutput(stream, args, opts);
 
       const output: Object = {
