@@ -23,7 +23,6 @@
     "ava": "^2.4.0",
     "husky": "^3.1.0",
     "tslint": "^5.20.1",
-    "typedoc": "^0.15.3",
     "typescript": "^3.7.2"
   },
   "scripts": {
