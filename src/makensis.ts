@@ -110,7 +110,7 @@ const compileSync = (script: string, options: CompilerOptions = {}, spawnOpts: S
     if (typeof options.postExecute === 'string') {
       args.push(`-X${options.postExecute}`);
     } else {
-      options.postExecute.forEach((key) => {
+      options.postExecute.forEach( key => {
         args.push(`-X${key}`);
       });
     }
