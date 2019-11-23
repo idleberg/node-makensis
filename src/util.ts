@@ -120,7 +120,7 @@ const hasWarnings = (line: string): number => {
   return 0;
 };
 
-const formatOutput = (stream, args, opts): Object => {
+const formatOutput = (stream, args, opts: CompilerOptions): Object => {
   if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
     // CMDHELP writes to stderr by default, let's fix this
     [stream.stdout, stream.stderr] = [stream.stderr, ''];
@@ -263,7 +263,7 @@ const detectOutfile = (str: string): string => {
   return '';
 };
 
-const spawnMakensis = (cmd: string, args: Array<string>, opts: any, spawnOpts: SpawnOptions = {}): Object => {
+const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, spawnOpts: SpawnOptions = {}): Object => {
   return new Promise<Object>( (resolve, reject) => {
     let stream: any = {
       stdout: '',
@@ -314,7 +314,7 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any, spawnOpts: S
   });
 };
 
-const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object, spawnOpts: SpawnOptions = {}): Object => {
+const spawnMakensisSync = (cmd: string, args: Array<string>, opts: CompilerOptions, spawnOpts: SpawnOptions = {}): Object => {
   let child: any = spawnSync(cmd, args, spawnOpts);
 
   child.stdout = stringify(child.stdout);
