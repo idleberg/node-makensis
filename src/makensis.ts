@@ -83,27 +83,6 @@ const compile = (script: string, options: CompilerOptions = {}, spawnOpts: Spawn
     args.push(script);
   }
 
-  // if (typeof options.postExecute !== 'undefined') {
-  //   if (typeof options.postExecute === 'string') {
-  //     if (options.postExecute.trim().includes('\n')) {
-  //       const lines = options.postExecute.trim().split('\n');
-
-  //       lines.forEach( line => {
-  //         if (line.trim().length) {
-  //           args.push(`-X${line}`);
-  //         }
-  //       });
-  //     } else {
-  //       args.push(`-X${options.postExecute}`);
-  //     }
-  //   } else {
-  //     options.postExecute.forEach( key => {
-  //       if (key.trim().length) {
-  //         args.push(`-X${key}`);
-  //       }
-  //     });
-  //   }
-  // }
   const postExecuteArgs = splitCommands(options.postExecute);
   if (postExecuteArgs.length) {
     args.push(...postExecuteArgs);
