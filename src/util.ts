@@ -246,20 +246,44 @@ const splitLines = (input: string, opts: any): Array<string> => {
   return output;
 };
 
+const detectOutfile = (str: string): string => {
+  if (str.includes('Output: "')) {
+    const regex = /Output: \"(.*\.exe)\"\r?\n/g;
+    const result = regex.exec(str.toString());
+
+    if (typeof result === 'object') {
+      try {
+        return result['1'];
+      } catch (e) {
+        return '';
+      }
+    }
+  }
+
+  return '';
+};
+
 const spawnMakensis = (cmd: string, args: Array<string>, opts: any, spawnOpts: SpawnOptions = {}): Object => {
   return new Promise<Object>((resolve, reject) => {
     let stream: any = {
       stdout: '',
       stderr: ''
     };
-    let warnings = 0;
+
+    let warnings: number = 0;
+    let outFile: string = '';
 
     const child: any = spawn(cmd, args, spawnOpts);
 
     child.stdout.on('data', (line) => {
       line = stringify(line);
 
-      warnings = hasWarnings(line);
+      warnings += hasWarnings(line);
+
+      if (outFile === '') {
+        outFile = detectOutfile(line);
+      }
+
       stream.stdout += line;
     });
 
@@ -277,6 +301,10 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: any, spawnOpts: S
         'warnings': warnings
       };
 
+      if (outFile.length) {
+        output['outfile'] = outFile;
+      }
+
       if (code === 0) {
         resolve(output);
       } else {
@@ -293,6 +321,7 @@ const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object, spawn
   child.stderr = stringify(child.stderr);
 
   const warnings = hasWarnings(child.stdout);
+  const outFile = detectOutfile(child.stdout);
 
   child = formatOutput(child, args, opts);
 
@@ -302,6 +331,10 @@ const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object, spawn
     'stderr': child.stderr,
     'warnings': warnings
   };
+
+  if (outFile.length) {
+    output['outfile'] = outFile;
+  }
 
   return output;
 };
