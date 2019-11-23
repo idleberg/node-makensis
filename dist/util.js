@@ -210,6 +210,21 @@ var splitLines = function (input, opts) {
     var output = input.split(lineBreak);
     return output;
 };
+var detectOutfile = function (str) {
+    if (str.includes('Output: "')) {
+        var regex = /Output: \"(.*\.exe)\"\r?\n/g;
+        var result = regex.exec(str.toString());
+        if (typeof result === 'object') {
+            try {
+                return result['1'];
+            }
+            catch (e) {
+                return '';
+            }
+        }
+    }
+    return '';
+};
 var spawnMakensis = function (cmd, args, opts, spawnOpts) {
     if (spawnOpts === void 0) { spawnOpts = {}; }
     return new Promise(function (resolve, reject) {
@@ -218,10 +233,14 @@ var spawnMakensis = function (cmd, args, opts, spawnOpts) {
             stderr: ''
         };
         var warnings = 0;
+        var outFile = '';
         var child = child_process_1.spawn(cmd, args, spawnOpts);
         child.stdout.on('data', function (line) {
             line = stringify(line);
-            warnings = hasWarnings(line);
+            warnings += hasWarnings(line);
+            if (outFile === '') {
+                outFile = detectOutfile(line);
+            }
             stream.stdout += line;
         });
         child.stderr.on('data', function (line) {
@@ -235,6 +254,9 @@ var spawnMakensis = function (cmd, args, opts, spawnOpts) {
                 'stderr': stream.stderr,
                 'warnings': warnings
             };
+            if (outFile.length) {
+                output['outfile'] = outFile;
+            }
             if (code === 0) {
                 resolve(output);
             }
@@ -251,6 +273,7 @@ var spawnMakensisSync = function (cmd, args, opts, spawnOpts) {
     child.stdout = stringify(child.stdout);
     child.stderr = stringify(child.stderr);
     var warnings = hasWarnings(child.stdout);
+    var outFile = detectOutfile(child.stdout);
     child = formatOutput(child, args, opts);
     var output = {
         'status': child.status,
@@ -258,6 +281,9 @@ var spawnMakensisSync = function (cmd, args, opts, spawnOpts) {
         'stderr': child.stderr,
         'warnings': warnings
     };
+    if (outFile.length) {
+        output['outfile'] = outFile;
+    }
     return output;
 };
 exports.spawnMakensisSync = spawnMakensisSync;
