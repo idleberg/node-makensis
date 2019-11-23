@@ -111,7 +111,7 @@ const isInteger = (x): boolean => {
 };
 
 const hasWarnings = (line: string): number => {
-  let match = line.match(/(\d+) warnings?\:/);
+  const match = line.match(/(\d+) warnings?\:/);
 
   if (match !== null) {
     return parseInt(match[1]);
@@ -128,7 +128,7 @@ const formatOutput = (stream, args, opts): Object => {
 
   if (opts.json === true) {
     if (args.includes('-CMDHELP')) {
-      let minLength = (opts.wine === true) ? 2 : 1;
+      const minLength = (opts.wine === true) ? 2 : 1;
 
       if (args.length === minLength) {
         stream.stdout = objectifyHelp(stream.stdout, opts);
@@ -164,14 +164,14 @@ const objectify = (input, key = null): Object => {
 };
 
 const objectifyHelp = (input: string, opts: any): Object => {
-  let lines = splitLines(input, opts);
+  const lines = splitLines(input, opts);
   lines.sort();
 
   let output = {};
 
   lines.forEach((line) => {
     let command = line.substr(0, line.indexOf(' '));
-    let usage = line.substr(line.indexOf(' ') + 1);
+    const usage = line.substr(line.indexOf(' ') + 1);
 
     // Workaround
     if (['!AddIncludeDir', '!AddPluginDir'].includes(command)) {
@@ -185,7 +185,7 @@ const objectifyHelp = (input: string, opts: any): Object => {
 };
 
 const objectifyFlags = (input: string, opts: any): Object => {
-  let lines = splitLines(input, opts);
+  const lines = splitLines(input, opts);
 
   let filteredLines = lines.filter((line) => {
     if (line !== '') {
@@ -194,8 +194,8 @@ const objectifyFlags = (input: string, opts: any): Object => {
   });
 
   let output = {};
-  let tableSizes = {};
-  let tableSymbols = {};
+  const tableSizes = {};
+  const tableSymbols = {};
   let symbols;
 
   // Split sizes
@@ -220,8 +220,8 @@ const objectifyFlags = (input: string, opts: any): Object => {
 
   // Split symbols
   symbols.forEach((symbol) => {
-    let pair = symbol.split('=');
-    let obj = {};
+    const pair = symbol.split('=');
+    const obj = {};
 
     if (pair.length > 1 && pair[0] !== 'undefined') {
       if (isInteger(pair[1]) === true) {
@@ -240,8 +240,8 @@ const objectifyFlags = (input: string, opts: any): Object => {
 };
 
 const splitLines = (input: string, opts: any): Array<string> => {
-  let lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
-  let output = input.split(lineBreak);
+  const lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
+  const output = input.split(lineBreak);
 
   return output;
 };
@@ -292,11 +292,11 @@ const spawnMakensisSync = (cmd: string, args: Array<string>, opts: Object, spawn
   child.stdout = stringify(child.stdout);
   child.stderr = stringify(child.stderr);
 
-  let warnings = hasWarnings(child.stdout);
+  const warnings = hasWarnings(child.stdout);
 
   child = formatOutput(child, args, opts);
 
-  let output: Object = {
+  const output: Object = {
     'status': child.status,
     'stdout': child.stdout,
     'stderr': child.stderr,
