@@ -10,7 +10,7 @@ A Node wrapper for `makensis`, the compiler for NSIS installers. Supports both, 
 
 ## Prerequisites
 
-Make sure that NSIS is properly installed with `makensis` in your PATH [environmental variable](http://superuser.com/a/284351/195953).
+Make sure that NSIS is properly installed with `makensis` in your PATH [environment variable](http://superuser.com/a/284351/195953).
 
 ### Windows
 
