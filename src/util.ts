@@ -73,13 +73,13 @@ const mapArguments = (args, options) => {
     args.push('-WX');
   }
 
-  if ((typeof options.inputcharset !== 'undefined' && inputCharsets.includes(options.inputcharset)) || (typeof options.inputCharset !== 'undefined' && inputCharsets.includes(options.inputCharset))) {
-    args.push('-INPUTCHARSET', (options.inputcharset || options.inputCharset));
+  if (typeof options.inputCharset !== 'undefined' && inputCharsets.includes(options.inputCharset)) {
+    args.push('-INPUTCHARSET', options.inputCharset);
   }
 
   if (platform() === 'win32') {
-    if ((typeof options.outputcharset !== 'undefined' && outputCharsets.includes(options.outputcharset)) || (typeof options.outputCharset !== 'undefined' && outputCharsets.includes(options.outputCharset))) {
-      args.push('-OUTPUTCHARSET', (options.outputcharset || options.outputCharset));
+    if (typeof options.outputCharset !== 'undefined' && outputCharsets.includes(options.outputCharset)) {
+      args.push('-OUTPUTCHARSET', options.outputCharset);
     }
   }
 
