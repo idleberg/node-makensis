@@ -272,7 +272,7 @@ define: {
 
 Type: `Array<string>|string`
 
-Prepends script-commands to the script, parameters are processed by order. Equivalent of the `-X` switch
+Prepends script-commands to the script, parameters are processed by order. Equivalent of the `-X` switch when used *before* passing a script.
 
 **Example:**
 
@@ -287,7 +287,7 @@ preExecute: [
 
 Type: `Array<string>|string`
 
-Appends script-commands to the script, parameters are processed by order. Equivalent of the `-X` switch
+Appends script-commands to the script, parameters are processed by order. Equivalent of the `-X` switch when used *after* passing a script.
 
 **Example:**
 
