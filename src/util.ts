@@ -305,11 +305,8 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, 
         output['outfile'] = outFile;
       }
 
-      if (code === 0) {
-        resolve(output);
-      } else {
-        reject(output);
-      }
+      // Always resolve Promise!
+      resolve(output);
     });
   });
 };

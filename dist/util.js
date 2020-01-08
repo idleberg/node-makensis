@@ -65,12 +65,12 @@ var mapArguments = function (args, options) {
     if (options.strict === true || options.wx === true) {
         args.push('-WX');
     }
-    if ((typeof options.inputcharset !== 'undefined' && charsets_1.input.includes(options.inputcharset)) || (typeof options.inputCharset !== 'undefined' && charsets_1.input.includes(options.inputCharset))) {
-        args.push('-INPUTCHARSET', (options.inputcharset || options.inputCharset));
+    if (typeof options.inputCharset !== 'undefined' && charsets_1.input.includes(options.inputCharset)) {
+        args.push('-INPUTCHARSET', options.inputCharset);
     }
     if (os_1.platform() === 'win32') {
-        if ((typeof options.outputcharset !== 'undefined' && charsets_1.output.includes(options.outputcharset)) || (typeof options.outputCharset !== 'undefined' && charsets_1.output.includes(options.outputCharset))) {
-            args.push('-OUTPUTCHARSET', (options.outputcharset || options.outputCharset));
+        if (typeof options.outputCharset !== 'undefined' && charsets_1.output.includes(options.outputCharset)) {
+            args.push('-OUTPUTCHARSET', options.outputCharset);
         }
     }
     if (options.ppo === true || options.PPO === true) {
@@ -257,12 +257,8 @@ var spawnMakensis = function (cmd, args, opts, spawnOpts) {
             if (outFile.length) {
                 output['outfile'] = outFile;
             }
-            if (code === 0) {
-                resolve(output);
-            }
-            else {
-                reject(output);
-            }
+            // Always resolve Promise!
+            resolve(output);
         });
     });
 };
