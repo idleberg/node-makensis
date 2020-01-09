@@ -8,6 +8,7 @@ import test from 'ava';
 // Generate script using compiler flags
 const defaultScriptArray = [
   `OutFile ${nullDevice}`,
+  `Unicode true`,
   `Section -default`,
   `Nop`,
   `SectionEnd`
@@ -15,6 +16,7 @@ const defaultScriptArray = [
 
 const defaultScriptString = `
   OutFile ${nullDevice}
+  Unicode true
   Section -default
   Nop
   SectionEnd
@@ -64,7 +66,9 @@ test('Print makensis version [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch();
+  .catch(error => {
+    t.fail(error);
+  });
 });
 
 test('Print makensis version as JSON [async]', t => {
@@ -83,7 +87,9 @@ test('Print makensis version as JSON [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch();
+  .catch(error => {
+    t.fail(error);
+  });
 });
 
 test('Print makensis license', t => {
@@ -382,6 +388,8 @@ test('Print ${NSISDIR} [async]', t => {
     const actual = existsSync(nsisCfg);
 
     t.is(actual, expected)
+  }).catch(error => {
+    t.fail(error);
   });
 });
 
@@ -404,5 +412,7 @@ test('Print ${NSISDIR} as JSON [async]', t => {
     const actual = existsSync(nsisCfg);
 
     t.is(actual, expected)
+  }).catch(error => {
+    t.fail(error);
   });
 });

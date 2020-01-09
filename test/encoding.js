@@ -61,10 +61,12 @@ test('Compile script with incorrect charset [async]', t => {
   options = { ...options, inputCharset: 'UTF16BE' };
 
   return Promise.resolve(makensis.compile(script['utf8'], options))
-  .catch(output => {
+  .then(output => {
     const expected = 0;
     const actual = output.status;
 
     t.not(actual, expected)
+  }).catch(error => {
+    t.fail(error);
   });
 });
