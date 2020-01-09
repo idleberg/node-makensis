@@ -67,6 +67,6 @@ test('Compile script with incorrect charset [async]', t => {
 
     t.not(actual, expected)
   }).catch(error => {
-    t.fail(error);
+    t.fail(error.stderr);
   });
 });
