@@ -89,7 +89,7 @@ test('Print makensis version as JSON [async]', t => {
     t.is(actual, expected);
   })
   .catch(error => {
-    t.fail(error);
+    t.fail(error.stderr);
   });
 });
 
@@ -388,7 +388,7 @@ test('Print ${NSISDIR} [async]', t => {
     t.is(actual, expected)
   })
   .catch(error => {
-    t.fail(error);
+    t.fail(error.stderr);
   });
 });
 
@@ -413,6 +413,6 @@ test('Print ${NSISDIR} as JSON [async]', t => {
     t.is(actual, expected)
   })
   .catch(error => {
-    t.fail(error);
+    t.fail(error.stderr);
   });
 });
