@@ -11,6 +11,7 @@ const nullDevice = (platform() === 'win32') ? 'NUL' : '/dev/null';
 
 const defaultScriptArray = [
   `OutFile ${nullDevice}`,
+  `Unicode true`,
   `Section -default`,
   `Nop`,
   `SectionEnd`
@@ -18,6 +19,7 @@ const defaultScriptArray = [
 
 const defaultScriptString = `
   OutFile ${nullDevice}
+  Unicode true
   Section -default
   Nop
   SectionEnd
@@ -86,7 +88,9 @@ test('Print makensis version as JSON [async]', t => {
 
     t.is(actual, expected);
   })
-  .catch();
+  .catch(error => {
+    t.fail(error);
+  });
 });
 
 test('Print makensis license', t => {
@@ -334,7 +338,7 @@ test('Compilation with error [async]', t => {
   let scriptWithError = defaultScriptArray.concat(['!error']);
 
   return Promise.resolve(makensis.compile(null, { preExecute: scriptWithError}))
-  .catch(output => {
+  .then(output => {
     const expected = 0;
     const actual = output.status;
 
@@ -355,7 +359,7 @@ test('Strict compilation with warning [async]', t => {
   const scriptWithWarning = defaultScriptArray.concat(['!warning']);
 
   return Promise.resolve(makensis.compile(null, { preExecute: scriptWithWarning, strict: true }))
-  .catch(output => {
+  .then(output => {
     const expected = 0;
     const actual = output.status;
 
@@ -382,6 +386,9 @@ test('Print ${NSISDIR} [async]', t => {
     const actual = existsSync(nsisCfg);
 
     t.is(actual, expected)
+  })
+  .catch(error => {
+    t.fail(error);
   });
 });
 
@@ -404,5 +411,8 @@ test('Print ${NSISDIR} as JSON [async]', t => {
     const actual = existsSync(nsisCfg);
 
     t.is(actual, expected)
+  })
+  .catch(error => {
+    t.fail(error);
   });
 });

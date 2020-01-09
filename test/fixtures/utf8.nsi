@@ -3,6 +3,7 @@
 !endif
 
 OutFile ${NULL_DEVICE}
+Unicode true
 
 Section
     Nop
