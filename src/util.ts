@@ -305,7 +305,7 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, 
         output['outfile'] = outFile;
       }
 
-      if (code === 0 || (code !== 0 && output.stderr.length)) {
+      if (code === 0 || (code !== 0 && !stream.stderr.includes('ENOENT'))) {
         resolve(output);
       } else {
         reject(output.stderr);
@@ -321,6 +321,7 @@ const spawnMakensisSync = (cmd: string, args: Array<string>, opts: CompilerOptio
   child.stderr = stringify(child.stderr);
 
   const warnings = hasWarnings(child.stdout);
+
   const outFile = detectOutfile(child.stdout);
 
   child = formatOutput(child, args, opts);
