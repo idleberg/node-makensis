@@ -257,7 +257,7 @@ var spawnMakensis = function (cmd, args, opts, spawnOpts) {
             if (outFile.length) {
                 output['outfile'] = outFile;
             }
-            if (code === 0 || (code !== 0 && output.stderr.length)) {
+            if (code === 0 || (code !== 0 && !stream.stderr.includes('ENOENT'))) {
                 resolve(output);
             }
             else {
