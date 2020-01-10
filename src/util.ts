@@ -294,7 +294,7 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, 
     child.on('close', code => {
       stream = formatOutput(stream, args, opts);
 
-      const output: Object = {
+      const output: CompilerOutput = {
         'status': code,
         'stdout': stream.stdout,
         'stderr': stream.stderr,
@@ -305,8 +305,11 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, 
         output['outfile'] = outFile;
       }
 
-      // Always resolve Promise!
-      resolve(output);
+      if (code === 0 || (code !== 0 && output.stderr.length)) {
+        resolve(output);
+      } else {
+        reject(output.stderr);
+      }
     });
   });
 };
@@ -322,7 +325,7 @@ const spawnMakensisSync = (cmd: string, args: Array<string>, opts: CompilerOptio
 
   child = formatOutput(child, args, opts);
 
-  const output: Object = {
+  const output: CompilerOutput = {
     'status': child.status,
     'stdout': child.stdout,
     'stderr': child.stderr,

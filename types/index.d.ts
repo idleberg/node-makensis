@@ -19,3 +19,10 @@ interface CompilerOptions {
   // library
   pathToMakensis?: string;
 }
+
+interface CompilerOutput {
+  status: number;
+  stdout: string;
+  stderr: string;
+  warnings: number;
+}

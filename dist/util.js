@@ -257,8 +257,12 @@ var spawnMakensis = function (cmd, args, opts, spawnOpts) {
             if (outFile.length) {
                 output['outfile'] = outFile;
             }
-            // Always resolve Promise!
-            resolve(output);
+            if (code === 0 || (code !== 0 && output.stderr.length)) {
+                resolve(output);
+            }
+            else {
+                reject(output.stderr);
+            }
         });
     });
 };
