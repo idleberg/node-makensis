@@ -206,19 +206,19 @@ var objectifyFlags = function (input, opts) {
 };
 exports.objectifyFlags = objectifyFlags;
 var hasErrorCode = function (input) {
-    if (input.includes('ENOENT')) {
+    if (input.includes('ENOENT') && input.match(/\bENOENT\b/)) {
         return true;
     }
-    else if (input.includes('EACCES')) {
+    else if (input.includes('EACCES') && input.match(/\bEACCES\b/)) {
         return true;
     }
-    else if (input.includes('EISDIR')) {
+    else if (input.includes('EISDIR') && input.match(/\bEISDIR\b/)) {
         return true;
     }
-    else if (input.includes('EMFILE')) {
+    else if (input.includes('EMFILE') && input.match(/\bEMFILE\b/)) {
         return true;
     }
-    else if (input.includes('EMFILE')) {
+    else if (input.includes('EMFILE') && input.match(/\bEMFILE\b/)) {
         return true;
     }
     return false;
