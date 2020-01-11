@@ -322,6 +322,7 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, 
       }
 
       if (code === 0 || (code !== 0 && !hasErrorCode(stream.stderr))) {
+        // Promise also resolves on MakeNSIS errors
         resolve(output);
       } else {
         reject(output.stderr);

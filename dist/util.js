@@ -205,7 +205,7 @@ var objectifyFlags = function (input, opts) {
     return output;
 };
 exports.objectifyFlags = objectifyFlags;
-var hasNodeError = function (input) {
+var hasErrorCode = function (input) {
     if (input.includes('ENOENT')) {
         return true;
     }
@@ -275,7 +275,8 @@ var spawnMakensis = function (cmd, args, opts, spawnOpts) {
             if (outFile.length) {
                 output['outfile'] = outFile;
             }
-            if (code === 0 || (code !== 0 && !hasNodeError(stream.stderr))) {
+            if (code === 0 || (code !== 0 && !hasErrorCode(stream.stderr))) {
+                // Promise also resolves on MakeNSIS errors
                 resolve(output);
             }
             else {
