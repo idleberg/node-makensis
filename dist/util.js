@@ -205,6 +205,24 @@ var objectifyFlags = function (input, opts) {
     return output;
 };
 exports.objectifyFlags = objectifyFlags;
+var hasNodeError = function (input) {
+    if (input.includes('ENOENT')) {
+        return true;
+    }
+    else if (input.includes('EACCES')) {
+        return true;
+    }
+    else if (input.includes('EISDIR')) {
+        return true;
+    }
+    else if (input.includes('EMFILE')) {
+        return true;
+    }
+    else if (input.includes('EMFILE')) {
+        return true;
+    }
+    return false;
+};
 var splitLines = function (input, opts) {
     var lineBreak = (os_1.platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
     var output = input.split(lineBreak);
@@ -257,7 +275,7 @@ var spawnMakensis = function (cmd, args, opts, spawnOpts) {
             if (outFile.length) {
                 output['outfile'] = outFile;
             }
-            if (code === 0 || (code !== 0 && !stream.stderr.includes('ENOENT'))) {
+            if (code === 0 || (code !== 0 && !hasNodeError(stream.stderr))) {
                 resolve(output);
             }
             else {
