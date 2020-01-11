@@ -81,30 +81,25 @@ const options = {
 // Asynchronous: Promise API
 makensis.compile('path/to/installer.nsi', options)
 .then(output => {
-    console.log(`Standard output:\n${output.stdout}`);
+    console.log('Compiler output:', output);
 })
-.catch (output => {
-    console.error(`Exit Code ${output.status}: ${output.stderr}`);
+.catch (error => {
+    console.error(error);
 });
 
 // Asynchronous: async/await
 (async () => {
     try {
         let output = await makensis.compile('path/to/installer.nsi', options);
-        console.log(`Standard output:\n${output.stdout}`);
-    } catch (output) {
-        console.error(`Exit Code ${output.status}: ${output.stderr}`);
+        console.log('Compiler output:', output);
+    } catch (error) {
+        console.error(error);
     }
 })();
 
 // Synchronous
 let output = makensis.compileSync('path/to/installer.nsi', options);
-
-if (output.status === 0) {
-    console.log(`Standard output:\n${output.stdout}`);
-} else {
-    console.error(`Exit Code ${output.status}: ${output.stderr}`);
-}
+console.log('Compiler output:', output);
 ```
 
 ### Methods

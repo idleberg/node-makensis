@@ -239,6 +239,22 @@ const objectifyFlags = (input: string, opts: any): Object => {
   return output;
 };
 
+const hasErrorCode = (input: string) => {
+  if (input.includes('ENOENT')) {
+    return true;
+  } else if (input.includes('EACCES')) {
+    return true;
+  } else if (input.includes('EISDIR')) {
+    return true;
+  } else if (input.includes('EMFILE')) {
+    return true;
+  } else if (input.includes('EMFILE')) {
+    return true;
+  }
+
+  return false;
+};
+
 const splitLines = (input: string, opts: any): Array<string> => {
   const lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
   const output = input.split(lineBreak);
@@ -305,7 +321,7 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, 
         output['outfile'] = outFile;
       }
 
-      if (code === 0 || (code !== 0 && !stream.stderr.includes('ENOENT'))) {
+      if (code === 0 || (code !== 0 && !hasErrorCode(stream.stderr))) {
         resolve(output);
       } else {
         reject(output.stderr);
