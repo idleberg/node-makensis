@@ -19,11 +19,11 @@
     "@nsis/language-data": "^0.7.2"
   },
   "devDependencies": {
-    "@types/node": "^13.1.5",
+    "@types/node": "^13.1.8",
     "ava": "^2.4.0",
-    "husky": "^4.0.1",
+    "husky": "^4.0.10",
     "tslint": "^5.20.1",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.5"
   },
   "scripts": {
     "build": "tsc --pretty --project ./",
