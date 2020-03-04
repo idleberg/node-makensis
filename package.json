@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@types/node": "^13.7.7",
-    "ava": "^2.4.0",
+    "ava": "^3.5.0",
     "husky": "^4.2.3",
     "rimraf": "^3.0.2",
     "tslint": "^6.0.0",

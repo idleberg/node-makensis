@@ -1,8 +1,8 @@
 // Dependencies
-import * as makensis from '../dist/makensis';
-import { join } from 'path';
-import { platform } from 'os';
-import test from 'ava';
+const makensis = require('../dist/makensis');
+const { join } = require('path');
+const { platform } = require('os');
+const test = require('ava');
 
 // Compiler arguments
 const script = {
