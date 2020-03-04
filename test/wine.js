@@ -1,10 +1,10 @@
 // Dependencies
-import * as makensis from '../dist/makensis';
-import { spawnSync } from 'child_process';
-import { exists, existsSync } from 'fs';
-import { join } from 'path';
-import { platform } from 'os';
-import test from 'ava';
+const makensis = require('../dist/makensis');
+const { spawnSync } = require('child_process');
+const { exists, existsSync } = require('fs');
+const { join } = require('path');
+const { platform } = require('os');
+const test = require('ava');
 
 
 // Generate script using compiler flags
