@@ -19,14 +19,15 @@
     "@nsis/language-data": "^0.7.2"
   },
   "devDependencies": {
-    "@types/node": "^13.1.8",
+    "@types/node": "^13.7.7",
     "ava": "^2.4.0",
-    "husky": "^4.0.10",
-    "tslint": "^5.20.1",
-    "typescript": "^3.7.5"
+    "husky": "^4.2.3",
+    "rimraf": "^3.0.2",
+    "tslint": "^6.0.0",
+    "typescript": "^3.8.3"
   },
   "scripts": {
-    "build": "tsc --pretty --project ./",
+    "build": "rimraf tsconfig.tsbuildinfo && tsc --pretty --project ./",
     "dev": "tsc --watch --pretty --project ./",
     "lint": "tslint --project .",
     "lint:fix": "tslint --fix --project .",
