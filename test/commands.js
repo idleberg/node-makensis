@@ -61,25 +61,29 @@ test('Print makensis version as JSON', t => {
   t.is(actual, expected);
 });
 
-test('Print makensis version [async]', t => {
-  return Promise.resolve(makensis.version())
-  .then(output => {
+test('Print makensis version [async]', async (t) => {
+  try {
+    const output = await makensis.version();
+
     const expected = version;
     const actual = output.stdout;
 
     t.is(actual, expected);
-  })
-  .catch();
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
 });
 
-test('Print makensis version as JSON [async]', t => {
-  return Promise.resolve(makensis.version({ json: true }))
-  .then(output => {
+test('Print makensis version as JSON [async]', async (t) => {
+  try {
+    const output = await makensis.version({ json: true });
+
     let expected = version;
 
     if (expected.startsWith('v')) {
       expected = expected.substr(1);
     }
+
     expected = JSON.stringify({ version: expected });
 
     let actual = output.stdout;
@@ -87,10 +91,10 @@ test('Print makensis version as JSON [async]', t => {
     actual = JSON.stringify(actual);
 
     t.is(actual, expected);
-  })
-  .catch(error => {
-    t.fail(error.stderr);
-  });
+
+  } catch({ stderr }) {
+    t.fail(stderr);
+  }
 });
 
 test('Print makensis license', t => {
@@ -110,27 +114,29 @@ test('Print makensis license as JSON', t => {
   t.is(actual, expected);
 });
 
-test('Print makensis license [async]', t => {
-  return Promise.resolve(makensis.license())
-  .then(output => {
+test('Print makensis license [async]', async (t) => {
+  try {
+    const output = await makensis.license();
+
     const expected = license;
     const actual = output.stdout;
 
     t.is(actual, expected);
-  })
-  .catch(output => {
+
+  } catch ({ stdout }) {
     // NSIS < 3.03
     t.log('Legacy NSIS');
     const expected = license;
-    const actual = output.stdout;
+    const actual = stdout;
 
     t.is(actual, expected);
-  });
+  }
 });
 
-test('Print makensis license as JSON [async]', t => {
-  return Promise.resolve(makensis.license({ json: true }))
-  .then(output => {
+test('Print makensis license as JSON [async]', async (t) => {
+  try {
+    const output = await makensis.license({ json: true });
+
     let expected = license;
     expected = JSON.stringify({ license: expected });
 
@@ -139,19 +145,18 @@ test('Print makensis license as JSON [async]', t => {
     actual = JSON.stringify(actual);
 
     t.is(actual, expected);
-  })
-  .catch(output => {
+  } catch (error) {
     // NSIS < 3.03
     t.log('Legacy NSIS');
     let expected = license;
     expected = JSON.stringify({ license: expected });
 
-    let actual = output.stdout;
+    let actual = stdout;
     actual.license = `${actual.license}`;
     actual = JSON.stringify(actual);
 
     t.is(actual, expected);
-  });
+  }
 });
 
 test('Print compiler information', t => {
@@ -168,22 +173,22 @@ test('Print compiler information as JSON', t => {
   t.is(actual, expected);
 });
 
-test('Print compiler information [async]', t => {
-  return Promise.resolve(makensis.hdrInfo())
-  .then(output => {
+test('Print compiler information [async]', async (t) => {
+  try {
+    const output = await makensis.hdrInfo();
+
     const expected = hdrInfo;
     const actual = output.stdout;
 
     t.is(actual, expected);
-  })
-  .catch(output => {
+  } catch ({ stdout }) {
     // NSIS < 3.03
     t.log('Legacy NSIS');
     const expected = hdrInfo;
-    const actual = output.stdout;
+    const actual = stdout;
 
     t.is(actual, expected);
-  });
+  }
 });
 
 test('Print help for all commands', t => {
@@ -193,7 +198,7 @@ test('Print help for all commands', t => {
   t.is(actual, expected);
 });
 
-// test('Print help for all commands [async]', t => {
+// test('Print help for all commands [async]', async (t) => {
 //   return Promise.resolve(makensis.cmdHelp())
 //   .then(output => {
 //     const expected = cmdHelp;
@@ -218,22 +223,22 @@ test('Print help for OutFile command', t => {
   t.is(actual, expected);
 });
 
-test('Print help for OutFile command [async]', t => {
-  return Promise.resolve(makensis.cmdHelp('OutFile'))
-  .then(output => {
+test('Print help for OutFile command [async]', async (t) => {
+  try {
+    const output = await makensis.cmdHelp('OutFile');
+
     const expected = outFile;
     const actual = output.stdout;
 
     t.is(actual, expected);
-  })
-  .catch(output => {
+  } catch ({ stdout }) {
     // NSIS < 3.03
     t.log('Legacy NSIS');
     const expected = outFile;
-    const actual = output.stdout;
+    const actual = stdout;
 
     t.is(actual, expected);
-  });
+  }
 });
 
 test('Print help for OutFile command as JSON', t => {
@@ -260,30 +265,34 @@ test('Compilation from String', t => {
   t.is(actual, expected);
 });
 
-test('Compilation from Array [async]', t => {
-  return Promise.resolve(makensis.compile(null, { preExecute: defaultScriptString }))
-  .then(output => {
+test('Compilation from Array [async]', async (t) => {
+  try {
+    const output = await makensis.compile(null, { preExecute: defaultScriptString });
+
     const expected = 0;
     const actual = output.status;
 
     t.is(actual, expected);
-  })
-  .catch();
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
 });
 
-test('Compilation from String [async]', t => {
-  return Promise.resolve(makensis.compile(null, { preExecute: defaultScriptString }))
-  .then(output => {
+test('Compilation from String [async]', async (t) => {
+  try {
+    const output = await makensis.compile(null, { preExecute: defaultScriptString });
+
     const expected = 0;
     const actual = output.status;
 
     t.is(actual, expected);
-  })
-  .catch();
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
 });
 
 test('Compilation with warning', t => {
-  const scriptWithWarning = defaultScriptArray.concat(['!warning']);
+  const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
   const expected = 0;
   const actual = makensis.compileSync(null, { preExecute: scriptWithWarning }).status;
@@ -293,40 +302,43 @@ test('Compilation with warning', t => {
 
 test('Compilation with warning as JSON', t => {
   const expected = 1;
-  const scriptWithWarning = defaultScriptArray.concat(['!warning']);
+  const scriptWithWarning = [...defaultScriptArray, '!warning'];
   const actual = makensis.compileSync(null, { preExecute: scriptWithWarning, json: true }).warnings;
 
   t.is(actual, expected);
 });
 
-test('Compilation with warning [async]', t => {
-  const scriptWithWarning = defaultScriptArray.concat(['!warning']);
+test('Compilation with warning [async]', async (t) => {
+  const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
-  return Promise.resolve(makensis.compile(null, { preExecute: scriptWithWarning }))
-  .then( output => {
+  try {
+    const output = await makensis.compile(null, { preExecute: scriptWithWarning });
     const expected = 0;
     const actual = output.status;
 
     t.is(actual, expected);
-  })
-  .catch();
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
 });
 
-test('Compilation with warning as JSON [async]', t => {
-  const scriptWithWarning = defaultScriptArray.concat(['!warning']);
+test('Compilation with warning as JSON [async]', async (t) => {
+  const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
-  return Promise.resolve(makensis.compile(null, { preExecute: scriptWithWarning, json: true }))
-  .then( output => {
+  try {
+    const output = await makensis.compile(null, { preExecute: scriptWithWarning, json: true });
+
     const expected = 1;
     const actual = output.warnings;
 
     t.is(actual, expected);
-  })
-  .catch();
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
 });
 
 test('Compilation with error', t => {
-  const scriptWithError = defaultScriptArray.concat(['!error']);
+  const scriptWithError = [...defaultScriptArray, '!error'];
 
   const expected = 0;
   const actual = makensis.compileSync(null, { preExecute: scriptWithError}).status;
@@ -334,20 +346,23 @@ test('Compilation with error', t => {
   t.not(actual, expected);
 });
 
-test('Compilation with error [async]', t => {
-  let scriptWithError = defaultScriptArray.concat(['!error']);
+test('Compilation with error [async]', async (t) => {
+  let scriptWithError = [...defaultScriptArray, '!error'];
 
-  return Promise.resolve(makensis.compile(null, { preExecute: scriptWithError}))
-  .then(output => {
+  try {
+    const output = await makensis.compile(null, { preExecute: scriptWithError});
+
     const expected = 0;
     const actual = output.status;
 
-    t.not(actual, expected)
-  });
+    t.not(actual, expected);
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
 });
 
 test('Strict compilation with warning', t => {
-  const scriptWithWarning = defaultScriptArray.concat(['!warning']);
+  const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
   const expected = 0;
   const actual = makensis.compileSync(null, { preExecute: scriptWithWarning, strict: true }).status;
@@ -355,16 +370,19 @@ test('Strict compilation with warning', t => {
   t.not(actual, expected);
 });
 
-test('Strict compilation with warning [async]', t => {
-  const scriptWithWarning = defaultScriptArray.concat(['!warning']);
+test('Strict compilation with warning [async]', async (t) => {
+  const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
-  return Promise.resolve(makensis.compile(null, { preExecute: scriptWithWarning, strict: true }))
-  .then(output => {
+  try {
+    const output = await makensis.compile(null, { preExecute: scriptWithWarning, strict: true });
+
     const expected = 0;
     const actual = output.status;
 
     t.not(actual, expected)
-  });
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
 });
 
 test('Print ${NSISDIR}', t => {
@@ -377,19 +395,21 @@ test('Print ${NSISDIR}', t => {
   t.is(actual, expected);
 });
 
-test('Print ${NSISDIR} [async]', t => {
-  return Promise.resolve(makensis.nsisDir())
-  .then(nsisDir => {
+test('Print ${NSISDIR} [async]', async (t) => {
+
+  try {
+    const nsisDir = await makensis.nsisDir();
     const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
 
     const expected = true;
     const actual = existsSync(nsisCfg);
 
     t.is(actual, expected)
-  })
-  .catch(error => {
-    t.fail(error.stderr);
-  });
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
+
+
 });
 
 test('Print ${NSISDIR} as JSON', t => {
@@ -402,17 +422,16 @@ test('Print ${NSISDIR} as JSON', t => {
   t.is(actual, expected);
 });
 
-test('Print ${NSISDIR} as JSON [async]', t => {
-  return Promise.resolve(makensis.nsisDir({ json: true }))
-  .then(output => {
-    const nsisCfg = join(output.nsisdir, 'Include', 'MUI2.nsh');
+test('Print ${NSISDIR} as JSON [async]', async (t) => {
+  try {
+    const nsisDir = await makensis.nsisDir({ json: true });
+    const nsisCfg = join(nsisDir.nsisdir, 'Include', 'MUI2.nsh');
 
     const expected = true;
     const actual = existsSync(nsisCfg);
 
     t.is(actual, expected)
-  })
-  .catch(error => {
-    t.fail(error.stderr);
-  });
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
 });
