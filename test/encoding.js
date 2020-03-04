@@ -36,37 +36,38 @@ test('Compile script with incorrect charset', t => {
   t.not(actual, expected);
 });
 
-test('Compile script with correct charset [async]', t => {
+test('Compile script with correct charset [async]', async (t) => {
   options = { ...options, inputCharset: 'UTF8' };
 
-  return Promise.resolve(makensis.compile(script['utf8'], options))
-  .then(output => {
+  try {
+    const { status } =  await makensis.compile(script['utf8'], options);
+
     const expected = 0;
-    const actual = output.status;
+    const actual = status;
 
     t.is(actual, expected)
-  })
-  .catch(output => {
+  } catch ({ stderr }) {
     // NSIS < 3.03
     t.log('Legacy NSIS');
 
     const expected = '';
-    const actual = output.stderr;
+    const actual = stderr;
 
     t.is(actual, expected)
-  });
+  }
 });
 
-test('Compile script with incorrect charset [async]', t => {
+test('Compile script with incorrect charset [async]', async (t) => {
   options = { ...options, inputCharset: 'UTF16BE' };
 
-  return Promise.resolve(makensis.compile(script['utf8'], options))
-  .then(output => {
+  try {
+    const { status } = makensis.compile(script['utf8'], options);
+
     const expected = 0;
-    const actual = output.status;
+    const actual = status;
 
     t.not(actual, expected)
-  }).catch(error => {
-    t.fail(error.stderr);
-  });
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
 });
