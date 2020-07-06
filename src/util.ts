@@ -275,7 +275,7 @@ const detectOutfile = (str: string): string => {
 
 const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, spawnOpts: SpawnOptions = {}): Promise<CompilerOutput> => {
   return new Promise<CompilerOutput>( (resolve, reject) => {
-    let stream: any = {
+    let stream: StreamOptions = {
       stdout: '',
       stderr: ''
     };

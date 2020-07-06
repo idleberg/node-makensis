@@ -16,7 +16,7 @@ import { SpawnOptions } from 'child_process';
 const cmdHelp = (command = '', options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}): Promise<CompilerOutput> => {
   options = { ...options, verbose: 0 };
 
-  const [cmd, args, opts]: any[] = mapArguments(['-CMDHELP'], options);
+  const [cmd, args, opts]: any = mapArguments(['-CMDHELP'], options);
 
   if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
     args.push(command);
