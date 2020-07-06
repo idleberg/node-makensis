@@ -1,6 +1,6 @@
 interface CompilerOptions {
   // makensis
-  define?: Object;
+  define?: unknown;
   inputCharset?: string;
   json?: boolean;
   noCD?: boolean;
