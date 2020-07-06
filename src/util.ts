@@ -2,7 +2,7 @@ import {input as inputCharsets, output as outputCharsets } from './charsets';
 import { spawn, spawnSync, SpawnOptions } from 'child_process';
 import { platform } from 'os';
 
-const splitCommands = data => {
+const splitCommands = (data: string | string[]): string[] => {
   const args = [];
 
   if (typeof data !== 'undefined') {
@@ -10,7 +10,7 @@ const splitCommands = data => {
       if (data.trim().includes('\n')) {
         const lines = data.trim().split('\n');
 
-        lines.forEach( line => {
+        lines.map( line => {
           if (line.trim().length) {
             args.push(`-X${line}`);
           }
@@ -19,7 +19,7 @@ const splitCommands = data => {
         args.push(`-X${data}`);
       }
     } else {
-      data.forEach( key => {
+      data.map( key => {
        if (key.trim().length) {
           args.push(`-X${key}`);
         }
@@ -30,7 +30,7 @@ const splitCommands = data => {
   return args;
 };
 
-const mapArguments = (args, options) => {
+const mapArguments = (args: string[], options: CompilerOptions): unknown[] => {
   const pathToMakensis: string = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
   let cmd: string;
 
@@ -57,11 +57,11 @@ const mapArguments = (args, options) => {
     args.push(...preExecuteArgs);
   }
 
-  if (options.nocd === true || options.noCD === true) {
+  if (options.noCD === true) {
     args.push('-NOCD');
   }
 
-  if (options.noconfig === true || options.noConfig === true) {
+  if (options.noConfig === true) {
     args.push('-NOCONFIG');
   }
 
@@ -69,7 +69,7 @@ const mapArguments = (args, options) => {
     args.push('-PAUSE');
   }
 
-  if (options.strict === true || options.wx === true) {
+  if (options.strict === true) {
     args.push('-WX');
   }
 
@@ -83,11 +83,11 @@ const mapArguments = (args, options) => {
     }
   }
 
-  if (options.ppo === true || options.PPO === true) {
+  if (options.ppo === true) {
     args.push('-PPO');
   }
 
-  if (options.safeppo === true || options.safePPO === true) {
+  if (options.safePPO === true) {
     args.push('-SAFEPPO');
   }
 
@@ -111,7 +111,7 @@ const isInteger = (x): boolean => {
 };
 
 const hasWarnings = (line: string): number => {
-  const match = line.match(/(\d+) warnings?\:/);
+  const match = line.match(/(\d+) warnings?:/);
 
   if (match !== null) {
     return parseInt(match[1]);
@@ -120,7 +120,7 @@ const hasWarnings = (line: string): number => {
   return 0;
 };
 
-const formatOutput = (stream, args, opts: CompilerOptions): Object => {
+const formatOutput = (stream, args, opts: CompilerOptions): unknown => {
   if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
     // CMDHELP writes to stderr by default, let's fix this
     [stream.stdout, stream.stderr] = [stream.stderr, ''];
@@ -147,7 +147,7 @@ const formatOutput = (stream, args, opts: CompilerOptions): Object => {
   return stream;
 };
 
-const objectify = (input, key = null): Object => {
+const objectify = (input: null | string, key = null): unknown => {
   let output = {};
 
   if (key === 'version' && input.startsWith('v')) {
@@ -163,11 +163,11 @@ const objectify = (input, key = null): Object => {
   return output;
 };
 
-const objectifyHelp = (input: string, opts: any): Object => {
+const objectifyHelp = (input: string, opts: unknown): unknown => {
   const lines = splitLines(input, opts);
   lines.sort();
 
-  let output = {};
+  const output = {};
 
   lines.forEach( line => {
     let command = line.substr(0, line.indexOf(' '));
@@ -184,26 +184,24 @@ const objectifyHelp = (input: string, opts: any): Object => {
   return output;
 };
 
-const objectifyFlags = (input: string, opts: any): Object => {
+const objectifyFlags = (input: string, opts: unknown): unknown => {
   const lines = splitLines(input, opts);
 
-  let filteredLines = lines.filter( line => {
+  const filteredLines = lines.filter( line => {
     if (line !== '') {
       return line;
     }
   });
 
-  let output = {};
+  const output = {};
   const tableSizes = {};
   const tableSymbols = {};
   let symbols;
 
   // Split sizes
   filteredLines.forEach( line => {
-    let obj = {};
-
     if (line.startsWith('Size of ')) {
-      let pair = line.split(' is ');
+      const pair = line.split(' is ');
 
       pair[0] = pair[0].replace('Size of ', '');
       pair[0] = pair[0].replace(' ', '_');
@@ -215,13 +213,11 @@ const objectifyFlags = (input: string, opts: any): Object => {
     }
   });
 
-  let objSizes = {};
   output['sizes'] = tableSizes;
 
   // Split symbols
-  symbols.forEach( symbol => {
+  symbols.map( symbol => {
     const pair = symbol.split('=');
-    const obj = {};
 
     if (pair.length > 1 && pair[0] !== 'undefined') {
       if (isInteger(pair[1]) === true) {
@@ -248,14 +244,12 @@ const hasErrorCode = (input: string) => {
     return true;
   } else if (input.includes('EMFILE') && input.match(/\bEMFILE\b/)) {
     return true;
-  } else if (input.includes('EMFILE') && input.match(/\bEMFILE\b/)) {
-    return true;
   }
 
   return false;
 };
 
-const splitLines = (input: string, opts: any): Array<string> => {
+const splitLines = (input: string, opts: CompilerOptions): Array<string> => {
   const lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
   const output = input.split(lineBreak);
 
@@ -264,7 +258,7 @@ const splitLines = (input: string, opts: any): Array<string> => {
 
 const detectOutfile = (str: string): string => {
   if (str.includes('Output: "')) {
-    const regex = /Output: \"(.*\.exe)\"\r?\n/g;
+    const regex = /Output: "(.*\.exe)"\r?\n/g;
     const result = regex.exec(str.toString());
 
     if (typeof result === 'object') {
@@ -279,15 +273,15 @@ const detectOutfile = (str: string): string => {
   return '';
 };
 
-const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, spawnOpts: SpawnOptions = {}): Object => {
-  return new Promise<Object>( (resolve, reject) => {
+const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, spawnOpts: SpawnOptions = {}): Promise<CompilerOutput> => {
+  return new Promise<CompilerOutput>( (resolve, reject) => {
     let stream: any = {
       stdout: '',
       stderr: ''
     };
 
-    let warnings: number = 0;
-    let outFile: string = '';
+    let warnings = 0;
+    let outFile  = '';
 
     const child: any = spawn(cmd, args, spawnOpts);
 
@@ -331,14 +325,13 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, 
   });
 };
 
-const spawnMakensisSync = (cmd: string, args: Array<string>, opts: CompilerOptions, spawnOpts: SpawnOptions = {}): Object => {
+const spawnMakensisSync = (cmd: string, args: Array<string>, opts: CompilerOptions, spawnOpts: SpawnOptions = {}): CompilerOutput => {
   let child: any = spawnSync(cmd, args, spawnOpts);
 
   child.stdout = stringify(child.stdout);
   child.stderr = stringify(child.stderr);
 
   const warnings = hasWarnings(child.stdout);
-
   const outFile = detectOutfile(child.stdout);
 
   child = formatOutput(child, args, opts);
