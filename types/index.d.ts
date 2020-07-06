@@ -26,3 +26,8 @@ interface CompilerOutput {
   stderr: string;
   warnings: number;
 }
+
+interface StreamOptions {
+  stdout?: string;
+  stderr?: string;
+}
