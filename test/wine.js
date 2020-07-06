@@ -1,7 +1,9 @@
+/* eslint-disable */
+
 // Dependencies
 const makensis = require('../dist/makensis');
 const { spawnSync } = require('child_process');
-const { exists, existsSync } = require('fs');
+const { existsSync } = require('fs');
 const { join } = require('path');
 const { platform } = require('os');
 const test = require('ava');
