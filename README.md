@@ -310,7 +310,3 @@ Specifies a custom path to `makensis`
 ## License
 
 This work is licensed under [The MIT License](https://opensource.org/licenses/MIT)
-
-## Donate
-
-You are welcome to support this project using [Flattr](https://flattr.com/submit/auto?user_id=idleberg&url=https://github.com/idleberg/node-makensis) or Bitcoin `17CXJuPsmhuTzFV2k4RKYwpEHVjskJktRd`
