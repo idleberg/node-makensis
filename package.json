@@ -16,22 +16,29 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@nsis/language-data": "^0.7.2"
+    "@nsis/language-data": "^0.7.3"
   },
   "devDependencies": {
-    "@types/node": "^13.7.7",
-    "ava": "^3.5.0",
-    "husky": "^4.2.3",
+    "@rollup/plugin-commonjs": "^13.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-typescript": "^5.0.1",
+    "@types/node": "^13.13.13",
+    "@typescript-eslint/eslint-plugin": "^3.6.0",
+    "@typescript-eslint/parser": "^3.6.0",
+    "ava": "^3.10.0",
+    "eslint": "^7.4.0",
+    "husky": "^4.2.5",
     "rimraf": "^3.0.2",
-    "tslint": "^6.0.0",
-    "typescript": "^3.8.3"
+    "rollup": "^2.20.0",
+    "typescript": "^3.9.6"
   },
   "scripts": {
-    "build": "rimraf tsconfig.tsbuildinfo && tsc --pretty --project ./",
-    "dev": "tsc --watch --pretty --project ./",
-    "lint": "tslint --project .",
-    "lint:fix": "tslint --fix --project .",
+    "build": "rollup -c",
+    "dev": "npm run start",
+    "lint": "eslint ./src",
+    "lint:fix": "eslint --fix ./src",
     "prepublishOnly": "npm run lint && npm run build",
+    "start": "rollup -w -c",
     "test": "ava ./test/commands.js ./test/encoding.js --verbose",
     "test:wine": "ava ./test/wine.js --verbose --timeout 2m"
   },
