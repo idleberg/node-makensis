@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // Dependencies
 const makensis = require('../dist/makensis');
 const { join } = require('path');
