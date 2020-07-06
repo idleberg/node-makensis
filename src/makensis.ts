@@ -13,10 +13,10 @@ import { SpawnOptions } from 'child_process';
  * @param options - compiler options
  * @returns - usage description
  */
-const cmdHelp = (command: string = '', options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
+const cmdHelp = (command = '', options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}): Promise<CompilerOutput> => {
   options = { ...options, verbose: 0 };
 
-  const [cmd, args, opts]: any = mapArguments(['-CMDHELP'], options);
+  const [cmd, args, opts]: any[] = mapArguments(['-CMDHELP'], options);
 
   if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
     args.push(command);
@@ -31,7 +31,7 @@ const cmdHelp = (command: string = '', options: CompilerOptions = {}, spawnOpts:
  * @param options - compiler options
  * @returns - usage description
  */
-const cmdHelpSync = (command: string = '', options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
+const cmdHelpSync = (command = '', options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}): CompilerOutput => {
   options = { ...options, verbose: 0 };
 
   const [cmd, args, opts]: any = mapArguments(['-CMDHELP'], options);
@@ -48,7 +48,7 @@ const cmdHelpSync = (command: string = '', options: CompilerOptions = {}, spawnO
  * @param options - compiler options
  * @returns - compiler options
  */
-const hdrInfo =  (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
+const hdrInfo =  (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}): Promise<CompilerOutput> => {
   options = { ...options, verbose: 0 };
 
   const [cmd, args, opts]: any = mapArguments(['-HDRINFO'], options);
@@ -60,7 +60,7 @@ const hdrInfo =  (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) =
  * Returns information about which options were used to compile MakeNSIS
  * @returns - compiler options
  */
-const hdrInfoSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
+const hdrInfoSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}): CompilerOutput => {
   options = { ...options, verbose: 0 };
 
   const [cmd, args, opts]: any = mapArguments(['-HDRINFO'], options);
@@ -73,7 +73,7 @@ const hdrInfoSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}
  * @param} script - path to NSIS script
  * @param options - compiler options
  */
-const compile = (script: string, options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
+const compile = (script: string, options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}): Promise<CompilerOutput> => {
   const [cmd, args, opts]: any = mapArguments([], options);
 
   if (script) {
@@ -96,7 +96,7 @@ const compile = (script: string, options: CompilerOptions = {}, spawnOpts: Spawn
  * @param script - path to NSIS script
  * @param options - compiler options
  */
-const compileSync = (script: string, options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
+const compileSync = (script: string, options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}): CompilerOutput => {
   const [cmd, args, opts]: any = mapArguments([], options);
 
   if (script) {
@@ -124,7 +124,7 @@ const compileSync = (script: string, options: CompilerOptions = {}, spawnOpts: S
  * @param options - compiler options
  * @returns - compiler version
  */
-const version = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
+const version = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}): Promise<CompilerOutput> => {
   options = { ...options, verbose: 0 };
 
   const [cmd, args, opts]: any = mapArguments(['-VERSION'], options);
@@ -137,7 +137,7 @@ const version = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) =>
  * @param options - compiler options
  * @returns - compiler version
  */
-const versionSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
+const versionSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}): CompilerOutput => {
   options = { ...options, verbose: 0 };
 
   const [cmd, args, opts]: any = mapArguments(['-VERSION'], options);
@@ -150,7 +150,7 @@ const versionSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}
  * @param options - compiler options
  * @returns - compiler license
  */
-const license = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
+const license = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}): Promise<CompilerOutput> => {
 
   const [cmd, args, opts]: any = mapArguments(['-LICENSE'], options);
 
@@ -162,7 +162,7 @@ const license = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) =>
  * @param options - compiler options
  * @returns - compiler license
  */
-const licenseSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
+const licenseSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}): CompilerOutput => {
   const [cmd, args, opts]: any = mapArguments(['-LICENSE'], options);
 
   return spawnMakensisSync(cmd, args, opts, spawnOpts);
@@ -173,7 +173,7 @@ const licenseSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}
  * @param options - compiler options
  * @returns - NSIS directory
  */
-const nsisDir = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
+const nsisDir = (options: CompilerOptions = {}): string | unknown => {
   const hdrOptions = { ...options, json: true };
   const output: any = hdrInfo(hdrOptions);
 
@@ -200,7 +200,7 @@ const nsisDir = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) =>
  * @param options - compiler options
  * @returns - compiler version
  */
-const nsisDirSync = (options: CompilerOptions = {}, spawnOpts: SpawnOptions = {}) => {
+const nsisDirSync = (options: CompilerOptions = {}): string | unknown => {
   const hdrOptions = { ...options, json: true };
   const hdrinfo: any = hdrInfoSync(hdrOptions);
 

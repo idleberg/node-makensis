@@ -1,5 +1,7 @@
-"use strict";
+'use strict';
+
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.splitCommands = exports.spawnMakensisSync = exports.spawnMakensis = exports.objectifyFlags = exports.objectify = exports.mapArguments = void 0;
 var charsets_1 = require("./charsets");
 var child_process_1 = require("child_process");
 var os_1 = require("os");
@@ -9,7 +11,7 @@ var splitCommands = function (data) {
         if (typeof data === 'string') {
             if (data.trim().includes('\n')) {
                 var lines = data.trim().split('\n');
-                lines.forEach(function (line) {
+                lines.map(function (line) {
                     if (line.trim().length) {
                         args.push("-X" + line);
                     }
@@ -20,7 +22,7 @@ var splitCommands = function (data) {
             }
         }
         else {
-            data.forEach(function (key) {
+            data.map(function (key) {
                 if (key.trim().length) {
                     args.push("-X" + key);
                 }
@@ -53,16 +55,16 @@ var mapArguments = function (args, options) {
     if (preExecuteArgs.length) {
         args.push.apply(args, preExecuteArgs);
     }
-    if (options.nocd === true || options.noCD === true) {
+    if (options.noCD === true) {
         args.push('-NOCD');
     }
-    if (options.noconfig === true || options.noConfig === true) {
+    if (options.noConfig === true) {
         args.push('-NOCONFIG');
     }
     if (options.pause === true) {
         args.push('-PAUSE');
     }
-    if (options.strict === true || options.wx === true) {
+    if (options.strict === true) {
         args.push('-WX');
     }
     if (typeof options.inputCharset !== 'undefined' && charsets_1.input.includes(options.inputCharset)) {
@@ -73,10 +75,10 @@ var mapArguments = function (args, options) {
             args.push('-OUTPUTCHARSET', options.outputCharset);
         }
     }
-    if (options.ppo === true || options.PPO === true) {
+    if (options.ppo === true) {
         args.push('-PPO');
     }
-    if (options.safeppo === true || options.safePPO === true) {
+    if (options.safePPO === true) {
         args.push('-SAFEPPO');
     }
     if (os_1.platform() === 'win32' && Number.isInteger(options.priority) && options.priority >= 0 && options.priority <= 5) {
@@ -95,7 +97,7 @@ var isInteger = function (x) {
     return x % 2 === 0;
 };
 var hasWarnings = function (line) {
-    var match = line.match(/(\d+) warnings?\:/);
+    var match = line.match(/(\d+) warnings?:/);
     if (match !== null) {
         return parseInt(match[1]);
     }
@@ -173,7 +175,6 @@ var objectifyFlags = function (input, opts) {
     var symbols;
     // Split sizes
     filteredLines.forEach(function (line) {
-        var obj = {};
         if (line.startsWith('Size of ')) {
             var pair = line.split(' is ');
             pair[0] = pair[0].replace('Size of ', '');
@@ -185,12 +186,10 @@ var objectifyFlags = function (input, opts) {
             symbols = line.replace('Defined symbols: ', '').split(',');
         }
     });
-    var objSizes = {};
     output['sizes'] = tableSizes;
     // Split symbols
-    symbols.forEach(function (symbol) {
+    symbols.map(function (symbol) {
         var pair = symbol.split('=');
-        var obj = {};
         if (pair.length > 1 && pair[0] !== 'undefined') {
             if (isInteger(pair[1]) === true) {
                 pair[1] = parseInt(pair[1], 10);
@@ -218,9 +217,6 @@ var hasErrorCode = function (input) {
     else if (input.includes('EMFILE') && input.match(/\bEMFILE\b/)) {
         return true;
     }
-    else if (input.includes('EMFILE') && input.match(/\bEMFILE\b/)) {
-        return true;
-    }
     return false;
 };
 var splitLines = function (input, opts) {
@@ -230,7 +226,7 @@ var splitLines = function (input, opts) {
 };
 var detectOutfile = function (str) {
     if (str.includes('Output: "')) {
-        var regex = /Output: \"(.*\.exe)\"\r?\n/g;
+        var regex = /Output: "(.*\.exe)"\r?\n/g;
         var result = regex.exec(str.toString());
         if (typeof result === 'object') {
             try {
