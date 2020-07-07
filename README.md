@@ -246,7 +246,8 @@ Type: `Object`
 
 Defines symbols for the script [to value]. Equivalent of the `-D` switch.
 
-**Example:**
+<details>
+<summary><strong>Example</strong></summary>
 
 ```js
 define: {
@@ -254,6 +255,7 @@ define: {
     "LANGUAGE": "English"
 }
 ```
+</details>
 
 #### preExecute
 
@@ -269,6 +271,7 @@ preExecute: [
     "SetCompressorDictSize 16"
 ]
 ```
+</details>
 
 #### postExecute
 
@@ -276,13 +279,15 @@ Type: `Array<string>|string`
 
 Appends script-commands to the script, can be passed as array or multiline-script. Equivalent of the `-X` switch when used *after* passing a script.
 
-**Example:**
+<details>
+<summary><strong>Example</strong></summary>
 
 ```js
 postExecute: [
     `DetailPrint "That's all Folks!"`
 ]
 ```
+</details>
 
 #### wine
 
