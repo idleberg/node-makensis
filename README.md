@@ -12,8 +12,7 @@ A Node wrapper for `makensis`, the compiler for NSIS installers. Supports both, 
 
 Make sure that NSIS is properly installed with `makensis` in your PATH [environment variable](http://superuser.com/a/284351/195953).
 
-<details>
-<summary><h3>Windows</h3></summary>
+### Windows
 
 Download the NSIS installer from [SourceForge](https://sourceforge.net/p/nsis) and run setup. Once completed, you need to edit your environmental variable manually.
 
@@ -22,10 +21,8 @@ Alternatively, you can install NSIS using the [Scoop](https://github.com/NSIS-De
 ```sh
 $ scoop install nsis/nsis
 ```
-</details>
 
-<details>
-<summary><h3>Linux</h3></summary>
+### Linux
 
 Install NSIS from your distribution's default package manager, for example:
 
@@ -36,10 +33,8 @@ $ sudo apt-get install -t unstable nsis
 # Red Hat
 $ sudo dnf install nsis
 ```
-</details>
 
-<details>
-<summary><h3>macOS</h3></summary>
+### macOS
 
 Install NSIS using [Homebrew](http://brew.sh/) or [MacPorts](https://www.macports.org/):
 
@@ -50,13 +45,10 @@ $ brew install nsis
 # MacPorts
 $ port install nsis
 ```
-</details>
 
-<details>
-<summary><h3>Wine</h3></summary>
+### Wine
 
 You can setup NSIS in your [Wine](http://winehq.org/) environment, but keep in mind that Wine writes standard streams while executing `makensis`. Additional parsing of the compiler output might be necessary.
-</details>
 
 ## Installation
 
