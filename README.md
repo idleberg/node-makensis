@@ -263,7 +263,8 @@ Type: `Array<string>|string`
 
 Prepends script-commands to the script, can be passed as array or multiline-script. Equivalent of the `-X` switch when used *before* passing a script.
 
-**Example:**
+<details>
+<summary><strong>Example</strong></summary>
 
 ```js
 preExecute: [
