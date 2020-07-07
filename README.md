@@ -22,7 +22,7 @@ Alternatively, you can install NSIS using the [Scoop](https://github.com/NSIS-De
 ```sh
 $ scoop install nsis/nsis
 ```
-<details>
+</details>
 
 <details>
 <summary><h3>Linux</h3></summary>
@@ -36,7 +36,7 @@ $ sudo apt-get install -t unstable nsis
 # Red Hat
 $ sudo dnf install nsis
 ```
-<details>
+</details>
 
 <details>
 <summary><h3>macOS</h3></summary>
@@ -50,13 +50,13 @@ $ brew install nsis
 # MacPorts
 $ port install nsis
 ```
-<details>
+</details>
 
 <details>
 <summary><h3>Wine</h3></summary>
 
 You can setup NSIS in your [Wine](http://winehq.org/) environment, but keep in mind that Wine writes standard streams while executing `makensis`. Additional parsing of the compiler output might be necessary.
-<details>
+</details>
 
 ## Installation
 
