@@ -103,7 +103,9 @@ const mapArguments = (args: string[], options: CompilerOptions): unknown[] => {
 };
 
 const stringify = (data): string => {
-  return data.toString().trim();
+  return data
+    ? data.toString().trim()
+    : '';
 };
 
 const isInteger = (x): boolean => {
