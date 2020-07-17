@@ -91,7 +91,9 @@ var mapArguments = function (args, options) {
 };
 exports.mapArguments = mapArguments;
 var stringify = function (data) {
-    return data.toString().trim();
+    return data
+        ? data.toString().trim()
+        : '';
 };
 var isInteger = function (x) {
     return x % 2 === 0;
