@@ -5,15 +5,7 @@ import typescript from '@rollup/plugin-typescript';
 const plugins = [
   commonjs(),
   json(),
-  typescript({
-    "module": "commonjs",
-        "moduleResolution": "node",
-        "lib": [
-            "dom",
-            "esnext"
-        ],
-        "target": "es5"
-  })
+  typescript()
 ];
 
 export default [
