@@ -5,7 +5,9 @@ import typescript from '@rollup/plugin-typescript';
 const plugins = [
   commonjs(),
   json(),
-  typescript()
+  typescript({
+    allowSyntheticDefaultImports: true
+  })
 ];
 
 const external = [
