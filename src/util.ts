@@ -303,6 +303,10 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: NsisCompilerOptio
       stream.stderr += stringify(line);
     });
 
+    child.on('exit', errorMessage => {
+      console.error(errorMessage);
+    });
+
     child.on('close', code => {
       stream = formatOutput(stream, args, opts);
 
