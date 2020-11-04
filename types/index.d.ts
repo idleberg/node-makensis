@@ -27,7 +27,7 @@ interface NsisCompilerOutput {
   warnings: number;
 }
 
-interface StreamOptions {
+interface NsisStreamOptions {
   stdout?: string;
   stderr?: string;
 }
