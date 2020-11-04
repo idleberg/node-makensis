@@ -8,8 +8,14 @@ const plugins = [
   typescript()
 ];
 
+const external = [
+  'child_process',
+  'os'
+];
+
 export default [
   {
+    external,
     input: 'src/charsets.ts',
     output: {
       dir: 'dist',
@@ -18,6 +24,7 @@ export default [
     plugins: plugins
   },
   {
+    external,
     input: 'src/makensis.ts',
     output: {
       dir: 'dist',
@@ -26,6 +33,7 @@ export default [
     plugins: plugins
   },
   {
+    external,
     input: 'src/util.ts',
     output: {
       dir: 'dist',
