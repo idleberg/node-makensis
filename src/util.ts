@@ -277,7 +277,7 @@ const detectOutfile = (str: string): string => {
 
 const spawnMakensis = (cmd: string, args: Array<string>, opts: NsisCompilerOptions, spawnOpts: SpawnOptions = {}): Promise<NsisCompilerOutput> => {
   return new Promise<NsisCompilerOutput>( (resolve, reject) => {
-    let stream: StreamOptions = {
+    let stream: NsisStreamOptions = {
       stdout: '',
       stderr: ''
     };
