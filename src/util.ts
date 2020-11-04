@@ -1,8 +1,9 @@
-import {input as inputCharsets, output as outputCharsets } from './charsets';
-import { spawn, spawnSync, SpawnOptions } from 'child_process';
+import { input as inputCharsets, output as outputCharsets } from './charsets';
+import { spawn, spawnSync } from 'child_process';
 import { platform } from 'os';
+import makensis from '../types';
 
-const splitCommands = (data: string | string[]): string[] => {
+function splitCommands(data: string | string[]): string[] {
   const args = [];
 
   if (typeof data !== 'undefined') {
@@ -10,7 +11,7 @@ const splitCommands = (data: string | string[]): string[] => {
       if (data.trim().includes('\n')) {
         const lines = data.trim().split('\n');
 
-        lines.map( line => {
+        lines.map(line => {
           if (line.trim().length) {
             args.push(`-X${line}`);
           }
@@ -19,8 +20,8 @@ const splitCommands = (data: string | string[]): string[] => {
         args.push(`-X${data}`);
       }
     } else {
-      data.map( key => {
-       if (key.trim().length) {
+      data.map(key => {
+        if (key.trim().length) {
           args.push(`-X${key}`);
         }
       });
@@ -28,9 +29,9 @@ const splitCommands = (data: string | string[]): string[] => {
   }
 
   return args;
-};
+}
 
-const mapArguments = (args: string[], options: NsisCompilerOptions): unknown[] => {
+function mapArguments(args: string[], options: makensis.CompilerOptions): unknown[] {
   const pathToMakensis: string = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
   let cmd: string;
 
@@ -43,11 +44,11 @@ const mapArguments = (args: string[], options: NsisCompilerOptions): unknown[] =
 
   // return unless compile command
   if (args.length > 1 || args.includes('-CMDHELP')) {
-    return [cmd, args, {json: options.json, wine: options.wine}];
+    return [cmd, args, { json: options.json, wine: options.wine }];
   }
 
   if (typeof options.define !== 'undefined') {
-    Object.keys(options.define).forEach( key => {
+    Object.keys(options.define).forEach(key => {
       args.push(`-D${key}=${options.define[key]}`);
     });
   }
@@ -99,20 +100,20 @@ const mapArguments = (args: string[], options: NsisCompilerOptions): unknown[] =
     args.push(`-V${options.verbose}`);
   }
 
-  return [cmd, args, {json: options.json, wine: options.wine}];
-};
+  return [cmd, args, { json: options.json, wine: options.wine }];
+}
 
-const stringify = (data): string => {
+function stringify(data): string {
   return data
     ? data.toString().trim()
     : '';
-};
+}
 
-const isInteger = (x): boolean => {
+function isInteger(x): boolean {
   return x % 2 === 0;
-};
+}
 
-const hasWarnings = (line: string): number => {
+function hasWarnings(line: string): number {
   const match = line.match(/(\d+) warnings?:/);
 
   if (match !== null) {
@@ -120,9 +121,9 @@ const hasWarnings = (line: string): number => {
   }
 
   return 0;
-};
+}
 
-const formatOutput = (stream, args, opts: NsisCompilerOptions): unknown => {
+function formatOutput(stream, args, opts: makensis.CompilerOptions): unknown {
   if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
     // CMDHELP writes to stderr by default, let's fix this
     [stream.stdout, stream.stderr] = [stream.stderr, ''];
@@ -147,9 +148,9 @@ const formatOutput = (stream, args, opts: NsisCompilerOptions): unknown => {
   }
 
   return stream;
-};
+}
 
-const objectify = (input: null | string, key = null): unknown => {
+function objectify(input: null | string, key = null): unknown {
   let output = {};
 
   if (key === 'version' && input.startsWith('v')) {
@@ -163,15 +164,15 @@ const objectify = (input: null | string, key = null): unknown => {
   }
 
   return output;
-};
+}
 
-const objectifyHelp = (input: string, opts: unknown): unknown => {
+function objectifyHelp(input: string, opts: unknown): unknown {
   const lines = splitLines(input, opts);
   lines.sort();
 
   const output = {};
 
-  lines.forEach( line => {
+  lines.forEach(line => {
     let command = line.substr(0, line.indexOf(' '));
     const usage = line.substr(line.indexOf(' ') + 1);
 
@@ -180,16 +181,17 @@ const objectifyHelp = (input: string, opts: unknown): unknown => {
       command = command.toLowerCase();
     }
 
-    if (command) output[command] = usage;
+    if (command)
+      output[command] = usage;
   });
 
   return output;
-};
+}
 
-const objectifyFlags = (input: string, opts: unknown): unknown => {
+function objectifyFlags(input: string, opts: unknown): unknown {
   const lines = splitLines(input, opts);
 
-  const filteredLines = lines.filter( line => {
+  const filteredLines = lines.filter(line => {
     if (line !== '') {
       return line;
     }
@@ -201,7 +203,7 @@ const objectifyFlags = (input: string, opts: unknown): unknown => {
   let symbols;
 
   // Split sizes
-  filteredLines.forEach( line => {
+  filteredLines.forEach(line => {
     if (line.startsWith('Size of ')) {
       const pair = line.split(' is ');
 
@@ -218,7 +220,7 @@ const objectifyFlags = (input: string, opts: unknown): unknown => {
   output['sizes'] = tableSizes;
 
   // Split symbols
-  symbols.map( symbol => {
+  symbols.map(symbol => {
     const pair = symbol.split('=');
 
     if (pair.length > 1 && pair[0] !== 'undefined') {
@@ -235,9 +237,9 @@ const objectifyFlags = (input: string, opts: unknown): unknown => {
   output['defined_symbols'] = tableSymbols;
 
   return output;
-};
+}
 
-const hasErrorCode = (input: string) => {
+function hasErrorCode(input: string) {
   if (input.includes('ENOENT') && input.match(/\bENOENT\b/)) {
     return true;
   } else if (input.includes('EACCES') && input.match(/\bEACCES\b/)) {
@@ -249,16 +251,16 @@ const hasErrorCode = (input: string) => {
   }
 
   return false;
-};
+}
 
-const splitLines = (input: string, opts: NsisCompilerOptions): Array<string> => {
+function splitLines(input: string, opts: makensis.CompilerOptions): Array<string> {
   const lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
   const output = input.split(lineBreak);
 
   return output;
-};
+}
 
-const detectOutfile = (str: string): string => {
+function detectOutfile(str: string): string {
   if (str.includes('Output: "')) {
     const regex = /Output: "(.*\.exe)"\r?\n/g;
     const result = regex.exec(str.toString());
@@ -273,17 +275,17 @@ const detectOutfile = (str: string): string => {
   }
 
   return '';
-};
+}
 
-const spawnMakensis = (cmd: string, args: Array<string>, opts: NsisCompilerOptions, spawnOpts: SpawnOptions = {}): Promise<NsisCompilerOutput> => {
-  return new Promise<NsisCompilerOutput>( (resolve, reject) => {
-    let stream: NsisStreamOptions = {
+function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.CompilerOptions, spawnOpts: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
+  return new Promise<makensis.CompilerOutput>((resolve, reject) => {
+    let stream: makensis.StreamOptions = {
       stdout: '',
       stderr: ''
     };
 
     let warnings = 0;
-    let outFile  = '';
+    let outFile = '';
 
     const child: any = spawn(cmd, args, spawnOpts);
 
@@ -303,14 +305,14 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: NsisCompilerOptio
       stream.stderr += stringify(line);
     });
 
-    child.on('exit', errorMessage => {
+    child.on('error', errorMessage => {
       console.error(errorMessage);
     });
 
     child.on('close', code => {
       stream = formatOutput(stream, args, opts);
 
-      const output: NsisCompilerOutput = {
+      const output: makensis.CompilerOutput = {
         'status': code,
         'stdout': stream.stdout,
         'stderr': stream.stderr,
@@ -329,9 +331,9 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: NsisCompilerOptio
       }
     });
   });
-};
+}
 
-const spawnMakensisSync = (cmd: string, args: Array<string>, opts: NsisCompilerOptions, spawnOpts: SpawnOptions = {}): NsisCompilerOutput => {
+function spawnMakensisSync(cmd: string, args: Array<string>, opts: makensis.CompilerOptions, spawnOpts: SpawnOptions = {}): makensis.CompilerOutput {
   let child: any = spawnSync(cmd, args, spawnOpts);
 
   child.stdout = stringify(child.stdout);
@@ -342,7 +344,7 @@ const spawnMakensisSync = (cmd: string, args: Array<string>, opts: NsisCompilerO
 
   child = formatOutput(child, args, opts);
 
-  const output: NsisCompilerOutput = {
+  const output: makensis.CompilerOutput = {
     'status': child.status,
     'stdout': child.stdout,
     'stderr': child.stderr,
@@ -354,7 +356,7 @@ const spawnMakensisSync = (cmd: string, args: Array<string>, opts: NsisCompilerO
   }
 
   return output;
-};
+}
 
 export {
   mapArguments,
