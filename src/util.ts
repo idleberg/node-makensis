@@ -1,6 +1,8 @@
 import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { spawn, spawnSync } from 'child_process';
 import { platform } from 'os';
+
+import { SpawnOptions } from 'child_process';
 import makensis from '../types';
 
 function splitCommands(data: string | string[]): string[] {
