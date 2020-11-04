@@ -1,4 +1,4 @@
-interface CompilerOptions {
+interface NsisCompilerOptions {
   // makensis
   define?: unknown;
   inputCharset?: string;
@@ -20,7 +20,7 @@ interface CompilerOptions {
   pathToMakensis?: string;
 }
 
-interface CompilerOutput {
+interface NsisCompilerOutput {
   status: number;
   stdout: string;
   stderr: string;

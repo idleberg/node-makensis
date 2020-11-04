@@ -30,7 +30,7 @@ const splitCommands = (data: string | string[]): string[] => {
   return args;
 };
 
-const mapArguments = (args: string[], options: CompilerOptions): unknown[] => {
+const mapArguments = (args: string[], options: NsisCompilerOptions): unknown[] => {
   const pathToMakensis: string = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
   let cmd: string;
 
@@ -122,7 +122,7 @@ const hasWarnings = (line: string): number => {
   return 0;
 };
 
-const formatOutput = (stream, args, opts: CompilerOptions): unknown => {
+const formatOutput = (stream, args, opts: NsisCompilerOptions): unknown => {
   if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
     // CMDHELP writes to stderr by default, let's fix this
     [stream.stdout, stream.stderr] = [stream.stderr, ''];
@@ -251,7 +251,7 @@ const hasErrorCode = (input: string) => {
   return false;
 };
 
-const splitLines = (input: string, opts: CompilerOptions): Array<string> => {
+const splitLines = (input: string, opts: NsisCompilerOptions): Array<string> => {
   const lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
   const output = input.split(lineBreak);
 
@@ -275,8 +275,8 @@ const detectOutfile = (str: string): string => {
   return '';
 };
 
-const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, spawnOpts: SpawnOptions = {}): Promise<CompilerOutput> => {
-  return new Promise<CompilerOutput>( (resolve, reject) => {
+const spawnMakensis = (cmd: string, args: Array<string>, opts: NsisCompilerOptions, spawnOpts: SpawnOptions = {}): Promise<NsisCompilerOutput> => {
+  return new Promise<NsisCompilerOutput>( (resolve, reject) => {
     let stream: StreamOptions = {
       stdout: '',
       stderr: ''
@@ -306,7 +306,7 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, 
     child.on('close', code => {
       stream = formatOutput(stream, args, opts);
 
-      const output: CompilerOutput = {
+      const output: NsisCompilerOutput = {
         'status': code,
         'stdout': stream.stdout,
         'stderr': stream.stderr,
@@ -327,7 +327,7 @@ const spawnMakensis = (cmd: string, args: Array<string>, opts: CompilerOptions, 
   });
 };
 
-const spawnMakensisSync = (cmd: string, args: Array<string>, opts: CompilerOptions, spawnOpts: SpawnOptions = {}): CompilerOutput => {
+const spawnMakensisSync = (cmd: string, args: Array<string>, opts: NsisCompilerOptions, spawnOpts: SpawnOptions = {}): NsisCompilerOutput => {
   let child: any = spawnSync(cmd, args, spawnOpts);
 
   child.stdout = stringify(child.stdout);
@@ -338,7 +338,7 @@ const spawnMakensisSync = (cmd: string, args: Array<string>, opts: CompilerOptio
 
   child = formatOutput(child, args, opts);
 
-  const output: CompilerOutput = {
+  const output: NsisCompilerOutput = {
     'status': child.status,
     'stdout': child.stdout,
     'stderr': child.stderr,
