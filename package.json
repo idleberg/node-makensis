@@ -2,7 +2,8 @@
   "name": "makensis",
   "version": "0.21.2",
   "description": "A Node wrapper for makensis, the NSIS compiler",
-  "main": "dist/makensis.js",
+  "main": "./dist/makensis.js",
+  "typings": "./types",
   "files": [
     "dist/"
   ],
