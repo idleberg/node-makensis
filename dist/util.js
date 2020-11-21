@@ -8139,7 +8139,7 @@ var output = __spreadArrays([
     'UTF8SIG'
 ]);
 
-var splitCommands = function (data) {
+function splitCommands(data) {
     var args = [];
     if (typeof data !== 'undefined') {
         if (typeof data === 'string') {
@@ -8164,8 +8164,8 @@ var splitCommands = function (data) {
         }
     }
     return args;
-};
-var mapArguments = function (args, options) {
+}
+function mapArguments(args, options) {
     var pathToMakensis = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
     var cmd;
     if (os.platform() !== 'win32' && options.wine === true) {
@@ -8221,23 +8221,23 @@ var mapArguments = function (args, options) {
         args.push("-V" + options.verbose);
     }
     return [cmd, args, { json: options.json, wine: options.wine }];
-};
-var stringify = function (data) {
+}
+function stringify(data) {
     return data
         ? data.toString().trim()
         : '';
-};
-var isInteger = function (x) {
+}
+function isInteger(x) {
     return x % 2 === 0;
-};
-var hasWarnings = function (line) {
+}
+function hasWarnings(line) {
     var match = line.match(/(\d+) warnings?:/);
     if (match !== null) {
         return parseInt(match[1]);
     }
     return 0;
-};
-var formatOutput = function (stream, args, opts) {
+}
+function formatOutput(stream, args, opts) {
     var _a;
     if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
         // CMDHELP writes to stderr by default, let's fix this
@@ -8264,8 +8264,8 @@ var formatOutput = function (stream, args, opts) {
         }
     }
     return stream;
-};
-var objectify = function (input, key) {
+}
+function objectify(input, key) {
     if (key === void 0) { key = null; }
     var output = {};
     if (key === 'version' && input.startsWith('v')) {
@@ -8278,8 +8278,8 @@ var objectify = function (input, key) {
         output[key] = input;
     }
     return output;
-};
-var objectifyHelp = function (input, opts) {
+}
+function objectifyHelp(input, opts) {
     var lines = splitLines(input, opts);
     lines.sort();
     var output = {};
@@ -8294,8 +8294,8 @@ var objectifyHelp = function (input, opts) {
             output[command] = usage;
     });
     return output;
-};
-var objectifyFlags = function (input, opts) {
+}
+function objectifyFlags(input, opts) {
     var lines = splitLines(input, opts);
     var filteredLines = lines.filter(function (line) {
         if (line !== '') {
@@ -8335,8 +8335,8 @@ var objectifyFlags = function (input, opts) {
     });
     output['defined_symbols'] = tableSymbols;
     return output;
-};
-var hasErrorCode = function (input) {
+}
+function hasErrorCode(input) {
     if (input.includes('ENOENT') && input.match(/\bENOENT\b/)) {
         return true;
     }
@@ -8350,13 +8350,13 @@ var hasErrorCode = function (input) {
         return true;
     }
     return false;
-};
-var splitLines = function (input, opts) {
+}
+function splitLines(input, opts) {
     var lineBreak = (os.platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
     var output = input.split(lineBreak);
     return output;
-};
-var detectOutfile = function (str) {
+}
+function detectOutfile(str) {
     if (str.includes('Output: "')) {
         var regex = /Output: "(.*\.exe)"\r?\n/g;
         var result = regex.exec(str.toString());
@@ -8370,8 +8370,8 @@ var detectOutfile = function (str) {
         }
     }
     return '';
-};
-var spawnMakensis = function (cmd, args, opts, spawnOpts) {
+}
+function spawnMakensis(cmd, args, opts, spawnOpts) {
     if (spawnOpts === void 0) { spawnOpts = {}; }
     return new Promise(function (resolve, reject) {
         var stream = {
@@ -8391,6 +8391,9 @@ var spawnMakensis = function (cmd, args, opts, spawnOpts) {
         });
         child.stderr.on('data', function (line) {
             stream.stderr += stringify(line);
+        });
+        child.on('error', function (errorMessage) {
+            console.error(errorMessage);
         });
         child.on('close', function (code) {
             stream = formatOutput(stream, args, opts);
@@ -8412,8 +8415,8 @@ var spawnMakensis = function (cmd, args, opts, spawnOpts) {
             }
         });
     });
-};
-var spawnMakensisSync = function (cmd, args, opts, spawnOpts) {
+}
+function spawnMakensisSync(cmd, args, opts, spawnOpts) {
     if (spawnOpts === void 0) { spawnOpts = {}; }
     var child = child_process.spawnSync(cmd, args, spawnOpts);
     child.stdout = stringify(child.stdout);
@@ -8431,7 +8434,7 @@ var spawnMakensisSync = function (cmd, args, opts, spawnOpts) {
         output['outfile'] = outFile;
     }
     return output;
-};
+}
 
 exports.mapArguments = mapArguments;
 exports.objectify = objectify;

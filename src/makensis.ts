@@ -72,7 +72,7 @@ function hdrInfoSync(options: makensis.CompilerOptions = {}, spawnOpts: SpawnOpt
 
 /**
  * Compile specified script with MakeNSIS
- * @param} script - path to NSIS script
+ * @param script - path to NSIS script
  * @param options - compiler options
  */
 function compile(script: string, options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
