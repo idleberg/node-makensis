@@ -203,8 +203,8 @@ test('Print help for all commands', t => {
 test('Print help for all commands [async]', async (t) => {
   return Promise.resolve(makensis.cmdHelp())
   .then(output => {
-    const expected = cmdHelp.replace(/\r?\n/g, '');
-    const actual = output.stdout.replace(/\r?\n/g, '');;
+    const expected = cmdHelp.replace(/\r?\n/g, '').replace(' ', '');
+    const actual = output.stdout.replace(/\r?\n/g, '').replace(' ', '');
 
     t.is(actual, expected);
   })
