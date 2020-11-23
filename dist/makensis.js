@@ -8524,7 +8524,7 @@ function cmdHelpSync(command, options, spawnOpts) {
  * @param options - compiler options
  * @returns - compiler options
  */
-function hdrInfo(options, spawnOpts) {
+function headerInfo(options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
     options = __assign(__assign({}, options), { verbose: 0 });
@@ -8535,7 +8535,7 @@ function hdrInfo(options, spawnOpts) {
  * Returns information about which options were used to compile MakeNSIS
  * @returns - compiler options
  */
-function hdrInfoSync(options, spawnOpts) {
+function headerInfoSync(options, spawnOpts) {
     if (options === void 0) { options = {}; }
     if (spawnOpts === void 0) { spawnOpts = {}; }
     options = __assign(__assign({}, options), { verbose: 0 });
@@ -8658,7 +8658,7 @@ function nsisDir(options) {
                     _a.label = 1;
                 case 1:
                     _a.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, hdrInfo(hdrOptions)];
+                    return [4 /*yield*/, headerInfo(hdrOptions)];
                 case 2:
                     hdrinfo = _a.sent();
                     return [2 /*return*/, handler(hdrinfo)];
@@ -8679,7 +8679,7 @@ function nsisDir(options) {
 function nsisDirSync(options) {
     if (options === void 0) { options = {}; }
     var hdrOptions = __assign(__assign({}, options), { json: true });
-    var hdrinfo = hdrInfoSync(hdrOptions);
+    var hdrinfo = headerInfoSync(hdrOptions);
     if (options.json === true) {
         return objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
     }
@@ -8690,8 +8690,8 @@ exports.cmdHelp = cmdHelp;
 exports.cmdHelpSync = cmdHelpSync;
 exports.compile = compile;
 exports.compileSync = compileSync;
-exports.hdrInfo = hdrInfo;
-exports.hdrInfoSync = hdrInfoSync;
+exports.headerInfo = headerInfo;
+exports.headerInfoSync = headerInfoSync;
 exports.license = license;
 exports.licenseSync = licenseSync;
 exports.nsisDir = nsisDir;

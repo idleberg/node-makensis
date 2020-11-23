@@ -128,15 +128,15 @@ Usage: `compileSync(script, [options], [spawnOptions])`
 
 Compiles specified script with MakeNSIS. The script can be omitted in favor of [`preExecute`](#preExecute) / [`postExecute`](#postExecute).
 
-#### hdrInfo
+#### headerInfo
 
-Usage: `hdrInfo([options], [spawnOptions])`
+Usage: `headerInfo([options], [spawnOptions])`
 
 Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
 
-#### hdrInfoSync
+#### headerInfoSync
 
-Usage: `hdrInfoSync([options], [spawnOptions])`
+Usage: `headerInfoSync([options], [spawnOptions])`
 
 Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
 

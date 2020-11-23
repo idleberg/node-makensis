@@ -29,7 +29,7 @@ const defaultScriptString = `
 
 // Expected values
 const cmdHelp = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim() || spawnSync('makensis', ['-CMDHELP']).stderr.toString().trim();
-const hdrInfo = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
+const headerInfo = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
 const outFile = spawnSync('makensis', ['-CMDHELP', 'OutFile']).stdout.toString().trim() || spawnSync('makensis', ['-CMDHELP', 'OutFile']).stderr.toString().trim();
 const license = spawnSync('makensis', ['-LICENSE']).stdout.toString().trim();
 const version = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
@@ -162,31 +162,31 @@ test('Print makensis license as JSON [async]', async (t) => {
 });
 
 test('Print compiler information', t => {
-  const expected = hdrInfo;
-  const actual = makensis.hdrInfoSync().stdout;
+  const expected = headerInfo;
+  const actual = makensis.headerInfoSync().stdout;
 
   t.is(actual, expected);
 });
 
 test('Print compiler information as JSON', t => {
   const expected = true;
-  const actual = makensis.hdrInfoSync({ json: true }).stdout.defined_symbols.__GLOBAL__;
+  const actual = makensis.headerInfoSync({ json: true }).stdout.defined_symbols.__GLOBAL__;
 
   t.is(actual, expected);
 });
 
 test('Print compiler information [async]', async (t) => {
   try {
-    const { stdout } = await makensis.hdrInfo();
+    const { stdout } = await makensis.headerInfo();
 
-    const expected = hdrInfo;
+    const expected = headerInfo;
     const actual = stdout;
 
     t.is(actual, expected);
   } catch ({ stdout }) {
     // NSIS < 3.03
     t.log('Legacy NSIS');
-    const expected = hdrInfo;
+    const expected = headerInfo;
     const actual = stdout;
 
     t.is(actual, expected);
