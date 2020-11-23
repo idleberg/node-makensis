@@ -38,7 +38,7 @@ test('Wine found in PATH environmental variable', t => {
 
 // Expected values
 const cmdHelp = spawnSync('wine', ['makensis', '-CMDHELP']).stderr.toString().trim().replace(/\r\n/g, '\n');
-const hdrInfo = spawnSync('wine', ['makensis', '-HDRINFO']).stdout.toString().trim();
+const headerInfo = spawnSync('wine', ['makensis', '-HDRINFO']).stdout.toString().trim();
 const outFile = spawnSync('wine', ['makensis', '-CMDHELP', 'OutFile']).stderr.toString().trim().replace(/\r\n/g, '\n');
 const license = spawnSync('wine', ['makensis', '-LICENSE']).stdout.toString().trim();
 const version = spawnSync('wine', ['makensis', '-VERSION']).stdout.toString().trim();
@@ -160,23 +160,23 @@ test('Print makensis license as JSON [async]', t => {
 });
 
 test('Print compiler information', t => {
-  const expected = hdrInfo;
-  const actual = makensis.hdrInfoSync({ wine: true }).stdout;
+  const expected = headerInfo;
+  const actual = makensis.headerInfoSync({ wine: true }).stdout;
 
   t.is(actual, expected);
 });
 
 test('Print compiler information as JSON', t => {
   const expected = true;
-  const actual = makensis.hdrInfoSync({ wine: true, json: true }).stdout.defined_symbols.__GLOBAL__;
+  const actual = makensis.headerInfoSync({ wine: true, json: true }).stdout.defined_symbols.__GLOBAL__;
 
   t.is(actual, expected);
 });
 
 test('Print compiler information [async]', t => {
-  return Promise.resolve(makensis.hdrInfo({ wine: true }))
+  return Promise.resolve(makensis.headerInfo({ wine: true }))
   .then(output => {
-    const expected = hdrInfo;
+    const expected = headerInfo;
     const actual = output.stdout;
 
     t.is(actual, expected);
@@ -184,7 +184,7 @@ test('Print compiler information [async]', t => {
   .catch(output => {
     // NSIS < 3.03
     t.log('Legacy NSIS');
-    const expected = hdrInfo;
+    const expected = headerInfo;
     const actual = output.stdout;
 
     t.is(actual, expected);
