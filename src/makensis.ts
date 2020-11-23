@@ -50,7 +50,7 @@ function cmdHelpSync(command = '', options: makensis.CompilerOptions = {}, spawn
  * @param options - compiler options
  * @returns - compiler options
  */
-function hdrInfo(options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
+function headerInfo(options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
   options = { ...options, verbose: 0 };
 
   const [cmd, args, opts]: any = mapArguments(['-HDRINFO'], options);
@@ -62,7 +62,7 @@ function hdrInfo(options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions
  * Returns information about which options were used to compile MakeNSIS
  * @returns - compiler options
  */
-function hdrInfoSync(options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): makensis.CompilerOutput {
+function headerInfoSync(options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): makensis.CompilerOutput {
   options = { ...options, verbose: 0 };
 
   const [cmd, args, opts]: any = mapArguments(['-HDRINFO'], options);
@@ -187,7 +187,7 @@ async function nsisDir(options: makensis.CompilerOptions = {}): Promise<string |
   }
 
   try {
-    const hdrinfo = await hdrInfo(hdrOptions);
+    const hdrinfo = await headerInfo(hdrOptions);
     return handler(hdrinfo);
   } catch(error) {
     // NSIS < 3.03
@@ -202,7 +202,7 @@ async function nsisDir(options: makensis.CompilerOptions = {}): Promise<string |
  */
 function nsisDirSync(options: makensis.CompilerOptions = {}): string | unknown {
   const hdrOptions = { ...options, json: true };
-  const hdrinfo: any = hdrInfoSync(hdrOptions);
+  const hdrinfo: any = headerInfoSync(hdrOptions);
 
   if (options.json === true) {
     return objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
@@ -216,8 +216,8 @@ export {
   cmdHelpSync,
   compile,
   compileSync,
-  hdrInfo,
-  hdrInfoSync,
+  headerInfo,
+  headerInfoSync,
   license,
   licenseSync,
   nsisDir,
