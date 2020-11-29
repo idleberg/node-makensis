@@ -1,10 +1,10 @@
 /* eslint-disable */
 
 // Dependencies
-const makensis = require('../dist/makensis');
-const { join } = require('path');
-const { platform } = require('os');
-const test = require('ava');
+import { compileSync, compile } from '../dist/makensis';
+import { join } from 'path';
+import { platform } from 'os';
+import test from 'ava';
 
 // Compiler arguments
 const script = {
@@ -24,7 +24,7 @@ test('Compile script with correct charset', t => {
   options = { ...options, inputCharset: 'UTF8' };
 
   const expected = '';
-  const actual = makensis.compileSync(script['utf8'], options).stderr;
+  const actual = compileSync(script['utf8'], options).stderr;
 
   t.is(actual, expected);
 });
@@ -33,7 +33,7 @@ test('Compile script with incorrect charset', t => {
   options = { ...options, inputCharset: 'UTF16BE' };
 
   const expected = 0;
-  const actual = makensis.compileSync(script['utf8'], options).status;
+  const actual = compileSync(script['utf8'], options).status;
 
   t.not(actual, expected);
 });
@@ -42,7 +42,7 @@ test('Compile script with correct charset [async]', async (t) => {
   options = { ...options, inputCharset: 'UTF8' };
 
   try {
-    const { status } =  await makensis.compile(script['utf8'], options);
+    const { status } =  await compile(script['utf8'], options);
 
     const expected = 0;
     const actual = status;
@@ -63,7 +63,7 @@ test('Compile script with incorrect charset [async]', async (t) => {
   options = { ...options, inputCharset: 'UTF16BE' };
 
   try {
-    const { status } = makensis.compile(script['utf8'], options);
+    const { status } = compile(script['utf8'], options);
 
     const expected = 0;
     const actual = status;
