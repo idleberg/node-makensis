@@ -112,6 +112,19 @@ function version(options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions
   return spawnMakensis(cmd, args, opts, spawnOpts);
 }
 
+// Aliases
+async function cmdHelp(command = '', options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
+  console.warn('cmdHelp() has been deprecated and will be removed in future versions, please use commandHelp() instead');
+
+  return await commandHelp(command, options, spawnOpts);
+}
+
+async function hdrInfo(): Promise<makensis.CompilerOutput> {
+  console.warn('hdrInfo() has been deprecated and will be removed in future versions, please use headerInfo() instead');
+
+  return await headerInfo();
+}
+
 export {
   commandHelp,
   compile,
@@ -119,4 +132,8 @@ export {
   license,
   nsisDir,
   version,
+
+  // Aliases
+  cmdHelp,
+  hdrInfo
 };

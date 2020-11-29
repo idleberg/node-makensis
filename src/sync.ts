@@ -105,11 +105,28 @@ function versionSync(options: makensis.CompilerOptions = {}, spawnOpts: SpawnOpt
   return spawnMakensisSync(cmd, args, opts, spawnOpts);
 }
 
+// Aliases
+function cmdHelpSync(command = '', options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): makensis.CompilerOutput {
+  console.warn('cmdHelpSync() has been deprecated and will be removed in future versions, please use commandHelpSync() instead');
+
+  return commandHelpSync(command, options, spawnOpts);
+}
+
+async function hdrInfoSync(): Promise<makensis.CompilerOutput> {
+  console.warn('hdrInfoSync() has been deprecated and will be removed in future versions, please use headerInfoSync() instead');
+
+  return await headerInfoSync();
+}
+
 export {
   commandHelpSync,
   compileSync,
   headerInfoSync,
   licenseSync,
   nsisDirSync,
-  versionSync
+  versionSync,
+
+  // Aliases
+  cmdHelpSync,
+  hdrInfoSync
 };
