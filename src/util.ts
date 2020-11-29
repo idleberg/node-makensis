@@ -1,4 +1,5 @@
 import { input as inputCharsets, output as outputCharsets } from './charsets';
+import { eventEmitter } from './events';
 import { spawn, spawnSync } from 'child_process';
 import { platform } from 'os';
 
@@ -291,8 +292,8 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
 
     const child: any = spawn(cmd, args, spawnOpts);
 
-    child.stdout.on('data', line => {
-      line = stringify(line);
+    child.stdout.on('data', data => {
+      const line = stringify(data);
 
       warnings += hasWarnings(line);
 
@@ -300,10 +301,20 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
         outFile = detectOutfile(line);
       }
 
+      eventEmitter.emit('stdout', {
+        line,
+        outFile,
+        warnings
+      });
+
       stream.stdout += line;
     });
 
-    child.stderr.on('data', line => {
+    child.stderr.on('data', data => {
+      const line = stringify(data);
+
+      eventEmitter.emit('stderr', line);
+
       stream.stderr += stringify(line);
     });
 

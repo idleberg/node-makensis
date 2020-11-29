@@ -18,25 +18,7 @@ const external = [
 export default [
   {
     external,
-    input: 'src/charsets.ts',
-    output: {
-      dir: 'dist',
-      format: 'cjs'
-    },
-    plugins: plugins
-  },
-  {
-    external,
     input: 'src/makensis.ts',
-    output: {
-      dir: 'dist',
-      format: 'cjs'
-    },
-    plugins: plugins
-  },
-  {
-    external,
-    input: 'src/util.ts',
     output: {
       dir: 'dist',
       format: 'cjs'
