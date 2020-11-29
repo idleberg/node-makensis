@@ -7,6 +7,10 @@ export {
   license,
   nsisDir,
   version,
+
+  // Aliases
+  cmdHelp,
+  hdrInfo
 } from './async';
 
 export {
@@ -15,5 +19,9 @@ export {
   headerInfoSync,
   licenseSync,
   nsisDirSync,
-  versionSync
+  versionSync,
+
+  // Aliases
+  cmdHelpSync,
+  hdrInfoSync
 } from './sync';

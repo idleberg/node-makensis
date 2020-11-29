@@ -114,13 +114,13 @@ function version(options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions
 
 // Aliases
 async function cmdHelp(command = '', options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
-  console.warn('cmdHelp() has been deprecated and will be removed in future versions, please use commandHelp() instead');
+  console.warn('makensis: cmdHelp() has been deprecated and will be removed in future versions, please use commandHelp() instead');
 
   return await commandHelp(command, options, spawnOpts);
 }
 
 async function hdrInfo(): Promise<makensis.CompilerOutput> {
-  console.warn('hdrInfo() has been deprecated and will be removed in future versions, please use headerInfo() instead');
+  console.warn('makensis: hdrInfo() has been deprecated and will be removed in future versions, please use headerInfo() instead');
 
   return await headerInfo();
 }
