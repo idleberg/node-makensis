@@ -27,6 +27,7 @@
     "@typescript-eslint/parser": "^4.8.2",
     "ava": "^3.13.0",
     "eslint": "^7.14.0",
+    "esm": "^3.2.25",
     "husky": "^4.3.0",
     "lint-staged": ">=10",
     "rimraf": "^3.0.2",
@@ -47,6 +48,11 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "ava": {
+    "require": [
+      "esm"
+    ]
   },
   "lint-staged": {
     "*.ts": "eslint --cache --fix"
