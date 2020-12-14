@@ -313,7 +313,9 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
     child.stderr.on('data', data => {
       const line = stringify(data);
 
-      eventEmitter.emit('stderr', line);
+      eventEmitter.emit('stderr', {
+        line
+      });
 
       stream.stderr += stringify(line);
     });
@@ -335,6 +337,8 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
       if (outFile.length) {
         output['outfile'] = outFile;
       }
+
+      eventEmitter.emit('close', output);
 
       if (code === 0 || (code !== 0 && !hasErrorCode(stream.stderr))) {
         // Promise also resolves on MakeNSIS errors
