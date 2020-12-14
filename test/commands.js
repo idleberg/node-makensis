@@ -208,11 +208,11 @@ test('Print help for all commands [async]', async (t) => {
 
     t.is(actual, expected);
   })
-  .catch(output => {
+  .catch(({stdout}) => {
     // NSIS < 3.03
     t.log('Legacy NSIS');
-    const expected = commandHelp;
-    const actual = output.stdout;
+    const expected = commandHelp.replace(/\s+/g, '');
+    const actual = stdout.replace(/\s+/g, '');
 
     t.is(actual, expected);
   });
