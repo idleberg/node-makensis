@@ -78,15 +78,6 @@ const options = {
     }
 };
 
-// Asynchronous: Promise API
-makensis.compile('path/to/installer.nsi', options)
-.then(output => {
-    console.log('Compiler output:', output);
-})
-.catch (error => {
-    console.error(error);
-});
-
 // Asynchronous: async/await
 (async () => {
     try {
@@ -96,6 +87,15 @@ makensis.compile('path/to/installer.nsi', options)
         console.error(error);
     }
 })();
+
+// Asynchronous: Promise API
+makensis.compile('path/to/installer.nsi', options)
+.then(output => {
+    console.log('Compiler output:', output);
+})
+.catch (error => {
+    console.error(error);
+});
 
 // Synchronous
 let output = makensis.compileSync('path/to/installer.nsi', options);
