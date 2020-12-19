@@ -22,10 +22,11 @@ const defaultScriptArray = [
 ];
 
 const defaultScriptString = defaultScriptArray.join('\n');
+
 const scriptFile = {
   minimal: join(__dirname, 'fixtures', 'utf8.nsi'),
   warning: join(__dirname, 'fixtures', 'warnings.nsi')
-}
+};
 
 // Expected values
 const commandHelp = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim() || spawnSync('makensis', ['-CMDHELP']).stderr.toString().trim();
