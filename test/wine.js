@@ -20,13 +20,12 @@ const defaultScriptArray = [
   `SectionEnd`
 ];
 
-const defaultScriptString = `
-  OutFile ${nullDevice}
-  Unicode true
-  Section -default
-  Nop
-  SectionEnd
-`;
+const defaultScriptString = defaultScriptArray.join('\n');
+
+const scriptFile = {
+  minimal: join(__dirname, 'fixtures', 'utf8.nsi'),
+  warning: join(__dirname, 'fixtures', 'warnings.nsi')
+};
 
 // These test require NSIS to be setup properly, with makensis in your
 // PATH environmental variable
@@ -252,6 +251,18 @@ test('Print help for OutFile command as JSON', t => {
   t.is(actual, expected);
 });
 
+test('Compilation from File', t => {
+  const expected = 0;
+  const actual = compileSync(scriptFile.minimal, {
+    wine: true,
+    define: {
+      'NULL_DEVICE': nullDevice
+    }
+  }).status;
+
+  t.is(actual, expected);
+});
+
 test('Compilation from Array', t => {
   const expected = 0;
   const actual = compileSync(null, { wine: true, execute: defaultScriptArray }).status;
@@ -264,6 +275,24 @@ test('Compilation from String', t => {
   const actual = compileSync(null, { wine: true, execute: defaultScriptString }).status;
 
   t.is(actual, expected);
+});
+
+test('Compilation from File [async]', async (t) => {
+  try {
+    const { status } = await compile(scriptFile.minimal, {
+      wine: true,
+      define: {
+        'NULL_DEVICE': nullDevice
+      }
+    });
+
+    const expected = 0;
+    const actual = status;
+
+    t.is(actual, expected);
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
 });
 
 test('Compilation from Array [async]', t => {
@@ -350,6 +379,50 @@ test('Compilation with error [async]', t => {
 
     t.not(actual, expected)
   });
+});
+
+test('Compilation with raw arguments', t => {
+  const expected = '';
+  const actual = MakeNSIS.compileSync(scriptFile.minimal, {rawArguments: '-V0' }).stdout;
+
+  t.is(actual, expected);
+});
+
+test('Compilation with raw arguments [async]', async (t) => {
+  try {
+    const { stdout } = await compile(scriptFile.minimal, { wine: true, rawArguments: '-V0' });
+
+    const expected = '';
+    const actual = stdout;
+
+    t.is(actual, expected);
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
+});
+
+test('Compilation with raw arguments and warning', t => {
+  const scriptWithWarning = [...defaultScriptArray, '!warning'];
+
+  const expected = 1;
+  const actual = compileSync(scriptFile.warning, { wine: true, rawArguments: '-WX' }).status;
+
+  t.is(actual, expected);
+});
+
+test('Compilation with raw arguments and warning [async]', async (t) => {
+  const scriptWithWarning = [...defaultScriptArray, '!warning'];
+
+  try {
+    const { status } = await compile(scriptFile.warning, { wine: true, rawArguments: '-WX' });
+
+    const expected = 1;
+    const actual = status;
+
+    t.is(actual, expected);
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
 });
 
 test('Strict compilation with warning', t => {
