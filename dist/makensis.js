@@ -8402,7 +8402,7 @@ function detectOutfile(str) {
     if (str.includes('Output: "')) {
         var regex = /Output: "(.*\.exe)"\r?\n/g;
         var result = regex.exec(str.toString());
-        if (typeof result === 'object') {
+        if (typeof result === 'object' && result && result['1']) {
             try {
                 return result['1'];
             }
@@ -8420,19 +8420,20 @@ function spawnMakensis(cmd, args, opts, spawnOpts) {
             stdout: '',
             stderr: ''
         };
-        var warnings = 0;
+        var warningsCounter = 0;
         var outFile = '';
         var child = child_process.spawn(cmd, args, spawnOpts);
         child.stdout.on('data', function (data) {
             var line = stringify(data);
-            warnings += hasWarnings(line);
+            var warnings = hasWarnings(line);
+            warningsCounter += warnings;
             if (outFile === '') {
                 outFile = detectOutfile(line);
             }
             eventEmitter.emit('stdout', {
                 line: line,
                 outFile: outFile,
-                warnings: warnings
+                hasWarning: Boolean(warnings)
             });
             stream.stdout += line;
         });
@@ -8446,18 +8447,19 @@ function spawnMakensis(cmd, args, opts, spawnOpts) {
         child.on('error', function (errorMessage) {
             console.error(errorMessage);
         });
+        // Using 'exit' will truncate stdout
         child.on('close', function (code) {
             stream = formatOutput(stream, args, opts);
             var output = {
                 'status': code,
                 'stdout': stream.stdout,
                 'stderr': stream.stderr,
-                'warnings': warnings
+                'warnings': warningsCounter
             };
             if (outFile.length) {
-                output['outfile'] = outFile;
+                output['outFile'] = outFile;
             }
-            eventEmitter.emit('close', output);
+            eventEmitter.emit('exit', output);
             if (code === 0 || (code !== 0 && !hasErrorCode(stream.stderr))) {
                 // Promise also resolves on MakeNSIS errors
                 resolve(output);
@@ -8473,14 +8475,14 @@ function spawnMakensisSync(cmd, args, opts, spawnOpts) {
     var child = child_process.spawnSync(cmd, args, spawnOpts);
     child.stdout = stringify(child.stdout);
     child.stderr = stringify(child.stderr);
-    var warnings = hasWarnings(child.stdout);
+    var warningsCounter = hasWarnings(child.stdout);
     var outFile = detectOutfile(child.stdout);
     child = formatOutput(child, args, opts);
     var output = {
         'status': child.status,
         'stdout': child.stdout,
         'stderr': child.stderr,
-        'warnings': warnings
+        'warnings': warningsCounter
     };
     if (outFile.length) {
         output['outfile'] = outFile;
