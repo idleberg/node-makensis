@@ -8217,9 +8217,6 @@ function mapArguments(args, options) {
     else {
         cmd = pathToMakensis;
     }
-    if (options.rawArguments) {
-        args.push.apply(args, options.rawArguments.match(/(?:[^\s"]+|"[^"]*")+/g));
-    }
     if (args.length > 1 || args.includes('-CMDHELP')) {
         return [cmd, args, { json: options.json, wine: options.wine }];
     }
@@ -8263,6 +8260,9 @@ function mapArguments(args, options) {
     }
     if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
         args.push("-V" + options.verbose);
+    }
+    if (options.rawArguments) {
+        args.push.apply(args, options.rawArguments.match(/(?:[^\s"]+|"[^"]*")+/g));
     }
     return [cmd, args, { json: options.json, wine: options.wine }];
 }
