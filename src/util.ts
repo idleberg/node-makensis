@@ -45,7 +45,10 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): unknow
     cmd = pathToMakensis;
   }
 
-  // return unless compile command
+  if (options.rawArguments) {
+    args.push(...options.rawArguments.match(/(?:[^\s"]+|"[^"]*")+/g));
+  }
+
   if (args.length > 1 || args.includes('-CMDHELP')) {
     return [cmd, args, { json: options.json, wine: options.wine }];
   }

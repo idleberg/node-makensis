@@ -8217,7 +8217,9 @@ function mapArguments(args, options) {
     else {
         cmd = pathToMakensis;
     }
-    // return unless compile command
+    if (options.rawArguments) {
+        args.push.apply(args, options.rawArguments.match(/(?:[^\s"]+|"[^"]*")+/g));
+    }
     if (args.length > 1 || args.includes('-CMDHELP')) {
         return [cmd, args, { json: options.json, wine: options.wine }];
     }

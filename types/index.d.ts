@@ -12,6 +12,7 @@ declare namespace makensis {
     preExecute?: string | string[];
     priority?: number;
     ppo?: boolean;
+    rawArguments?: string;
     safePPO?: boolean;
     strict?: boolean;
     verbose?: number;
