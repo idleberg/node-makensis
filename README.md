@@ -60,16 +60,16 @@ Use ES6 imports or `require()` to include the module:
 
 ```js
 // ECMAScript Import
-import * as makensis from 'makensis';
+import * as MakeNSIS from 'makensis';
 
 // CommonJS Require
-const makensis = require('makensis');
+const MakeNSIS = require('makensis');
 ```
 
 Example usage in script:
 
 ```js
-import * as makensis from 'makensis';
+import * as MakeNSIS from 'makensis';
 
 const options = {
     verbose: 2,
@@ -81,7 +81,7 @@ const options = {
 // Asynchronous: async/await
 (async () => {
     try {
-        let output = await makensis.compile('path/to/installer.nsi', options);
+        let output = await MakeNSIS.compile('path/to/installer.nsi', options);
         console.log('Compiler output:', output);
     } catch (error) {
         console.error(error);
@@ -89,7 +89,7 @@ const options = {
 })();
 
 // Asynchronous: Promise API
-makensis.compile('path/to/installer.nsi', options)
+MakeNSIS.compile('path/to/installer.nsi', options)
 .then(output => {
     console.log('Compiler output:', output);
 })
@@ -98,7 +98,7 @@ makensis.compile('path/to/installer.nsi', options)
 });
 
 // Synchronous
-let output = makensis.compileSync('path/to/installer.nsi', options);
+let output = MakeNSIS.compileSync('path/to/installer.nsi', options);
 console.log('Compiler output:', output);
 ```
 
@@ -307,6 +307,30 @@ Return output from `makensis` as an object
 Type: `string`
 
 Specifies a custom path to `makensis`
+
+#### rawArguments
+
+Type: `string`
+
+Specifies raw arguments for `makensis`
+
+**Note:** These will be added to the compiler arguments last and will hence overwrite any of the NSIS options above!
+
+### Events
+
+This module emits three types of events you can hook into using the `on()` and `once()` methods:
+
+#### stdout
+
+Gives access to an object containing the current line, and whether it contains a warning of the path of the outfile.
+
+#### stderr
+
+Gives access to an object containing the current line.
+
+#### exit
+
+Gives access to an object containing the exit code, the full `stdout` and `stderr`, and the number of warnings.
 
 ## Related
 
