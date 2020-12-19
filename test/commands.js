@@ -9,7 +9,9 @@ import { platform } from 'os';
 import test from 'ava';
 
 // Generate script using compiler flags
-const nullDevice = (platform() === 'win32') ? 'NUL' : '/dev/null';
+const nullDevice = (platform() === 'win32')
+  ? 'NUL'
+  : '/dev/null';
 
 const defaultScriptArray = [
   `OutFile ${nullDevice}`,
@@ -19,13 +21,7 @@ const defaultScriptArray = [
   `SectionEnd`
 ];
 
-const defaultScriptString = `
-  OutFile ${nullDevice}
-  Unicode true
-  Section -default
-  Nop
-  SectionEnd
-`;
+const defaultScriptString = defaultScriptArray.join('\n');
 
 // Expected values
 const commandHelp = spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim() || spawnSync('makensis', ['-CMDHELP']).stderr.toString().trim();
@@ -36,7 +32,9 @@ const version = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
 
 // Let's run the tests
 test(`MakeNSIS ${version} found in PATH environmental variable`, t => {
-  const which = (platform() === 'win32') ? 'where' : 'which';
+  const which = (platform() === 'win32')
+    ? 'where'
+    : 'which';
   const actual = spawnSync(which, ['makensis']).stdout.toString().trim();
 
   t.not(actual, '');
@@ -344,9 +342,53 @@ test('Compilation with error', t => {
   const scriptWithError = [...defaultScriptArray, '!error'];
 
   const expected = 0;
-  const actual = MakeNSIS.compileSync(null, { preExecute: scriptWithError}).status;
+  const actual = MakeNSIS.compileSync(null, { preExecute: scriptWithError }).status;
 
   t.not(actual, expected);
+});
+
+test('Compilation with raw arguments', t => {
+  const expected = '';
+  const actual = MakeNSIS.compileSync(null, { preExecute: defaultScriptString, rawArguments: '-V0' }).stdout;
+
+  t.is(actual, expected);
+});
+
+test('Compilation with raw arguments [async]', async (t) => {
+  try {
+    const { stdout } = await MakeNSIS.compile(null, { preExecute: defaultScriptString, rawArguments: '-V0' });
+
+    const expected = '';
+    const actual = stdout;
+
+    t.is(actual, expected);
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
+});
+
+test('Compilation with raw arguments and warning', t => {
+  const scriptWithWarning = [...defaultScriptArray, '!warning'];
+
+  const expected = 1;
+  const actual = MakeNSIS.compileSync(null, { preExecute: scriptWithWarning, rawArguments: '-WX' }).status;
+
+  t.is(actual, expected);
+});
+
+test('Compilation with raw arguments and warning [async]', async (t) => {
+  const scriptWithWarning = [...defaultScriptArray, '!warning'];
+
+  try {
+    const { status } = await MakeNSIS.compile(null, { preExecute: scriptWithWarning, rawArguments: '-WX' });
+
+    const expected = 1;
+    const actual = status;
+
+    t.is(actual, expected);
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
 });
 
 test('Compilation with error [async]', async (t) => {
