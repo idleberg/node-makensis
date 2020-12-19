@@ -268,7 +268,7 @@ function detectOutfile(str: string): string {
     const regex = /Output: "(.*\.exe)"\r?\n/g;
     const result = regex.exec(str.toString());
 
-    if (typeof result === 'object') {
+    if (typeof result === 'object' && result && result['1']) {
       try {
         return result['1'];
       } catch (e) {
@@ -287,15 +287,16 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
       stderr: ''
     };
 
-    let warnings = 0;
+    let warningsCounter = 0;
     let outFile = '';
 
     const child: any = spawn(cmd, args, spawnOpts);
 
     child.stdout.on('data', data => {
       const line = stringify(data);
+      const warnings = hasWarnings(line);
 
-      warnings += hasWarnings(line);
+      warningsCounter += warnings;
 
       if (outFile === '') {
         outFile = detectOutfile(line);
@@ -304,7 +305,7 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
       eventEmitter.emit('stdout', {
         line,
         outFile,
-        warnings
+        hasWarning: Boolean(warnings)
       });
 
       stream.stdout += line;
@@ -324,6 +325,7 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
       console.error(errorMessage);
     });
 
+    // Using 'exit' will truncate stdout
     child.on('close', code => {
       stream = formatOutput(stream, args, opts);
 
@@ -331,14 +333,14 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
         'status': code,
         'stdout': stream.stdout,
         'stderr': stream.stderr,
-        'warnings': warnings
+        'warnings': warningsCounter
       };
 
       if (outFile.length) {
-        output['outfile'] = outFile;
+        output['outFile'] = outFile;
       }
 
-      eventEmitter.emit('close', output);
+      eventEmitter.emit('exit', output);
 
       if (code === 0 || (code !== 0 && !hasErrorCode(stream.stderr))) {
         // Promise also resolves on MakeNSIS errors
@@ -356,7 +358,7 @@ function spawnMakensisSync(cmd: string, args: Array<string>, opts: makensis.Comp
   child.stdout = stringify(child.stdout);
   child.stderr = stringify(child.stderr);
 
-  const warnings = hasWarnings(child.stdout);
+  const warningsCounter = hasWarnings(child.stdout);
   const outFile = detectOutfile(child.stdout);
 
   child = formatOutput(child, args, opts);
@@ -365,7 +367,7 @@ function spawnMakensisSync(cmd: string, args: Array<string>, opts: makensis.Comp
     'status': child.status,
     'stdout': child.stdout,
     'stderr': child.stderr,
-    'warnings': warnings
+    'warnings': warningsCounter
   };
 
   if (outFile.length) {
