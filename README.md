@@ -104,15 +104,15 @@ console.log('Compiler output:', output);
 
 ### Methods
 
-#### cmdHelp
+#### commandHelp
 
-Usage: `cmdHelp([command], [options], [spawnOptions])`
+Usage: `commandHelp([command], [options], [spawnOptions])`
 
 Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
 
-#### cmdHelpSync
+#### commandHelpSync
 
-Usage: `cmdHelpSync([command], [options], [spawnOptions])`
+Usage: `commandHelpSync([command], [options], [spawnOptions])`
 
 Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
 
