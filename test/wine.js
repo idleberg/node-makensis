@@ -1,13 +1,12 @@
 /* eslint-disable */
 
 // Dependencies
-import { versionSync, version as _version, licenseSync, license as _license, headerInfoSync, headerInfo as _headerInfo, commandHelpSync, commandHelp as _commandHelp, compileSync, compile, nsisDirSync, nsisDir as _nsisDir } from '../dist/makensis';
+import * as MakeNSIS from '../dist/makensis';
 import { spawnSync } from 'child_process';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import { platform } from 'os';
 import test from 'ava';
-
 
 // Generate script using compiler flags
 const nullDevice = (platform() === 'win32') ? 'NUL' : '/dev/null';
@@ -36,22 +35,22 @@ test('Wine found in PATH environmental variable', t => {
 });
 
 // Expected values
-const commandHelp = spawnSync('wine', ['makensis', '-CMDHELP']).stderr.toString().trim().replace(/\r\n/g, '\n');
+const commandHelp = spawnSync('wine', ['makensis', '-CMDHELP']).stdout.toString().trim().replace(/\r\n/g, '\n');
 const headerInfo = spawnSync('wine', ['makensis', '-HDRINFO']).stdout.toString().trim();
-const outFile = spawnSync('wine', ['makensis', '-CMDHELP', 'OutFile']).stderr.toString().trim().replace(/\r\n/g, '\n');
+const outFile = spawnSync('wine', ['makensis', '-CMDHELP', 'OutFile']).stdout.toString().trim().replace(/\r\n/g, '\n');
 const license = spawnSync('wine', ['makensis', '-LICENSE']).stdout.toString().trim();
 const version = spawnSync('wine', ['makensis', '-VERSION']).stdout.toString().trim();
 
 test('Print makensis version', t => {
   const expected = version;
-  const actual = versionSync().stdout;
+  const actual = MakeNSIS.versionSync({ wine: true }).stdout;
 
   t.is(actual, expected);
 });
 
 test('Print makensis version as JSON', t => {
   let expected = version;
-  let actual = versionSync({ wine: true, json: true }).stdout;
+  let actual = MakeNSIS.versionSync({ wine: true, json: true }).stdout;
 
   if (expected.startsWith('v')) {
     expected = expected.substr(1);
@@ -64,7 +63,7 @@ test('Print makensis version as JSON', t => {
 });
 
 test('Print makensis version [async]', t => {
-  return Promise.resolve(_version({ wine: true }))
+  return Promise.resolve(MakeNSIS.version({ wine: true }))
   .then(output => {
     const expected = version;
     const actual = output.stdout;
@@ -77,7 +76,7 @@ test('Print makensis version [async]', t => {
 });
 
 test('Print makensis version as JSON [async]', t => {
-  return Promise.resolve(_version({ wine: true, json: true }))
+  return Promise.resolve(MakeNSIS.version({ wine: true, json: true }))
   .then(output => {
     let expected = version;
 
@@ -99,14 +98,14 @@ test('Print makensis version as JSON [async]', t => {
 
 test('Print makensis license', t => {
   let expected = license;
-  let actual = licenseSync().stdout;
+  let actual = MakeNSIS.licenseSync({ wine: true }).stdout;
 
   t.is(actual, expected);
 });
 
 test('Print makensis license as JSON', t => {
   let expected = license;
-  let actual = licenseSync({ wine: true, json: true }).stdout;
+  let actual = MakeNSIS.licenseSync({ wine: true, json: true }).stdout;
 
   actual = JSON.stringify(actual);
   expected = JSON.stringify({ license: expected });
@@ -115,7 +114,7 @@ test('Print makensis license as JSON', t => {
 });
 
 test('Print makensis license [async]', t => {
-  return Promise.resolve(_license({ wine: true }))
+  return Promise.resolve(MakeNSIS.license({ wine: true }))
   .then(output => {
     const expected = license;
     const actual = output.stdout;
@@ -133,7 +132,7 @@ test('Print makensis license [async]', t => {
 });
 
 test('Print makensis license as JSON [async]', t => {
-  return Promise.resolve(_license({ wine: true, json: true }))
+  return Promise.resolve(MakeNSIS.license({ wine: true, json: true }))
   .then(output => {
     let expected = license;
     expected = JSON.stringify({ license: expected });
@@ -160,20 +159,20 @@ test('Print makensis license as JSON [async]', t => {
 
 test('Print compiler information', t => {
   const expected = headerInfo;
-  const actual = headerInfoSync({ wine: true }).stdout;
+  const actual = MakeNSIS.headerInfoSync({ wine: true }).stdout;
 
   t.is(actual, expected);
 });
 
 test('Print compiler information as JSON', t => {
   const expected = true;
-  const actual = headerInfoSync({ wine: true, json: true }).stdout.defined_symbols.__GLOBAL__;
+  const actual = MakeNSIS.headerInfoSync({ wine: true, json: true }).stdout.defined_symbols.__GLOBAL__;
 
   t.is(actual, expected);
 });
 
 test('Print compiler information [async]', t => {
-  return Promise.resolve(_headerInfo({ wine: true }))
+  return Promise.resolve(MakeNSIS.headerInfo({ wine: true }))
   .then(output => {
     const expected = headerInfo;
     const actual = output.stdout;
@@ -192,13 +191,13 @@ test('Print compiler information [async]', t => {
 
 test('Print help for all commands', t => {
   const expected = commandHelp;
-  const actual = commandHelpSync({ wine: true }).stdout;
+  const actual = MakeNSIS.commandHelpSync({ wine: true }).stdout;
 
   t.is(actual, expected);
 });
 
 test('Print help for all commands [async]', t => {
-  return Promise.resolve(_commandHelp({ wine: true }))
+  return Promise.resolve(MakeNSIS.commandHelp({ wine: true }))
   .then(output => {
     // const expected = commandHelp;
     // const actual = output.stderr;
@@ -218,13 +217,13 @@ test('Print help for all commands [async]', t => {
 
 test('Print help for OutFile command', t => {
   const expected = outFile;
-  const actual = commandHelpSync('OutFile', { wine: true }).stdout;
+  const actual = MakeNSIS.commandHelpSync('OutFile', { wine: true }).stdout;
 
   t.is(actual, expected);
 });
 
 test('Print help for OutFile command [async]', t => {
-  return Promise.resolve(_commandHelp('OutFile', { wine: true }))
+  return Promise.resolve(MakeNSIS.commandHelp('OutFile', { wine: true }))
   .then(output => {
     const expected = outFile;
     const actual = output.stdout;
@@ -243,7 +242,7 @@ test('Print help for OutFile command [async]', t => {
 
 test('Print help for OutFile command as JSON', t => {
   let expected = outFile;
-  let actual = commandHelpSync('OutFile', { wine: true, json: true }).stdout;
+  let actual = MakeNSIS.commandHelpSync('OutFile', { wine: true, json: true }).stdout;
 
   actual = JSON.stringify(actual);
   expected = JSON.stringify({'help': expected });
@@ -253,7 +252,7 @@ test('Print help for OutFile command as JSON', t => {
 
 test('Compilation from File', t => {
   const expected = 0;
-  const actual = compileSync(scriptFile.minimal, {
+  const actual = MakeNSIS.compileSync(scriptFile.minimal, {
     wine: true,
     define: {
       'NULL_DEVICE': nullDevice
@@ -265,21 +264,21 @@ test('Compilation from File', t => {
 
 test('Compilation from Array', t => {
   const expected = 0;
-  const actual = compileSync(null, { wine: true, execute: defaultScriptArray }).status;
+  const actual = MakeNSIS.compileSync(null, { wine: true, preExecute: defaultScriptArray }).status;
 
   t.is(actual, expected);
 });
 
 test('Compilation from String', t => {
   const expected = 0;
-  const actual = compileSync(null, { wine: true, execute: defaultScriptString }).status;
+  const actual = MakeNSIS.compileSync(null, { wine: true, preExecute: defaultScriptString }).status;
 
   t.is(actual, expected);
 });
 
 test('Compilation from File [async]', async (t) => {
   try {
-    const { status } = await compile(scriptFile.minimal, {
+    const { status } = await MakeNSIS.compile(scriptFile.minimal, {
       wine: true,
       define: {
         'NULL_DEVICE': nullDevice
@@ -296,7 +295,7 @@ test('Compilation from File [async]', async (t) => {
 });
 
 test('Compilation from Array [async]', t => {
-  return Promise.resolve(compile(null, { wine: true, execute: defaultScriptArray }))
+  return Promise.resolve(MakeNSIS.compile(null, { wine: true, preExecute: defaultScriptArray }))
   .then(output => {
     const expected = 0;
     const actual = output.status;
@@ -307,7 +306,7 @@ test('Compilation from Array [async]', t => {
 });
 
 test('Compilation from String [async]', t => {
-  return Promise.resolve(compile(null, { wine: true, execute: defaultScriptString }))
+  return Promise.resolve(MakeNSIS.compile(null, { wine: true, preExecute: defaultScriptString }))
   .then(output => {
     const expected = 0;
     const actual = output.status;
@@ -321,7 +320,7 @@ test('Compilation with warning', t => {
   const scriptWithWarning = defaultScriptArray.concat(['!warning']);
 
   const expected = 0;
-  const actual = compileSync(null, { wine: true, execute: scriptWithWarning }).status;
+  const actual = MakeNSIS.compileSync(null, { wine: true, preExecute: scriptWithWarning }).status;
 
   t.is(actual, expected);
 });
@@ -329,7 +328,7 @@ test('Compilation with warning', t => {
 test('Compilation with warning as JSON', t => {
   const expected = 1;
   const scriptWithWarning = defaultScriptArray.concat(['!warning']);
-  const actual = compileSync(null, { wine: true, execute: scriptWithWarning, json: true }).warnings;
+  const actual = MakeNSIS.compileSync(null, { wine: true, preExecute: scriptWithWarning, json: true }).warnings;
 
   t.is(actual, expected);
 });
@@ -337,7 +336,7 @@ test('Compilation with warning as JSON', t => {
 test('Compilation with warning [async]', t => {
   const scriptWithWarning = defaultScriptArray.concat(['!warning']);
 
-  return Promise.resolve(compile(null, { wine: true, execute: scriptWithWarning }))
+  return Promise.resolve(MakeNSIS.compile(null, { wine: true, preExecute: scriptWithWarning }))
   .then( output => {
     const expected = 0;
     const actual = output.status;
@@ -350,7 +349,7 @@ test('Compilation with warning [async]', t => {
 test('Compilation with warning as JSON [async]', t => {
   const scriptWithWarning = defaultScriptArray.concat(['!warning']);
 
-  return Promise.resolve(compile(null, { wine: true, execute: scriptWithWarning, json: true }))
+  return Promise.resolve(MakeNSIS.compile(null, { wine: true, preExecute: scriptWithWarning, json: true }))
   .then( output => {
     const expected = 1;
     const actual = output.warnings;
@@ -364,7 +363,7 @@ test('Compilation with error', t => {
   const scriptWithError = defaultScriptArray.concat(['!error']);
 
   const expected = 0;
-  const actual = compileSync(null, { wine: true, execute: scriptWithError }).status;
+  const actual = MakeNSIS.compileSync(null, { wine: true, preExecute: scriptWithError }).status;
 
   t.not(actual, expected);
 });
@@ -372,7 +371,13 @@ test('Compilation with error', t => {
 test('Compilation with error [async]', t => {
   let scriptWithError = defaultScriptArray.concat(['!error']);
 
-  return Promise.resolve(compile(null, { wine: true, execute: scriptWithError }))
+  return Promise.resolve(MakeNSIS.compile(null, { wine: true, preExecute: scriptWithError }))
+  .then(output => {
+    const expected = 0;
+    const actual = output.status;
+
+    t.not(actual, expected)
+  })
   .catch(output => {
     const expected = 0;
     const actual = output.status;
@@ -390,7 +395,7 @@ test('Compilation with raw arguments', t => {
 
 test('Compilation with raw arguments [async]', async (t) => {
   try {
-    const { stdout } = await compile(scriptFile.minimal, { wine: true, rawArguments: '-V0' });
+    const { stdout } = await MakeNSIS.compile(scriptFile.minimal, { wine: true, rawArguments: '-V0' });
 
     const expected = '';
     const actual = stdout;
@@ -405,7 +410,7 @@ test('Compilation with raw arguments and warning', t => {
   const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
   const expected = 1;
-  const actual = compileSync(scriptFile.warning, { wine: true, rawArguments: '-WX' }).status;
+  const actual = MakeNSIS.compileSync(scriptFile.warning, { wine: true, rawArguments: '-WX' }).status;
 
   t.is(actual, expected);
 });
@@ -414,7 +419,7 @@ test('Compilation with raw arguments and warning [async]', async (t) => {
   const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
   try {
-    const { status } = await compile(scriptFile.warning, { wine: true, rawArguments: '-WX' });
+    const { status } = await MakeNSIS.compile(scriptFile.warning, { wine: true, rawArguments: '-WX' });
 
     const expected = 1;
     const actual = status;
@@ -429,7 +434,7 @@ test('Strict compilation with warning', t => {
   const scriptWithWarning = defaultScriptArray.concat(['!warning']);
 
   const expected = 0;
-  const actual = compileSync(null, { wine: true, execute: scriptWithWarning, strict: true}).status;
+  const actual = MakeNSIS.compileSync(null, { wine: true, preExecute: scriptWithWarning, strict: true}).status;
 
   t.not(actual, expected);
 });
@@ -437,7 +442,13 @@ test('Strict compilation with warning', t => {
 test('Strict compilation with warning [async]', t => {
   const scriptWithWarning = defaultScriptArray.concat(['!warning']);
 
-  return Promise.resolve(compile(null, { wine: true, execute: scriptWithWarning, strict: true}))
+  return Promise.resolve(MakeNSIS.compile(null, { wine: true, preExecute: scriptWithWarning, strict: true}))
+  .then(output => {
+    const expected = 0;
+    const actual = output.status;
+
+    t.not(actual, expected)
+  })
   .catch(output => {
     const expected = 0;
     const actual = output.status;
@@ -447,7 +458,7 @@ test('Strict compilation with warning [async]', t => {
 });
 
 test('Print ${NSISDIR}', t => {
-  const nsisDir = nsisDirSync({ wine: true});
+  const nsisDir = MakeNSIS.nsisDirSync({ wine: true});
   let nsisCfg = spawnSync('winepath', [nsisDir]).stdout.toString().trim();
   nsisCfg = join(nsisCfg, 'Include', 'MUI2.nsh');
 
@@ -458,7 +469,7 @@ test('Print ${NSISDIR}', t => {
 });
 
 test('Print ${NSISDIR} [async]', t => {
-  return Promise.resolve(_nsisDir({ wine: true}))
+  return Promise.resolve(MakeNSIS.nsisDir({ wine: true}))
   .then(nsisDir => {
     let nsisCfg = spawnSync('winepath', [nsisDir]).stdout.toString().trim();
     nsisCfg = join(nsisCfg, 'Include', 'MUI2.nsh');
@@ -473,8 +484,9 @@ test('Print ${NSISDIR} [async]', t => {
 });
 
 test('Print ${NSISDIR} as JSON', t => {
-  const nsisDir = nsisDirSync({ wine: true, json: true}).nsisdir;
-  const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
+  const nsisDir = MakeNSIS.nsisDirSync({ wine: true, json: true}).nsisdir;
+  let nsisCfg = spawnSync('winepath', [nsisDir]).stdout.toString().trim();
+  nsisCfg = join(nsisCfg, 'Include', 'MUI2.nsh');
 
   const expected = true;
   const actual = existsSync(nsisCfg);
@@ -483,9 +495,10 @@ test('Print ${NSISDIR} as JSON', t => {
 });
 
 test('Print ${NSISDIR} as JSON [async]', t => {
-  return Promise.resolve(_nsisDir({ wine: true, json: true}))
-  .then(output => {
-    const nsisCfg = join(output.nsisdir, 'Include', 'MUI2.nsh');
+  return Promise.resolve(MakeNSIS.nsisDir({ wine: true, json: true}))
+  .then(nsisDir => {
+    let nsisCfg = spawnSync('winepath', [nsisDir.nsisdir]).stdout.toString().trim();
+    nsisCfg = join(nsisCfg, 'Include', 'MUI2.nsh');
 
     const expected = true;
     const actual = existsSync(nsisCfg);
