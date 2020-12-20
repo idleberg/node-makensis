@@ -199,11 +199,10 @@ test('Print help for all commands', t => {
 test('Print help for all commands [async]', t => {
   return Promise.resolve(MakeNSIS.commandHelp({ wine: true }))
   .then(output => {
-    // const expected = commandHelp;
-    // const actual = output.stderr;
+    const expected = commandHelp;
+    const actual = output.stdout;
 
-    // t.is(actual, expected);
-    t.pass();
+    t.is(actual, expected);
   })
   .catch(output => {
     // NSIS < 3.03
