@@ -48,7 +48,7 @@ $ port install nsis
 
 ### Wine
 
-You can setup NSIS in your [Wine](http://winehq.org/) environment, but keep in mind that Wine writes standard streams while executing `makensis`. You can disable these debug messages by setting the `WINEDEBUG` environment variable to `-all`.
+You can setup NSIS in your [Wine](http://winehq.org/) environment, but keep in mind that Wine writes standard streams while executing `makensis`. To disable these debug messages, set the `WINEDEBUG` environment variable to `-all`.
 
 ## Installation
 
