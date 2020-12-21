@@ -108,7 +108,7 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): unknow
     if (typeof options.rawArguments === 'string') {
       args.push(...splitSpacesExcludeQuotes(options.rawArguments));
     } else if (Array.isArray(options.rawArguments)) {
-      args.concat(options.rawArguments);
+      args = args.concat(options.rawArguments);
     }
   }
 
