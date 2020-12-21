@@ -312,7 +312,7 @@ Specifies a custom path to `makensis`
 
 Type: `string | string[]`
 
-Specifies raw arguments for `makensis`
+Specifies raw arguments for `makensis`. For complex quote combinations, consider supplying the arguments as array.
 
 **Note:** These will be added to the compiler arguments last and will hence overwrite any of the NSIS options above!
 
