@@ -380,16 +380,16 @@ test('Compilation with error', t => {
   t.not(actual, expected);
 });
 
-test('Compilation with raw arguments', t => {
+test('Compilation with raw arguments string', t => {
   const expected = '';
-  const actual = MakeNSIS.compileSync(scriptFile.minimal, {rawArguments: '-V0' }).stdout;
+  const actual = MakeNSIS.compileSync(scriptFile.minimal, { rawArguments: '-V0' }).stdout;
 
   t.is(actual, expected);
 });
 
-test('Compilation with raw arguments [async]', async (t) => {
+test('Compilation with raw arguments string [async]', async (t) => {
   try {
-    const { stdout } = await MakeNSIS.compile(scriptFile.minimal, {rawArguments: '-V0' });
+    const { stdout } = await MakeNSIS.compile(scriptFile.minimal, { rawArguments: '-V0' });
 
     const expected = '';
     const actual = stdout;
@@ -400,18 +400,34 @@ test('Compilation with raw arguments [async]', async (t) => {
   }
 });
 
-test('Compilation with raw arguments and warning', t => {
-  const scriptWithWarning = [...defaultScriptArray, '!warning'];
+test('Compilation with raw arguments array', t => {
+  const expected = '';
+  const actual = MakeNSIS.compileSync(scriptFile.minimal, { rawArguments: ['-V0'] }).stdout;
 
+  t.is(actual, expected);
+});
+
+test('Compilation with raw arguments array [async]', async (t) => {
+  try {
+    const { stdout } = await MakeNSIS.compile(scriptFile.minimal, { rawArguments: ['-V0'] });
+
+    const expected = '';
+    const actual = stdout;
+
+    t.is(actual, expected);
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
+});
+
+test('Compilation with raw arguments string and warning', t => {
   const expected = 1;
   const actual = MakeNSIS.compileSync(scriptFile.warning, { rawArguments: '-WX' }).status;
 
   t.is(actual, expected);
 });
 
-test('Compilation with raw arguments and warning [async]', async (t) => {
-  const scriptWithWarning = [...defaultScriptArray, '!warning'];
-
+test('Compilation with raw arguments string and warning [async]', async (t) => {
   try {
     const { status } = await MakeNSIS.compile(scriptFile.warning, { rawArguments: '-WX' });
 

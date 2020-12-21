@@ -385,14 +385,14 @@ test('Compilation with error [async]', t => {
   });
 });
 
-test('Compilation with raw arguments', t => {
+test('Compilation with raw arguments strings', t => {
   const expected = '';
-  const actual = MakeNSIS.compileSync(scriptFile.minimal, {rawArguments: '-V0' }).stdout;
+  const actual = MakeNSIS.compileSync(scriptFile.minimal, { wine: true, rawArguments: '-V0' }).stdout;
 
   t.is(actual, expected);
 });
 
-test('Compilation with raw arguments [async]', async (t) => {
+test('Compilation with raw arguments strings [async]', async (t) => {
   try {
     const { stdout } = await MakeNSIS.compile(scriptFile.minimal, { wine: true, rawArguments: '-V0' });
 
@@ -405,20 +405,56 @@ test('Compilation with raw arguments [async]', async (t) => {
   }
 });
 
-test('Compilation with raw arguments and warning', t => {
-  const scriptWithWarning = [...defaultScriptArray, '!warning'];
+test('Compilation with raw arguments array', t => {
+  const expected = '';
+  const actual = MakeNSIS.compileSync(scriptFile.minimal, { wine: true, rawArguments: ['-V0'] }).stdout;
 
+  t.is(actual, expected);
+});
+
+test('Compilation with raw arguments array [async]', async (t) => {
+  try {
+    const { stdout } = await MakeNSIS.compile(scriptFile.minimal, { wine: true, rawArguments: ['-V0'] });
+
+    const expected = '';
+    const actual = stdout;
+
+    t.is(actual, expected);
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
+});
+
+test('Compilation with raw arguments strings and warning', t => {
   const expected = 1;
   const actual = MakeNSIS.compileSync(scriptFile.warning, { wine: true, rawArguments: '-WX' }).status;
 
   t.is(actual, expected);
 });
 
-test('Compilation with raw arguments and warning [async]', async (t) => {
-  const scriptWithWarning = [...defaultScriptArray, '!warning'];
-
+test('Compilation with raw arguments strings and warning [async]', async (t) => {
   try {
     const { status } = await MakeNSIS.compile(scriptFile.warning, { wine: true, rawArguments: '-WX' });
+
+    const expected = 1;
+    const actual = status;
+
+    t.is(actual, expected);
+  } catch ({ stderr }) {
+    t.fail(stderr);
+  }
+});
+
+test('Compilation with raw arguments array and warning', t => {
+  const expected = 1;
+  const actual = MakeNSIS.compileSync(scriptFile.warning, { wine: true, rawArguments: ['-WX'] }).status;
+
+  t.is(actual, expected);
+});
+
+test('Compilation with raw arguments array and warning [async]', async (t) => {
+  try {
+    const { status } = await MakeNSIS.compile(scriptFile.warning, { wine: true, rawArguments: ['-WX'] });
 
     const expected = 1;
     const actual = status;
