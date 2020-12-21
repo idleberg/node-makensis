@@ -12,7 +12,9 @@ const plugins = [
 
 const external = [
   'child_process',
-  'os'
+  'events',
+  'os',
+  'quoted-string-space-split'
 ];
 
 export default [
