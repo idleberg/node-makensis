@@ -1,7 +1,9 @@
-import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { eventEmitter } from './events';
-import { spawn, spawnSync } from 'child_process';
+import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { platform } from 'os';
+import { spawn, spawnSync } from 'child_process';
+import splitSpacesExcludeQuotes from 'quoted-string-space-split';
+
 
 import { SpawnOptions } from 'child_process';
 import makensis from '../types';
@@ -103,7 +105,11 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): unknow
   }
 
   if (options.rawArguments) {
-    args.push(...options.rawArguments.match(/(?:[^\s"]+|"[^"]*")+/g));
+    if (typeof options.rawArguments === 'string') {
+      args.push(...splitSpacesExcludeQuotes(options.rawArguments));
+    } else if (Array.isArray(options.rawArguments)) {
+      args.concat(options.rawArguments);
+    }
   }
 
   return [cmd, args, { json: options.json, wine: options.wine }];
