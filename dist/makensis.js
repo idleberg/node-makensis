@@ -3,8 +3,13 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var events = require('events');
-var child_process = require('child_process');
 var os = require('os');
+var child_process = require('child_process');
+var splitSpacesExcludeQuotes = require('quoted-string-space-split');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var splitSpacesExcludeQuotes__default = /*#__PURE__*/_interopDefaultLegacy(splitSpacesExcludeQuotes);
 
 var eventEmitter = new events.EventEmitter();
 
@@ -8262,7 +8267,12 @@ function mapArguments(args, options) {
         args.push("-V" + options.verbose);
     }
     if (options.rawArguments) {
-        args.push.apply(args, options.rawArguments.match(/(?:[^\s"]+|"[^"]*")+/g));
+        if (typeof options.rawArguments === 'string') {
+            args.push.apply(args, splitSpacesExcludeQuotes__default['default'](options.rawArguments));
+        }
+        else if (Array.isArray(options.rawArguments)) {
+            args.concat(options.rawArguments);
+        }
     }
     return [cmd, args, { json: options.json, wine: options.wine }];
 }
