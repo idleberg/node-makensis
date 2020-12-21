@@ -8271,7 +8271,7 @@ function mapArguments(args, options) {
             args.push.apply(args, splitSpacesExcludeQuotes__default['default'](options.rawArguments));
         }
         else if (Array.isArray(options.rawArguments)) {
-            args.concat(options.rawArguments);
+            args = args.concat(options.rawArguments);
         }
     }
     return [cmd, args, { json: options.json, wine: options.wine }];
