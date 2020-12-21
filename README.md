@@ -259,7 +259,7 @@ define: {
 
 #### preExecute
 
-Type: `Array<string>|string`
+Type: `string | string[]`
 
 Prepends script-commands to the script, can be passed as array or multiline-script. Equivalent of the `-X` switch when used *before* passing a script.
 
@@ -276,7 +276,7 @@ preExecute: [
 
 #### postExecute
 
-Type: `Array<string>|string`
+Type: `string | string[]`
 
 Appends script-commands to the script, can be passed as array or multiline-script. Equivalent of the `-X` switch when used *after* passing a script.
 
@@ -310,7 +310,7 @@ Specifies a custom path to `makensis`
 
 #### rawArguments
 
-Type: `string`
+Type: `string | string[]`
 
 Specifies raw arguments for `makensis`
 
