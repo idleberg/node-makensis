@@ -327,7 +327,7 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
         line
       });
 
-      stream.stderr += stringify(line);
+      stream.stderr += line;
     });
 
     child.on('error', errorMessage => {
