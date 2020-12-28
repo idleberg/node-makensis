@@ -274,7 +274,7 @@ function splitLines(input: string, opts: makensis.CompilerOptions): Array<string
 
 function detectOutfile(str: string): string {
   if (str.includes('Output: "')) {
-    const regex = /Output: "(.*\.exe)"\r?\n/g;
+    const regex = new RegExp('Output: "(.*.exe)"', 'g');
     const result = regex.exec(str.toString());
 
     if (typeof result === 'object' && result && result['1']) {
@@ -380,7 +380,7 @@ function spawnMakensisSync(cmd: string, args: Array<string>, opts: makensis.Comp
   };
 
   if (outFile.length) {
-    output['outfile'] = outFile;
+    output['outFile'] = outFile;
   }
 
   return output;
