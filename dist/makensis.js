@@ -8412,7 +8412,7 @@ function splitLines(input, opts) {
 }
 function detectOutfile(str) {
     if (str.includes('Output: "')) {
-        var regex = /Output: "(.*\.exe)"\r?\n/g;
+        var regex = new RegExp('Output: "(.*.exe)"', 'g');
         var result = regex.exec(str.toString());
         if (typeof result === 'object' && result && result['1']) {
             try {
@@ -8454,7 +8454,7 @@ function spawnMakensis(cmd, args, opts, spawnOpts) {
             eventEmitter.emit('stderr', {
                 line: line
             });
-            stream.stderr += stringify(line);
+            stream.stderr += line;
         });
         child.on('error', function (errorMessage) {
             console.error(errorMessage);
@@ -8497,7 +8497,7 @@ function spawnMakensisSync(cmd, args, opts, spawnOpts) {
         'warnings': warningsCounter
     };
     if (outFile.length) {
-        output['outfile'] = outFile;
+        output['outFile'] = outFile;
     }
     return output;
 }
