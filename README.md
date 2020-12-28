@@ -60,16 +60,16 @@ Use ES6 imports or `require()` to include the module:
 
 ```js
 // ECMAScript Import
-import * as MakeNSIS from 'makensis';
+import NSIS from 'makensis';
 
 // CommonJS Require
-const MakeNSIS = require('makensis');
+const NSIS = require('makensis');
 ```
 
 Example usage in script:
 
 ```js
-import * as MakeNSIS from 'makensis';
+import NSIS from 'makensis';
 
 const options = {
     verbose: 2,
@@ -81,7 +81,7 @@ const options = {
 // Asynchronous: async/await
 (async () => {
     try {
-        let output = await MakeNSIS.compile('path/to/installer.nsi', options);
+        let output = await NSIS.compile('path/to/installer.nsi', options);
         console.log('Compiler output:', output);
     } catch (error) {
         console.error(error);
@@ -89,7 +89,7 @@ const options = {
 })();
 
 // Asynchronous: Promise API
-MakeNSIS.compile('path/to/installer.nsi', options)
+NSIS.compile('path/to/installer.nsi', options)
 .then(output => {
     console.log('Compiler output:', output);
 })
@@ -98,7 +98,7 @@ MakeNSIS.compile('path/to/installer.nsi', options)
 });
 
 // Synchronous
-let output = MakeNSIS.compileSync('path/to/installer.nsi', options);
+let output = NSIS.compileSync('path/to/installer.nsi', options);
 console.log('Compiler output:', output);
 ```
 
