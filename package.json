@@ -31,6 +31,11 @@
     "esm": "^3.2.25",
     "husky": "^4.3.6",
     "lint-staged": ">=10",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^2.2.1",
+    "remark-cli": "^9.0.0",
+    "remark-preset-lint-recommended": "^5.0.0",
+    "remark-preset-prettier": "^0.4.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.35.1",
     "tslib": "^2.0.3",
@@ -39,8 +44,11 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "npm run start",
-    "lint": "eslint ./src",
-    "lint:fix": "eslint --fix ./src",
+    "fix": "eslint --fix ./src",
+    "lint:json": "jsonlint --quiet ./*.json",
+    "lint:md": "remark . --quiet --frail --ignore-path .gitignore",
+    "lint:ts": "eslint ./src --ignore-path .gitignore",
+    "lint": "npm-run-all --parallel lint:*",
     "prepublishOnly": "npm run lint && npm run build",
     "start": "rollup -w -c",
     "test": "ava ./test/commands.js ./test/encoding.js --verbose",
@@ -57,6 +65,8 @@
     ]
   },
   "lint-staged": {
-    "*.ts": "eslint --cache --fix"
+    "*.ts": "eslint --cache --fix",
+    "*.json": "jsonlint --quiet",
+    "*.md": "prettier --write"
   }
 }
