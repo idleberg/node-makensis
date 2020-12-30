@@ -60,46 +60,46 @@ Use ES6 imports or `require()` to include the module:
 
 ```js
 // ECMAScript Import
-import NSIS from 'makensis';
+import NSIS from "makensis";
 
 // CommonJS Require
-const NSIS = require('makensis');
+const NSIS = require("makensis");
 ```
 
 Example usage in script:
 
 ```js
-import NSIS from 'makensis';
+import NSIS from "makensis";
 
 const options = {
-    verbose: 2,
-    define: {
-        'SPECIAL_BUILD': true
-    }
+  verbose: 2,
+  define: {
+    SPECIAL_BUILD: true,
+  },
 };
 
 // Asynchronous: async/await
 (async () => {
-    try {
-        let output = await NSIS.compile('path/to/installer.nsi', options);
-        console.log('Compiler output:', output);
-    } catch (error) {
-        console.error(error);
-    }
+  try {
+    let output = await NSIS.compile("path/to/installer.nsi", options);
+    console.log("Compiler output:", output);
+  } catch (error) {
+    console.error(error);
+  }
 })();
 
 // Asynchronous: Promise API
-NSIS.compile('path/to/installer.nsi', options)
-.then(output => {
-    console.log('Compiler output:', output);
-})
-.catch (error => {
+NSIS.compile("path/to/installer.nsi", options)
+  .then((output) => {
+    console.log("Compiler output:", output);
+  })
+  .catch((error) => {
     console.error(error);
-});
+  });
 
 // Synchronous
-let output = NSIS.compileSync('path/to/installer.nsi', options);
-console.log('Compiler output:', output);
+let output = NSIS.compileSync("path/to/installer.nsi", options);
+console.log("Compiler output:", output);
 ```
 
 ### Methods
@@ -208,7 +208,7 @@ Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`. Equivalent of the `
 
 Type: `integer`
 
-Sets the compiler process priority, where x is `5=realtime`, `4=high`, `3=above normal`, `2=normal`, `1=below normal`, `0=idle`.  Equivalent of the `-P` switch.
+Sets the compiler process priority, where x is `5=realtime`, `4=high`, `3=above normal`, `2=normal`, `1=below normal`, `0=idle`. Equivalent of the `-P` switch.
 
 **Note:** Only available on Windows
 
@@ -255,39 +255,37 @@ define: {
     "LANGUAGE": "English"
 }
 ```
+
 </details>
 
 #### preExecute
 
 Type: `string | string[]`
 
-Prepends script-commands to the script, can be passed as array or multiline-script. Equivalent of the `-X` switch when used *before* passing a script.
+Prepends script-commands to the script, can be passed as array or multiline-script. Equivalent of the `-X` switch when used _before_ passing a script.
 
 <details>
 <summary><strong>Example</strong></summary>
 
 ```js
-preExecute: [
-    "SetCompressor lzma",
-    "SetCompressorDictSize 16"
-]
+preExecute: ["SetCompressor lzma", "SetCompressorDictSize 16"];
 ```
+
 </details>
 
 #### postExecute
 
 Type: `string | string[]`
 
-Appends script-commands to the script, can be passed as array or multiline-script. Equivalent of the `-X` switch when used *after* passing a script.
+Appends script-commands to the script, can be passed as array or multiline-script. Equivalent of the `-X` switch when used _after_ passing a script.
 
 <details>
 <summary><strong>Example</strong></summary>
 
 ```js
-postExecute: [
-    `DetailPrint "That's all Folks!"`
-]
+postExecute: [`DetailPrint "That's all Folks!"`];
 ```
+
 </details>
 
 #### wine
