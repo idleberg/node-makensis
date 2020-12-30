@@ -60,46 +60,46 @@ Use ES6 imports or `require()` to include the module:
 
 ```js
 // ECMAScript Import
-import NSIS from "makensis";
+import NSIS from 'makensis';
 
 // CommonJS Require
-const NSIS = require("makensis");
+const NSIS = require('makensis');
 ```
 
 Example usage in script:
 
 ```js
-import NSIS from "makensis";
+import NSIS from 'makensis';
 
 const options = {
-  verbose: 2,
-  define: {
-    SPECIAL_BUILD: true,
-  },
+    verbose: 2,
+    define: {
+        SPECIAL_BUILD: true,
+    },
 };
 
 // Asynchronous: async/await
 (async () => {
-  try {
-    let output = await NSIS.compile("path/to/installer.nsi", options);
-    console.log("Compiler output:", output);
-  } catch (error) {
-    console.error(error);
-  }
+    try {
+        let output = await NSIS.compile('path/to/installer.nsi', options);
+        console.log('Compiler output:', output);
+    } catch (error) {
+        console.error(error);
+    }
 })();
 
 // Asynchronous: Promise API
-NSIS.compile("path/to/installer.nsi", options)
-  .then((output) => {
-    console.log("Compiler output:", output);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+NSIS.compile('path/to/installer.nsi', options)
+    .then((output) => {
+        console.log('Compiler output:', output);
+    })
+    .catch((error) => {
+        console.error(error);
+    });
 
 // Synchronous
-let output = NSIS.compileSync("path/to/installer.nsi", options);
-console.log("Compiler output:", output);
+let output = NSIS.compileSync('path/to/installer.nsi', options);
+console.log('Compiler output:', output);
 ```
 
 ### Methods
@@ -268,7 +268,7 @@ Prepends script-commands to the script, can be passed as array or multiline-scri
 <summary><strong>Example</strong></summary>
 
 ```js
-preExecute: ["SetCompressor lzma", "SetCompressorDictSize 16"];
+preExecute: ['SetCompressor lzma', 'SetCompressorDictSize 16'];
 ```
 
 </details>
@@ -332,8 +332,8 @@ Gives access to an object containing the exit code, the full `stdout` and `stder
 
 ## Related
 
-- [atom-language-nsis](https://atom.io/packages/language-nsis) - NSIS package for Atom
-- [vscode-nsis](https://marketplace.visualstudio.com/items?itemName=idleberg.nsis) - NSIS package for Visual Studio Code
+-   [atom-language-nsis](https://atom.io/packages/language-nsis) - NSIS package for Atom
+-   [vscode-nsis](https://marketplace.visualstudio.com/items?itemName=idleberg.nsis) - NSIS package for Visual Studio Code
 
 ## License
 
