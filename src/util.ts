@@ -96,12 +96,14 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): unknow
     args.push('-SAFEPPO');
   }
 
-  if (platform() === 'win32' && Number.isInteger(options.priority) && options.priority >= 0 && options.priority <= 5) {
+  const priority = parseInt(String(options.priority));
+  if (platform() === 'win32' && isInteger(priority) && inRange(priority, 0, 5)) {
     args.push(`-P${options.priority}`);
   }
 
-  if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
-    args.push(`-V${options.verbose}`);
+  const verbosity = parseInt(String(options.verbose));
+  if (isInteger(verbosity) && inRange(verbosity, 0, 4)) {
+    args.push(`-V${verbosity}`);
   }
 
   if (options.rawArguments) {
@@ -123,6 +125,10 @@ function stringify(data): string {
 
 function isInteger(x): boolean {
   return x % 2 === 0;
+}
+
+function inRange(value: number, min: number, max: number): boolean {
+  return value >= min && value <= max;
 }
 
 function hasWarnings(line: string): number {
