@@ -8260,11 +8260,13 @@ function mapArguments(args, options) {
     if (options.safePPO === true) {
         args.push('-SAFEPPO');
     }
-    if (os.platform() === 'win32' && Number.isInteger(options.priority) && options.priority >= 0 && options.priority <= 5) {
+    var priority = parseInt(String(options.priority));
+    if (os.platform() === 'win32' && isInteger(priority) && inRange(priority, 0, 5)) {
         args.push("-P" + options.priority);
     }
-    if (Number.isInteger(options.verbose) && options.verbose >= 0 && options.verbose <= 4) {
-        args.push("-V" + options.verbose);
+    var verbosity = parseInt(String(options.verbose));
+    if (isInteger(verbosity) && inRange(verbosity, 0, 4)) {
+        args.push("-V" + verbosity);
     }
     if (options.rawArguments) {
         if (typeof options.rawArguments === 'string') {
@@ -8283,6 +8285,9 @@ function stringify(data) {
 }
 function isInteger(x) {
     return x % 2 === 0;
+}
+function inRange(value, min, max) {
+    return value >= min && value <= max;
 }
 function hasWarnings(line) {
     var match = line.match(/(\d+) warnings?:/);
