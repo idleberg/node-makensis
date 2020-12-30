@@ -64,6 +64,11 @@
       "esm"
     ]
   },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 4
+  },
   "lint-staged": {
     "*.ts": "eslint --cache --fix",
     "*.json": "jsonlint --quiet",
