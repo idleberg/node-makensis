@@ -10,12 +10,12 @@ declare namespace makensis {
     pause?: boolean;
     postExecute?: string | string[];
     preExecute?: string | string[];
-    priority?: number;
+    priority?: number | string;
     ppo?: boolean;
     rawArguments?: string;
     safePPO?: boolean;
     strict?: boolean;
-    verbose?: number;
+    verbose?: number | string;
     wine?: boolean;
 
     // library
