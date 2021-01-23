@@ -19,7 +19,7 @@ function commandHelp(command = '', options: makensis.CompilerOptions = {}, spawn
 
   const [cmd, args, opts]: any = mapArguments(['-CMDHELP'], options);
 
-  if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
+  if (command?.length && typeof command !== 'object') {
     args.push(command);
   }
 
@@ -41,9 +41,13 @@ function compile(script: string, options: makensis.CompilerOptions = {}, spawnOp
     args.push(script);
   }
 
-  const postExecuteArgs = splitCommands(options.postExecute);
-  if (postExecuteArgs.length) {
-    args.push(...postExecuteArgs);
+  if (options?.postExecute) {
+
+    const postExecuteArgs = splitCommands(options.postExecute);
+
+    if (postExecuteArgs.length) {
+      args.push(...postExecuteArgs);
+    }
   }
 
   return spawnMakensis(cmd, args, opts, spawnOpts);

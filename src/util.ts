@@ -4,41 +4,41 @@ import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
 import splitSpacesExcludeQuotes from 'quoted-string-space-split';
 
-
 import { SpawnOptions } from 'child_process';
 import makensis from '../types';
 
 function splitCommands(data: string | string[]): string[] {
-  const args = [];
+  const args: string[] = [];
 
-  if (typeof data !== 'undefined') {
-    if (typeof data === 'string') {
-      if (data.trim().includes('\n')) {
-        const lines = data.trim().split('\n');
+  if (typeof data === 'string') {
+    if (data.trim().includes('\n')) {
+      const lines = data.trim().split('\n');
 
-        lines.map(line => {
-          if (line.trim().length) {
-            args.push(`-X${line}`);
-          }
-        });
-      } else {
-        args.push(`-X${data}`);
-      }
-    } else {
-      data.map(key => {
-        if (key.trim().length) {
-          args.push(`-X${key}`);
+      lines.map(line => {
+        if (line.trim().length) {
+          args.push(`-X${line}`);
         }
       });
+    } else {
+      args.push(`-X${data}`);
     }
+  } else {
+    data.map(key => {
+      if (key.trim().length) {
+        args.push(`-X${key}`);
+      }
+    });
   }
 
   return args;
 }
 
 function mapArguments(args: string[], options: makensis.CompilerOptions): unknown[] {
-  const pathToMakensis: string = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
-  let cmd: string;
+  const pathToMakensis: string = options.pathToMakensis
+    ? options.pathToMakensis
+    : 'makensis';
+
+    let cmd: string;
 
   if (platform() !== 'win32' && options.wine === true) {
     cmd = 'wine';
@@ -48,18 +48,23 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): unknow
   }
 
   if (args.length > 1 || args.includes('-CMDHELP')) {
-    return [cmd, args, { json: options.json, wine: options.wine }];
+    return [cmd, args, {
+      json: options.json,
+      wine: options.wine
+    }];
   }
 
-  if (typeof options.define !== 'undefined') {
+  if (options?.define) {
     Object.keys(options.define).forEach(key => {
       args.push(`-D${key}=${options.define[key]}`);
     });
   }
 
-  const preExecuteArgs = splitCommands(options.preExecute);
-  if (preExecuteArgs.length) {
-    args.push(...preExecuteArgs);
+  if (options?.preExecute) {
+    const preExecuteArgs = splitCommands(options.preExecute);
+    if (preExecuteArgs.length) {
+      args.push(...preExecuteArgs);
+    }
   }
 
   if (options.noCD === true) {
@@ -78,12 +83,12 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): unknow
     args.push('-WX');
   }
 
-  if (typeof options.inputCharset !== 'undefined' && inputCharsets.includes(options.inputCharset)) {
+  if (options.inputCharset && inputCharsets.includes(options.inputCharset)) {
     args.push('-INPUTCHARSET', options.inputCharset);
   }
 
   if (platform() === 'win32') {
-    if (typeof options.outputCharset !== 'undefined' && outputCharsets.includes(options.outputCharset)) {
+    if (options.outputCharset && outputCharsets.includes(options.outputCharset)) {
       args.push('-OUTPUTCHARSET', options.outputCharset);
     }
   }
@@ -141,7 +146,7 @@ function hasWarnings(line: string): number {
   return 0;
 }
 
-function formatOutput(stream, args, opts: makensis.CompilerOptions): unknown {
+function formatOutput(stream, args, opts: makensis.CompilerOptions): makensis.StreamOptions {
   if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
     // CMDHELP writes to stderr by default, let's fix this
     [stream.stdout, stream.stderr] = [stream.stderr, ''];
@@ -168,8 +173,8 @@ function formatOutput(stream, args, opts: makensis.CompilerOptions): unknown {
   return stream;
 }
 
-function objectify(input: null | string, key = null): unknown {
-  let output = {};
+function objectify(input: string, key: string | null): unknown {
+  let output: any = {};
 
   if (key === 'version' && input.startsWith('v')) {
     input = input.substr(1);
@@ -184,7 +189,7 @@ function objectify(input: null | string, key = null): unknown {
   return output;
 }
 
-function objectifyHelp(input: string, opts: unknown): unknown {
+function objectifyHelp(input: string, opts: makensis.CompilerOptions): unknown {
   const lines = splitLines(input, opts);
   lines.sort();
 
@@ -206,7 +211,7 @@ function objectifyHelp(input: string, opts: unknown): unknown {
   return output;
 }
 
-function objectifyFlags(input: string, opts: unknown): unknown {
+function objectifyFlags(input: string, opts: makensis.CompilerOptions): unknown {
   const lines = splitLines(input, opts);
 
   const filteredLines = lines.filter(line => {
@@ -258,20 +263,20 @@ function objectifyFlags(input: string, opts: unknown): unknown {
 }
 
 function hasErrorCode(input: string) {
-  if (input.includes('ENOENT') && input.match(/\bENOENT\b/)) {
+  if (input?.includes('ENOENT') && input.match(/\bENOENT\b/)) {
     return true;
-  } else if (input.includes('EACCES') && input.match(/\bEACCES\b/)) {
+  } else if (input?.includes('EACCES') && input.match(/\bEACCES\b/)) {
     return true;
-  } else if (input.includes('EISDIR') && input.match(/\bEISDIR\b/)) {
+  } else if (input?.includes('EISDIR') && input.match(/\bEISDIR\b/)) {
     return true;
-  } else if (input.includes('EMFILE') && input.match(/\bEMFILE\b/)) {
+  } else if (input?.includes('EMFILE') && input.match(/\bEMFILE\b/)) {
     return true;
   }
 
   return false;
 }
 
-function splitLines(input: string, opts: makensis.CompilerOptions): Array<string> {
+function splitLines(input: string, opts: makensis.CompilerOptions = {}): string[] {
   const lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
   const output = input.split(lineBreak);
 
@@ -345,10 +350,10 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
       stream = formatOutput(stream, args, opts);
 
       const output: makensis.CompilerOutput = {
-        'status': code,
-        'stdout': stream.stdout,
-        'stderr': stream.stderr,
-        'warnings': warningsCounter
+        status: code,
+        stdout: stream.stdout || '',
+        stderr: stream.stderr || '',
+        warnings: warningsCounter
       };
 
       if (outFile.length) {
@@ -357,7 +362,7 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
 
       eventEmitter.emit('exit', output);
 
-      if (code === 0 || (code !== 0 && !hasErrorCode(stream.stderr))) {
+      if (code === 0 || (stream.stderr && !hasErrorCode(stream.stderr))) {
         // Promise also resolves on MakeNSIS errors
         resolve(output);
       } else {

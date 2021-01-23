@@ -18,7 +18,7 @@ function commandHelpSync(command = '', options: makensis.CompilerOptions = {}, s
 
   const [cmd, args, opts]: any = mapArguments(['-CMDHELP'], options);
 
-  if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
+  if (command?.length && typeof command !== 'object') {
     args.push(command);
   }
 
@@ -40,14 +40,12 @@ function compileSync(script: string, options: makensis.CompilerOptions = {}, spa
     args.push(script);
   }
 
-  if (typeof options.postExecute !== 'undefined') {
-    if (typeof options.postExecute === 'string') {
-      args.push(`-X${options.postExecute}`);
-    } else {
-      options.postExecute.forEach(key => {
-        args.push(`-X${key}`);
-      });
-    }
+  if (typeof options.postExecute === 'string') {
+    args.push(`-X${options.postExecute}`);
+  } else if (options.postExecute) {
+    options.postExecute.forEach(key => {
+      args.push(`-X${key}`);
+    });
   }
 
   return spawnMakensisSync(cmd, args, opts, spawnOpts);
