@@ -389,10 +389,12 @@ test('Compilation with raw arguments string', t => {
 
 test('Compilation with raw arguments string [async]', async (t) => {
   try {
-    const { stdout } = await MakeNSIS.compile(scriptFile.minimal, { rawArguments: '-V0' });
+    const { status } = await MakeNSIS.compile(scriptFile.minimal, { rawArguments: '-V0', define: {
+      'NULL_DEVICE': nullDevice
+    }});
 
-    const expected = '';
-    const actual = stdout;
+    const expected = 0;
+    const actual = status;
 
     t.is(actual, expected);
   } catch ({ stderr }) {
@@ -409,10 +411,12 @@ test('Compilation with raw arguments array', t => {
 
 test('Compilation with raw arguments array [async]', async (t) => {
   try {
-    const { stdout } = await MakeNSIS.compile(scriptFile.minimal, { rawArguments: ['-V0'] });
+    const { status } = await MakeNSIS.compile(scriptFile.minimal, { rawArguments: '-V0', define: {
+      'NULL_DEVICE': nullDevice
+    }});
 
-    const expected = '';
-    const actual = stdout;
+    const expected = 0;
+    const actual = status;
 
     t.is(actual, expected);
   } catch ({ stderr }) {
