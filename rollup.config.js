@@ -6,7 +6,8 @@ const plugins = [
   commonjs(),
   json(),
   typescript({
-    allowSyntheticDefaultImports: true
+    allowSyntheticDefaultImports: true,
+    strictNullChecks: true
   })
 ];
 
