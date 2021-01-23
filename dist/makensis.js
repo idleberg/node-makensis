@@ -8188,32 +8188,32 @@ var output = __spreadArrays([
 
 function splitCommands(data) {
     var args = [];
-    if (typeof data !== 'undefined') {
-        if (typeof data === 'string') {
-            if (data.trim().includes('\n')) {
-                var lines = data.trim().split('\n');
-                lines.map(function (line) {
-                    if (line.trim().length) {
-                        args.push("-X" + line);
-                    }
-                });
-            }
-            else {
-                args.push("-X" + data);
-            }
-        }
-        else {
-            data.map(function (key) {
-                if (key.trim().length) {
-                    args.push("-X" + key);
+    if (typeof data === 'string') {
+        if (data.trim().includes('\n')) {
+            var lines = data.trim().split('\n');
+            lines.map(function (line) {
+                if (line.trim().length) {
+                    args.push("-X" + line);
                 }
             });
         }
+        else {
+            args.push("-X" + data);
+        }
+    }
+    else {
+        data.map(function (key) {
+            if (key.trim().length) {
+                args.push("-X" + key);
+            }
+        });
     }
     return args;
 }
 function mapArguments(args, options) {
-    var pathToMakensis = (typeof options.pathToMakensis !== 'undefined' && options.pathToMakensis !== '') ? options.pathToMakensis : 'makensis';
+    var pathToMakensis = options.pathToMakensis
+        ? options.pathToMakensis
+        : 'makensis';
     var cmd;
     if (os.platform() !== 'win32' && options.wine === true) {
         cmd = 'wine';
@@ -8223,16 +8223,21 @@ function mapArguments(args, options) {
         cmd = pathToMakensis;
     }
     if (args.length > 1 || args.includes('-CMDHELP')) {
-        return [cmd, args, { json: options.json, wine: options.wine }];
+        return [cmd, args, {
+                json: options.json,
+                wine: options.wine
+            }];
     }
-    if (typeof options.define !== 'undefined') {
+    if (options === null || options === void 0 ? void 0 : options.define) {
         Object.keys(options.define).forEach(function (key) {
             args.push("-D" + key + "=" + options.define[key]);
         });
     }
-    var preExecuteArgs = splitCommands(options.preExecute);
-    if (preExecuteArgs.length) {
-        args.push.apply(args, preExecuteArgs);
+    if (options === null || options === void 0 ? void 0 : options.preExecute) {
+        var preExecuteArgs = splitCommands(options.preExecute);
+        if (preExecuteArgs.length) {
+            args.push.apply(args, preExecuteArgs);
+        }
     }
     if (options.noCD === true) {
         args.push('-NOCD');
@@ -8246,11 +8251,11 @@ function mapArguments(args, options) {
     if (options.strict === true) {
         args.push('-WX');
     }
-    if (typeof options.inputCharset !== 'undefined' && input.includes(options.inputCharset)) {
+    if (options.inputCharset && input.includes(options.inputCharset)) {
         args.push('-INPUTCHARSET', options.inputCharset);
     }
     if (os.platform() === 'win32') {
-        if (typeof options.outputCharset !== 'undefined' && output.includes(options.outputCharset)) {
+        if (options.outputCharset && output.includes(options.outputCharset)) {
             args.push('-OUTPUTCHARSET', options.outputCharset);
         }
     }
@@ -8325,7 +8330,6 @@ function formatOutput(stream, args, opts) {
     return stream;
 }
 function objectify(input, key) {
-    if (key === void 0) { key = null; }
     var output = {};
     if (key === 'version' && input.startsWith('v')) {
         input = input.substr(1);
@@ -8396,21 +8400,22 @@ function objectifyFlags(input, opts) {
     return output;
 }
 function hasErrorCode(input) {
-    if (input.includes('ENOENT') && input.match(/\bENOENT\b/)) {
+    if ((input === null || input === void 0 ? void 0 : input.includes('ENOENT')) && input.match(/\bENOENT\b/)) {
         return true;
     }
-    else if (input.includes('EACCES') && input.match(/\bEACCES\b/)) {
+    else if ((input === null || input === void 0 ? void 0 : input.includes('EACCES')) && input.match(/\bEACCES\b/)) {
         return true;
     }
-    else if (input.includes('EISDIR') && input.match(/\bEISDIR\b/)) {
+    else if ((input === null || input === void 0 ? void 0 : input.includes('EISDIR')) && input.match(/\bEISDIR\b/)) {
         return true;
     }
-    else if (input.includes('EMFILE') && input.match(/\bEMFILE\b/)) {
+    else if ((input === null || input === void 0 ? void 0 : input.includes('EMFILE')) && input.match(/\bEMFILE\b/)) {
         return true;
     }
     return false;
 }
 function splitLines(input, opts) {
+    if (opts === void 0) { opts = {}; }
     var lineBreak = (os.platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
     var output = input.split(lineBreak);
     return output;
@@ -8468,16 +8473,16 @@ function spawnMakensis(cmd, args, opts, spawnOpts) {
         child.on('close', function (code) {
             stream = formatOutput(stream, args, opts);
             var output = {
-                'status': code,
-                'stdout': stream.stdout,
-                'stderr': stream.stderr,
-                'warnings': warningsCounter
+                status: code,
+                stdout: stream.stdout || '',
+                stderr: stream.stderr || '',
+                warnings: warningsCounter
             };
             if (outFile.length) {
                 output['outFile'] = outFile;
             }
             eventEmitter.emit('exit', output);
-            if (code === 0 || (code !== 0 && !hasErrorCode(stream.stderr))) {
+            if (code === 0 || (stream.stderr && !hasErrorCode(stream.stderr))) {
                 // Promise also resolves on MakeNSIS errors
                 resolve(output);
             }
@@ -8519,7 +8524,7 @@ function commandHelp(command, options, spawnOpts) {
     if (spawnOpts === void 0) { spawnOpts = {}; }
     options = __assign(__assign({}, options), { verbose: 0 });
     var _a = mapArguments(['-CMDHELP'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
+    if ((command === null || command === void 0 ? void 0 : command.length) && typeof command !== 'object') {
         args.push(command);
     }
     return spawnMakensis(cmd, args, opts, spawnOpts);
@@ -8539,9 +8544,11 @@ function compile(script, options, spawnOpts) {
         }
         args.push(script);
     }
-    var postExecuteArgs = splitCommands(options.postExecute);
-    if (postExecuteArgs.length) {
-        args.push.apply(args, postExecuteArgs);
+    if (options === null || options === void 0 ? void 0 : options.postExecute) {
+        var postExecuteArgs = splitCommands(options.postExecute);
+        if (postExecuteArgs.length) {
+            args.push.apply(args, postExecuteArgs);
+        }
     }
     return spawnMakensis(cmd, args, opts, spawnOpts);
 }
@@ -8656,7 +8663,7 @@ function commandHelpSync(command, options, spawnOpts) {
     if (spawnOpts === void 0) { spawnOpts = {}; }
     options = __assign(__assign({}, options), { verbose: 0 });
     var _a = mapArguments(['-CMDHELP'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    if (typeof command !== 'undefined' && typeof command !== 'object' && command !== '') {
+    if ((command === null || command === void 0 ? void 0 : command.length) && typeof command !== 'object') {
         args.push(command);
     }
     return spawnMakensisSync(cmd, args, opts, spawnOpts);
@@ -8676,15 +8683,13 @@ function compileSync(script, options, spawnOpts) {
         }
         args.push(script);
     }
-    if (typeof options.postExecute !== 'undefined') {
-        if (typeof options.postExecute === 'string') {
-            args.push("-X" + options.postExecute);
-        }
-        else {
-            options.postExecute.forEach(function (key) {
-                args.push("-X" + key);
-            });
-        }
+    if (typeof options.postExecute === 'string') {
+        args.push("-X" + options.postExecute);
+    }
+    else if (options.postExecute) {
+        options.postExecute.forEach(function (key) {
+            args.push("-X" + key);
+        });
     }
     return spawnMakensisSync(cmd, args, opts, spawnOpts);
 }
