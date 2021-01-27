@@ -8230,7 +8230,8 @@ function mapArguments(args, options) {
     }
     if (options === null || options === void 0 ? void 0 : options.define) {
         Object.keys(options.define).forEach(function (key) {
-            args.push("-D" + key + "=" + options.define[key]);
+            if ((options === null || options === void 0 ? void 0 : options.define) && (options === null || options === void 0 ? void 0 : options.define[key]))
+                args.push("-D" + key + "=" + options.define[key]);
         });
     }
     if (options === null || options === void 0 ? void 0 : options.preExecute) {
