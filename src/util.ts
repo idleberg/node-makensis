@@ -56,7 +56,7 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): unknow
 
   if (options?.define) {
     Object.keys(options.define).forEach(key => {
-      args.push(`-D${key}=${options.define[key]}`);
+      if (options?.define && options?.define[key]) args.push(`-D${key}=${options.define[key]}`);
     });
   }
 
