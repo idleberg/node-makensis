@@ -1,7 +1,11 @@
 declare namespace makensis {
+  interface DefineOptions {
+    [key: string]: string;
+  }
+
   interface CompilerOptions {
     // makensis
-    define?: any;
+    define?: DefineOptions;
     inputCharset?: string;
     json?: boolean;
     noCD?: boolean;
