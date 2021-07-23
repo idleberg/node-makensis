@@ -4,6 +4,7 @@
   "description": "A Node wrapper for makensis, the NSIS compiler",
   "exports": "./dist/makensis.js",
   "type": "module",
+  "typings": "types/",
   "files": [
     "dist/"
   ],
