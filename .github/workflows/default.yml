@@ -9,10 +9,18 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
+    strategy:
+      matrix:
+        node-version: ['lts/*', '16']
+
     steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: 1
+
+    - uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
 
     - name: Install NSIS (macOS)
       if: matrix.os == 'macos-latest'
