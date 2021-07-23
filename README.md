@@ -2,7 +2,6 @@
 
 [![npm](https://flat.badgen.net/npm/license/makensis)](https://www.npmjs.org/package/makensis)
 [![npm](https://flat.badgen.net/npm/v/makensis)](https://www.npmjs.org/package/makensis)
-[![Travis](https://flat.badgen.net/travis/idleberg/node-makensis)](https://travis-ci.org/idleberg/node-makensis)
 [![CircleCI](https://flat.badgen.net/circleci/github/idleberg/node-makensis)](https://circleci.com/gh/idleberg/node-makensis)
 [![David](https://flat.badgen.net/david/dep/idleberg/node-makensis)](https://david-dm.org/idleberg/node-makensis)
 
