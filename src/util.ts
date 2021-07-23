@@ -2,7 +2,7 @@ import { eventEmitter } from './events';
 import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
-import splitSpacesExcludeQuotes from 'quoted-string-space-split';
+import { splitSpacesExcludeQuotes } from 'quoted-string-space-split';
 
 import { SpawnOptions } from 'child_process';
 import makensis from '../types';

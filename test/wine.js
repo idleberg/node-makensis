@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 // Dependencies
-import * as MakeNSIS from '../dist/makensis';
+import * as MakeNSIS from '../dist/makensis.js';
 import { spawnSync } from 'child_process';
 import { existsSync } from 'fs';
 import { join } from 'path';
