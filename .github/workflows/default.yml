@@ -1,0 +1,47 @@
+name: CI
+
+on: [push]
+
+jobs:
+  basic:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - name: Install NSIS
+      if: matrix.os == 'macos-latest'
+      run: |
+        brew update && brew install nsis
+        brew install nsis
+
+    - name: Install NSIS
+      if: matrix.os == 'ubuntu-latest'
+      run:   |
+        sudo apt-get -y update
+        sudo apt-get -y install nsis
+
+    - name: Install NSIS
+      if: matrix.os == 'windows-latest'
+      shell: pwsh
+      run: |
+        Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+        scoop bucket add nsis https://github.com/NSIS-Dev/scoop-nsis
+        scoop install nsis/nsis
+
+    - name: Install Packages Dependencies
+      run: npm ci
+
+    - name: Lint Source
+      run: npm run lint
+
+    - name: Build Source
+      run: npm run build
+
+    - name: Run Tests
+      run: npm run test
