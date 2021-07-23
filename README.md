@@ -2,7 +2,7 @@
 
 [![npm](https://flat.badgen.net/npm/license/makensis)](https://www.npmjs.org/package/makensis)
 [![npm](https://flat.badgen.net/npm/v/makensis)](https://www.npmjs.org/package/makensis)
-[![CI](https://badgen.net/github/status/idleberg/node-makensis/master/ci)](https://github.com/idleberg/node-makensis/actions)
+[![CI](https://flat.badgen.net/github/status/idleberg/node-makensis/master/ci)](https://github.com/idleberg/node-makensis/actions)
 [![David](https://flat.badgen.net/david/dep/idleberg/node-makensis)](https://david-dm.org/idleberg/node-makensis)
 
 A Node wrapper for `makensis`, the compiler for NSIS installers. Supports both, native and [Wine](http://winehq.org/).
