@@ -1,7 +1,7 @@
 version: 2.1
 
 commands:
-  run-tests:
+  default:
     steps:
       - checkout
       - run:
@@ -41,13 +41,13 @@ jobs:
     docker:
       - image: circleci/node:latest
     steps:
-      - run-tests
+      - default
 
   node-lts:
     docker:
       - image: circleci/node:lts
     steps:
-      - run-tests
+      - default
 
 workflows:
   node-multi-build:
