@@ -4,7 +4,7 @@
 import * as MakeNSIS from '../dist/makensis.js';
 import { spawnSync } from 'child_process';
 import { existsSync } from 'fs';
-import { join } from 'path';
+import path from 'path';
 import { platform } from 'os';
 import test from 'ava';
 
@@ -20,10 +20,11 @@ const defaultScriptArray = [
 ];
 
 const defaultScriptString = defaultScriptArray.join('\n');
+const __dirname = path.resolve(path.dirname(''));
 
 const scriptFile = {
-    minimal: join(__dirname, 'fixtures', 'utf8.nsi'),
-    warning: join(__dirname, 'fixtures', 'warnings.nsi'),
+    minimal: path.join(__dirname, 'fixtures', 'utf8.nsi'),
+    warning: path.join(__dirname, 'fixtures', 'warnings.nsi'),
 };
 
 // These test require NSIS to be setup properly, with makensis in your
@@ -579,7 +580,7 @@ test('Strict compilation with warning [async]', (t) => {
 test('Print ${NSISDIR}', (t) => {
     const nsisDir = MakeNSIS.nsisDirSync({ wine: true });
     let nsisCfg = spawnSync('winepath', [nsisDir]).stdout.toString().trim();
-    nsisCfg = join(nsisCfg, 'Include', 'MUI2.nsh');
+    nsisCfg = path.join(nsisCfg, 'Include', 'MUI2.nsh');
 
     const expected = true;
     const actual = existsSync(nsisCfg);
@@ -593,7 +594,7 @@ test('Print ${NSISDIR} [async]', (t) => {
             let nsisCfg = spawnSync('winepath', [nsisDir])
                 .stdout.toString()
                 .trim();
-            nsisCfg = join(nsisCfg, 'Include', 'MUI2.nsh');
+            nsisCfg = path.join(nsisCfg, 'Include', 'MUI2.nsh');
 
             const expected = true;
             const actual = existsSync(nsisCfg);
@@ -608,7 +609,7 @@ test('Print ${NSISDIR} [async]', (t) => {
 test('Print ${NSISDIR} as JSON', (t) => {
     const nsisDir = MakeNSIS.nsisDirSync({ wine: true, json: true }).nsisdir;
     let nsisCfg = spawnSync('winepath', [nsisDir]).stdout.toString().trim();
-    nsisCfg = join(nsisCfg, 'Include', 'MUI2.nsh');
+    nsisCfg = path.join(nsisCfg, 'Include', 'MUI2.nsh');
 
     const expected = true;
     const actual = existsSync(nsisCfg);
@@ -622,7 +623,7 @@ test('Print ${NSISDIR} as JSON [async]', (t) => {
             let nsisCfg = spawnSync('winepath', [nsisDir.nsisdir])
                 .stdout.toString()
                 .trim();
-            nsisCfg = join(nsisCfg, 'Include', 'MUI2.nsh');
+            nsisCfg = path.join(nsisCfg, 'Include', 'MUI2.nsh');
 
             const expected = true;
             const actual = existsSync(nsisCfg);
