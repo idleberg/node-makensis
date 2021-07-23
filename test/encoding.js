@@ -1,15 +1,17 @@
 /* eslint-disable */
 
 // Dependencies
-import { compileSync, compile } from '../dist/makensis';
-import { join } from 'path';
+import { compileSync, compile } from '../dist/makensis.js';
+import path from 'path';
 import { platform } from 'os';
 import test from 'ava';
+
+const __dirname = path.resolve(path.dirname(''));
 
 // Compiler arguments
 const script = {
     // cp850: join(__dirname, 'fixtures', 'cp850.nsi'),
-    utf8: join(__dirname, 'fixtures', 'utf8.nsi'),
+    utf8: path.join(__dirname, 'test', 'fixtures', 'utf8.nsi'),
 };
 const nullDevice = platform() === 'win32' ? 'NUL' : '/dev/null';
 let options = {

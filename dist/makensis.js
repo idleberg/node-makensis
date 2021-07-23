@@ -1,17 +1,9 @@
-'use strict';
+import { EventEmitter } from 'events';
+import { platform } from 'os';
+import { spawn, spawnSync } from 'child_process';
+import { splitSpacesExcludeQuotes } from 'quoted-string-space-split';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var events = require('events');
-var os = require('os');
-var child_process = require('child_process');
-var splitSpacesExcludeQuotes = require('quoted-string-space-split');
-
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var splitSpacesExcludeQuotes__default = /*#__PURE__*/_interopDefaultLegacy(splitSpacesExcludeQuotes);
-
-var eventEmitter = new events.EventEmitter();
+var eventEmitter = new EventEmitter();
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -77,18 +69,17 @@ function __generator(thisArg, body) {
     }
 }
 
-function __spreadArrays() {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
+function __spreadArray(to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || from);
 }
 
-function createCommonjsModule(fn) {
-  var module = { exports: {} };
-	return fn(module, module.exports), module.exports;
-}
+var languageData = {exports: {}};
 
 var Afrikaans = {
 	id: 1078,
@@ -626,7 +617,7 @@ var Welsh = {
 	native: "Cymraeg",
 	native_ascii: "Cymraeg"
 };
-var meta = {
+var require$$0 = {
 	Afrikaans: Afrikaans,
 	Albanian: Albanian,
 	Arabic: Arabic,
@@ -696,15 +687,15 @@ var meta = {
 	Welsh: Welsh
 };
 
-var header = "NLF v6";
-var id = 1078;
-var font = {
+var header$12 = "NLF v6";
+var id$12 = 1078;
+var font$12 = {
 	name: null,
 	size: null
 };
-var code_page = 1252;
-var rtl = false;
-var strings = {
+var code_page$12 = 1252;
+var rtl$12 = false;
+var strings$12 = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Installasie",
 	UninstallCaption: "$(^Name) Verwydering",
@@ -795,24 +786,24 @@ var strings = {
 	Mega: " M",
 	Giga: " G"
 };
-var Afrikaans$1 = {
-	header: header,
-	id: id,
-	font: font,
-	code_page: code_page,
-	rtl: rtl,
-	strings: strings
+var require$$1 = {
+	header: header$12,
+	id: id$12,
+	font: font$12,
+	code_page: code_page$12,
+	rtl: rtl$12,
+	strings: strings$12
 };
 
-var header$1 = "NLF v6";
-var id$1 = 1052;
-var font$1 = {
+var header$11 = "NLF v6";
+var id$11 = 1052;
+var font$11 = {
 	name: null,
 	size: null
 };
-var code_page$1 = 1250;
-var rtl$1 = false;
-var strings$1 = {
+var code_page$11 = 1250;
+var rtl$11 = false;
+var strings$11 = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Rregullimi i $(^Name)",
 	UninstallCaption: "Çinstalimi i $(^Name)",
@@ -903,24 +894,24 @@ var strings$1 = {
 	Mega: " M",
 	Giga: " G"
 };
-var Albanian$1 = {
-	header: header$1,
-	id: id$1,
-	font: font$1,
-	code_page: code_page$1,
-	rtl: rtl$1,
-	strings: strings$1
+var require$$2 = {
+	header: header$11,
+	id: id$11,
+	font: font$11,
+	code_page: code_page$11,
+	rtl: rtl$11,
+	strings: strings$11
 };
 
-var header$2 = "NLF v6";
-var id$2 = 1025;
-var font$2 = {
+var header$10 = "NLF v6";
+var id$10 = 1025;
+var font$10 = {
 	name: null,
 	size: null
 };
-var code_page$2 = 1256;
-var rtl$2 = true;
-var strings$2 = {
+var code_page$10 = 1256;
+var rtl$10 = true;
+var strings$10 = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "تنصيب $(^Name)",
 	UninstallCaption: "إزالة $(^Name)",
@@ -1011,24 +1002,24 @@ var strings$2 = {
 	Mega: " ميغا",
 	Giga: " جيغا"
 };
-var Arabic$1 = {
-	header: header$2,
-	id: id$2,
-	font: font$2,
-	code_page: code_page$2,
-	rtl: rtl$2,
-	strings: strings$2
+var require$$3 = {
+	header: header$10,
+	id: id$10,
+	font: font$10,
+	code_page: code_page$10,
+	rtl: rtl$10,
+	strings: strings$10
 };
 
-var header$3 = "NLF v6";
-var id$3 = 1067;
-var font$3 = {
+var header$$ = "NLF v6";
+var id$$ = 1067;
+var font$$ = {
 	name: null,
 	size: null
 };
-var code_page$3 = 1200;
-var rtl$3 = false;
-var strings$3 = {
+var code_page$$ = 1200;
+var rtl$$ = false;
+var strings$$ = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Տեղակայել $(^Name)-ը",
 	UninstallCaption: "Ջնջել $(^Name)-ը",
@@ -1119,24 +1110,24 @@ var strings$3 = {
 	Mega: " Մ",
 	Giga: " Գ"
 };
-var Armenian$1 = {
-	header: header$3,
-	id: id$3,
-	font: font$3,
-	code_page: code_page$3,
-	rtl: rtl$3,
-	strings: strings$3
+var require$$4 = {
+	header: header$$,
+	id: id$$,
+	font: font$$,
+	code_page: code_page$$,
+	rtl: rtl$$,
+	strings: strings$$
 };
 
-var header$4 = "NLF v6";
-var id$4 = 9997;
-var font$4 = {
+var header$_ = "NLF v6";
+var id$_ = 9997;
+var font$_ = {
 	name: null,
 	size: null
 };
-var code_page$4 = 1252;
-var rtl$4 = false;
-var strings$4 = {
+var code_page$_ = 1252;
+var rtl$_ = false;
+var strings$_ = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Instalación de $(^Name)",
 	UninstallCaption: "Desinstalación de $(^Name)",
@@ -1227,24 +1218,24 @@ var strings$4 = {
 	Mega: " M",
 	Giga: " G"
 };
-var Asturian$1 = {
-	header: header$4,
-	id: id$4,
-	font: font$4,
-	code_page: code_page$4,
-	rtl: rtl$4,
-	strings: strings$4
+var require$$5 = {
+	header: header$_,
+	id: id$_,
+	font: font$_,
+	code_page: code_page$_,
+	rtl: rtl$_,
+	strings: strings$_
 };
 
-var header$5 = "NLF v6";
-var id$5 = 1069;
-var font$5 = {
+var header$Z = "NLF v6";
+var id$Z = 1069;
+var font$Z = {
 	name: null,
 	size: null
 };
-var code_page$5 = 1252;
-var rtl$5 = false;
-var strings$5 = {
+var code_page$Z = 1252;
+var rtl$Z = false;
+var strings$Z = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) -ren Instalazioa",
 	UninstallCaption: "$(^Name) -ren Ezabaketa",
@@ -1335,24 +1326,24 @@ var strings$5 = {
 	Mega: " M",
 	Giga: " G"
 };
-var Basque$1 = {
-	header: header$5,
-	id: id$5,
-	font: font$5,
-	code_page: code_page$5,
-	rtl: rtl$5,
-	strings: strings$5
+var require$$6 = {
+	header: header$Z,
+	id: id$Z,
+	font: font$Z,
+	code_page: code_page$Z,
+	rtl: rtl$Z,
+	strings: strings$Z
 };
 
-var header$6 = "NLF v6";
-var id$6 = 1059;
-var font$6 = {
+var header$Y = "NLF v6";
+var id$Y = 1059;
+var font$Y = {
 	name: null,
 	size: null
 };
-var code_page$6 = 1251;
-var rtl$6 = false;
-var strings$6 = {
+var code_page$Y = 1251;
+var rtl$Y = false;
+var strings$Y = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Усталяванне $(^Name)",
 	UninstallCaption: "Выдаленне $(^Name)",
@@ -1443,24 +1434,24 @@ var strings$6 = {
 	Mega: " М",
 	Giga: " Г"
 };
-var Belarusian$1 = {
-	header: header$6,
-	id: id$6,
-	font: font$6,
-	code_page: code_page$6,
-	rtl: rtl$6,
-	strings: strings$6
+var require$$7 = {
+	header: header$Y,
+	id: id$Y,
+	font: font$Y,
+	code_page: code_page$Y,
+	rtl: rtl$Y,
+	strings: strings$Y
 };
 
-var header$7 = "NLF v6";
-var id$7 = 5146;
-var font$7 = {
+var header$X = "NLF v6";
+var id$X = 5146;
+var font$X = {
 	name: null,
 	size: null
 };
-var code_page$7 = 1250;
-var rtl$7 = false;
-var strings$7 = {
+var code_page$X = 1250;
+var rtl$X = false;
+var strings$X = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Instalacija",
 	UninstallCaption: "$(^Name) Uklanjanje",
@@ -1551,24 +1542,24 @@ var strings$7 = {
 	Mega: " M",
 	Giga: " G"
 };
-var Bosnian$1 = {
-	header: header$7,
-	id: id$7,
-	font: font$7,
-	code_page: code_page$7,
-	rtl: rtl$7,
-	strings: strings$7
+var require$$8 = {
+	header: header$X,
+	id: id$X,
+	font: font$X,
+	code_page: code_page$X,
+	rtl: rtl$X,
+	strings: strings$X
 };
 
-var header$8 = "NLF v6";
-var id$8 = 1150;
-var font$8 = {
+var header$W = "NLF v6";
+var id$W = 1150;
+var font$W = {
 	name: null,
 	size: null
 };
-var code_page$8 = 1252;
-var rtl$8 = false;
-var strings$8 = {
+var code_page$W = 1252;
+var rtl$W = false;
+var strings$W = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Staliañ ha kefluniañ $(^Name)",
 	UninstallCaption: "Distaliañ $(^Name)",
@@ -1659,24 +1650,24 @@ var strings$8 = {
 	Mega: " M",
 	Giga: " G"
 };
-var Breton$1 = {
-	header: header$8,
-	id: id$8,
-	font: font$8,
-	code_page: code_page$8,
-	rtl: rtl$8,
-	strings: strings$8
+var require$$9 = {
+	header: header$W,
+	id: id$W,
+	font: font$W,
+	code_page: code_page$W,
+	rtl: rtl$W,
+	strings: strings$W
 };
 
-var header$9 = "NLF v6";
-var id$9 = 1026;
-var font$9 = {
+var header$V = "NLF v6";
+var id$V = 1026;
+var font$V = {
 	name: null,
 	size: null
 };
-var code_page$9 = 1251;
-var rtl$9 = false;
-var strings$9 = {
+var code_page$V = 1251;
+var rtl$V = false;
+var strings$V = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Инсталиране на $(^Name) ",
 	UninstallCaption: "Изтриване на $(^Name) ",
@@ -1767,24 +1758,24 @@ var strings$9 = {
 	Mega: " М",
 	Giga: " Г"
 };
-var Bulgarian$1 = {
-	header: header$9,
-	id: id$9,
-	font: font$9,
-	code_page: code_page$9,
-	rtl: rtl$9,
-	strings: strings$9
+var require$$10 = {
+	header: header$V,
+	id: id$V,
+	font: font$V,
+	code_page: code_page$V,
+	rtl: rtl$V,
+	strings: strings$V
 };
 
-var header$a = "NLF v6";
-var id$a = 1027;
-var font$a = {
+var header$U = "NLF v6";
+var id$U = 1027;
+var font$U = {
 	name: null,
 	size: null
 };
-var code_page$a = 1252;
-var rtl$a = false;
-var strings$a = {
+var code_page$U = 1252;
+var rtl$U = false;
+var strings$U = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Instal·lació de l'aplicació $(^Name)",
 	UninstallCaption: "Desinstal·lació de l'aplicació $(^Name)",
@@ -1875,24 +1866,24 @@ var strings$a = {
 	Mega: " M",
 	Giga: " G"
 };
-var Catalan$1 = {
-	header: header$a,
-	id: id$a,
-	font: font$a,
-	code_page: code_page$a,
-	rtl: rtl$a,
-	strings: strings$a
+var require$$11 = {
+	header: header$U,
+	id: id$U,
+	font: font$U,
+	code_page: code_page$U,
+	rtl: rtl$U,
+	strings: strings$U
 };
 
-var header$b = "NLF v6";
-var id$b = 1155;
-var font$b = {
+var header$T = "NLF v6";
+var id$T = 1155;
+var font$T = {
 	name: null,
 	size: null
 };
-var code_page$b = 1252;
-var rtl$b = false;
-var strings$b = {
+var code_page$T = 1252;
+var rtl$T = false;
+var strings$T = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Assistente d'Installazione di $(^Name)",
 	UninstallCaption: "Disinstallazione di $(^Name)",
@@ -1983,24 +1974,24 @@ var strings$b = {
 	Mega: " M",
 	Giga: " G"
 };
-var Corsican$1 = {
-	header: header$b,
-	id: id$b,
-	font: font$b,
-	code_page: code_page$b,
-	rtl: rtl$b,
-	strings: strings$b
+var require$$12 = {
+	header: header$T,
+	id: id$T,
+	font: font$T,
+	code_page: code_page$T,
+	rtl: rtl$T,
+	strings: strings$T
 };
 
-var header$c = "NLF v6";
-var id$c = 1050;
-var font$c = {
+var header$S = "NLF v6";
+var id$S = 1050;
+var font$S = {
 	name: null,
 	size: null
 };
-var code_page$c = 1250;
-var rtl$c = false;
-var strings$c = {
+var code_page$S = 1250;
+var rtl$S = false;
+var strings$S = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Instalacija programa $(^Name)",
 	UninstallCaption: "Uklanjanje programa $(^Name)",
@@ -2091,24 +2082,24 @@ var strings$c = {
 	Mega: " M",
 	Giga: " G"
 };
-var Croatian$1 = {
-	header: header$c,
-	id: id$c,
-	font: font$c,
-	code_page: code_page$c,
-	rtl: rtl$c,
-	strings: strings$c
+var require$$13 = {
+	header: header$S,
+	id: id$S,
+	font: font$S,
+	code_page: code_page$S,
+	rtl: rtl$S,
+	strings: strings$S
 };
 
-var header$d = "NLF v6";
-var id$d = 1029;
-var font$d = {
+var header$R = "NLF v6";
+var id$R = 1029;
+var font$R = {
 	name: null,
 	size: null
 };
-var code_page$d = 1250;
-var rtl$d = false;
-var strings$d = {
+var code_page$R = 1250;
+var rtl$R = false;
+var strings$R = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Instalace $(^Name)",
 	UninstallCaption: "Odinstalace $(^Name)",
@@ -2199,24 +2190,24 @@ var strings$d = {
 	Mega: " M",
 	Giga: " G"
 };
-var Czech$1 = {
-	header: header$d,
-	id: id$d,
-	font: font$d,
-	code_page: code_page$d,
-	rtl: rtl$d,
-	strings: strings$d
+var require$$14 = {
+	header: header$R,
+	id: id$R,
+	font: font$R,
+	code_page: code_page$R,
+	rtl: rtl$R,
+	strings: strings$R
 };
 
-var header$e = "NLF v6";
-var id$e = 1030;
-var font$e = {
+var header$Q = "NLF v6";
+var id$Q = 1030;
+var font$Q = {
 	name: null,
 	size: null
 };
-var code_page$e = 1252;
-var rtl$e = false;
-var strings$e = {
+var code_page$Q = 1252;
+var rtl$Q = false;
+var strings$Q = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Installation",
 	UninstallCaption: "$(^Name) Afinstallation",
@@ -2307,24 +2298,24 @@ var strings$e = {
 	Mega: " M",
 	Giga: " G"
 };
-var Danish$1 = {
-	header: header$e,
-	id: id$e,
-	font: font$e,
-	code_page: code_page$e,
-	rtl: rtl$e,
-	strings: strings$e
+var require$$15 = {
+	header: header$Q,
+	id: id$Q,
+	font: font$Q,
+	code_page: code_page$Q,
+	rtl: rtl$Q,
+	strings: strings$Q
 };
 
-var header$f = "NLF v6";
-var id$f = 1043;
-var font$f = {
+var header$P = "NLF v6";
+var id$P = 1043;
+var font$P = {
 	name: null,
 	size: null
 };
-var code_page$f = 1252;
-var rtl$f = false;
-var strings$f = {
+var code_page$P = 1252;
+var rtl$P = false;
+var strings$P = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name)-installatie",
 	UninstallCaption: "$(^Name)-deïnstallatie",
@@ -2415,24 +2406,24 @@ var strings$f = {
 	Mega: " M",
 	Giga: " G"
 };
-var Dutch$1 = {
-	header: header$f,
-	id: id$f,
-	font: font$f,
-	code_page: code_page$f,
-	rtl: rtl$f,
-	strings: strings$f
+var require$$16 = {
+	header: header$P,
+	id: id$P,
+	font: font$P,
+	code_page: code_page$P,
+	rtl: rtl$P,
+	strings: strings$P
 };
 
-var header$g = "NLF v6";
-var id$g = 1033;
-var font$g = {
+var header$O = "NLF v6";
+var id$O = 1033;
+var font$O = {
 	name: null,
 	size: null
 };
-var code_page$g = null;
-var rtl$g = false;
-var strings$g = {
+var code_page$O = null;
+var rtl$O = false;
+var strings$O = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Setup",
 	UninstallCaption: "$(^Name) Uninstall",
@@ -2523,24 +2514,24 @@ var strings$g = {
 	Mega: " M",
 	Giga: " G"
 };
-var English$1 = {
-	header: header$g,
-	id: id$g,
-	font: font$g,
-	code_page: code_page$g,
-	rtl: rtl$g,
-	strings: strings$g
+var require$$17 = {
+	header: header$O,
+	id: id$O,
+	font: font$O,
+	code_page: code_page$O,
+	rtl: rtl$O,
+	strings: strings$O
 };
 
-var header$h = "NLF v6";
-var id$h = 9998;
-var font$h = {
+var header$N = "NLF v6";
+var id$N = 9998;
+var font$N = {
 	name: null,
 	size: null
 };
-var code_page$h = null;
-var rtl$h = false;
-var strings$h = {
+var code_page$N = null;
+var rtl$N = false;
+var strings$N = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Instalado de $(^Name)",
 	UninstallCaption: "Malinstalado de $(^Name)",
@@ -2631,24 +2622,24 @@ var strings$h = {
 	Mega: " M",
 	Giga: " G"
 };
-var Esperanto$1 = {
-	header: header$h,
-	id: id$h,
-	font: font$h,
-	code_page: code_page$h,
-	rtl: rtl$h,
-	strings: strings$h
+var require$$18 = {
+	header: header$N,
+	id: id$N,
+	font: font$N,
+	code_page: code_page$N,
+	rtl: rtl$N,
+	strings: strings$N
 };
 
-var header$i = "NLF v6";
-var id$i = 1061;
-var font$i = {
+var header$M = "NLF v6";
+var id$M = 1061;
+var font$M = {
 	name: null,
 	size: null
 };
-var code_page$i = 1257;
-var rtl$i = false;
-var strings$i = {
+var code_page$M = 1257;
+var rtl$M = false;
+var strings$M = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Paigaldamine",
 	UninstallCaption: "$(^Name) Eemaldamine",
@@ -2739,24 +2730,24 @@ var strings$i = {
 	Mega: " M",
 	Giga: " G"
 };
-var Estonian$1 = {
-	header: header$i,
-	id: id$i,
-	font: font$i,
-	code_page: code_page$i,
-	rtl: rtl$i,
-	strings: strings$i
+var require$$19 = {
+	header: header$M,
+	id: id$M,
+	font: font$M,
+	code_page: code_page$M,
+	rtl: rtl$M,
+	strings: strings$M
 };
 
-var header$j = "NLF v6";
-var id$j = 1065;
-var font$j = {
+var header$L = "NLF v6";
+var id$L = 1065;
+var font$L = {
 	name: null,
 	size: null
 };
-var code_page$j = 1256;
-var rtl$j = true;
-var strings$j = {
+var code_page$L = 1256;
+var rtl$L = true;
+var strings$L = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "نصب $(^Name) ",
 	UninstallCaption: "حذف $(^Name) ",
@@ -2847,24 +2838,24 @@ var strings$j = {
 	Mega: " مگا",
 	Giga: " گیگا"
 };
-var Farsi$1 = {
-	header: header$j,
-	id: id$j,
-	font: font$j,
-	code_page: code_page$j,
-	rtl: rtl$j,
-	strings: strings$j
+var require$$20 = {
+	header: header$L,
+	id: id$L,
+	font: font$L,
+	code_page: code_page$L,
+	rtl: rtl$L,
+	strings: strings$L
 };
 
-var header$k = "NLF v6";
-var id$k = 1035;
-var font$k = {
+var header$K = "NLF v6";
+var id$K = 1035;
+var font$K = {
 	name: null,
 	size: null
 };
-var code_page$k = 1252;
-var rtl$k = false;
-var strings$k = {
+var code_page$K = 1252;
+var rtl$K = false;
+var strings$K = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) -ohjelman asennus",
 	UninstallCaption: "$(^Name) -ohjelman poisto",
@@ -2955,24 +2946,24 @@ var strings$k = {
 	Mega: " M",
 	Giga: " G"
 };
-var Finnish$1 = {
-	header: header$k,
-	id: id$k,
-	font: font$k,
-	code_page: code_page$k,
-	rtl: rtl$k,
-	strings: strings$k
+var require$$21 = {
+	header: header$K,
+	id: id$K,
+	font: font$K,
+	code_page: code_page$K,
+	rtl: rtl$K,
+	strings: strings$K
 };
 
-var header$l = "NLF v6";
-var id$l = 1036;
-var font$l = {
+var header$J = "NLF v6";
+var id$J = 1036;
+var font$J = {
 	name: null,
 	size: null
 };
-var code_page$l = 1252;
-var rtl$l = false;
-var strings$l = {
+var code_page$J = 1252;
+var rtl$J = false;
+var strings$J = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Installation de $(^Name)",
 	UninstallCaption: "Désinstallation de $(^Name)",
@@ -3063,24 +3054,24 @@ var strings$l = {
 	Mega: " M",
 	Giga: " G"
 };
-var French$1 = {
-	header: header$l,
-	id: id$l,
-	font: font$l,
-	code_page: code_page$l,
-	rtl: rtl$l,
-	strings: strings$l
+var require$$22 = {
+	header: header$J,
+	id: id$J,
+	font: font$J,
+	code_page: code_page$J,
+	rtl: rtl$J,
+	strings: strings$J
 };
 
-var header$m = "NLF v6";
-var id$m = 1110;
-var font$m = {
+var header$I = "NLF v6";
+var id$I = 1110;
+var font$I = {
 	name: null,
 	size: null
 };
-var code_page$m = 1252;
-var rtl$m = false;
-var strings$m = {
+var code_page$I = 1252;
+var rtl$I = false;
+var strings$I = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Instalación de $(^Name)",
 	UninstallCaption: "Desinstalación de $(^Name)",
@@ -3171,24 +3162,24 @@ var strings$m = {
 	Mega: " M",
 	Giga: " G"
 };
-var Galician$1 = {
-	header: header$m,
-	id: id$m,
-	font: font$m,
-	code_page: code_page$m,
-	rtl: rtl$m,
-	strings: strings$m
+var require$$23 = {
+	header: header$I,
+	id: id$I,
+	font: font$I,
+	code_page: code_page$I,
+	rtl: rtl$I,
+	strings: strings$I
 };
 
-var header$n = "NLF v6";
-var id$n = 1079;
-var font$n = {
+var header$H = "NLF v6";
+var id$H = 1079;
+var font$H = {
 	name: null,
 	size: null
 };
-var code_page$n = 1200;
-var rtl$n = false;
-var strings$n = {
+var code_page$H = 1200;
+var rtl$H = false;
+var strings$H = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "ჩატვირთვა $(^Name)",
 	UninstallCaption: "$(^Name)–ის წაშლა",
@@ -3279,24 +3270,24 @@ var strings$n = {
 	Mega: " M",
 	Giga: " G"
 };
-var Georgian$1 = {
-	header: header$n,
-	id: id$n,
-	font: font$n,
-	code_page: code_page$n,
-	rtl: rtl$n,
-	strings: strings$n
+var require$$24 = {
+	header: header$H,
+	id: id$H,
+	font: font$H,
+	code_page: code_page$H,
+	rtl: rtl$H,
+	strings: strings$H
 };
 
-var header$o = "NLF v6";
-var id$o = 1031;
-var font$o = {
+var header$G = "NLF v6";
+var id$G = 1031;
+var font$G = {
 	name: null,
 	size: null
 };
-var code_page$o = 1252;
-var rtl$o = false;
-var strings$o = {
+var code_page$G = 1252;
+var rtl$G = false;
+var strings$G = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Installation von $(^Name)",
 	UninstallCaption: "Deinstallation von $(^Name)",
@@ -3387,24 +3378,24 @@ var strings$o = {
 	Mega: " M",
 	Giga: " G"
 };
-var German$1 = {
-	header: header$o,
-	id: id$o,
-	font: font$o,
-	code_page: code_page$o,
-	rtl: rtl$o,
-	strings: strings$o
+var require$$25 = {
+	header: header$G,
+	id: id$G,
+	font: font$G,
+	code_page: code_page$G,
+	rtl: rtl$G,
+	strings: strings$G
 };
 
-var header$p = "NLF v6";
-var id$p = 1032;
-var font$p = {
+var header$F = "NLF v6";
+var id$F = 1032;
+var font$F = {
 	name: null,
 	size: null
 };
-var code_page$p = 1253;
-var rtl$p = false;
-var strings$p = {
+var code_page$F = 1253;
+var rtl$F = false;
+var strings$F = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Εγκατάσταση του '$(^Name)'",
 	UninstallCaption: "Απεγκατάσταση του '$(^Name)'",
@@ -3495,24 +3486,24 @@ var strings$p = {
 	Mega: " M",
 	Giga: " G"
 };
-var Greek$1 = {
-	header: header$p,
-	id: id$p,
-	font: font$p,
-	code_page: code_page$p,
-	rtl: rtl$p,
-	strings: strings$p
+var require$$26 = {
+	header: header$F,
+	id: id$F,
+	font: font$F,
+	code_page: code_page$F,
+	rtl: rtl$F,
+	strings: strings$F
 };
 
-var header$q = "NLF v6";
-var id$q = 1037;
-var font$q = {
+var header$E = "NLF v6";
+var id$E = 1037;
+var font$E = {
 	name: null,
 	size: null
 };
-var code_page$q = 1255;
-var rtl$q = true;
-var strings$q = {
+var code_page$E = 1255;
+var rtl$E = true;
+var strings$E = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "התקנת $(^Name)",
 	UninstallCaption: "הסרת $(^Name)",
@@ -3603,24 +3594,24 @@ var strings$q = {
 	Mega: "\" מ\"",
 	Giga: "\" ג\""
 };
-var Hebrew$1 = {
-	header: header$q,
-	id: id$q,
-	font: font$q,
-	code_page: code_page$q,
-	rtl: rtl$q,
-	strings: strings$q
+var require$$27 = {
+	header: header$E,
+	id: id$E,
+	font: font$E,
+	code_page: code_page$E,
+	rtl: rtl$E,
+	strings: strings$E
 };
 
-var header$r = "NLF v6";
-var id$r = 1081;
-var font$r = {
+var header$D = "NLF v6";
+var id$D = 1081;
+var font$D = {
 	name: null,
 	size: null
 };
-var code_page$r = 1200;
-var rtl$r = false;
-var strings$r = {
+var code_page$D = 1200;
+var rtl$D = false;
+var strings$D = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) सेटअप",
 	UninstallCaption: "$(^Name) अनइनस्टॉल करें",
@@ -3711,24 +3702,24 @@ var strings$r = {
 	Mega: " M",
 	Giga: " G"
 };
-var Hindi$1 = {
-	header: header$r,
-	id: id$r,
-	font: font$r,
-	code_page: code_page$r,
-	rtl: rtl$r,
-	strings: strings$r
+var require$$28 = {
+	header: header$D,
+	id: id$D,
+	font: font$D,
+	code_page: code_page$D,
+	rtl: rtl$D,
+	strings: strings$D
 };
 
-var header$s = "NLF v6";
-var id$s = 1038;
-var font$s = {
+var header$C = "NLF v6";
+var id$C = 1038;
+var font$C = {
 	name: null,
 	size: null
 };
-var code_page$s = 1250;
-var rtl$s = false;
-var strings$s = {
+var code_page$C = 1250;
+var rtl$C = false;
+var strings$C = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Telepítő",
 	UninstallCaption: "$(^Name) Eltávolító",
@@ -3819,24 +3810,24 @@ var strings$s = {
 	Mega: " M",
 	Giga: " G"
 };
-var Hungarian$1 = {
-	header: header$s,
-	id: id$s,
-	font: font$s,
-	code_page: code_page$s,
-	rtl: rtl$s,
-	strings: strings$s
+var require$$29 = {
+	header: header$C,
+	id: id$C,
+	font: font$C,
+	code_page: code_page$C,
+	rtl: rtl$C,
+	strings: strings$C
 };
 
-var header$t = "NLF v6";
-var id$t = 1039;
-var font$t = {
+var header$B = "NLF v6";
+var id$B = 1039;
+var font$B = {
 	name: null,
 	size: null
 };
-var code_page$t = 1252;
-var rtl$t = false;
-var strings$t = {
+var code_page$B = 1252;
+var rtl$B = false;
+var strings$B = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Uppsetning",
 	UninstallCaption: "$(^Name) Fjarlæging",
@@ -3927,24 +3918,24 @@ var strings$t = {
 	Mega: " M",
 	Giga: " G"
 };
-var Icelandic$1 = {
-	header: header$t,
-	id: id$t,
-	font: font$t,
-	code_page: code_page$t,
-	rtl: rtl$t,
-	strings: strings$t
+var require$$30 = {
+	header: header$B,
+	id: id$B,
+	font: font$B,
+	code_page: code_page$B,
+	rtl: rtl$B,
+	strings: strings$B
 };
 
-var header$u = "NLF v6";
-var id$u = 1057;
-var font$u = {
+var header$A = "NLF v6";
+var id$A = 1057;
+var font$A = {
 	name: null,
 	size: null
 };
-var code_page$u = 1252;
-var rtl$u = false;
-var strings$u = {
+var code_page$A = 1252;
+var rtl$A = false;
+var strings$A = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Instalasi Program $(^Name)",
 	UninstallCaption: "Penghapusan Program $(^Name)",
@@ -4035,24 +4026,24 @@ var strings$u = {
 	Mega: " M",
 	Giga: " G"
 };
-var Indonesian$1 = {
-	header: header$u,
-	id: id$u,
-	font: font$u,
-	code_page: code_page$u,
-	rtl: rtl$u,
-	strings: strings$u
+var require$$31 = {
+	header: header$A,
+	id: id$A,
+	font: font$A,
+	code_page: code_page$A,
+	rtl: rtl$A,
+	strings: strings$A
 };
 
-var header$v = "NLF v6";
-var id$v = 2108;
-var font$v = {
+var header$z = "NLF v6";
+var id$z = 2108;
+var font$z = {
 	name: null,
 	size: null
 };
-var code_page$v = 1252;
-var rtl$v = false;
-var strings$v = {
+var code_page$z = 1252;
+var rtl$z = false;
+var strings$z = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Socrú $(^Name)",
 	UninstallCaption: "Díshuiteáil $(^Name)",
@@ -4143,24 +4134,24 @@ var strings$v = {
 	Mega: " M",
 	Giga: " G"
 };
-var Irish$1 = {
-	header: header$v,
-	id: id$v,
-	font: font$v,
-	code_page: code_page$v,
-	rtl: rtl$v,
-	strings: strings$v
+var require$$32 = {
+	header: header$z,
+	id: id$z,
+	font: font$z,
+	code_page: code_page$z,
+	rtl: rtl$z,
+	strings: strings$z
 };
 
-var header$w = "NLF v6";
-var id$w = 1040;
-var font$w = {
+var header$y = "NLF v6";
+var id$y = 1040;
+var font$y = {
 	name: null,
 	size: null
 };
-var code_page$w = 1252;
-var rtl$w = false;
-var strings$w = {
+var code_page$y = 1252;
+var rtl$y = false;
+var strings$y = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Installazione di $(^Name)",
 	UninstallCaption: "Disinstallazione di $(^Name)",
@@ -4251,13 +4242,13 @@ var strings$w = {
 	Mega: " M",
 	Giga: " G"
 };
-var Italian$1 = {
-	header: header$w,
-	id: id$w,
-	font: font$w,
-	code_page: code_page$w,
-	rtl: rtl$w,
-	strings: strings$w
+var require$$33 = {
+	header: header$y,
+	id: id$y,
+	font: font$y,
+	code_page: code_page$y,
+	rtl: rtl$y,
+	strings: strings$y
 };
 
 var header$x = "NLF v6";
@@ -4359,7 +4350,7 @@ var strings$x = {
 	Mega: " M",
 	Giga: " G"
 };
-var Japanese$1 = {
+var require$$34 = {
 	header: header$x,
 	id: id$x,
 	font: font$x,
@@ -4368,15 +4359,15 @@ var Japanese$1 = {
 	strings: strings$x
 };
 
-var header$y = "NLF v6";
-var id$y = 1042;
-var font$y = {
+var header$w = "NLF v6";
+var id$w = 1042;
+var font$w = {
 	name: "굴림",
 	size: 9
 };
-var code_page$y = 949;
-var rtl$y = false;
-var strings$y = {
+var code_page$w = 949;
+var rtl$w = false;
+var strings$w = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) 설치",
 	UninstallCaption: "$(^Name) 제거",
@@ -4467,24 +4458,24 @@ var strings$y = {
 	Mega: " M",
 	Giga: " G"
 };
-var Korean$1 = {
-	header: header$y,
-	id: id$y,
-	font: font$y,
-	code_page: code_page$y,
-	rtl: rtl$y,
-	strings: strings$y
+var require$$35 = {
+	header: header$w,
+	id: id$w,
+	font: font$w,
+	code_page: code_page$w,
+	rtl: rtl$w,
+	strings: strings$w
 };
 
-var header$z = "NLF v6";
-var id$z = 9999;
-var font$z = {
+var header$v = "NLF v6";
+var id$v = 9999;
+var font$v = {
 	name: null,
 	size: null
 };
-var code_page$z = 1254;
-var rtl$z = false;
-var strings$z = {
+var code_page$v = 1254;
+var rtl$v = false;
+var strings$v = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Sazkirin",
 	UninstallCaption: "$(^Name) Rakirin",
@@ -4575,24 +4566,24 @@ var strings$z = {
 	Mega: " M",
 	Giga: " G"
 };
-var Kurdish$1 = {
-	header: header$z,
-	id: id$z,
-	font: font$z,
-	code_page: code_page$z,
-	rtl: rtl$z,
-	strings: strings$z
+var require$$36 = {
+	header: header$v,
+	id: id$v,
+	font: font$v,
+	code_page: code_page$v,
+	rtl: rtl$v,
+	strings: strings$v
 };
 
-var header$A = "NLF v6";
-var id$A = 1062;
-var font$A = {
+var header$u = "NLF v6";
+var id$u = 1062;
+var font$u = {
 	name: null,
 	size: null
 };
-var code_page$A = 1257;
-var rtl$A = false;
-var strings$A = {
+var code_page$u = 1257;
+var rtl$u = false;
+var strings$u = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "'$(^Name)' Uzstādīšana",
 	UninstallCaption: "'$(^Name)' Atinstalēšana",
@@ -4683,24 +4674,24 @@ var strings$A = {
 	Mega: " M",
 	Giga: " G"
 };
-var Latvian$1 = {
-	header: header$A,
-	id: id$A,
-	font: font$A,
-	code_page: code_page$A,
-	rtl: rtl$A,
-	strings: strings$A
+var require$$37 = {
+	header: header$u,
+	id: id$u,
+	font: font$u,
+	code_page: code_page$u,
+	rtl: rtl$u,
+	strings: strings$u
 };
 
-var header$B = "NLF v6";
-var id$B = 1063;
-var font$B = {
+var header$t = "NLF v6";
+var id$t = 1063;
+var font$t = {
 	name: null,
 	size: null
 };
-var code_page$B = 1257;
-var rtl$B = false;
-var strings$B = {
+var code_page$t = 1257;
+var rtl$t = false;
+var strings$t = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Įdiegimas",
 	UninstallCaption: "$(^Name) Šalinti",
@@ -4791,24 +4782,24 @@ var strings$B = {
 	Mega: " M",
 	Giga: " G"
 };
-var Lithuanian$1 = {
-	header: header$B,
-	id: id$B,
-	font: font$B,
-	code_page: code_page$B,
-	rtl: rtl$B,
-	strings: strings$B
+var require$$38 = {
+	header: header$t,
+	id: id$t,
+	font: font$t,
+	code_page: code_page$t,
+	rtl: rtl$t,
+	strings: strings$t
 };
 
-var header$C = "NLF v6";
-var id$C = 4103;
-var font$C = {
+var header$s = "NLF v6";
+var id$s = 4103;
+var font$s = {
 	name: null,
 	size: null
 };
-var code_page$C = 1252;
-var rtl$C = false;
-var strings$C = {
+var code_page$s = 1252;
+var rtl$s = false;
+var strings$s = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Installatioun",
 	UninstallCaption: "$(^Name) Desinstallatioun",
@@ -4899,24 +4890,24 @@ var strings$C = {
 	Mega: " M",
 	Giga: " G"
 };
-var Luxembourgish$1 = {
-	header: header$C,
-	id: id$C,
-	font: font$C,
-	code_page: code_page$C,
-	rtl: rtl$C,
-	strings: strings$C
+var require$$39 = {
+	header: header$s,
+	id: id$s,
+	font: font$s,
+	code_page: code_page$s,
+	rtl: rtl$s,
+	strings: strings$s
 };
 
-var header$D = "NLF v6";
-var id$D = 1071;
-var font$D = {
+var header$r = "NLF v6";
+var id$r = 1071;
+var font$r = {
 	name: null,
 	size: null
 };
-var code_page$D = 1251;
-var rtl$D = false;
-var strings$D = {
+var code_page$r = 1251;
+var rtl$r = false;
+var strings$r = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Инсталирање на $(^Name)",
 	UninstallCaption: "Деинсталирање на $(^Name)",
@@ -5007,24 +4998,24 @@ var strings$D = {
 	Mega: " М",
 	Giga: " Г"
 };
-var Macedonian$1 = {
-	header: header$D,
-	id: id$D,
-	font: font$D,
-	code_page: code_page$D,
-	rtl: rtl$D,
-	strings: strings$D
+var require$$40 = {
+	header: header$r,
+	id: id$r,
+	font: font$r,
+	code_page: code_page$r,
+	rtl: rtl$r,
+	strings: strings$r
 };
 
-var header$E = "NLF v6";
-var id$E = 1086;
-var font$E = {
+var header$q = "NLF v6";
+var id$q = 1086;
+var font$q = {
 	name: null,
 	size: null
 };
-var code_page$E = 1252;
-var rtl$E = false;
-var strings$E = {
+var code_page$q = 1252;
+var rtl$q = false;
+var strings$q = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Setup $(^Name)",
 	UninstallCaption: "Uninstall $(^Name)",
@@ -5115,24 +5106,24 @@ var strings$E = {
 	Mega: " Mega",
 	Giga: " Giga"
 };
-var Malay$1 = {
-	header: header$E,
-	id: id$E,
-	font: font$E,
-	code_page: code_page$E,
-	rtl: rtl$E,
-	strings: strings$E
+var require$$41 = {
+	header: header$q,
+	id: id$q,
+	font: font$q,
+	code_page: code_page$q,
+	rtl: rtl$q,
+	strings: strings$q
 };
 
-var header$F = "NLF v6";
-var id$F = 1104;
-var font$F = {
+var header$p = "NLF v6";
+var id$p = 1104;
+var font$p = {
 	name: null,
 	size: null
 };
-var code_page$F = 1251;
-var rtl$F = false;
-var strings$F = {
+var code_page$p = 1251;
+var rtl$p = false;
+var strings$p = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Суулгац",
 	UninstallCaption: "$(^Name) Суулгасныг устгах",
@@ -5223,24 +5214,24 @@ var strings$F = {
 	Mega: " M",
 	Giga: " G"
 };
-var Mongolian$1 = {
-	header: header$F,
-	id: id$F,
-	font: font$F,
-	code_page: code_page$F,
-	rtl: rtl$F,
-	strings: strings$F
+var require$$42 = {
+	header: header$p,
+	id: id$p,
+	font: font$p,
+	code_page: code_page$p,
+	rtl: rtl$p,
+	strings: strings$p
 };
 
-var header$G = "NLF v6";
-var id$G = 1044;
-var font$G = {
+var header$o = "NLF v6";
+var id$o = 1044;
+var font$o = {
 	name: null,
 	size: null
 };
-var code_page$G = 1252;
-var rtl$G = false;
-var strings$G = {
+var code_page$o = 1252;
+var rtl$o = false;
+var strings$o = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) installasjon",
 	UninstallCaption: "$(^Name) avinstallasjon",
@@ -5331,24 +5322,24 @@ var strings$G = {
 	Mega: " M",
 	Giga: " G"
 };
-var Norwegian$1 = {
-	header: header$G,
-	id: id$G,
-	font: font$G,
-	code_page: code_page$G,
-	rtl: rtl$G,
-	strings: strings$G
+var require$$43 = {
+	header: header$o,
+	id: id$o,
+	font: font$o,
+	code_page: code_page$o,
+	rtl: rtl$o,
+	strings: strings$o
 };
 
-var header$H = "NLF v6";
-var id$H = 2068;
-var font$H = {
+var header$n = "NLF v6";
+var id$n = 2068;
+var font$n = {
 	name: null,
 	size: null
 };
-var code_page$H = 1252;
-var rtl$H = false;
-var strings$H = {
+var code_page$n = 1252;
+var rtl$n = false;
+var strings$n = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) installasjon",
 	UninstallCaption: "$(^Name) avinstallasjon",
@@ -5439,24 +5430,24 @@ var strings$H = {
 	Mega: " M",
 	Giga: " G"
 };
-var NorwegianNynorsk$1 = {
-	header: header$H,
-	id: id$H,
-	font: font$H,
-	code_page: code_page$H,
-	rtl: rtl$H,
-	strings: strings$H
+var require$$44 = {
+	header: header$n,
+	id: id$n,
+	font: font$n,
+	code_page: code_page$n,
+	rtl: rtl$n,
+	strings: strings$n
 };
 
-var header$I = "NLF v6";
-var id$I = 1123;
-var font$I = {
+var header$m = "NLF v6";
+var id$m = 1123;
+var font$m = {
 	name: null,
 	size: null
 };
-var code_page$I = 1256;
-var rtl$I = true;
-var strings$I = {
+var code_page$m = 1256;
+var rtl$m = true;
+var strings$m = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "امسته $(^Name)",
 	UninstallCaption: "نالګاو $(^Name)",
@@ -5547,24 +5538,24 @@ var strings$I = {
 	Mega: " م",
 	Giga: " ګ"
 };
-var Pashto$1 = {
-	header: header$I,
-	id: id$I,
-	font: font$I,
-	code_page: code_page$I,
-	rtl: rtl$I,
-	strings: strings$I
+var require$$45 = {
+	header: header$m,
+	id: id$m,
+	font: font$m,
+	code_page: code_page$m,
+	rtl: rtl$m,
+	strings: strings$m
 };
 
-var header$J = "NLF v6";
-var id$J = 1045;
-var font$J = {
+var header$l = "NLF v6";
+var id$l = 1045;
+var font$l = {
 	name: null,
 	size: null
 };
-var code_page$J = 1250;
-var rtl$J = false;
-var strings$J = {
+var code_page$l = 1250;
+var rtl$l = false;
+var strings$l = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Instalator $(^Name)",
 	UninstallCaption: "Deinstalator $(^Name)",
@@ -5655,24 +5646,24 @@ var strings$J = {
 	Mega: " M",
 	Giga: " G"
 };
-var Polish$1 = {
-	header: header$J,
-	id: id$J,
-	font: font$J,
-	code_page: code_page$J,
-	rtl: rtl$J,
-	strings: strings$J
+var require$$46 = {
+	header: header$l,
+	id: id$l,
+	font: font$l,
+	code_page: code_page$l,
+	rtl: rtl$l,
+	strings: strings$l
 };
 
-var header$K = "NLF v6";
-var id$K = 2070;
-var font$K = {
+var header$k = "NLF v6";
+var id$k = 2070;
+var font$k = {
 	name: null,
 	size: null
 };
-var code_page$K = 1252;
-var rtl$K = false;
-var strings$K = {
+var code_page$k = 1252;
+var rtl$k = false;
+var strings$k = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Instalação de $(^Name)",
 	UninstallCaption: "Desinstalação de $(^Name)",
@@ -5763,24 +5754,24 @@ var strings$K = {
 	Mega: " M",
 	Giga: " G"
 };
-var Portuguese$1 = {
-	header: header$K,
-	id: id$K,
-	font: font$K,
-	code_page: code_page$K,
-	rtl: rtl$K,
-	strings: strings$K
+var require$$47 = {
+	header: header$k,
+	id: id$k,
+	font: font$k,
+	code_page: code_page$k,
+	rtl: rtl$k,
+	strings: strings$k
 };
 
-var header$L = "NLF v6";
-var id$L = 1046;
-var font$L = {
+var header$j = "NLF v6";
+var id$j = 1046;
+var font$j = {
 	name: null,
 	size: null
 };
-var code_page$L = 1252;
-var rtl$L = false;
-var strings$L = {
+var code_page$j = 1252;
+var rtl$j = false;
+var strings$j = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Instalação do $(^Name)",
 	UninstallCaption: "Desinstalação do $(^Name)",
@@ -5871,24 +5862,24 @@ var strings$L = {
 	Mega: " M",
 	Giga: " G"
 };
-var PortugueseBR$1 = {
-	header: header$L,
-	id: id$L,
-	font: font$L,
-	code_page: code_page$L,
-	rtl: rtl$L,
-	strings: strings$L
+var require$$48 = {
+	header: header$j,
+	id: id$j,
+	font: font$j,
+	code_page: code_page$j,
+	rtl: rtl$j,
+	strings: strings$j
 };
 
-var header$M = "NLF v6";
-var id$M = 1048;
-var font$M = {
+var header$i = "NLF v6";
+var id$i = 1048;
+var font$i = {
 	name: null,
 	size: null
 };
-var code_page$M = 1250;
-var rtl$M = false;
-var strings$M = {
+var code_page$i = 1250;
+var rtl$i = false;
+var strings$i = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Instalare $(^Name)",
 	UninstallCaption: "Dezinstalare $(^Name)",
@@ -5979,24 +5970,24 @@ var strings$M = {
 	Mega: " M",
 	Giga: " G"
 };
-var Romanian$1 = {
-	header: header$M,
-	id: id$M,
-	font: font$M,
-	code_page: code_page$M,
-	rtl: rtl$M,
-	strings: strings$M
+var require$$49 = {
+	header: header$i,
+	id: id$i,
+	font: font$i,
+	code_page: code_page$i,
+	rtl: rtl$i,
+	strings: strings$i
 };
 
-var header$N = "NLF v6";
-var id$N = 1049;
-var font$N = {
+var header$h = "NLF v6";
+var id$h = 1049;
+var font$h = {
 	name: null,
 	size: null
 };
-var code_page$N = 1251;
-var rtl$N = false;
-var strings$N = {
+var code_page$h = 1251;
+var rtl$h = false;
+var strings$h = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Установка $(^Name)",
 	UninstallCaption: "Удаление $(^Name)",
@@ -6087,24 +6078,24 @@ var strings$N = {
 	Mega: " М",
 	Giga: " Г"
 };
-var Russian$1 = {
-	header: header$N,
-	id: id$N,
-	font: font$N,
-	code_page: code_page$N,
-	rtl: rtl$N,
-	strings: strings$N
+var require$$50 = {
+	header: header$h,
+	id: id$h,
+	font: font$h,
+	code_page: code_page$h,
+	rtl: rtl$h,
+	strings: strings$h
 };
 
-var header$O = "NLF v6";
-var id$O = 1169;
-var font$O = {
+var header$g = "NLF v6";
+var id$g = 1169;
+var font$g = {
 	name: null,
 	size: null
 };
-var code_page$O = 1252;
-var rtl$O = false;
-var strings$O = {
+var code_page$g = 1252;
+var rtl$g = false;
+var strings$g = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "A’ stàladh $(^Name)",
 	UninstallCaption: "A’ dì-stàladh $(^Name)",
@@ -6195,24 +6186,24 @@ var strings$O = {
 	Mega: " M",
 	Giga: " G"
 };
-var ScotsGaelic$1 = {
-	header: header$O,
-	id: id$O,
-	font: font$O,
-	code_page: code_page$O,
-	rtl: rtl$O,
-	strings: strings$O
+var require$$51 = {
+	header: header$g,
+	id: id$g,
+	font: font$g,
+	code_page: code_page$g,
+	rtl: rtl$g,
+	strings: strings$g
 };
 
-var header$P = "NLF v6";
-var id$P = 3098;
-var font$P = {
+var header$f = "NLF v6";
+var id$f = 3098;
+var font$f = {
 	name: null,
 	size: null
 };
-var code_page$P = 1251;
-var rtl$P = false;
-var strings$P = {
+var code_page$f = 1251;
+var rtl$f = false;
+var strings$f = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Инсталација",
 	UninstallCaption: "$(^Name) Деинсталација",
@@ -6303,24 +6294,24 @@ var strings$P = {
 	Mega: " M",
 	Giga: " G"
 };
-var Serbian$1 = {
-	header: header$P,
-	id: id$P,
-	font: font$P,
-	code_page: code_page$P,
-	rtl: rtl$P,
-	strings: strings$P
+var require$$52 = {
+	header: header$f,
+	id: id$f,
+	font: font$f,
+	code_page: code_page$f,
+	rtl: rtl$f,
+	strings: strings$f
 };
 
-var header$Q = "NLF v6";
-var id$Q = 2074;
-var font$Q = {
+var header$e = "NLF v6";
+var id$e = 2074;
+var font$e = {
 	name: null,
 	size: null
 };
-var code_page$Q = 1250;
-var rtl$Q = false;
-var strings$Q = {
+var code_page$e = 1250;
+var rtl$e = false;
+var strings$e = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Instalacija",
 	UninstallCaption: "$(^Name) Deinstalacija",
@@ -6411,24 +6402,24 @@ var strings$Q = {
 	Mega: " M",
 	Giga: " G"
 };
-var SerbianLatin$1 = {
-	header: header$Q,
-	id: id$Q,
-	font: font$Q,
-	code_page: code_page$Q,
-	rtl: rtl$Q,
-	strings: strings$Q
+var require$$53 = {
+	header: header$e,
+	id: id$e,
+	font: font$e,
+	code_page: code_page$e,
+	rtl: rtl$e,
+	strings: strings$e
 };
 
-var header$R = "NLF v6";
-var id$R = 2052;
-var font$R = {
+var header$d = "NLF v6";
+var id$d = 2052;
+var font$d = {
 	name: "宋体",
 	size: 9
 };
-var code_page$R = 936;
-var rtl$R = false;
-var strings$R = {
+var code_page$d = 936;
+var rtl$d = false;
+var strings$d = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) 安装",
 	UninstallCaption: "$(^Name) 卸载",
@@ -6519,24 +6510,24 @@ var strings$R = {
 	Mega: " M",
 	Giga: " G"
 };
-var SimpChinese$1 = {
-	header: header$R,
-	id: id$R,
-	font: font$R,
-	code_page: code_page$R,
-	rtl: rtl$R,
-	strings: strings$R
+var require$$54 = {
+	header: header$d,
+	id: id$d,
+	font: font$d,
+	code_page: code_page$d,
+	rtl: rtl$d,
+	strings: strings$d
 };
 
-var header$S = "NLF v6";
-var id$S = 1051;
-var font$S = {
+var header$c = "NLF v6";
+var id$c = 1051;
+var font$c = {
 	name: null,
 	size: null
 };
-var code_page$S = 1250;
-var rtl$S = false;
-var strings$S = {
+var code_page$c = 1250;
+var rtl$c = false;
+var strings$c = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Inštalácia programu $(^Name)",
 	UninstallCaption: "Odinštalovanie programu $(^Name)",
@@ -6627,24 +6618,24 @@ var strings$S = {
 	Mega: " M",
 	Giga: " G"
 };
-var Slovak$1 = {
-	header: header$S,
-	id: id$S,
-	font: font$S,
-	code_page: code_page$S,
-	rtl: rtl$S,
-	strings: strings$S
+var require$$55 = {
+	header: header$c,
+	id: id$c,
+	font: font$c,
+	code_page: code_page$c,
+	rtl: rtl$c,
+	strings: strings$c
 };
 
-var header$T = "NLF v6";
-var id$T = 1060;
-var font$T = {
+var header$b = "NLF v6";
+var id$b = 1060;
+var font$b = {
 	name: null,
 	size: null
 };
-var code_page$T = 1250;
-var rtl$T = false;
-var strings$T = {
+var code_page$b = 1250;
+var rtl$b = false;
+var strings$b = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Namestitev $(^Name)",
 	UninstallCaption: "Odstranitev $(^Name)",
@@ -6735,24 +6726,24 @@ var strings$T = {
 	Mega: " M",
 	Giga: " G"
 };
-var Slovenian$1 = {
-	header: header$T,
-	id: id$T,
-	font: font$T,
-	code_page: code_page$T,
-	rtl: rtl$T,
-	strings: strings$T
+var require$$56 = {
+	header: header$b,
+	id: id$b,
+	font: font$b,
+	code_page: code_page$b,
+	rtl: rtl$b,
+	strings: strings$b
 };
 
-var header$U = "NLF v6";
-var id$U = 1034;
-var font$U = {
+var header$a = "NLF v6";
+var id$a = 1034;
+var font$a = {
 	name: null,
 	size: null
 };
-var code_page$U = 1252;
-var rtl$U = false;
-var strings$U = {
+var code_page$a = 1252;
+var rtl$a = false;
+var strings$a = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Instalación de $(^Name)",
 	UninstallCaption: "Desinstalación de $(^Name)",
@@ -6843,24 +6834,24 @@ var strings$U = {
 	Mega: " M",
 	Giga: " G"
 };
-var Spanish$1 = {
-	header: header$U,
-	id: id$U,
-	font: font$U,
-	code_page: code_page$U,
-	rtl: rtl$U,
-	strings: strings$U
+var require$$57 = {
+	header: header$a,
+	id: id$a,
+	font: font$a,
+	code_page: code_page$a,
+	rtl: rtl$a,
+	strings: strings$a
 };
 
-var header$V = "NLF v6";
-var id$V = 3082;
-var font$V = {
+var header$9 = "NLF v6";
+var id$9 = 3082;
+var font$9 = {
 	name: null,
 	size: null
 };
-var code_page$V = 1252;
-var rtl$V = false;
-var strings$V = {
+var code_page$9 = 1252;
+var rtl$9 = false;
+var strings$9 = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Instalación de $(^Name)",
 	UninstallCaption: "Desinstalación de $(^Name)",
@@ -6951,24 +6942,24 @@ var strings$V = {
 	Mega: " M",
 	Giga: " G"
 };
-var SpanishInternational$1 = {
-	header: header$V,
-	id: id$V,
-	font: font$V,
-	code_page: code_page$V,
-	rtl: rtl$V,
-	strings: strings$V
+var require$$58 = {
+	header: header$9,
+	id: id$9,
+	font: font$9,
+	code_page: code_page$9,
+	rtl: rtl$9,
+	strings: strings$9
 };
 
-var header$W = "NLF v6";
-var id$W = 1053;
-var font$W = {
+var header$8 = "NLF v6";
+var id$8 = 1053;
+var font$8 = {
 	name: null,
 	size: null
 };
-var code_page$W = 1252;
-var rtl$W = false;
-var strings$W = {
+var code_page$8 = 1252;
+var rtl$8 = false;
+var strings$8 = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Installation",
 	UninstallCaption: "$(^Name) Avinstallation",
@@ -7059,24 +7050,24 @@ var strings$W = {
 	Mega: " M",
 	Giga: " G"
 };
-var Swedish$1 = {
-	header: header$W,
-	id: id$W,
-	font: font$W,
-	code_page: code_page$W,
-	rtl: rtl$W,
-	strings: strings$W
+var require$$59 = {
+	header: header$8,
+	id: id$8,
+	font: font$8,
+	code_page: code_page$8,
+	rtl: rtl$8,
+	strings: strings$8
 };
 
-var header$X = "NLF v6";
-var id$X = 1092;
-var font$X = {
+var header$7 = "NLF v6";
+var id$7 = 1092;
+var font$7 = {
 	name: null,
 	size: null
 };
-var code_page$X = 1251;
-var rtl$X = false;
-var strings$X = {
+var code_page$7 = 1251;
+var rtl$7 = false;
+var strings$7 = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Урнаштыру $(^Name)",
 	UninstallCaption: "Бетерү $(^Name)",
@@ -7167,24 +7158,24 @@ var strings$X = {
 	Mega: " М",
 	Giga: " Г"
 };
-var Tatar$1 = {
-	header: header$X,
-	id: id$X,
-	font: font$X,
-	code_page: code_page$X,
-	rtl: rtl$X,
-	strings: strings$X
+var require$$60 = {
+	header: header$7,
+	id: id$7,
+	font: font$7,
+	code_page: code_page$7,
+	rtl: rtl$7,
+	strings: strings$7
 };
 
-var header$Y = "NLF v6";
-var id$Y = 1054;
-var font$Y = {
+var header$6 = "NLF v6";
+var id$6 = 1054;
+var font$6 = {
 	name: null,
 	size: null
 };
-var code_page$Y = 874;
-var rtl$Y = false;
-var strings$Y = {
+var code_page$6 = 874;
+var rtl$6 = false;
+var strings$6 = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) ติดตั้ง",
 	UninstallCaption: "$(^Name) ยกเลิกการติดตั้ง",
@@ -7275,24 +7266,24 @@ var strings$Y = {
 	Mega: " M",
 	Giga: " G"
 };
-var Thai$1 = {
-	header: header$Y,
-	id: id$Y,
-	font: font$Y,
-	code_page: code_page$Y,
-	rtl: rtl$Y,
-	strings: strings$Y
+var require$$61 = {
+	header: header$6,
+	id: id$6,
+	font: font$6,
+	code_page: code_page$6,
+	rtl: rtl$6,
+	strings: strings$6
 };
 
-var header$Z = "NLF v6";
-var id$Z = 1028;
-var font$Z = {
+var header$5 = "NLF v6";
+var id$5 = 1028;
+var font$5 = {
 	name: "新細明體",
 	size: 9
 };
-var code_page$Z = 950;
-var rtl$Z = false;
-var strings$Z = {
+var code_page$5 = 950;
+var rtl$5 = false;
+var strings$5 = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) 安裝",
 	UninstallCaption: "$(^Name) 解除安裝",
@@ -7383,24 +7374,24 @@ var strings$Z = {
 	Mega: " M",
 	Giga: " G"
 };
-var TradChinese$1 = {
-	header: header$Z,
-	id: id$Z,
-	font: font$Z,
-	code_page: code_page$Z,
-	rtl: rtl$Z,
-	strings: strings$Z
+var require$$62 = {
+	header: header$5,
+	id: id$5,
+	font: font$5,
+	code_page: code_page$5,
+	rtl: rtl$5,
+	strings: strings$5
 };
 
-var header$_ = "NLF v6";
-var id$_ = 1055;
-var font$_ = {
+var header$4 = "NLF v6";
+var id$4 = 1055;
+var font$4 = {
 	name: null,
 	size: null
 };
-var code_page$_ = 1254;
-var rtl$_ = false;
-var strings$_ = {
+var code_page$4 = 1254;
+var rtl$4 = false;
+var strings$4 = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Kurulumu",
 	UninstallCaption: "$(^Name) Kaldırma",
@@ -7491,24 +7482,24 @@ var strings$_ = {
 	Mega: " M",
 	Giga: " G"
 };
-var Turkish$1 = {
-	header: header$_,
-	id: id$_,
-	font: font$_,
-	code_page: code_page$_,
-	rtl: rtl$_,
-	strings: strings$_
+var require$$63 = {
+	header: header$4,
+	id: id$4,
+	font: font$4,
+	code_page: code_page$4,
+	rtl: rtl$4,
+	strings: strings$4
 };
 
-var header$$ = "NLF v6";
-var id$$ = 1058;
-var font$$ = {
+var header$3 = "NLF v6";
+var id$3 = 1058;
+var font$3 = {
 	name: null,
 	size: null
 };
-var code_page$$ = 1251;
-var rtl$$ = false;
-var strings$$ = {
+var code_page$3 = 1251;
+var rtl$3 = false;
+var strings$3 = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) Встановлення",
 	UninstallCaption: "$(^Name) Видалення",
@@ -7599,24 +7590,24 @@ var strings$$ = {
 	Mega: " М",
 	Giga: " Г"
 };
-var Ukrainian$1 = {
-	header: header$$,
-	id: id$$,
-	font: font$$,
-	code_page: code_page$$,
-	rtl: rtl$$,
-	strings: strings$$
+var require$$64 = {
+	header: header$3,
+	id: id$3,
+	font: font$3,
+	code_page: code_page$3,
+	rtl: rtl$3,
+	strings: strings$3
 };
 
-var header$10 = "NLF v6";
-var id$10 = 1091;
-var font$10 = {
+var header$2 = "NLF v6";
+var id$2 = 1091;
+var font$2 = {
 	name: null,
 	size: null
 };
-var code_page$10 = 1252;
-var rtl$10 = false;
-var strings$10 = {
+var code_page$2 = 1252;
+var rtl$2 = false;
+var strings$2 = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "O'rnatish $(^Name)",
 	UninstallCaption: "O'chirish $(^Name)",
@@ -7707,24 +7698,24 @@ var strings$10 = {
 	Mega: " Ì",
 	Giga: " Ã"
 };
-var Uzbek$1 = {
-	header: header$10,
-	id: id$10,
-	font: font$10,
-	code_page: code_page$10,
-	rtl: rtl$10,
-	strings: strings$10
+var require$$65 = {
+	header: header$2,
+	id: id$2,
+	font: font$2,
+	code_page: code_page$2,
+	rtl: rtl$2,
+	strings: strings$2
 };
 
-var header$11 = "NLF v6";
-var id$11 = 1066;
-var font$11 = {
+var header$1 = "NLF v6";
+var id$1 = 1066;
+var font$1 = {
 	name: null,
 	size: null
 };
-var code_page$11 = 1258;
-var rtl$11 = false;
-var strings$11 = {
+var code_page$1 = 1258;
+var rtl$1 = false;
+var strings$1 = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Cài đặt $(^Name)",
 	UninstallCaption: "Gỡ bỏ $(^Name)",
@@ -7815,24 +7806,24 @@ var strings$11 = {
 	Mega: " M",
 	Giga: " G"
 };
-var Vietnamese$1 = {
-	header: header$11,
-	id: id$11,
-	font: font$11,
-	code_page: code_page$11,
-	rtl: rtl$11,
-	strings: strings$11
+var require$$66 = {
+	header: header$1,
+	id: id$1,
+	font: font$1,
+	code_page: code_page$1,
+	rtl: rtl$1,
+	strings: strings$1
 };
 
-var header$12 = "NLF v6";
-var id$12 = 1106;
-var font$12 = {
+var header = "NLF v6";
+var id = 1106;
+var font = {
 	name: null,
 	size: null
 };
-var code_page$12 = 1252;
-var rtl$12 = false;
-var strings$12 = {
+var code_page = 1252;
+var rtl = false;
+var strings = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "Rhaglen Osod $(^Name)",
 	UninstallCaption: "Rhaglen Dadosod $(^Name)",
@@ -7923,161 +7914,163 @@ var strings$12 = {
 	Mega: " M",
 	Giga: " G"
 };
-var Welsh$1 = {
-	header: header$12,
-	id: id$12,
-	font: font$12,
-	code_page: code_page$12,
-	rtl: rtl$12,
-	strings: strings$12
+var require$$67 = {
+	header: header,
+	id: id,
+	font: font,
+	code_page: code_page,
+	rtl: rtl,
+	strings: strings
 };
 
 /**
  * Language Meta Data
  */
 
-var languageData = createCommonjsModule(function (module) {
+(function (module) {
+const meta = require$$0;
+
 module.exports.meta = meta;
 
 /**
  * Language Data
  */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+const Afrikaans = require$$1;
+const Albanian = require$$2;
+const Arabic = require$$3;
+const Armenian = require$$4;
+const Asturian = require$$5;
+const Basque = require$$6;
+const Belarusian = require$$7;
+const Bosnian = require$$8;
+const Breton = require$$9;
+const Bulgarian = require$$10;
+const Catalan = require$$11;
+const Corsican = require$$12;
+const Croatian = require$$13;
+const Czech = require$$14;
+const Danish = require$$15;
+const Dutch = require$$16;
+const English = require$$17;
+const Esperanto = require$$18;
+const Estonian = require$$19;
+const Farsi = require$$20;
+const Finnish = require$$21;
+const French = require$$22;
+const Galician = require$$23;
+const Georgian = require$$24;
+const German = require$$25;
+const Greek = require$$26;
+const Hebrew = require$$27;
+const Hindi = require$$28;
+const Hungarian = require$$29;
+const Icelandic = require$$30;
+const Indonesian = require$$31;
+const Irish = require$$32;
+const Italian = require$$33;
+const Japanese = require$$34;
+const Korean = require$$35;
+const Kurdish = require$$36;
+const Latvian = require$$37;
+const Lithuanian = require$$38;
+const Luxembourgish = require$$39;
+const Macedonian = require$$40;
+const Malay = require$$41;
+const Mongolian = require$$42;
+const Norwegian = require$$43;
+const NorwegianNynorsk = require$$44;
+const Pashto = require$$45;
+const Polish = require$$46;
+const Portuguese = require$$47;
+const PortugueseBR = require$$48;
+const Romanian = require$$49;
+const Russian = require$$50;
+const ScotsGaelic = require$$51;
+const Serbian = require$$52;
+const SerbianLatin = require$$53;
+const SimpChinese = require$$54;
+const Slovak = require$$55;
+const Slovenian = require$$56;
+const Spanish = require$$57;
+const SpanishInternational = require$$58;
+const Swedish = require$$59;
+const Tatar = require$$60;
+const Thai = require$$61;
+const TradChinese = require$$62;
+const Turkish = require$$63;
+const Ukrainian = require$$64;
+const Uzbek = require$$65;
+const Vietnamese = require$$66;
+const Welsh = require$$67;
 
 const languages = {
-  Afrikaans: Afrikaans$1,
-  Albanian: Albanian$1,
-  Arabic: Arabic$1,
-  Armenian: Armenian$1,
-  Asturian: Asturian$1,
-  Basque: Basque$1,
-  Belarusian: Belarusian$1,
-  Bosnian: Bosnian$1,
-  Breton: Breton$1,
-  Bulgarian: Bulgarian$1,
-  Catalan: Catalan$1,
-  Corsican: Corsican$1,
-  Croatian: Croatian$1,
-  Czech: Czech$1,
-  Danish: Danish$1,
-  Dutch: Dutch$1,
-  English: English$1,
-  Esperanto: Esperanto$1,
-  Estonian: Estonian$1,
-  Farsi: Farsi$1,
-  Finnish: Finnish$1,
-  French: French$1,
-  Galician: Galician$1,
-  Georgian: Georgian$1,
-  German: German$1,
-  Greek: Greek$1,
-  Hebrew: Hebrew$1,
-  Hindi: Hindi$1,
-  Hungarian: Hungarian$1,
-  Icelandic: Icelandic$1,
-  Indonesian: Indonesian$1,
-  Irish: Irish$1,
-  Italian: Italian$1,
-  Japanese: Japanese$1,
-  Korean: Korean$1,
-  Kurdish: Kurdish$1,
-  Latvian: Latvian$1,
-  Lithuanian: Lithuanian$1,
-  Luxembourgish: Luxembourgish$1,
-  Macedonian: Macedonian$1,
-  Malay: Malay$1,
-  Mongolian: Mongolian$1,
-  Norwegian: Norwegian$1,
-  NorwegianNynorsk: NorwegianNynorsk$1,
-  Pashto: Pashto$1,
-  Polish: Polish$1,
-  Portuguese: Portuguese$1,
-  PortugueseBR: PortugueseBR$1,
-  Romanian: Romanian$1,
-  Russian: Russian$1,
-  ScotsGaelic: ScotsGaelic$1,
-  Serbian: Serbian$1,
-  SerbianLatin: SerbianLatin$1,
-  SimpChinese: SimpChinese$1,
-  Slovak: Slovak$1,
-  Slovenian: Slovenian$1,
-  Spanish: Spanish$1,
-  SpanishInternational: SpanishInternational$1,
-  Swedish: Swedish$1,
-  Tatar: Tatar$1,
-  Thai: Thai$1,
-  TradChinese: TradChinese$1,
-  Turkish: Turkish$1,
-  Ukrainian: Ukrainian$1,
-  Uzbek: Uzbek$1,
-  Vietnamese: Vietnamese$1,
-  Welsh: Welsh$1
+  Afrikaans,
+  Albanian,
+  Arabic,
+  Armenian,
+  Asturian,
+  Basque,
+  Belarusian,
+  Bosnian,
+  Breton,
+  Bulgarian,
+  Catalan,
+  Corsican,
+  Croatian,
+  Czech,
+  Danish,
+  Dutch,
+  English,
+  Esperanto,
+  Estonian,
+  Farsi,
+  Finnish,
+  French,
+  Galician,
+  Georgian,
+  German,
+  Greek,
+  Hebrew,
+  Hindi,
+  Hungarian,
+  Icelandic,
+  Indonesian,
+  Irish,
+  Italian,
+  Japanese,
+  Korean,
+  Kurdish,
+  Latvian,
+  Lithuanian,
+  Luxembourgish,
+  Macedonian,
+  Malay,
+  Mongolian,
+  Norwegian,
+  NorwegianNynorsk,
+  Pashto,
+  Polish,
+  Portuguese,
+  PortugueseBR,
+  Romanian,
+  Russian,
+  ScotsGaelic,
+  Serbian,
+  SerbianLatin,
+  SimpChinese,
+  Slovak,
+  Slovenian,
+  Spanish,
+  SpanishInternational,
+  Swedish,
+  Tatar,
+  Thai,
+  TradChinese,
+  Turkish,
+  Ukrainian,
+  Uzbek,
+  Vietnamese,
+  Welsh
 };
 
 module.exports.languages;
@@ -8090,93 +8083,93 @@ module.exports = {
 /**
  * Shortcuts
  */
-module.exports.Afrikaans = Afrikaans$1;
-module.exports.Albanian = Albanian$1;
-module.exports.Arabic = Arabic$1;
-module.exports.Armenian = Armenian$1;
-module.exports.Asturian = Asturian$1;
-module.exports.Basque = Basque$1;
-module.exports.Belarusian = Belarusian$1;
-module.exports.Bosnian = Bosnian$1;
-module.exports.Breton = Breton$1;
-module.exports.Bulgarian = Bulgarian$1;
-module.exports.Catalan = Catalan$1;
-module.exports.Corsican = Corsican$1;
-module.exports.Croatian = Croatian$1;
-module.exports.Czech = Czech$1;
-module.exports.Danish = Danish$1;
-module.exports.Dutch = Dutch$1;
-module.exports.English = English$1;
-module.exports.Esperanto = Esperanto$1;
-module.exports.Estonian = Estonian$1;
-module.exports.Farsi = Farsi$1;
-module.exports.Finnish = Finnish$1;
-module.exports.French = French$1;
-module.exports.Galician = Galician$1;
-module.exports.Georgian = Georgian$1;
-module.exports.German = German$1;
-module.exports.Greek = Greek$1;
-module.exports.Hebrew = Hebrew$1;
-module.exports.Hindi = Hindi$1;
-module.exports.Hungarian = Hungarian$1;
-module.exports.Icelandic = Icelandic$1;
-module.exports.Indonesian = Indonesian$1;
-module.exports.Irish = Irish$1;
-module.exports.Italian = Italian$1;
-module.exports.Japanese = Japanese$1;
-module.exports.Korean = Korean$1;
-module.exports.Kurdish = Kurdish$1;
-module.exports.Latvian = Latvian$1;
-module.exports.Lithuanian = Lithuanian$1;
-module.exports.Luxembourgish = Luxembourgish$1;
-module.exports.Macedonian = Macedonian$1;
-module.exports.Malay = Malay$1;
-module.exports.Mongolian = Mongolian$1;
-module.exports.Norwegian = Norwegian$1;
-module.exports.NorwegianNynorsk = NorwegianNynorsk$1;
-module.exports.Pashto = Pashto$1;
-module.exports.Polish = Polish$1;
-module.exports.Portuguese = Portuguese$1;
-module.exports.PortugueseBR = PortugueseBR$1;
-module.exports.Romanian = Romanian$1;
-module.exports.Russian = Russian$1;
-module.exports.ScotsGaelic = ScotsGaelic$1;
-module.exports.Serbian = Serbian$1;
-module.exports.SerbianLatin = SerbianLatin$1;
-module.exports.SimpChinese = SimpChinese$1;
-module.exports.Slovak = Slovak$1;
-module.exports.Slovenian = Slovenian$1;
-module.exports.Spanish = Spanish$1;
-module.exports.SpanishInternational = SpanishInternational$1;
-module.exports.Swedish = Swedish$1;
-module.exports.Tatar = Tatar$1;
-module.exports.Thai = Thai$1;
-module.exports.TradChinese = TradChinese$1;
-module.exports.Turkish = Turkish$1;
-module.exports.Ukrainian = Ukrainian$1;
-module.exports.Uzbek = Uzbek$1;
-module.exports.Vietnamese = Vietnamese$1;
-module.exports.Welsh = Welsh$1;
-});
+module.exports.Afrikaans = Afrikaans;
+module.exports.Albanian = Albanian;
+module.exports.Arabic = Arabic;
+module.exports.Armenian = Armenian;
+module.exports.Asturian = Asturian;
+module.exports.Basque = Basque;
+module.exports.Belarusian = Belarusian;
+module.exports.Bosnian = Bosnian;
+module.exports.Breton = Breton;
+module.exports.Bulgarian = Bulgarian;
+module.exports.Catalan = Catalan;
+module.exports.Corsican = Corsican;
+module.exports.Croatian = Croatian;
+module.exports.Czech = Czech;
+module.exports.Danish = Danish;
+module.exports.Dutch = Dutch;
+module.exports.English = English;
+module.exports.Esperanto = Esperanto;
+module.exports.Estonian = Estonian;
+module.exports.Farsi = Farsi;
+module.exports.Finnish = Finnish;
+module.exports.French = French;
+module.exports.Galician = Galician;
+module.exports.Georgian = Georgian;
+module.exports.German = German;
+module.exports.Greek = Greek;
+module.exports.Hebrew = Hebrew;
+module.exports.Hindi = Hindi;
+module.exports.Hungarian = Hungarian;
+module.exports.Icelandic = Icelandic;
+module.exports.Indonesian = Indonesian;
+module.exports.Irish = Irish;
+module.exports.Italian = Italian;
+module.exports.Japanese = Japanese;
+module.exports.Korean = Korean;
+module.exports.Kurdish = Kurdish;
+module.exports.Latvian = Latvian;
+module.exports.Lithuanian = Lithuanian;
+module.exports.Luxembourgish = Luxembourgish;
+module.exports.Macedonian = Macedonian;
+module.exports.Malay = Malay;
+module.exports.Mongolian = Mongolian;
+module.exports.Norwegian = Norwegian;
+module.exports.NorwegianNynorsk = NorwegianNynorsk;
+module.exports.Pashto = Pashto;
+module.exports.Polish = Polish;
+module.exports.Portuguese = Portuguese;
+module.exports.PortugueseBR = PortugueseBR;
+module.exports.Romanian = Romanian;
+module.exports.Russian = Russian;
+module.exports.ScotsGaelic = ScotsGaelic;
+module.exports.Serbian = Serbian;
+module.exports.SerbianLatin = SerbianLatin;
+module.exports.SimpChinese = SimpChinese;
+module.exports.Slovak = Slovak;
+module.exports.Slovenian = Slovenian;
+module.exports.Spanish = Spanish;
+module.exports.SpanishInternational = SpanishInternational;
+module.exports.Swedish = Swedish;
+module.exports.Tatar = Tatar;
+module.exports.Thai = Thai;
+module.exports.TradChinese = TradChinese;
+module.exports.Turkish = Turkish;
+module.exports.Ukrainian = Ukrainian;
+module.exports.Uzbek = Uzbek;
+module.exports.Vietnamese = Vietnamese;
+module.exports.Welsh = Welsh;
+}(languageData));
 
 var codePages = [];
-Object.keys(languageData.meta).forEach(function (key) {
-    var codePage = languageData.meta[key].code_page;
+Object.keys(languageData.exports.meta).forEach(function (key) {
+    var codePage = languageData.exports.meta[key].code_page;
     if (!isNaN(codePage) && !codePages.includes("CP" + codePage)) {
         codePages.push("CP" + codePage);
     }
 });
-var input = __spreadArrays([
+var input = __spreadArray(__spreadArray([
     'ACP'
-], codePages, [
+], codePages), [
     'OEM',
     'UTF8',
     'UTF16BE',
     'UTF16LE'
 ]);
-var output = __spreadArrays([
+var output = __spreadArray(__spreadArray([
     'ACP'
-], codePages, [
+], codePages), [
     'OEM',
     'UTF16BE',
     'UTF16BEBOM',
@@ -8215,7 +8208,7 @@ function mapArguments(args, options) {
         ? options.pathToMakensis
         : 'makensis';
     var cmd;
-    if (os.platform() !== 'win32' && options.wine === true) {
+    if (platform() !== 'win32' && options.wine === true) {
         cmd = 'wine';
         args.unshift(pathToMakensis);
     }
@@ -8255,7 +8248,7 @@ function mapArguments(args, options) {
     if (options.inputCharset && input.includes(options.inputCharset)) {
         args.push('-INPUTCHARSET', options.inputCharset);
     }
-    if (os.platform() === 'win32') {
+    if (platform() === 'win32') {
         if (options.outputCharset && output.includes(options.outputCharset)) {
             args.push('-OUTPUTCHARSET', options.outputCharset);
         }
@@ -8267,7 +8260,7 @@ function mapArguments(args, options) {
         args.push('-SAFEPPO');
     }
     var priority = parseInt(String(options.priority));
-    if (os.platform() === 'win32' && isInteger(priority) && inRange(priority, 0, 5)) {
+    if (platform() === 'win32' && isInteger(priority) && inRange(priority, 0, 5)) {
         args.push("-P" + options.priority);
     }
     var verbosity = parseInt(String(options.verbose));
@@ -8276,7 +8269,7 @@ function mapArguments(args, options) {
     }
     if (options.rawArguments) {
         if (typeof options.rawArguments === 'string') {
-            args.push.apply(args, splitSpacesExcludeQuotes__default['default'](options.rawArguments));
+            args.push.apply(args, splitSpacesExcludeQuotes(options.rawArguments));
         }
         else if (Array.isArray(options.rawArguments)) {
             args = args.concat(options.rawArguments);
@@ -8417,7 +8410,7 @@ function hasErrorCode(input) {
 }
 function splitLines(input, opts) {
     if (opts === void 0) { opts = {}; }
-    var lineBreak = (os.platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
+    var lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
     var output = input.split(lineBreak);
     return output;
 }
@@ -8445,7 +8438,7 @@ function spawnMakensis(cmd, args, opts, spawnOpts) {
         };
         var warningsCounter = 0;
         var outFile = '';
-        var child = child_process.spawn(cmd, args, spawnOpts);
+        var child = spawn(cmd, args, spawnOpts);
         child.stdout.on('data', function (data) {
             var line = stringify(data);
             var warnings = hasWarnings(line);
@@ -8495,7 +8488,7 @@ function spawnMakensis(cmd, args, opts, spawnOpts) {
 }
 function spawnMakensisSync(cmd, args, opts, spawnOpts) {
     if (spawnOpts === void 0) { spawnOpts = {}; }
-    var child = child_process.spawnSync(cmd, args, spawnOpts);
+    var child = spawnSync(cmd, args, spawnOpts);
     child.stdout = stringify(child.stdout);
     child.stderr = stringify(child.stderr);
     var warningsCounter = hasWarnings(child.stdout);
@@ -8763,20 +8756,4 @@ function hdrInfoSync() {
     });
 }
 
-exports.cmdHelp = cmdHelp;
-exports.cmdHelpSync = cmdHelpSync;
-exports.commandHelp = commandHelp;
-exports.commandHelpSync = commandHelpSync;
-exports.compile = compile;
-exports.compileSync = compileSync;
-exports.events = eventEmitter;
-exports.hdrInfo = hdrInfo;
-exports.hdrInfoSync = hdrInfoSync;
-exports.headerInfo = headerInfo;
-exports.headerInfoSync = headerInfoSync;
-exports.license = license;
-exports.licenseSync = licenseSync;
-exports.nsisDir = nsisDir;
-exports.nsisDirSync = nsisDirSync;
-exports.version = version;
-exports.versionSync = versionSync;
+export { cmdHelp, cmdHelpSync, commandHelp, commandHelpSync, compile, compileSync, eventEmitter as events, hdrInfo, hdrInfoSync, headerInfo, headerInfoSync, license, licenseSync, nsisDir, nsisDirSync, version, versionSync };

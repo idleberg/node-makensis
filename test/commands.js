@@ -1,10 +1,10 @@
 /* eslint-disable */
 
 // Dependencies
-import * as MakeNSIS from '../dist/makensis';
+import * as MakeNSIS from '../dist/makensis.js';
 import { spawnSync } from 'child_process';
 import { existsSync } from 'fs';
-import { join } from 'path';
+import path from 'path';
 import { platform } from 'os';
 import test from 'ava';
 
@@ -20,10 +20,11 @@ const defaultScriptArray = [
 ];
 
 const defaultScriptString = defaultScriptArray.join('\n');
+const __dirname = path.resolve(path.dirname(''));
 
 const scriptFile = {
-    minimal: join(__dirname, 'fixtures', 'utf8.nsi'),
-    warning: join(__dirname, 'fixtures', 'warnings.nsi'),
+    minimal: path.join(__dirname, 'test', 'fixtures', 'utf8.nsi'),
+    warning: path.join(__dirname, 'test', 'fixtures', 'warnings.nsi'),
 };
 
 // Expected values
@@ -421,6 +422,7 @@ test('Compilation with raw arguments string [async]', async (t) => {
         t.is(actual, expected);
     } catch ({ stderr }) {
         t.fail(stderr);
+        t.fail(stderr);
     }
 });
 
@@ -524,7 +526,7 @@ test('Strict compilation with warning [async]', async (t) => {
 
 test('Print ${NSISDIR}', (t) => {
     const nsisDir = MakeNSIS.nsisDirSync();
-    const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
+    const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
 
     const expected = true;
     const actual = existsSync(nsisCfg);
@@ -535,7 +537,7 @@ test('Print ${NSISDIR}', (t) => {
 test('Print ${NSISDIR} [async]', async (t) => {
     try {
         const nsisDir = await MakeNSIS.nsisDir();
-        const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
+        const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
 
         const expected = true;
         const actual = existsSync(nsisCfg);
@@ -548,7 +550,7 @@ test('Print ${NSISDIR} [async]', async (t) => {
 
 test('Print ${NSISDIR} as JSON', (t) => {
     const nsisDir = MakeNSIS.nsisDirSync({ json: true }).nsisdir;
-    const nsisCfg = join(nsisDir, 'Include', 'MUI2.nsh');
+    const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
 
     const expected = true;
     const actual = existsSync(nsisCfg);
@@ -559,7 +561,7 @@ test('Print ${NSISDIR} as JSON', (t) => {
 test('Print ${NSISDIR} as JSON [async]', async (t) => {
     try {
         const nsisDir = await MakeNSIS.nsisDir({ json: true });
-        const nsisCfg = join(nsisDir.nsisdir, 'Include', 'MUI2.nsh');
+        const nsisCfg = path.join(nsisDir.nsisdir, 'Include', 'MUI2.nsh');
 
         const expected = true;
         const actual = existsSync(nsisCfg);

@@ -7,6 +7,7 @@ const plugins = [
   json(),
   typescript({
     allowSyntheticDefaultImports: true,
+    module: "ES2020",
     strictNullChecks: true
   })
 ];
@@ -24,7 +25,7 @@ export default [
     input: 'src/makensis.ts',
     output: {
       dir: 'dist',
-      format: 'cjs'
+      format: 'esm'
     },
     plugins: plugins
   }
