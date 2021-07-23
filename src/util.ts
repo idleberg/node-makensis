@@ -5,7 +5,7 @@ import { spawn, spawnSync } from 'child_process';
 import { splitSpacesExcludeQuotes } from 'quoted-string-space-split';
 
 import { SpawnOptions } from 'child_process';
-import makensis from '../types';
+import type makensis from '../types';
 
 function splitCommands(data: string | string[]): string[] {
   const args: string[] = [];
