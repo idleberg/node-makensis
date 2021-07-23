@@ -5,7 +5,7 @@ import {
 } from './util';
 
 import { SpawnOptions } from 'child_process';
-import makensis from '../types';
+import type makensis from '../types';
 
 /**
  * Returns usage information for a command, or list all commands
