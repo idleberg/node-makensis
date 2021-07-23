@@ -55,12 +55,6 @@ You can setup NSIS in your [Wine](http://winehq.org/) environment, but keep in m
 
 ## Usage
 
-Use ES6 imports or `require()` to include the module:
-
-```js
-import * as NSIS from 'makensis';
-```
-
 Example usage in script:
 
 ```js
