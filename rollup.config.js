@@ -8,7 +8,8 @@ const plugins = [
   typescript({
     allowSyntheticDefaultImports: true,
     module: "ES2020",
-    strictNullChecks: true
+    strictNullChecks: true,
+    typeRoots: ['./types']
   })
 ];
 
