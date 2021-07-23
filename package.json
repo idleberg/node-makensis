@@ -33,7 +33,7 @@
     "ava": "^3.15.0",
     "eslint": "^7.31.0",
     "esm": "^3.2.25",
-    "husky": "^4.3.6",
+    "husky": "^7.0.0",
     "jsonlint": "^1.6.3",
     "lint-staged": "11.1.0",
     "npm-run-all": "^4.1.5",
@@ -57,12 +57,8 @@
     "prepublishOnly": "npm run lint && npm run build",
     "start": "rollup -w -c",
     "test": "ava ./test/commands.js ./test/encoding.js --verbose",
-    "test:wine": "WINEDEBUG=-all ava ./test/wine.js --verbose --timeout 2m"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "test:wine": "WINEDEBUG=-all ava ./test/wine.js --verbose --timeout 2m",
+    "prepare": "husky install"
   },
   "prettier": {
     "semi": true,
