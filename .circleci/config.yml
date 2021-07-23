@@ -27,6 +27,12 @@ commands:
           paths:
             - ./node_modules
       - run:
+          name: Linting Source
+          command: npm run lint
+      - run:
+          name: Building Source
+          command: npm run build
+      - run:
           name: Running Tests
           command: npm test
 
