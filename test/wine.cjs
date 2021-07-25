@@ -1,12 +1,12 @@
 /* eslint-disable */
 
 // Dependencies
-import * as MakeNSIS from '../dist/makensis.js';
-import { spawnSync } from 'child_process';
-import { existsSync } from 'fs';
-import path from 'path';
-import { platform } from 'os';
-import test from 'ava';
+const { existsSync } = require('fs');
+const { platform } = require('os');
+const { spawnSync } = require('child_process');
+const MakeNSIS = require('../dist/makensis.cjs');
+const path = require('path');
+const test = require('ava');
 
 // Generate script using compiler flags
 const nullDevice = platform() === 'win32' ? 'NUL' : '/dev/null';
@@ -20,7 +20,6 @@ const defaultScriptArray = [
 ];
 
 const defaultScriptString = defaultScriptArray.join('\n');
-const __dirname = path.resolve(path.dirname(''));
 
 const scriptFile = {
     minimal: path.join(__dirname, 'fixtures', 'utf8.nsi'),

@@ -4,14 +4,15 @@ import typescript from '@rollup/plugin-typescript';
 
 const plugins = [
   commonjs(),
-  json(),
-  typescript({
-    allowSyntheticDefaultImports: true,
-    module: "ES2020",
-    strictNullChecks: true,
-    typeRoots: ['./types']
-  })
+  json()
 ];
+
+const compilerOptions = {
+  allowSyntheticDefaultImports: true,
+  moduleResolution: "node",
+  strictNullChecks: true,
+  typeRoots: ['./types', './node_modules/@types']
+};
 
 const external = [
   'child_process',
@@ -25,9 +26,28 @@ export default [
     external,
     input: 'src/makensis.ts',
     output: {
-      dir: 'dist',
+      file: 'dist/makensis.cjs',
+      format: 'cjs'
+    },
+    plugins: [
+      ...plugins,
+      typescript(compilerOptions)
+    ]
+  },
+  {
+    external,
+    input: 'src/makensis.ts',
+    output: {
+      file: 'dist/makensis.mjs',
       format: 'esm'
     },
-    plugins: plugins
+    plugins: [
+      ...plugins,
+      typescript({
+        ...compilerOptions,
+        module: "ES2020",
+        moduleResolution: "node"
+      })
+    ]
   }
 ];
