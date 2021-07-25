@@ -2,8 +2,11 @@
   "name": "makensis",
   "version": "0.24.1",
   "description": "A Node wrapper for makensis, the NSIS compiler",
-  "exports": "./dist/makensis.js",
   "type": "module",
+  "exports": {
+    "import": "./dist/makensis.mjs",
+    "require": "./dist/makensis.cjs"
+  },
   "typings": "types/",
   "files": [
     "dist/"
@@ -56,8 +59,8 @@
     "lint": "npm-run-all --parallel lint:*",
     "prepublishOnly": "npm run lint && npm run build",
     "start": "rollup -w -c",
-    "test": "ava ./test/commands.js ./test/encoding.js --verbose",
-    "test:wine": "WINEDEBUG=-all ava ./test/wine.js --verbose --timeout 2m",
+    "test": "ava ./test/commands.*js ./test/encoding.*js --verbose",
+    "test:wine": "WINEDEBUG=-all ava ./test/wine.*js --verbose --timeout 2m",
     "prepare": "husky install"
   },
   "prettier": {
