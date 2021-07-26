@@ -68,14 +68,12 @@ const options = {
 };
 
 // Asynchronous: async/await
-(async () => {
-    try {
-        let output = await NSIS.compile('path/to/installer.nsi', options);
-        console.log('Compiler output:', output);
-    } catch (error) {
-        console.error(error);
-    }
-})();
+try {
+    let output = await NSIS.compile('path/to/installer.nsi', options);
+    console.log('Compiler output:', output);
+} catch (error) {
+    console.error(error);
+}
 
 // Asynchronous: Promise API
 NSIS.compile('path/to/installer.nsi', options)
