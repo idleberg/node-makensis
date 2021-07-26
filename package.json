@@ -36,7 +36,6 @@
     "@typescript-eslint/parser": "^4.28.4",
     "ava": "^3.15.0",
     "eslint": "^7.31.0",
-    "esm": "^3.2.25",
     "husky": "^7.0.0",
     "jsonlint": "^1.6.3",
     "lint-staged": "11.1.0",
