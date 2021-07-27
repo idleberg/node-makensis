@@ -55,8 +55,10 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): unknow
   }
 
   if (options?.define) {
-    Object.keys(options.define).forEach(key => {
-      if (options?.define && options?.define[key]) args.push(`-D${key}=${options.define[key]}`);
+    Object.keys(options.define).map(key => {
+      if (options?.define && options?.define[key]) {
+        args.push(`-D${key}=${options.define[key]}`);
+      }
     });
   }
 
@@ -195,7 +197,7 @@ function objectifyHelp(input: string, opts: makensis.CompilerOptions): unknown {
 
   const output = {};
 
-  lines.forEach(line => {
+  lines.map(line => {
     let command = line.substr(0, line.indexOf(' '));
     const usage = line.substr(line.indexOf(' ') + 1);
 
@@ -226,7 +228,7 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): unknown 
   let symbols;
 
   // Split sizes
-  filteredLines.forEach(line => {
+  filteredLines.map(line => {
     if (line.startsWith('Size of ')) {
       const pair = line.split(' is ');
 

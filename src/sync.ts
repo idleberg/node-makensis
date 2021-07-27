@@ -43,7 +43,7 @@ function compileSync(script: string, options: makensis.CompilerOptions = {}, spa
   if (typeof options.postExecute === 'string') {
     args.push(`-X${options.postExecute}`);
   } else if (options.postExecute) {
-    options.postExecute.forEach(key => {
+    options.postExecute.map(key => {
       args.push(`-X${key}`);
     });
   }
