@@ -8153,7 +8153,7 @@ module.exports.Welsh = Welsh;
 }(languageData));
 
 var codePages = [];
-Object.keys(languageData.exports.meta).forEach(function (key) {
+Object.keys(languageData.exports.meta).map(function (key) {
     var codePage = languageData.exports.meta[key].code_page;
     if (!isNaN(codePage) && !codePages.includes("CP" + codePage)) {
         codePages.push("CP" + codePage);
@@ -8222,9 +8222,10 @@ function mapArguments(args, options) {
             }];
     }
     if (options === null || options === void 0 ? void 0 : options.define) {
-        Object.keys(options.define).forEach(function (key) {
-            if ((options === null || options === void 0 ? void 0 : options.define) && (options === null || options === void 0 ? void 0 : options.define[key]))
+        Object.keys(options.define).map(function (key) {
+            if ((options === null || options === void 0 ? void 0 : options.define) && (options === null || options === void 0 ? void 0 : options.define[key])) {
                 args.push("-D" + key + "=" + options.define[key]);
+            }
         });
     }
     if (options === null || options === void 0 ? void 0 : options.preExecute) {
@@ -8340,7 +8341,7 @@ function objectifyHelp(input, opts) {
     var lines = splitLines(input, opts);
     lines.sort();
     var output = {};
-    lines.forEach(function (line) {
+    lines.map(function (line) {
         var command = line.substr(0, line.indexOf(' '));
         var usage = line.substr(line.indexOf(' ') + 1);
         // Workaround
@@ -8364,7 +8365,7 @@ function objectifyFlags(input, opts) {
     var tableSymbols = {};
     var symbols;
     // Split sizes
-    filteredLines.forEach(function (line) {
+    filteredLines.map(function (line) {
         if (line.startsWith('Size of ')) {
             var pair = line.split(' is ');
             pair[0] = pair[0].replace('Size of ', '');
@@ -8681,7 +8682,7 @@ function compileSync(script, options, spawnOpts) {
         args.push("-X" + options.postExecute);
     }
     else if (options.postExecute) {
-        options.postExecute.forEach(function (key) {
+        options.postExecute.map(function (key) {
             args.push("-X" + key);
         });
     }
