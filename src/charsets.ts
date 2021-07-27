@@ -2,7 +2,7 @@ import { meta } from '@nsis/language-data';
 
 const codePages: string[] = [];
 
-Object.keys(meta).forEach( key => {
+Object.keys(meta).map( key => {
   const codePage = meta[key].code_page;
 
   if (!isNaN(codePage) && !codePages.includes(`CP${codePage}`)) {
