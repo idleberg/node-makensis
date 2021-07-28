@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 // Dependencies
-const { compileSync, compile } = require('../dist/makensis.cjs');
+const { compile } = require('../dist/makensis.cjs');
 const { platform } = require('os');
 const path = require('path');
 const test = require('ava');
@@ -24,7 +24,7 @@ test('Compile script with correct charset', (t) => {
     options = { ...options, inputCharset: 'UTF8' };
 
     const expected = '';
-    const actual = compileSync(script['utf8'], options).stderr;
+    const actual = compile.sync(script['utf8'], options).stderr;
 
     t.is(actual, expected);
 });
@@ -33,7 +33,7 @@ test('Compile script with incorrect charset', (t) => {
     options = { ...options, inputCharset: 'UTF16BE' };
 
     const expected = 0;
-    const actual = compileSync(script['utf8'], options).status;
+    const actual = compile.sync(script['utf8'], options).status;
 
     t.not(actual, expected);
 });

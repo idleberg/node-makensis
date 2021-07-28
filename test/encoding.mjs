@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 // Dependencies
-import { compileSync, compile } from '../dist/makensis.mjs';
+import { compile } from '../dist/makensis.mjs';
 import { platform } from 'os';
 import path from 'path';
 import test from 'ava';
@@ -26,7 +26,7 @@ test('Compile script with correct charset', (t) => {
     options = { ...options, inputCharset: 'UTF8' };
 
     const expected = '';
-    const actual = compileSync(script['utf8'], options).stderr;
+    const actual = compile.sync(script['utf8'], options).stderr;
 
     t.is(actual, expected);
 });
@@ -35,7 +35,7 @@ test('Compile script with incorrect charset', (t) => {
     options = { ...options, inputCharset: 'UTF16BE' };
 
     const expected = 0;
-    const actual = compileSync(script['utf8'], options).status;
+    const actual = compile.sync(script['utf8'], options).status;
 
     t.not(actual, expected);
 });
