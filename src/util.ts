@@ -302,7 +302,7 @@ function detectOutfile(str: string): string {
   return '';
 }
 
-function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.CompilerOptions, spawnOpts: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
+function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
   return new Promise<makensis.CompilerOutput>((resolve, reject) => {
     let stream: makensis.StreamOptions = {
       stdout: '',
@@ -312,7 +312,7 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
     let warningsCounter = 0;
     let outFile = '';
 
-    const child: any = spawn(cmd, args, spawnOpts);
+    const child: any = spawn(cmd, args, spawnOptions);
 
     child.stdout.on('data', data => {
       const line = stringify(data);
@@ -374,8 +374,8 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
   });
 }
 
-function spawnMakensisSync(cmd: string, args: Array<string>, opts: makensis.CompilerOptions, spawnOpts: SpawnOptions = {}): makensis.CompilerOutput {
-  let child: any = spawnSync(cmd, args, spawnOpts);
+function spawnMakensisSync(cmd: string, args: Array<string>, opts: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
+  let child: any = spawnSync(cmd, args, spawnOptions);
 
   child.stdout = stringify(child.stdout);
   child.stderr = stringify(child.stderr);
