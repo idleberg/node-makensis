@@ -6,8 +6,6 @@ import {
   splitCommands
 } from './util';
 
-import chalk from 'chalk';
-
 import type { SpawnOptions } from 'child_process';
 import type makensis from '../types';
 
@@ -215,82 +213,11 @@ version.sync = (options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptio
   return spawnMakensisSync(cmd, args, opts, spawnOptions);
 }
 
-// Aliases
-async function cmdHelp(command = '', options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
-  console.warn(chalk.yellow('makensis: cmdHelp() has been deprecated and will be removed in v1.0.0, please use commandHelp() instead'));
-
-  return await commandHelp(command, options, spawnOptions);
-}
-
-async function hdrInfo(): Promise<makensis.CompilerOutput> {
-  console.warn(chalk.yellow('makensis: hdrInfo() has been deprecated and will be removed in v1.0.0, please use headerInfo() instead'));
-
-  return await headerInfo();
-}
-
-function commandHelpSync(command = '', options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
-  console.warn(chalk.yellow('makensis: commandHelpSync() has been deprecated and will be removed in v1.0.0, please use commandHelp.sync() instead'));
-
-  return commandHelp.sync(command, options, spawnOptions);
-}
-
-function compileSync(script: string, options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
-  console.warn(chalk.yellow('makensis: compileSync() has been deprecated and will be removed in v1.0.0, please use compile.sync() instead'));
-
-  return compile.sync(script, options, spawnOptions);
-}
-
-function headerInfoSync(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
-  console.warn(chalk.yellow('makensis: headerInfoSync() has been deprecated and will be removed in v1.0.0, please use headerInfo.sync() instead'));
-
-  return headerInfo.sync(options, spawnOptions);
-}
-
-function licenseSync(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
-  console.warn(chalk.yellow('makensis: licenseSync() has been deprecated and will be removed in v1.0.0, please use license.sync() instead'));
-
-  return license.sync(options, spawnOptions);
-}
-
-function nsisDirSync(options: makensis.CompilerOptions = {}): string | unknown {
-  console.warn(chalk.yellow('makensis: nsisDirSync() has been deprecated and will be removed in v1.0.0, please use nsisDir.sync() instead'));
-
-  return nsisDir.sync(options);
-}
-
-function versionSync(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
-  console.warn(chalk.yellow('makensis: versionSync() has been deprecated and will be removed in v1.0.0, please use version.sync() instead'));
-
-  return version.sync(options, spawnOptions);
-}
-
-cmdHelp.sync = (command = '', options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
-  console.warn(chalk.yellow('makensis: cmdHelp() has been deprecated and will be removed in v1.0.0, please use commandHelp() instead'));
-
-  return commandHelp.sync(command, options, spawnOptions);
-}
-
-hdrInfo.sync = (): makensis.CompilerOutput => {
-  console.warn(chalk.yellow('makensis: hdrInfo() has been deprecated and will be removed in v1.0.0, please use headerInfo() instead'));
-
-  return headerInfo.sync();
-}
-
 export {
   commandHelp,
   compile,
   headerInfo,
   license,
   nsisDir,
-  version,
-
-  // Aliases
-  cmdHelp,
-  hdrInfo,
-  commandHelpSync,
-  compileSync,
-  headerInfoSync,
-  licenseSync,
-  nsisDirSync,
-  versionSync,
+  version
 };
