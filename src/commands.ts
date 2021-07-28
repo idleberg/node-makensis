@@ -264,8 +264,6 @@ function versionSync(options: makensis.CompilerOptions = {}, spawnOpts: SpawnOpt
   return version.sync(options, spawnOpts);
 }
 
-
-
 cmdHelp.sync = (command = '', options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): makensis.CompilerOutput => {
   console.warn(chalk.yellow('makensis: cmdHelp() has been deprecated and will be removed in v1.0.0, please use commandHelp() instead'));
 
