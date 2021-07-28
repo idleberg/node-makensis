@@ -47,14 +47,14 @@ test(`MakeNSIS ${version} found in PATH environmental variable`, (t) => {
 
 test('Print makensis version', (t) => {
     const expected = version;
-    const actual = MakeNSIS.versionSync().stdout;
+    const actual = MakeNSIS.version.sync().stdout;
 
     t.is(actual, expected);
 });
 
 test('Print makensis version as JSON', (t) => {
     let expected = version;
-    let actual = MakeNSIS.versionSync({ json: true }).stdout;
+    let actual = MakeNSIS.version.sync({ json: true }).stdout;
 
     if (expected.startsWith('v')) {
         expected = expected.substr(1);
@@ -103,14 +103,14 @@ test('Print makensis version as JSON [async]', async (t) => {
 
 test('Print makensis license', (t) => {
     let expected = license;
-    let actual = MakeNSIS.licenseSync().stdout;
+    let actual = MakeNSIS.license.sync().stdout;
 
     t.is(actual, expected);
 });
 
 test('Print makensis license as JSON', (t) => {
     let expected = license;
-    let actual = MakeNSIS.licenseSync({ json: true }).stdout;
+    let actual = MakeNSIS.license.sync({ json: true }).stdout;
 
     actual = JSON.stringify(actual);
     expected = JSON.stringify({ license: expected });
@@ -164,14 +164,14 @@ test('Print makensis license as JSON [async]', async (t) => {
 
 test('Print compiler information', (t) => {
     const expected = headerInfo;
-    const actual = MakeNSIS.headerInfoSync().stdout;
+    const actual = MakeNSIS.headerInfo.sync().stdout;
 
     t.is(actual, expected);
 });
 
 test('Print compiler information as JSON', (t) => {
     const expected = true;
-    const actual = MakeNSIS.headerInfoSync({ json: true }).stdout
+    const actual = MakeNSIS.headerInfo.sync({ json: true }).stdout
         .defined_symbols.__GLOBAL__;
 
     t.is(actual, expected);
@@ -197,7 +197,7 @@ test('Print compiler information [async]', async (t) => {
 
 test('Print help for all commands', (t) => {
     const expected = commandHelp;
-    const actual = MakeNSIS.commandHelpSync().stdout;
+    const actual = MakeNSIS.commandHelp.sync().stdout;
 
     t.is(actual, expected);
 });
@@ -222,7 +222,7 @@ test('Print help for all commands [async]', async (t) => {
 
 test('Print help for OutFile command', (t) => {
     const expected = outFile;
-    const actual = MakeNSIS.commandHelpSync('OutFile').stdout;
+    const actual = MakeNSIS.commandHelp.sync('OutFile').stdout;
 
     t.is(actual, expected);
 });
@@ -247,7 +247,7 @@ test('Print help for OutFile command [async]', async (t) => {
 
 test('Print help for OutFile command as JSON', (t) => {
     let expected = outFile;
-    let actual = MakeNSIS.commandHelpSync('OutFile', { json: true }).stdout;
+    let actual = MakeNSIS.commandHelp.sync('OutFile', { json: true }).stdout;
 
     actual = JSON.stringify(actual);
     expected = JSON.stringify({ help: expected });
@@ -257,7 +257,7 @@ test('Print help for OutFile command as JSON', (t) => {
 
 test('Compilation from File', (t) => {
     const expected = 0;
-    const actual = MakeNSIS.compileSync(scriptFile.minimal, {
+    const actual = MakeNSIS.compile.sync(scriptFile.minimal, {
         define: {
             NULL_DEVICE: nullDevice,
         },
@@ -268,7 +268,7 @@ test('Compilation from File', (t) => {
 
 test('Compilation from Array', (t) => {
     const expected = 0;
-    const actual = MakeNSIS.compileSync(null, {
+    const actual = MakeNSIS.compile.sync(null, {
         preExecute: defaultScriptArray,
     }).status;
 
@@ -277,7 +277,7 @@ test('Compilation from Array', (t) => {
 
 test('Compilation from String', (t) => {
     const expected = 0;
-    const actual = MakeNSIS.compileSync(null, {
+    const actual = MakeNSIS.compile.sync(null, {
         preExecute: defaultScriptString,
     }).status;
 
@@ -335,7 +335,7 @@ test('Compilation with warning', (t) => {
     const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
     const expected = 0;
-    const actual = MakeNSIS.compileSync(null, { preExecute: scriptWithWarning })
+    const actual = MakeNSIS.compile.sync(null, { preExecute: scriptWithWarning })
         .status;
 
     t.is(actual, expected);
@@ -344,7 +344,7 @@ test('Compilation with warning', (t) => {
 test('Compilation with warning as JSON', (t) => {
     const expected = 1;
     const scriptWithWarning = [...defaultScriptArray, '!warning'];
-    const actual = MakeNSIS.compileSync(null, {
+    const actual = MakeNSIS.compile.sync(null, {
         preExecute: scriptWithWarning,
         json: true,
     }).warnings;
@@ -391,7 +391,7 @@ test('Compilation with error', (t) => {
     const scriptWithError = [...defaultScriptArray, '!error'];
 
     const expected = 0;
-    const actual = MakeNSIS.compileSync(null, { preExecute: scriptWithError })
+    const actual = MakeNSIS.compile.sync(null, { preExecute: scriptWithError })
         .status;
 
     t.not(actual, expected);
@@ -399,7 +399,7 @@ test('Compilation with error', (t) => {
 
 test('Compilation with raw arguments string', (t) => {
     const expected = '';
-    const actual = MakeNSIS.compileSync(scriptFile.minimal, {
+    const actual = MakeNSIS.compile.sync(scriptFile.minimal, {
         rawArguments: '-V0',
     }).stdout;
 
@@ -427,7 +427,7 @@ test('Compilation with raw arguments string [async]', async (t) => {
 
 test('Compilation with raw arguments array', (t) => {
     const expected = '';
-    const actual = MakeNSIS.compileSync(scriptFile.minimal, {
+    const actual = MakeNSIS.compile.sync(scriptFile.minimal, {
         rawArguments: ['-V0'],
     }).stdout;
 
@@ -454,7 +454,7 @@ test('Compilation with raw arguments array [async]', async (t) => {
 
 test('Compilation with raw arguments string and warning', (t) => {
     const expected = 1;
-    const actual = MakeNSIS.compileSync(scriptFile.warning, {
+    const actual = MakeNSIS.compile.sync(scriptFile.warning, {
         rawArguments: '-WX',
     }).status;
 
@@ -497,7 +497,7 @@ test('Strict compilation with warning', (t) => {
     const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
     const expected = 0;
-    const actual = MakeNSIS.compileSync(null, {
+    const actual = MakeNSIS.compile.sync(null, {
         preExecute: scriptWithWarning,
         strict: true,
     }).status;
@@ -524,7 +524,7 @@ test('Strict compilation with warning [async]', async (t) => {
 });
 
 test('Print ${NSISDIR}', (t) => {
-    const nsisDir = MakeNSIS.nsisDirSync();
+    const nsisDir = MakeNSIS.nsisDir.sync();
     const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
 
     const expected = true;
@@ -548,7 +548,7 @@ test('Print ${NSISDIR} [async]', async (t) => {
 });
 
 test('Print ${NSISDIR} as JSON', (t) => {
-    const nsisDir = MakeNSIS.nsisDirSync({ json: true }).nsisdir;
+    const nsisDir = MakeNSIS.nsisDir.sync({ json: true }).nsisdir;
     const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
 
     const expected = true;

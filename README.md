@@ -85,21 +85,17 @@ NSIS.compile('path/to/installer.nsi', options)
     });
 
 // Synchronous
-let output = NSIS.compileSync('path/to/installer.nsi', options);
+let output = NSIS.compile.sync('path/to/installer.nsi', options);
 console.log('Compiler output:', output);
 ```
 
 ### Methods
 
+**Note:** Any of the following methods is asynchronous. To use their synchronous counterpart, append `.sync()` to the method name, e.g. `compile.sync()`.
+
 #### commandHelp
 
 Usage: `commandHelp([command], [options], [spawnOptions])`
-
-Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
-
-#### commandHelpSync
-
-Usage: `commandHelpSync([command], [options], [spawnOptions])`
 
 Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
 
@@ -109,21 +105,9 @@ Usage: `compile(script, [options], [spawnOptions])`
 
 Compiles specified script with MakeNSIS. The script can be omitted in favor of [`preExecute`](#preExecute) / [`postExecute`](#postExecute).
 
-#### compileSync
-
-Usage: `compileSync(script, [options], [spawnOptions])`
-
-Compiles specified script with MakeNSIS. The script can be omitted in favor of [`preExecute`](#preExecute) / [`postExecute`](#postExecute).
-
 #### headerInfo
 
 Usage: `headerInfo([options], [spawnOptions])`
-
-Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
-
-#### headerInfoSync
-
-Usage: `headerInfoSync([options], [spawnOptions])`
 
 Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
 
@@ -133,33 +117,15 @@ Usage: `license([options], [spawnOptions])`
 
 Returns MakeNSIS software license. Equivalent of the `-LICENSE` switch.
 
-#### licenseSync
-
-Usage: `licenseSync([options], [spawnOptions])`
-
-Returns MakeNSIS software license. Equivalent of the `-LICENSE` switch.
-
 #### nsisDir
 
 Usage: `nsisDir([options], [spawnOptions])`
 
 Returns the path of `${NSISDIR}`.
 
-#### nsisDirSync
-
-Usage: `nsisDirSync([options], [spawnOptions])`
-
-Returns the path of `${NSISDIR}`.
-
 #### version
 
 Usage: `version([options], [spawnOptions])`
-
-Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
-
-#### versionSync
-
-Usage: `versionSync([options], [spawnOptions])`
 
 Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 

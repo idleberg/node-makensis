@@ -11,17 +11,4 @@ export {
   // Aliases
   cmdHelp,
   hdrInfo
-} from './async';
-
-export {
-  commandHelpSync,
-  compileSync,
-  headerInfoSync,
-  licenseSync,
-  nsisDirSync,
-  versionSync,
-
-  // Aliases
-  cmdHelpSync,
-  hdrInfoSync
-} from './sync';
+} from './commands';
