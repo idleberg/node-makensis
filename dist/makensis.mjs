@@ -2,7 +2,6 @@ import { EventEmitter } from 'events';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
 import { splitSpacesExcludeQuotes } from 'quoted-string-space-split';
-import chalk from 'chalk';
 
 var eventEmitter = new EventEmitter();
 
@@ -8708,44 +8707,5 @@ version.sync = function (options, spawnOptions) {
     var _a = mapArguments(['-VERSION'], options), cmd = _a[0], args = _a[1], opts = _a[2];
     return spawnMakensisSync(cmd, args, opts, spawnOptions);
 };
-// Aliases
-function cmdHelp(command, options, spawnOptions) {
-    if (command === void 0) { command = ''; }
-    if (options === void 0) { options = {}; }
-    if (spawnOptions === void 0) { spawnOptions = {}; }
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    console.warn(chalk.yellow('makensis: cmdHelp() has been deprecated and will be removed in v1.0.0, please use commandHelp() instead'));
-                    return [4 /*yield*/, commandHelp(command, options, spawnOptions)];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        });
-    });
-}
-function hdrInfo() {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    console.warn(chalk.yellow('makensis: hdrInfo() has been deprecated and will be removed in v1.0.0, please use headerInfo() instead'));
-                    return [4 /*yield*/, headerInfo()];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        });
-    });
-}
-cmdHelp.sync = function (command, options, spawnOptions) {
-    if (command === void 0) { command = ''; }
-    if (options === void 0) { options = {}; }
-    if (spawnOptions === void 0) { spawnOptions = {}; }
-    console.warn(chalk.yellow('makensis: cmdHelp() has been deprecated and will be removed in v1.0.0, please use commandHelp() instead'));
-    return commandHelp.sync(command, options, spawnOptions);
-};
-hdrInfo.sync = function () {
-    console.warn(chalk.yellow('makensis: hdrInfo() has been deprecated and will be removed in v1.0.0, please use headerInfo() instead'));
-    return headerInfo.sync();
-};
 
-export { cmdHelp, commandHelp, compile, eventEmitter as events, hdrInfo, headerInfo, license, nsisDir, version };
+export { commandHelp, compile, eventEmitter as events, headerInfo, license, nsisDir, version };

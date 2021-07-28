@@ -25,7 +25,6 @@
   "license": "MIT",
   "dependencies": {
     "@nsis/language-data": "^0.7.4",
-    "chalk": "^4.1.1",
     "quoted-string-space-split": "^1.0.0"
   },
   "devDependencies": {

@@ -6,11 +6,6 @@ var events = require('events');
 var os = require('os');
 var child_process = require('child_process');
 var quotedStringSpaceSplit = require('quoted-string-space-split');
-var chalk = require('chalk');
-
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var chalk__default = /*#__PURE__*/_interopDefaultLegacy(chalk);
 
 var eventEmitter = new events.EventEmitter();
 
@@ -8716,51 +8711,10 @@ version.sync = function (options, spawnOptions) {
     var _a = mapArguments(['-VERSION'], options), cmd = _a[0], args = _a[1], opts = _a[2];
     return spawnMakensisSync(cmd, args, opts, spawnOptions);
 };
-// Aliases
-function cmdHelp(command, options, spawnOptions) {
-    if (command === void 0) { command = ''; }
-    if (options === void 0) { options = {}; }
-    if (spawnOptions === void 0) { spawnOptions = {}; }
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    console.warn(chalk__default['default'].yellow('makensis: cmdHelp() has been deprecated and will be removed in v1.0.0, please use commandHelp() instead'));
-                    return [4 /*yield*/, commandHelp(command, options, spawnOptions)];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        });
-    });
-}
-function hdrInfo() {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    console.warn(chalk__default['default'].yellow('makensis: hdrInfo() has been deprecated and will be removed in v1.0.0, please use headerInfo() instead'));
-                    return [4 /*yield*/, headerInfo()];
-                case 1: return [2 /*return*/, _a.sent()];
-            }
-        });
-    });
-}
-cmdHelp.sync = function (command, options, spawnOptions) {
-    if (command === void 0) { command = ''; }
-    if (options === void 0) { options = {}; }
-    if (spawnOptions === void 0) { spawnOptions = {}; }
-    console.warn(chalk__default['default'].yellow('makensis: cmdHelp() has been deprecated and will be removed in v1.0.0, please use commandHelp() instead'));
-    return commandHelp.sync(command, options, spawnOptions);
-};
-hdrInfo.sync = function () {
-    console.warn(chalk__default['default'].yellow('makensis: hdrInfo() has been deprecated and will be removed in v1.0.0, please use headerInfo() instead'));
-    return headerInfo.sync();
-};
 
-exports.cmdHelp = cmdHelp;
 exports.commandHelp = commandHelp;
 exports.compile = compile;
 exports.events = eventEmitter;
-exports.hdrInfo = hdrInfo;
 exports.headerInfo = headerInfo;
 exports.license = license;
 exports.nsisDir = nsisDir;
