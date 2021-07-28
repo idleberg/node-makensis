@@ -8431,8 +8431,8 @@ function detectOutfile(str) {
     }
     return '';
 }
-function spawnMakensis(cmd, args, opts, spawnOpts) {
-    if (spawnOpts === void 0) { spawnOpts = {}; }
+function spawnMakensis(cmd, args, opts, spawnOptions) {
+    if (spawnOptions === void 0) { spawnOptions = {}; }
     return new Promise(function (resolve, reject) {
         var stream = {
             stdout: '',
@@ -8440,7 +8440,7 @@ function spawnMakensis(cmd, args, opts, spawnOpts) {
         };
         var warningsCounter = 0;
         var outFile = '';
-        var child = spawn(cmd, args, spawnOpts);
+        var child = spawn(cmd, args, spawnOptions);
         child.stdout.on('data', function (data) {
             var line = stringify(data);
             var warnings = hasWarnings(line);
@@ -8488,9 +8488,9 @@ function spawnMakensis(cmd, args, opts, spawnOpts) {
         });
     });
 }
-function spawnMakensisSync(cmd, args, opts, spawnOpts) {
-    if (spawnOpts === void 0) { spawnOpts = {}; }
-    var child = spawnSync(cmd, args, spawnOpts);
+function spawnMakensisSync(cmd, args, opts, spawnOptions) {
+    if (spawnOptions === void 0) { spawnOptions = {}; }
+    var child = spawnSync(cmd, args, spawnOptions);
     child.stdout = stringify(child.stdout);
     child.stderr = stringify(child.stderr);
     var warningsCounter = hasWarnings(child.stdout);
@@ -8514,25 +8514,25 @@ function spawnMakensisSync(cmd, args, opts, spawnOpts) {
  * @param options - compiler options
  * @returns - usage description
  */
-function commandHelp(command, options, spawnOpts) {
+function commandHelp(command, options, spawnOptions) {
     if (command === void 0) { command = ''; }
     if (options === void 0) { options = {}; }
-    if (spawnOpts === void 0) { spawnOpts = {}; }
+    if (spawnOptions === void 0) { spawnOptions = {}; }
     options = __assign(__assign({}, options), { verbose: 0 });
     var _a = mapArguments(['-CMDHELP'], options), cmd = _a[0], args = _a[1], opts = _a[2];
     if ((command === null || command === void 0 ? void 0 : command.length) && typeof command !== 'object') {
         args.push(command);
     }
-    return spawnMakensis(cmd, args, opts, spawnOpts);
+    return spawnMakensis(cmd, args, opts, spawnOptions);
 }
 /**
  * Compile specified script with MakeNSIS
  * @param script - path to NSIS script
  * @param options - compiler options
  */
-function compile(script, options, spawnOpts) {
+function compile(script, options, spawnOptions) {
     if (options === void 0) { options = {}; }
-    if (spawnOpts === void 0) { spawnOpts = {}; }
+    if (spawnOptions === void 0) { spawnOptions = {}; }
     var _a = mapArguments([], options), cmd = _a[0], args = _a[1], opts = _a[2];
     if (script) {
         if (cmd === 'wine') {
@@ -8546,30 +8546,30 @@ function compile(script, options, spawnOpts) {
             args.push.apply(args, postExecuteArgs);
         }
     }
-    return spawnMakensis(cmd, args, opts, spawnOpts);
+    return spawnMakensis(cmd, args, opts, spawnOptions);
 }
 /**
  * Returns information about which options were used to compile MakeNSIS
  * @param options - compiler options
  * @returns - compiler options
  */
-function headerInfo(options, spawnOpts) {
+function headerInfo(options, spawnOptions) {
     if (options === void 0) { options = {}; }
-    if (spawnOpts === void 0) { spawnOpts = {}; }
+    if (spawnOptions === void 0) { spawnOptions = {}; }
     options = __assign(__assign({}, options), { verbose: 0 });
     var _a = mapArguments(['-HDRINFO'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    return spawnMakensis(cmd, args, opts, spawnOpts);
+    return spawnMakensis(cmd, args, opts, spawnOptions);
 }
 /**
  * Returns MakeNSIS software license
  * @param options - compiler options
  * @returns - compiler license
  */
-function license(options, spawnOpts) {
+function license(options, spawnOptions) {
     if (options === void 0) { options = {}; }
-    if (spawnOpts === void 0) { spawnOpts = {}; }
+    if (spawnOptions === void 0) { spawnOptions = {}; }
     var _a = mapArguments(['-LICENSE'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    return spawnMakensis(cmd, args, opts, spawnOpts);
+    return spawnMakensis(cmd, args, opts, spawnOptions);
 }
 /**
  * Returns directory where NSIS is installed to
@@ -8611,12 +8611,12 @@ function nsisDir(options) {
  * @param options - compiler options
  * @returns - compiler version
  */
-function version(options, spawnOpts) {
+function version(options, spawnOptions) {
     if (options === void 0) { options = {}; }
-    if (spawnOpts === void 0) { spawnOpts = {}; }
+    if (spawnOptions === void 0) { spawnOptions = {}; }
     options = __assign(__assign({}, options), { verbose: 0 });
     var _a = mapArguments(['-VERSION'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    return spawnMakensis(cmd, args, opts, spawnOpts);
+    return spawnMakensis(cmd, args, opts, spawnOptions);
 }
 /**
  * Returns usage information for a command, or list all commands
@@ -8624,25 +8624,25 @@ function version(options, spawnOpts) {
  * @param options - compiler options
  * @returns - usage description
  */
-commandHelp.sync = function (command, options, spawnOpts) {
+commandHelp.sync = function (command, options, spawnOptions) {
     if (command === void 0) { command = ''; }
     if (options === void 0) { options = {}; }
-    if (spawnOpts === void 0) { spawnOpts = {}; }
+    if (spawnOptions === void 0) { spawnOptions = {}; }
     options = __assign(__assign({}, options), { verbose: 0 });
     var _a = mapArguments(['-CMDHELP'], options), cmd = _a[0], args = _a[1], opts = _a[2];
     if ((command === null || command === void 0 ? void 0 : command.length) && typeof command !== 'object') {
         args.push(command);
     }
-    return spawnMakensisSync(cmd, args, opts, spawnOpts);
+    return spawnMakensisSync(cmd, args, opts, spawnOptions);
 };
 /**
  * Compile specified script with MakeNSIS
  * @param script - path to NSIS script
  * @param options - compiler options
  */
-compile.sync = function (script, options, spawnOpts) {
+compile.sync = function (script, options, spawnOptions) {
     if (options === void 0) { options = {}; }
-    if (spawnOpts === void 0) { spawnOpts = {}; }
+    if (spawnOptions === void 0) { spawnOptions = {}; }
     var _a = mapArguments([], options), cmd = _a[0], args = _a[1], opts = _a[2];
     if (script) {
         if (cmd === 'wine') {
@@ -8658,29 +8658,29 @@ compile.sync = function (script, options, spawnOpts) {
             args.push("-X" + key);
         });
     }
-    return spawnMakensisSync(cmd, args, opts, spawnOpts);
+    return spawnMakensisSync(cmd, args, opts, spawnOptions);
 };
 /**
  * Returns information about which options were used to compile MakeNSIS
  * @returns - compiler options
  */
-headerInfo.sync = function (options, spawnOpts) {
+headerInfo.sync = function (options, spawnOptions) {
     if (options === void 0) { options = {}; }
-    if (spawnOpts === void 0) { spawnOpts = {}; }
+    if (spawnOptions === void 0) { spawnOptions = {}; }
     options = __assign(__assign({}, options), { verbose: 0 });
     var _a = mapArguments(['-HDRINFO'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    return spawnMakensisSync(cmd, args, opts, spawnOpts);
+    return spawnMakensisSync(cmd, args, opts, spawnOptions);
 };
 /**
  * Returns MakeNSIS software license
  * @param options - compiler options
  * @returns - compiler license
  */
-license.sync = function (options, spawnOpts) {
+license.sync = function (options, spawnOptions) {
     if (options === void 0) { options = {}; }
-    if (spawnOpts === void 0) { spawnOpts = {}; }
+    if (spawnOptions === void 0) { spawnOptions = {}; }
     var _a = mapArguments(['-LICENSE'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    return spawnMakensisSync(cmd, args, opts, spawnOpts);
+    return spawnMakensisSync(cmd, args, opts, spawnOptions);
 };
 /**
  * Returns NSIS directory
@@ -8701,24 +8701,24 @@ nsisDir.sync = function (options) {
  * @param options - compiler options
  * @returns - compiler version
  */
-version.sync = function (options, spawnOpts) {
+version.sync = function (options, spawnOptions) {
     if (options === void 0) { options = {}; }
-    if (spawnOpts === void 0) { spawnOpts = {}; }
+    if (spawnOptions === void 0) { spawnOptions = {}; }
     options = __assign(__assign({}, options), { verbose: 0 });
     var _a = mapArguments(['-VERSION'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    return spawnMakensisSync(cmd, args, opts, spawnOpts);
+    return spawnMakensisSync(cmd, args, opts, spawnOptions);
 };
 // Aliases
-function cmdHelp(command, options, spawnOpts) {
+function cmdHelp(command, options, spawnOptions) {
     if (command === void 0) { command = ''; }
     if (options === void 0) { options = {}; }
-    if (spawnOpts === void 0) { spawnOpts = {}; }
+    if (spawnOptions === void 0) { spawnOptions = {}; }
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     console.warn(chalk.yellow('makensis: cmdHelp() has been deprecated and will be removed in v1.0.0, please use commandHelp() instead'));
-                    return [4 /*yield*/, commandHelp(command, options, spawnOpts)];
+                    return [4 /*yield*/, commandHelp(command, options, spawnOptions)];
                 case 1: return [2 /*return*/, _a.sent()];
             }
         });
@@ -8736,12 +8736,12 @@ function hdrInfo() {
         });
     });
 }
-cmdHelp.sync = function (command, options, spawnOpts) {
+cmdHelp.sync = function (command, options, spawnOptions) {
     if (command === void 0) { command = ''; }
     if (options === void 0) { options = {}; }
-    if (spawnOpts === void 0) { spawnOpts = {}; }
+    if (spawnOptions === void 0) { spawnOptions = {}; }
     console.warn(chalk.yellow('makensis: cmdHelp() has been deprecated and will be removed in v1.0.0, please use commandHelp() instead'));
-    return commandHelp.sync(command, options, spawnOpts);
+    return commandHelp.sync(command, options, spawnOptions);
 };
 hdrInfo.sync = function () {
     console.warn(chalk.yellow('makensis: hdrInfo() has been deprecated and will be removed in v1.0.0, please use headerInfo() instead'));
