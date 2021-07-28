@@ -91,7 +91,7 @@ console.log('Compiler output:', output);
 
 ### Methods
 
-**Note:** Any of the following methods is asynchronous. To use their synchronous counterpart, append `.sync()` to the method name, e.g. `compile.sync()`.
+**Note:** Any of the following methods is asynchronous. To use their synchronous counterpart, append `.sync()` to the method name, e.g. `compile.sync()` instead of `compile()`.
 
 #### commandHelp
 
