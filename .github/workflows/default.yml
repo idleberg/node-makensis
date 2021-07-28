@@ -39,7 +39,7 @@ jobs:
         scoop bucket add nsis https://github.com/NSIS-Dev/scoop-nsis
         scoop install nsis/nsis
 
-    - name: Print NSIS versions
+    - name: Print NSIS version
       run: makensis -VERSION
 
     - name: Print NSIS header info
