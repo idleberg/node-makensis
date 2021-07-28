@@ -6,6 +6,8 @@ import {
   splitCommands
 } from './util';
 
+import chalk from 'chalk';
+
 import type { SpawnOptions } from 'child_process';
 import type makensis from '../types';
 
@@ -213,29 +215,65 @@ version.sync = (options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions 
   return spawnMakensisSync(cmd, args, opts, spawnOpts);
 }
 
-
-
 // Aliases
 async function cmdHelp(command = '', options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
-  console.warn('makensis: cmdHelp() has been deprecated and will be removed in future versions, please use commandHelp() instead');
+  console.warn(chalk.yellow('makensis: cmdHelp() has been deprecated and will be removed in v1.0.0, please use commandHelp() instead'));
 
   return await commandHelp(command, options, spawnOpts);
 }
 
 async function hdrInfo(): Promise<makensis.CompilerOutput> {
-  console.warn('makensis: hdrInfo() has been deprecated and will be removed in future versions, please use headerInfo() instead');
+  console.warn(chalk.yellow('makensis: hdrInfo() has been deprecated and will be removed in v1.0.0, please use headerInfo() instead'));
 
   return await headerInfo();
 }
 
+function commandHelpSync(command = '', options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): makensis.CompilerOutput {
+  console.warn(chalk.yellow('makensis: commandHelpSync() has been deprecated and will be removed in v1.0.0, please use commandHelp.sync() instead'));
+
+  return commandHelp.sync(command, options, spawnOpts);
+}
+
+function compileSync(script: string, options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): makensis.CompilerOutput {
+  console.warn(chalk.yellow('makensis: compileSync() has been deprecated and will be removed in v1.0.0, please use compile.sync() instead'));
+
+  return compile.sync(script, options, spawnOpts);
+}
+
+function headerInfoSync(options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): makensis.CompilerOutput {
+  console.warn(chalk.yellow('makensis: headerInfoSync() has been deprecated and will be removed in v1.0.0, please use headerInfo.sync() instead'));
+
+  return headerInfo.sync(options, spawnOpts);
+}
+
+function licenseSync(options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): makensis.CompilerOutput {
+  console.warn(chalk.yellow('makensis: licenseSync() has been deprecated and will be removed in v1.0.0, please use license.sync() instead'));
+
+  return license.sync(options, spawnOpts);
+}
+
+function nsisDirSync(options: makensis.CompilerOptions = {}): string | unknown {
+  console.warn(chalk.yellow('makensis: nsisDirSync() has been deprecated and will be removed in v1.0.0, please use nsisDir.sync() instead'));
+
+  return nsisDir.sync(options);
+}
+
+function versionSync(options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): makensis.CompilerOutput {
+  console.warn(chalk.yellow('makensis: versionSync() has been deprecated and will be removed in v1.0.0, please use version.sync() instead'));
+
+  return version.sync(options, spawnOpts);
+}
+
+
+
 cmdHelp.sync = (command = '', options: makensis.CompilerOptions = {}, spawnOpts: SpawnOptions = {}): makensis.CompilerOutput => {
-  console.warn('makensis: cmdHelp() has been deprecated and will be removed in future versions, please use commandHelp() instead');
+  console.warn(chalk.yellow('makensis: cmdHelp() has been deprecated and will be removed in v1.0.0, please use commandHelp() instead'));
 
   return commandHelp.sync(command, options, spawnOpts);
 }
 
 hdrInfo.sync = (): makensis.CompilerOutput => {
-  console.warn('makensis: cmdHelp() has been deprecated and will be removed in future versions, please use commandHelp() instead');
+  console.warn(chalk.yellow('makensis: hdrInfo() has been deprecated and will be removed in v1.0.0, please use headerInfo() instead'));
 
   return headerInfo.sync();
 }
@@ -250,5 +288,11 @@ export {
 
   // Aliases
   cmdHelp,
-  hdrInfo
+  hdrInfo,
+  commandHelpSync,
+  compileSync,
+  headerInfoSync,
+  licenseSync,
+  nsisDirSync,
+  versionSync,
 };
