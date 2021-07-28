@@ -175,7 +175,7 @@ function formatOutput(stream, args, opts: makensis.CompilerOptions): makensis.St
   return stream;
 }
 
-function objectify(input: string, key: string | null): unknown {
+function objectify(input: string, key: string | null): Record<string, unknown> {
   let output: any = {};
 
   if (key === 'version' && input.startsWith('v')) {
@@ -191,7 +191,7 @@ function objectify(input: string, key: string | null): unknown {
   return output;
 }
 
-function objectifyHelp(input: string, opts: makensis.CompilerOptions): unknown {
+function objectifyHelp(input: string, opts: makensis.CompilerOptions): Record<string, unknown> {
   const lines = splitLines(input, opts);
   lines.sort();
 
@@ -213,7 +213,7 @@ function objectifyHelp(input: string, opts: makensis.CompilerOptions): unknown {
   return output;
 }
 
-function objectifyFlags(input: string, opts: makensis.CompilerOptions): unknown {
+function objectifyFlags(input: string, opts: makensis.CompilerOptions): Record<string, unknown> {
   const lines = splitLines(input, opts);
 
   const filteredLines = lines.filter(line => {
