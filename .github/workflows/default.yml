@@ -39,10 +39,11 @@ jobs:
         scoop bucket add nsis https://github.com/NSIS-Dev/scoop-nsis
         scoop install nsis/nsis
 
-    - name: Print NSIS details
-      run: |
-        makensis -VERSION
-        makensis -HDRINFO
+    - name: Print NSIS versions
+      run: makensis -VERSION
+
+    - name: Print NSIS header info
+      run: makensis -HDRINFO
 
     - name: Cache node modules
       uses: actions/cache@v2
