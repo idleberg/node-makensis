@@ -63,7 +63,7 @@ import * as NSIS from 'makensis';
 const options = {
     verbose: 2,
     define: {
-        SPECIAL_BUILD: true,
+        SPECIAL_BUILD: true
     }
 };
 
