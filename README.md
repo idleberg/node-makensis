@@ -64,7 +64,7 @@ const options = {
     verbose: 2,
     define: {
         SPECIAL_BUILD: true,
-    },
+    }
 };
 
 // Asynchronous: async/await
