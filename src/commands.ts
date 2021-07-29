@@ -84,7 +84,7 @@ function license(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOpti
  * @param options - compiler options
  * @returns - NSIS directory
  */
-async function nsisDir(options: makensis.CompilerOptions = {}): Promise<string | unknown> {
+async function nsisDir(options: makensis.CompilerOptions = {}): Promise<string | JSON> {
   const hdrOptions = { ...options, json: true };
 
   function handler(hdrinfo) {
@@ -189,7 +189,7 @@ headerInfo.sync = (options: makensis.CompilerOptions = {}, spawnOptions: SpawnOp
  * @param options - compiler options
  * @returns - compiler version
  */
-nsisDir.sync = (options: makensis.CompilerOptions = {}): string | unknown => {
+nsisDir.sync = (options: makensis.CompilerOptions = {}): string | JSON => {
   const hdrOptions = { ...options, json: true };
   const hdrinfo: any = headerInfo.sync(hdrOptions);
 
