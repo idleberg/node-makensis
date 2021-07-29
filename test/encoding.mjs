@@ -1,9 +1,7 @@
 /* eslint-disable */
-
-// Dependencies
 import { compile } from '../dist/makensis.mjs';
-import { platform } from 'os';
-import path from 'path';
+import { platform } from 'node:os';
+import path from 'node:path';
 import test from 'ava';
 
 const __dirname = path.resolve(path.dirname(''));
