@@ -61,8 +61,8 @@
     "lint": "npm-run-all --parallel lint:*",
     "prepublishOnly": "npm run lint && npm run build",
     "start": "rollup -w -c",
-    "test": "ava ./test/commands.*js ./test/encoding.*js --verbose",
-    "test:wine": "cross-env WINEDEBUG=-all ava ./test/wine.*js --verbose --timeout 2m",
+    "test": "ava ./test/*.test.*js --verbose",
+    "test:wine": "cross-env WINEDEBUG=-all ava ./test/wine/*.test.*js --verbose --timeout 2m",
     "prepare": "husky install"
   },
   "prettier": {
