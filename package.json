@@ -28,6 +28,7 @@
     "quoted-string-space-split": "^1.0.0"
   },
   "devDependencies": {
+    "@ava/babel": "^2.0.0",
     "@rollup/plugin-commonjs": "^19.0.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-typescript": "^8.2.3",
@@ -48,7 +49,8 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.54.0",
     "tslib": "^2.3.0",
-    "typescript": "4.3.5"
+    "typescript": "4.3.5",
+    "which": "^2.0.2"
   },
   "scripts": {
     "build": "rollup -c",
@@ -67,6 +69,9 @@
     "semi": true,
     "singleQuote": true,
     "tabWidth": 4
+  },
+  "ava": {
+    "babel": true
   },
   "lint-staged": {
     "*.ts": "eslint --cache --fix",

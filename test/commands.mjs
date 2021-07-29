@@ -1,12 +1,10 @@
-/* eslint-disable */
-
-// Dependencies
 import { existsSync } from 'fs';
 import { platform } from 'os';
 import { spawnSync } from 'child_process';
 import * as MakeNSIS from '../dist/makensis.mjs';
 import path from 'path';
 import test from 'ava';
+import which from 'which';
 
 // Generate script using compiler flags
 const nullDevice = platform() === 'win32' ? 'NUL' : '/dev/null';
@@ -28,20 +26,26 @@ const scriptFile = {
 };
 
 // Expected values
-const commandHelp =
-    spawnSync('makensis', ['-CMDHELP']).stdout.toString().trim() ||
-    spawnSync('makensis', ['-CMDHELP']).stderr.toString().trim();
-const headerInfo = spawnSync('makensis', ['-HDRINFO']).stdout.toString().trim();
-const outFile =
-    spawnSync('makensis', ['-CMDHELP', 'OutFile']).stdout.toString().trim() ||
-    spawnSync('makensis', ['-CMDHELP', 'OutFile']).stderr.toString().trim();
-const license = spawnSync('makensis', ['-LICENSE']).stdout.toString().trim();
-const version = spawnSync('makensis', ['-VERSION']).stdout.toString().trim();
+let cp;
+
+cp = spawnSync('makensis', ['-CMDHELP']);
+const commandHelp = cp.stdout.toString().trim() || cp.stderr.toString().trim();
+
+cp = spawnSync('makensis', ['-CMDHELP', 'OutFile']);
+const outFile = cp.stdout.toString().trim() || cp.stderr.toString().trim();
+
+cp = spawnSync('makensis', ['-HDRINFO']);
+const headerInfo = cp.stdout.toString().trim() || cp.stderr.toString().trim();
+
+cp = spawnSync('makensis', ['-LICENSE']);
+const license = cp.stdout.toString().trim() || cp.stderr.toString().trim();
+
+cp = spawnSync('makensis', ['-VERSION']);
+const version = cp.stdout.toString().trim() || cp.stderr.toString().trim();
 
 // Let's run the tests
-test(`MakeNSIS ${version} found in PATH environmental variable`, (t) => {
-    const which = platform() === 'win32' ? 'where' : 'which';
-    const actual = spawnSync(which, ['makensis']).stdout.toString().trim();
+test(`MakeNSIS ${version} found in PATH environmental variable`, async t => {
+    const actual = await which('makensis');
 
     t.not(actual, '');
 });

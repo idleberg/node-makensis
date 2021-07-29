@@ -11,8 +11,10 @@ const script = {
     // cp850: join(__dirname, 'fixtures', 'cp850.nsi'),
     utf8: path.join(__dirname, 'fixtures', 'utf8.nsi'),
 };
+
 const nullDevice = platform() === 'win32' ? 'NUL' : '/dev/null';
-let options = {
+
+const defaultOptions = {
     strict: true,
     define: {
         NULL_DEVICE: nullDevice,
@@ -21,7 +23,7 @@ let options = {
 
 // Let's run the tests
 test('Compile script with correct charset', (t) => {
-    options = { ...options, inputCharset: 'UTF8' };
+    const options = { ...defaultOptions, inputCharset: 'UTF8' };
 
     const expected = '';
     const actual = compile.sync(script['utf8'], options).stderr;
@@ -30,7 +32,7 @@ test('Compile script with correct charset', (t) => {
 });
 
 test('Compile script with incorrect charset', (t) => {
-    options = { ...options, inputCharset: 'UTF16BE' };
+    const options = { ...defaultOptions, inputCharset: 'UTF16BE' };
 
     const expected = 0;
     const actual = compile.sync(script['utf8'], options).status;
@@ -39,7 +41,7 @@ test('Compile script with incorrect charset', (t) => {
 });
 
 test('Compile script with correct charset [async]', async (t) => {
-    options = { ...options, inputCharset: 'UTF8' };
+    const options = { ...defaultOptions, inputCharset: 'UTF8' };
 
     try {
         const { status } = await compile(script['utf8'], options);
@@ -60,7 +62,7 @@ test('Compile script with correct charset [async]', async (t) => {
 });
 
 test('Compile script with incorrect charset [async]', async (t) => {
-    options = { ...options, inputCharset: 'UTF16BE' };
+    const options = { ...defaultOptions, inputCharset: 'UTF16BE' };
 
     try {
         const { status } = compile(script['utf8'], options);
