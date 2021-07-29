@@ -35,6 +35,7 @@
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
     "ava": "^3.15.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.31.0",
     "husky": "^7.0.0",
     "jsonlint": "^1.6.3",
@@ -59,7 +60,7 @@
     "prepublishOnly": "npm run lint && npm run build",
     "start": "rollup -w -c",
     "test": "ava ./test/commands.*js ./test/encoding.*js --verbose",
-    "test:wine": "WINEDEBUG=-all ava ./test/wine.*js --verbose --timeout 2m",
+    "test:wine": "cross-env WINEDEBUG=-all ava ./test/wine.*js --verbose --timeout 2m",
     "prepare": "husky install"
   },
   "prettier": {
