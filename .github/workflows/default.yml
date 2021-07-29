@@ -22,7 +22,7 @@ jobs:
     - name: Install NSIS (macOS)
       if: matrix.os == 'macos-latest'
       run: |
-        brew update && brew install nsis
+        brew update
         brew install nsis
 
     - name: Install NSIS (Ubuntu)
