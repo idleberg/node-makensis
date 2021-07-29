@@ -1,6 +1,4 @@
 /* eslint-disable */
-
-// Dependencies
 const { compile } = require('../dist/makensis.cjs');
 const { platform } = require('os');
 const path = require('path');

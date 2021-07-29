@@ -1,11 +1,9 @@
 /* eslint-disable */
-
-// Dependencies
-import { existsSync } from 'fs';
-import { platform } from 'os';
-import { spawnSync } from 'child_process';
+import { existsSync } from 'node:fs';
+import { platform } from 'node:os';
+import { spawnSync } from 'node:child_process';
 import * as MakeNSIS from '../dist/makensis.mjs';
-import path from 'path';
+import path from 'node:path';
 import test from 'ava';
 
 // Generate script using compiler flags

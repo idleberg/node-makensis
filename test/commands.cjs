@@ -1,9 +1,7 @@
 /* eslint-disable */
-
-// Dependencies
 const { existsSync } = require('fs');
 const { platform } = require('os');
-const { spawnSync } = require('child_process');
+const { shared } = require('./shared');
 const MakeNSIS = require('../dist/makensis.cjs');
 const path = require('path');
 const test = require('ava');
@@ -21,46 +19,29 @@ const defaultScriptArray = [
 ];
 
 const defaultScriptString = defaultScriptArray.join('\n');
-
+ 
 const scriptFile = {
     minimal: path.join(__dirname, 'fixtures', 'utf8.nsi'),
     warning: path.join(__dirname, 'fixtures', 'warnings.nsi'),
 };
 
-// Expected values
-let cp;
-
-cp = spawnSync('makensis', ['-CMDHELP']);
-const commandHelp = cp.stdout.toString().trim() || cp.stderr.toString().trim();
-
-cp = spawnSync('makensis', ['-CMDHELP', 'OutFile']);
-const outFile = cp.stdout.toString().trim() || cp.stderr.toString().trim();
-
-cp = spawnSync('makensis', ['-HDRINFO']);
-const headerInfo = cp.stdout.toString().trim() || cp.stderr.toString().trim();
-
-cp = spawnSync('makensis', ['-LICENSE']);
-const license = cp.stdout.toString().trim() || cp.stderr.toString().trim();
-
-cp = spawnSync('makensis', ['-VERSION']);
-const version = cp.stdout.toString().trim() || cp.stderr.toString().trim();
 
 // Let's run the tests
-test(`MakeNSIS ${version} found in PATH environmental variable`, async t => {
+test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async t => {
     const actual = await which('makensis');
 
     t.not(actual, '');
 });
 
 test('Print makensis version', t => {
-    const expected = version;
+    const expected = shared.version;
     const actual = MakeNSIS.version.sync().stdout;
 
     t.is(actual, expected);
 });
 
 test('Print makensis version as JSON', t => {
-    let expected = version;
+    let expected = shared.version;
     let actual = MakeNSIS.version.sync({ json: true }).stdout;
 
     if (expected.startsWith('v')) {
@@ -77,7 +58,7 @@ test('Print makensis version [async]', async t => {
     try {
         const { stdout } = await MakeNSIS.version();
 
-        const expected = version;
+        const expected = shared.version;
         const actual = stdout;
 
         t.is(actual, expected);
@@ -90,7 +71,7 @@ test('Print makensis version as JSON [async]', async t => {
     try {
         const { stdout } = await MakeNSIS.version({ json: true });
 
-        let expected = version;
+        let expected = shared.version;
 
         if (expected.startsWith('v')) {
             expected = expected.substr(1);
@@ -109,14 +90,14 @@ test('Print makensis version as JSON [async]', async t => {
 });
 
 test('Print makensis license', t => {
-    let expected = license;
+    let expected = shared.license;
     let actual = MakeNSIS.license.sync().stdout;
 
     t.is(actual, expected);
 });
 
 test('Print makensis license as JSON', t => {
-    let expected = license;
+    let expected = shared.license;
     let actual = MakeNSIS.license.sync({ json: true }).stdout;
 
     actual = JSON.stringify(actual);
@@ -129,14 +110,14 @@ test('Print makensis license [async]', async t => {
     try {
         const { stdout } = await MakeNSIS.license();
 
-        const expected = license;
+        const expected = shared.license;
         const actual = stdout;
 
         t.is(actual, expected);
     } catch ({ stdout }) {
         // NSIS < 3.03
         t.log('Legacy NSIS');
-        const expected = license;
+        const expected = shared.license;
         const actual = stdout;
 
         t.is(actual, expected);
@@ -147,7 +128,7 @@ test('Print makensis license as JSON [async]', async t => {
     try {
         const { stdout } = await MakeNSIS.license({ json: true });
 
-        let expected = license;
+        let expected = shared.license;
         expected = JSON.stringify({ license: expected });
 
         let actual = stdout;
@@ -158,7 +139,7 @@ test('Print makensis license as JSON [async]', async t => {
     } catch ({ stdout }) {
         // NSIS < 3.03
         t.log('Legacy NSIS');
-        let expected = license;
+        let expected = shared.license;
         expected = JSON.stringify({ license: expected });
 
         let actual = stdout;
@@ -170,7 +151,7 @@ test('Print makensis license as JSON [async]', async t => {
 });
 
 test('Print compiler information', t => {
-    const expected = headerInfo;
+    const expected = shared.headerInfo;
     const actual = MakeNSIS.headerInfo.sync().stdout;
 
     t.is(actual, expected);
@@ -188,14 +169,14 @@ test('Print compiler information [async]', async t => {
     try {
         const { stdout } = await MakeNSIS.headerInfo();
 
-        const expected = headerInfo;
+        const expected = shared.headerInfo;
         const actual = stdout;
 
         t.is(actual, expected);
     } catch ({ stdout }) {
         // NSIS < 3.03
         t.log('Legacy NSIS');
-        const expected = headerInfo;
+        const expected = shared.headerInfo;
         const actual = stdout;
 
         t.is(actual, expected);
@@ -203,7 +184,7 @@ test('Print compiler information [async]', async t => {
 });
 
 test('Print help for all commands', t => {
-    const expected = commandHelp;
+    const expected = shared.commandHelp;
     const actual = MakeNSIS.commandHelp.sync().stdout;
 
     t.is(actual, expected);
@@ -212,7 +193,7 @@ test('Print help for all commands', t => {
 test('Print help for all commands [async]', async t => {
     return Promise.resolve(MakeNSIS.commandHelp())
         .then((output) => {
-            const expected = commandHelp.replace(/\s+/g, '');
+            const expected = shared.commandHelp.replace(/\s+/g, '');
             const actual = output.stdout.replace(/\s+/g, '');
 
             t.is(actual, expected);
@@ -220,7 +201,7 @@ test('Print help for all commands [async]', async t => {
         .catch(({ stdout }) => {
             // NSIS < 3.03
             t.log('Legacy NSIS');
-            const expected = commandHelp.replace(/\s+/g, '');
+            const expected = shared.commandHelp.replace(/\s+/g, '');
             const actual = stdout.replace(/\s+/g, '');
 
             t.is(actual, expected);
@@ -228,7 +209,7 @@ test('Print help for all commands [async]', async t => {
 });
 
 test('Print help for OutFile command', t => {
-    const expected = outFile;
+    const expected = shared.outFile;
     const actual = MakeNSIS.commandHelp.sync('OutFile').stdout;
 
     t.is(actual, expected);
@@ -238,14 +219,14 @@ test('Print help for OutFile command [async]', async t => {
     try {
         const { stdout } = await MakeNSIS.commandHelp('OutFile');
 
-        const expected = outFile;
+        const expected = shared.outFile;
         const actual = stdout;
 
         t.is(actual, expected);
     } catch ({ stdout }) {
         // NSIS < 3.03
         t.log('Legacy NSIS');
-        const expected = outFile;
+        const expected = shared.outFile;
         const actual = stdout;
 
         t.is(actual, expected);
@@ -253,7 +234,7 @@ test('Print help for OutFile command [async]', async t => {
 });
 
 test('Print help for OutFile command as JSON', t => {
-    let expected = outFile;
+    let expected = shared.outFile;
     let actual = MakeNSIS.commandHelp.sync('OutFile', { json: true }).stdout;
 
     actual = JSON.stringify(actual);

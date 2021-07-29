@@ -1,6 +1,4 @@
 /* eslint-disable */
-
-// Dependencies
 const { existsSync } = require('fs');
 const { platform } = require('os');
 const { spawnSync } = require('child_process');
