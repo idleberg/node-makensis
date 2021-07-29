@@ -1,5 +1,6 @@
 /* eslint-disable */
 const { compile } = require('../dist/makensis.cjs');
+const { nullDevice } = require('./shared');
 const { platform } = require('os');
 const path = require('path');
 const test = require('ava');
@@ -9,8 +10,6 @@ const script = {
     // cp850: join(__dirname, 'fixtures', 'cp850.nsi'),
     utf8: path.join(__dirname, 'fixtures', 'utf8.nsi'),
 };
-
-const nullDevice = platform() === 'win32' ? 'NUL' : '/dev/null';
 
 const defaultOptions = {
     strict: true,

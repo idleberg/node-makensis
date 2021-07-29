@@ -1,9 +1,12 @@
 /* eslint-disable */
 import { compile } from '../dist/makensis.mjs';
-import { platform } from 'node:os';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import test from 'ava';
 
+// Temporary workarounds
+const require = createRequire(import.meta.url);
+const { nullDevice } = require('./shared');
 const __dirname = path.resolve(path.dirname(''));
 
 // Compiler arguments
@@ -11,8 +14,6 @@ const script = {
     // cp850: join(__dirname, 'fixtures', 'cp850.nsi'),
     utf8: path.join(__dirname, 'test', 'fixtures', 'utf8.nsi'),
 };
-
-const nullDevice = platform() === 'win32' ? 'NUL' : '/dev/null';
 
 const defaultOptions = {
     strict: true,
