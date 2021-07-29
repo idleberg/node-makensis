@@ -1,30 +1,15 @@
 /* eslint-disable */
 const { existsSync } = require('fs');
-const { platform } = require('os');
-const { shared } = require('./shared');
+const { defaultScriptArray, defaultScriptString, nullDevice, shared } = require('./shared');
 const MakeNSIS = require('../dist/makensis.cjs');
 const path = require('path');
 const test = require('ava');
 const which = require('which');
-
-// Generate script using compiler flags
-const nullDevice = platform() === 'win32' ? 'NUL' : '/dev/null';
-
-const defaultScriptArray = [
-    `OutFile ${nullDevice}`,
-    `Unicode true`,
-    `Section -default`,
-    `Nop`,
-    `SectionEnd`,
-];
-
-const defaultScriptString = defaultScriptArray.join('\n');
  
 const scriptFile = {
     minimal: path.join(__dirname, 'fixtures', 'utf8.nsi'),
     warning: path.join(__dirname, 'fixtures', 'warnings.nsi'),
 };
-
 
 // Let's run the tests
 test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async t => {

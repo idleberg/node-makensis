@@ -1,28 +1,14 @@
 /* eslint-disable */
 import { existsSync } from 'node:fs';
-import { platform } from 'node:os';
 import { createRequire } from 'node:module';
 import * as MakeNSIS from '../dist/makensis.mjs';
 import path from 'node:path';
 import test from 'ava';
 import which from 'which';
 
-// Temporary workaroudn
+// Temporary workarounds
 const require = createRequire(import.meta.url);
-const { shared } = require('./shared');
-
-// Generate script using compiler flags
-const nullDevice = platform() === 'win32' ? 'NUL' : '/dev/null';
-
-const defaultScriptArray = [
-    `OutFile ${nullDevice}`,
-    `Unicode true`,
-    `Section -default`,
-    `Nop`,
-    `SectionEnd`,
-];
-
-const defaultScriptString = defaultScriptArray.join('\n');
+const { defaultScriptArray, defaultScriptString, nullDevice, shared } = require('./shared');
 const __dirname = path.resolve(path.dirname(''));
 
 const scriptFile = {
