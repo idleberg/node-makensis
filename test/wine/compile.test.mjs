@@ -173,7 +173,7 @@ test('Compilation with error', (t) => {
 test('Compilation with raw arguments string', (t) => {
     const expected = '';
     const actual = MakeNSIS.compile.sync(scriptFile.minimal, {
-        rawArguments: '-V0',
+        rawArguments: '-V0 -X"!echo `Game Over`"',
         wine: true,
     }).stdout;
 
@@ -186,7 +186,7 @@ test('Compilation with raw arguments string [async]', async (t) => {
             define: {
                 NULL_DEVICE: nullDevice,
             },
-            rawArguments: '-V0',
+            rawArguments: '-V0 -X"!echo `Game Over`"',
             wine: true,
         });
 
@@ -203,7 +203,7 @@ test('Compilation with raw arguments string [async]', async (t) => {
 test('Compilation with raw arguments array', (t) => {
     const expected = '';
     const actual = MakeNSIS.compile.sync(scriptFile.minimal, {
-        rawArguments: ['-V0'],
+        rawArguments: ['-V0', '-X"!echo \"EOF\""'],
         wine: true,
     }).stdout;
 
@@ -216,7 +216,7 @@ test('Compilation with raw arguments array [async]', async (t) => {
             define: {
                 NULL_DEVICE: nullDevice,
             },
-            rawArguments: '-V0',
+            rawArguments: '-V0 -X"!echo `Game Over`"',
             wine: true,
         });
 
