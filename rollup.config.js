@@ -15,6 +15,7 @@ const compilerOptions = {
 };
 
 const external = [
+  '@nsis/language-data',
   'child_process',
   'events',
   'os',
