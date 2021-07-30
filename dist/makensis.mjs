@@ -818,33 +818,33 @@ var strings$11 = {
 	UninstallingSubCaption: ": Po çinstalohet",
 	UnCompletedSubCaption: ": U plotësua",
 	BackBtn: "< &Mbrapsht",
-	NextBtn: "&Tjetri >",
+	NextBtn: "&Pasuesi >",
 	AgreeBtn: "&Pajtohem",
-	AcceptBtn: "&I pranoj kushtet e Marrëveshjes së Licensës",
-	DontAcceptBtn: "&Nuk i pranoj kushtet e Marrëveshjes së Licensës",
+	AcceptBtn: "&I pranoj kushtet e Marrëveshjes së Licencës",
+	DontAcceptBtn: "&Nuk i pranoj kushtet e Marrëveshjes së Licencës",
 	InstallBtn: "&Instaloje",
 	UninstallBtn: "&Çinstaloje",
 	CancelBtn: "Anuloje",
 	CloseBtn: "&Mbylle",
-	BrowseBtn: "Sh&fletoni...",
+	BrowseBtn: "Sh&fletoni…",
 	ShowDetailsBtn: "Shfaq &hollësi",
-	ClickNext: "Klikoni Tjetri për të vazhduar.",
-	ClickInstall: "Për të filluar instalimin klikoni Instaloje.",
-	ClickUninstall: "Për të filluar çinstalimin klikoni Çinstaloje.",
+	ClickNext: "Që të vazhdohet, klikoni Pasuesi.",
+	ClickInstall: "Që të fillojë instalimi, klikoni Instaloje.",
+	ClickUninstall: "Që të fillojë çinstalimi, klikoni Çinstaloje.",
 	Name: "Emër",
 	Completed: "U plotësua",
-	LicenseText: "Ju lutem, para instalimit të $(^NameDA), shqyrtoni marrëveshjen e licencës. Nëse i pranoni tërë kushtet e marrëveshjes, klikoni Pajtohem.",
-	LicenseTextCB: "Ju lutem, para instalimit të $(^NameDA), shqyrtoni marrëveshjen e licensës. Nëse i pranoni tërë kushtet e marrëveshjes, klikoni kutizën më poshtë. $_CLICK",
-	LicenseTextRB: "Ju lutem, para instalimit të $(^NameDA), shqyrtoni marrëveshjen e licensës. Nëse i pranoni tërë kushtet e marrëveshjes, përzgjidhni mundësinë e parë më poshtë. $_CLICK",
-	UnLicenseText: "Ju lutem, para çinstalimit të $(^NameDA), shqyrtoni marrëveshjen e licensës. Nëse i pranoni tërë kushtet e marrëveshjes, klikoni Pajtohem.",
-	UnLicenseTextCB: "Ju lutem, para çinstalimit të $(^NameDA), shqyrtoni marrëveshjen e licensës. Nëse i pranoni tërë kushtet e marrëveshjes, klikoni kutizën më poshtë. $_CLICK",
-	UnLicenseTextRB: "Ju lutem, para çinstalimit të $(^NameDA), shqyrtoni marrëveshjen e licensës. Nëse i pranoni tërë kushtet e marrëveshjes, përzgjidhni mundësinë e parë më poshtë. $_CLICK",
+	LicenseText: "Ju lutemi, para instalimit të $(^NameDA), shqyrtoni marrëveshjen e licencës. Nëse i pranoni tërë kushtet e marrëveshjes, klikoni Pajtohem.",
+	LicenseTextCB: "Ju lutemi, para instalimit të $(^NameDA), shqyrtoni marrëveshjen e licencës. Nëse i pranoni tërë kushtet e marrëveshjes, klikoni kutizën më poshtë. $_CLICK",
+	LicenseTextRB: "Ju lutemi, para instalimit të $(^NameDA), shqyrtoni marrëveshjen e licencës. Nëse i pranoni tërë kushtet e marrëveshjes, përzgjidhni mundësinë e parë më poshtë. $_CLICK",
+	UnLicenseText: "Ju lutemi, para çinstalimit të $(^NameDA), shqyrtoni marrëveshjen e licencës. Nëse i pranoni tërë kushtet e marrëveshjes, klikoni Pajtohem.",
+	UnLicenseTextCB: "Ju lutemi, para çinstalimit të $(^NameDA), shqyrtoni marrëveshjen e licencës. Nëse i pranoni tërë kushtet e marrëveshjes, klikoni kutizën më poshtë. $_CLICK",
+	UnLicenseTextRB: "Ju lutemi, para çinstalimit të $(^NameDA), shqyrtoni marrëveshjen e licencës. Nëse i pranoni tërë kushtet e marrëveshjes, përzgjidhni mundësinë e parë më poshtë. $_CLICK",
 	Custom: "Vetjake",
-	ComponentsText: "U vini shenjë përbërësve që doni të instalohen dhe hiquani shenjën  përbërësvet që nuk doni të instalohen. $_CLICK",
+	ComponentsText: "U vini shenjë përbërësve që doni të instalohen dhe hiquani shenjën  përbërësve që s’doni të instalohen. $_CLICK",
 	ComponentsSubText1: "Përzgjidhni llojin e instalimit:",
 	ComponentsSubText2_NoInstTypes: "Përzgjidhni përbërësit për instalim:",
 	ComponentsSubText2: "Ose, përzgjidhni përbërësit e mundshëm që doni të instalohen:",
-	UnComponentsText: "U vini shenjë përbërësve që doni të çinstalohen dhe hiquni shenjën përbërësve që nuk doni të çinstalohen. $_CLICK",
+	UnComponentsText: "U vini shenjë përbërësve që doni të çinstalohen dhe hiquni shenjën përbërësve që s’doni të çinstalohen. $_CLICK",
 	UnComponentsSubText1: "Përzgjidhni llojin e çinstalimit:",
 	UnComponentsSubText2_NoInstTypes: "Përzgjidhni përbërësit për çinstalim:",
 	UnComponentsSubText2: "Ose, përzgjidhni përbërësit e mundshëm që doni të çinstalohen:",
@@ -858,15 +858,15 @@ var strings$11 = {
 	SpaceRequired: "\"Hapësirë e nevojshme: \"",
 	UninstallingText: "$(^NameDA) do të çinstalohet prej dosjes vijuese. $_CLICK",
 	UninstallingSubText: "Po çinstalohet prej:",
-	FileError: "Gabim në hapje kartele për shkrim: \\r\\n\\r\\n$0\\r\\n\\r\\nKlikoni Ndërprite për të ndalur instalimin,\\r\\nRiprovo për të provuar sërish, ose\\r\\nShpërfille për të sanashkaluar këtë kartelë.",
-	FileError_NoIgnore: "Gabim në hapje kartele për shkrim: \\r\\n\\r\\n$0\\r\\n\\r\\nKlikoni Riprovo për të provuar sërish, ose\\r\\nAnulo për të ndalur instalimin.",
-	CantWrite: "\"S'shkruaj dot: \"",
+	FileError: "Gabim në hapje kartele për shkrim: \\r\\n\\r\\n$0\\r\\n\\r\\nKlikoni Ndërprite për të ndalur instalimin,\\r\\nRiprovo për të provuar sërish, ose\\r\\nShpërfille për të anashkaluar këtë kartelë.",
+	FileError_NoIgnore: "Gabim në hapje kartele për shkrim: \\r\\n\\r\\n$0\\r\\n\\r\\nKlikoni Riprovo për të provuar sërish, ose\\r\\nAnuloje për të ndalur instalimin.",
+	CantWrite: "\"S’shkruhet dot: \"",
 	CopyFailed: "Kopjimi dështoi",
-	CopyTo: "\"Kopjo tek \"",
+	CopyTo: "\"Kopjoje tek \"",
 	Registering: "\"Regjistrim: \"",
 	Unregistering: "\"Çregjistrim: \"",
-	SymbolNotFound: "\"S'u gjet dot simbol: \"",
-	CouldNotLoad: "\"S'u ngarkua dot: \"",
+	SymbolNotFound: "\"S’u gjet dot simbol: \"",
+	CouldNotLoad: "\"S’u ngarkua dot: \"",
 	CreateFolder: "\"Krijo dosje: \"",
 	CreateShortcut: "\"Krijo shkurtore: \"",
 	CreatedUninstaller: "\"Krijo çinstalues: \"",
@@ -887,8 +887,8 @@ var strings$11 = {
 	RenameOnReboot: "\"Riemërtoje gjatë rinisjes: \"",
 	Rename: "\"Riemërtoje: \"",
 	Skipped: "\"U anashkalua: \"",
-	CopyDetails: "Kopjo Hollësira Te Clipboard",
-	LogInstall: "Regjistro procesin e instalimit",
+	CopyDetails: "Kopjo Hollësira Te E Papastra",
+	LogInstall: "Regjistroje procesin e instalimit",
 	Byte: "B",
 	Kilo: " K",
 	Mega: " M",
@@ -1885,90 +1885,90 @@ var code_page$T = 1252;
 var rtl$T = false;
 var strings$T = {
 	Branding: "Nullsoft Install System %s",
-	SetupCaption: "Assistente d'Installazione di $(^Name)",
+	SetupCaption: "Assistente d’installazione di $(^Name)",
 	UninstallCaption: "Disinstallazione di $(^Name)",
-	LicenseSubCaption: ": Cuntrattu d'Utilizazione",
-	ComponentsSubCaption: ": Ozzioni d'Installazione",
-	DirSubCaption: ": Cartulare d'Installazione",
+	LicenseSubCaption: ": Cuntrattu di licenza",
+	ComponentsSubCaption: ": Ozzioni d’installazione",
+	DirSubCaption: ": Cartulare d’installazione",
 	InstallingSubCaption: ": Installazione in corsu",
-	CompletedSubCaption: ": Compiu",
-	UnComponentsSubCaption: ": Ozzioni di Disinstallazione",
-	UnDirSubCaption: ": Cartulare di Disinstallazione",
+	CompletedSubCaption: ": Installazione compia",
+	UnComponentsSubCaption: ": Ozzioni di disinstallazione",
+	UnDirSubCaption: ": Cartulare di disinstallazione",
 	ConfirmSubCaption: ": Cunfirmazione",
 	UninstallingSubCaption: ": Disinstallazione in corsu",
-	UnCompletedSubCaption: ": Compiu",
+	UnCompletedSubCaption: ": Disinstallazione compia",
 	BackBtn: "< &Precedente",
 	NextBtn: "&Seguente >",
 	AgreeBtn: "&Accunsentu",
-	AcceptBtn: "Sò d'&accunsentu cù i termini di u Cuntrattu di Licenza",
-	DontAcceptBtn: "Ùn sò &micca d'accunsentu cù i termini di u Cuntrattu di Licenza",
+	AcceptBtn: "Sò d’&accunsentu cù i termini di u cuntrattu di licenza",
+	DontAcceptBtn: "Ùn sò &micca d’accunsentu cù i termini di u cuntrattu di licenza",
 	InstallBtn: "&Installà",
 	UninstallBtn: "&Disinstallà",
 	CancelBtn: "Abbandunà",
 	CloseBtn: "&Chjode",
 	BrowseBtn: "&Sfuglià...",
 	ShowDetailsBtn: "Affissà i &ditaglii",
-	ClickNext: "Sceglie Seguente per cuntinuà.",
-	ClickInstall: "Sceglie Installà per principià l'installazione.",
-	ClickUninstall: "Sceglie Disinstallà per principià a disinstallazione.",
+	ClickNext: "Sciglite Seguente per cuntinuà.",
+	ClickInstall: "Sciglite Installà per principià l’installazione.",
+	ClickUninstall: "Sciglite Disinstallà per principià a disinstallazione.",
 	Name: "Nome",
 	Completed: "Compiu",
-	LicenseText: "Ci vole à leghje u cuntrattu di licenza nanzu d'installà $(^NameDA). S'è voi site d'accunsentu cù tutti i termini di u cuntrattu, sceglie Accunsentu.",
-	LicenseTextCB: "Ci vole à leghje u cuntrattu di licenza nanzu d'installà $(^NameDA). S'è voi site d'accunsentu cù tutti i termini di u cuntrattu, sceglie a casella inghjò. $_CLICK",
-	LicenseTextRB: "Ci vole à leghje u cuntrattu di licenza nanzu d'installà $(^NameDA). S'è voi site d'accunsentu cù tutti i termini di u cuntrattu, sceglie a prima ozzione inghjò. $_CLICK",
-	UnLicenseText: "Ci vole à leghje u cuntrattu di licenza nanzu di disinstallà $(^NameDA). S'è voi site d'accunsentu cù tutti i termini di u cuntrattu, sceglie Accunsentu.",
-	UnLicenseTextCB: "Ci vole à leghje u cuntrattu di licenza nanzu di disinstallà $(^NameDA). S'è voi site d'accunsentu cù tutti i termini di u cuntrattu, sceglie a casella inghjò. $_CLICK",
-	UnLicenseTextRB: "Ci vole à leghje u cuntrattu di licenza nanzu di disinstallà $(^NameDA). S'è voi site d'accunsentu cù tutti i termini di u cuntrattu, sceglie a prima ozzione inghjò. $_CLICK",
-	Custom: "Persunalizatu",
-	ComponentsText: "Selezziunà i cumpunenti chì voi vulete installà è viutà a casella di quelli ch'ellu ùn ci vole à installà. $_CLICK",
-	ComponentsSubText1: "Selezziunà u tipu d'installazione :",
+	LicenseText: "Ci vole à leghje u cuntrattu di licenza nanzu d’installà $(^NameDA). S’è voi site d’accunsentu cù tutti i termini di u cuntrattu, sciglite Accunsentu.",
+	LicenseTextCB: "Ci vole à leghje u cuntrattu di licenza nanzu d’installà $(^NameDA). S’è voi site d’accunsentu cù tutti i termini di u cuntrattu, sciglite a casella inghjò. $_CLICK",
+	LicenseTextRB: "Ci vole à leghje u cuntrattu di licenza nanzu d’installà $(^NameDA). S’è voi site d’accunsentu cù tutti i termini di u cuntrattu, sciglite a prima ozzione inghjò. $_CLICK",
+	UnLicenseText: "Ci vole à leghje u cuntrattu di licenza nanzu di disinstallà $(^NameDA). S’è voi site d’accunsentu cù tutti i termini di u cuntrattu, sciglite Accunsentu.",
+	UnLicenseTextCB: "Ci vole à leghje u cuntrattu di licenza nanzu di disinstallà $(^NameDA). S’è voi site d’accunsentu cù tutti i termini di u cuntrattu, sciglite a casella inghjò. $_CLICK",
+	UnLicenseTextRB: "Ci vole à leghje u cuntrattu di licenza nanzu di disinstallà $(^NameDA). S’è voi site d’accunsentu cù tutti i termini di u cuntrattu, sciglite a prima ozzione inghjò. $_CLICK",
+	Custom: "Persunalizata",
+	ComponentsText: "Selezziunà i cumpunenti chì voi vulete installà è viutà a casella di quelli ch’ellu ùn ci vole micca à installà. $_CLICK",
+	ComponentsSubText1: "Selezziunà u tipu d’installazione :",
 	ComponentsSubText2_NoInstTypes: "Selezziunà i cumpunenti à installà :",
 	ComponentsSubText2: "Osinnò, selezziunà i cumpunenti addizziunali chì voi vulete installà :",
-	UnComponentsText: "Selezziunà i cumpunenti chì voi vulete disinstallà è viutà a casella di quelli ch'ellu ùn ci vole à disinstallà. $_CLICK",
+	UnComponentsText: "Selezziunà i cumpunenti chì voi vulete disinstallà è viutà a casella di quelli ch’ellu ùn ci vole à disinstallà. $_CLICK",
 	UnComponentsSubText1: "Selezziunà u tipu di disinstallazione :",
 	UnComponentsSubText2_NoInstTypes: "Selezziunà i cumpunenti à disinstallà :",
 	UnComponentsSubText2: "Osinnò, selezziunà i cumpunenti addizziunali chì voi vulete disinstallà :",
-	DirText: "L'Assistente hà da installà $(^NameDA) in quessu cartulare. Per installà in un altru cartulare, sceglie Sfuglià è selezziunà un altru cartulare. $_CLICK",
-	DirSubText: "Cartulare di Destinazione",
-	DirBrowseText: "Selezziunà u cartulare d'installazione di $(^NameDA) :",
-	UnDirText: "L'Assistente hà da disinstallà $(^NameDA) da quessu cartulare. Per disinstallà da un altru cartulare, sceglie Sfuglià è selezziunà un altru cartulare. $_CLICK",
-	UnDirSubText: "Cartulare d'Installazione",
+	DirText: "L’assistente hà da installà $(^NameDA) in quessu cartulare. Per installà in un altru cartulare, sciglite Sfuglià è selezziunà un altru cartulare. $_CLICK",
+	DirSubText: "Cartulare di destinazione",
+	DirBrowseText: "Selezziunà u cartulare d’installazione di $(^NameDA) :",
+	UnDirText: "L’assistente hà da disinstallà $(^NameDA) da quessu cartulare. Per disinstallà da un altru cartulare, sciglite Sfuglià è selezziunà un altru cartulare. $_CLICK",
+	UnDirSubText: "Cartulare d’installazione",
 	UnDirBrowseText: "Selezziunà u cartulare di disinstallazione di $(^NameDA) :",
-	SpaceAvailable: "Spaziu dispunibule : ",
-	SpaceRequired: "Spaziu richiestu : ",
+	SpaceAvailable: "Spaziu dispunibule :",
+	SpaceRequired: "Spaziu richiestu :",
 	UninstallingText: "$(^NameDA) serà disinstallatu da quessu cartulare. $_CLICK",
 	UninstallingSubText: "Disinstallazione da :",
-	FileError: "Sbagliu durante l'accessu in scrittura di u schedariu : \\r\\n\\r\\n$0\\r\\n\\r\\nSceglie Interrompe per piantà l'installazione,\\r\\nTorna per pruvà torna, o\\r\\nIgnurà per ignurà u schedariu.",
-	FileError_NoIgnore: "Sbagliu durante l'accessu in scrittura di u schedariu : \\r\\n\\r\\n$0\\r\\n\\r\\nSceglie Torna per pruvà torna, o\\r\\nAbbandunà per piantà l'installazione.",
-	CantWrite: "Ùn pò micca scrive : ",
-	CopyFailed: "Fiascu di copia",
-	CopyTo: "Cupià ver di ",
-	Registering: "Arregistramentu : ",
-	Unregistering: "Disarregistramentu : ",
-	SymbolNotFound: "Ùn pò micca truvà di simbolu : ",
-	CouldNotLoad: "Ùn pò micca caricà : ",
-	CreateFolder: "Creazione di u cartulare : ",
-	CreateShortcut: "Creazione di l'accurtatoghju : ",
-	CreatedUninstaller: "Assistente di disinstallazione creatu : ",
-	Delete: "Squassatura di schedariu : ",
-	DeleteOnReboot: "Squassatura à l'avviu di l'urdinatore : ",
-	ErrorCreatingShortcut: "Sbagliu durante a creazione di l'accurtatoghju : ",
-	ErrorCreating: "Sbagliu durante a creazione di : ",
-	ErrorDecompressing: "Sbagliu durante a scumprezzione di dati : Stalladore alteratu ?",
-	ErrorRegistering: "Sbagliu durante l'arregistramentu di DLL",
-	ExecShell: "ExecShell : ",
-	Exec: "Eseguisce : ",
-	Extract: "Estrae : ",
-	ErrorWriting: "Estrae : sbagliu di scrittura ver di u schedariu ",
+	FileError: "Sbagliu durante l’accessu in scrittura di u schedariu : \\r\\n\\r\\n$0\\r\\n\\r\\nSciglite Interrompe per piantà l’installazione,\\r\\nTorna per pruvà torna, o\\r\\nIgnurà per ignurà stu schedariu.",
+	FileError_NoIgnore: "Sbagliu durante l’accessu in scrittura di u schedariu : \\r\\n\\r\\n$0\\r\\n\\r\\nSciglite Torna per pruvà torna, o\\r\\nAbbandunà per piantà l’installazione.",
+	CantWrite: "Ùn pò micca scrive :",
+	CopyFailed: "Fiascu di a copia",
+	CopyTo: "Cupià ver di",
+	Registering: "Arregistramentu :",
+	Unregistering: "Disarregistramentu :",
+	SymbolNotFound: "Impussibule di truvà un simbolu :",
+	CouldNotLoad: "Impussibule di caricà :",
+	CreateFolder: "Creazione di u cartulare :",
+	CreateShortcut: "Creazione di l’accurtatoghju :",
+	CreatedUninstaller: "Creazione di l’assistente di disinstallazione :",
+	Delete: "Squassatura di schedariu :",
+	DeleteOnReboot: "Squassatura à l’avviu di l’urdinatore :",
+	ErrorCreatingShortcut: "Sbagliu durante a creazione di l’accurtatoghju :",
+	ErrorCreating: "Sbagliu durante a creazione di :",
+	ErrorDecompressing: "Sbagliu durante a scumprezzione di i dati ! Stalladore alteratu ?",
+	ErrorRegistering: "Sbagliu durante l’arregistramentu di DLL",
+	ExecShell: "ExecShell :",
+	Exec: "Eseguisce :",
+	Extract: "Estrazzione :",
+	ErrorWriting: "Estrazzione : sbagliu di scrittura ver di u schedariu",
 	InvalidOpcode: "Stalladore alteratu : opcode micca accettevule",
-	NoOLE: "Alcunu OLE per : ",
-	OutputFolder: "Cartulare di destinazione : ",
-	RemoveFolder: "Caccià u cartulare : ",
-	RenameOnReboot: "Rinumà à l'avviu di l'urdinatore : ",
-	Rename: "Rinumà : ",
-	Skipped: "Tralasciatu : ",
-	CopyDetails: "Cupià i Ditaglii ver di u Preme'Papei",
-	LogInstall: "Arregistrà u ghjurnale d'installazione",
+	NoOLE: "Alcunu OLE per :",
+	OutputFolder: "Cartulare di destinazione :",
+	RemoveFolder: "Cacciatura di u cartulare :",
+	RenameOnReboot: "Rinumà à l’avviu di l’urdinatore :",
+	Rename: "Rinumà :",
+	Skipped: "Tralasciatu :",
+	CopyDetails: "Cupià i detaglii ver di u preme’papei",
+	LogInstall: "Arregistrà u ghjurnale d’installazione",
 	Byte: "o",
 	Kilo: " K",
 	Mega: " M",
@@ -4263,88 +4263,88 @@ var strings$x = {
 	Branding: "Nullsoft Install System %s",
 	SetupCaption: "$(^Name) セットアップ",
 	UninstallCaption: "$(^Name) アンインストール",
-	LicenseSubCaption: "：ライセンス契約書",
-	ComponentsSubCaption: "：インストール オプション",
-	DirSubCaption: "：インストール フォルダ",
-	InstallingSubCaption: "：インストール",
-	CompletedSubCaption: "：完了",
+	LicenseSubCaption: ":使用許諾契約",
+	ComponentsSubCaption: ":インストール オプション",
+	DirSubCaption: ":インストール フォルダ",
+	InstallingSubCaption: ":インストール",
+	CompletedSubCaption: ":完了",
 	UnComponentsSubCaption: ": アンインストール オプション",
 	UnDirSubCaption: ": アンインストール フォルダ",
-	ConfirmSubCaption: "：確認",
-	UninstallingSubCaption: "：アンインストール",
-	UnCompletedSubCaption: "：完了",
+	ConfirmSubCaption: ":確認",
+	UninstallingSubCaption: ":アンインストール",
+	UnCompletedSubCaption: ":完了",
 	BackBtn: "< 戻る(&B)",
 	NextBtn: "次へ(&N) >",
 	AgreeBtn: "同意する(&A)",
-	AcceptBtn: "このライセンス契約書に同意します(&A)",
-	DontAcceptBtn: "このライセンス契約書には同意できません(&D)",
-	InstallBtn: "インストール",
+	AcceptBtn: "この使用許諾契約に同意する(&A)",
+	DontAcceptBtn: "この使用許諾契約に同意しません(&D)",
+	InstallBtn: "インストール(&I)",
 	UninstallBtn: "ｱﾝｲﾝｽﾄｰﾙ(&U)",
 	CancelBtn: "キャンセル",
 	CloseBtn: "閉じる(&C)",
 	BrowseBtn: "参照(&R)...",
 	ShowDetailsBtn: "詳細を表示(&D)",
-	ClickNext: "続けるには [次へ] をクリックして下さい。",
-	ClickInstall: "インストールを始めるには [インストール] をクリックして下さい。",
-	ClickUninstall: "アンインストールを始めるには [ｱﾝｲﾝｽﾄｰﾙ] をクリックして下さい。",
+	ClickNext: "「次へ」をクリックし続行します。",
+	ClickInstall: "「インストール」をクリックしインストールを開始します。",
+	ClickUninstall: "「アンインストール」をクリックしアンインストールを開始します。",
 	Name: "アプリケーション",
 	Completed: "完了",
-	LicenseText: "$(^NameDA)をインストールする前に、ライセンス契約書を確認して下さい。契約書の全ての条件に同意するならば、[同意する] ボタンをクリックして下さい。",
-	LicenseTextCB: "$(^NameDA)をインストールする前に、ライセンス契約書を確認して下さい。契約書の全ての条件に同意するならば、下のチェックボックスをクリックして下さい。 $_CLICK",
-	LicenseTextRB: "$(^NameDA)をインストールする前に、ライセンス契約書を確認して下さい。契約書の全ての条件に同意するならば、下に表示されているオプションのうち、最初のものを選んで下さい。 $_CLICK",
-	UnLicenseText: "$(^NameDA)をアンインストールする前に、ライセンス契約書を確認して下さい。契約書の全ての条件に同意するならば、[同意する] ボタンをクリックして下さい。",
-	UnLicenseTextCB: "$(^NameDA)をアンインストールする前に、ライセンス契約書を確認して下さい。契約書の全ての条件に同意するならば、下のチェックボックスをクリックして下さい。 $_CLICK",
-	UnLicenseTextRB: "$(^NameDA)をアンインストールする前に、ライセンス契約書を確認して下さい。契約書の全ての条件に同意するならば、下に表示されているオプションのうち、最初のものを選んで下さい。 $_CLICK",
+	LicenseText: "$(^NameDA) をインストールする前に、使用許諾契約を確認してください。契約のすべての条件に同意するなら、「同意する」をクリックしてください。",
+	LicenseTextCB: "$(^NameDA) をインストールする前に、使用許諾契約を確認してください。契約のすべての条件に同意するなら、下のチェックボックスをクリックしてください。 $_CLICK",
+	LicenseTextRB: "$(^NameDA) をインストールする前に、使用許諾契約を確認してください。契約のすべての条件に同意するなら、下の選択肢から最初のものを選択してください。 $_CLICK",
+	UnLicenseText: "$(^NameDA) をアンインストールする前に、使用許諾契約を確認してください。契約のすべての条件に同意するなら、「同意する」をクリックしてください。",
+	UnLicenseTextCB: "$(^NameDA) をアンインストールする前に、使用許諾契約を確認してください。契約のすべての条件に同意するなら、下のチェックボックスをクリックしてください。 $_CLICK",
+	UnLicenseTextRB: "$(^NameDA) をアンインストールする前に、使用許諾契約を確認してください。契約のすべての条件に同意するなら、下の選択肢から最初のものを選択してください。 $_CLICK",
 	Custom: "カスタム",
-	ComponentsText: "インストールしたいコンポーネントにチェックを付けて下さい。不要なものについては、チェックを外して下さい。 $_CLICK",
-	ComponentsSubText1: "インストール タイプを選択：",
-	ComponentsSubText2_NoInstTypes: "インストール コンポーネントを選択：",
-	ComponentsSubText2: "または、インストール オプション コンポーネントを選択：",
-	UnComponentsText: "アンインストールしたいコンポーネントにチェックを付けて下さい。そうでないものについては、チェックを外して下さい。 $_CLICK",
-	UnComponentsSubText1: "アンインストール タイプを選択：",
-	UnComponentsSubText2_NoInstTypes: "アンインストール コンポーネントを選択：",
-	UnComponentsSubText2: "または、アンインストール オプション コンポーネントを選択：",
-	DirText: "$(^NameDA)を以下のフォルダにインストールします。異なったフォルダにインストールするには、[参照] を押して、別のフォルダを選択してください。 $_CLICK",
-	DirSubText: "インストール先 フォルダ",
-	DirBrowseText: "$(^NameDA)をインストールするフォルダを選択してください：",
-	UnDirText: "$(^NameDA)を以下のフォルダからアンインストールします。異なったフォルダからアンインストールするには、[参照] を押して、別のフォルダを選択してください。 $_CLICK",
+	ComponentsText: "インストールしたい構成要素にチェックしてください。不要なものはチェックを外してください。 $_CLICK",
+	ComponentsSubText1: "インストールの種類を選択:",
+	ComponentsSubText2_NoInstTypes: "インストールする構成要素を選択:",
+	ComponentsSubText2: "またはインストールしたい構成要素を選択:",
+	UnComponentsText: "アンインストールしたい構成要素にチェックしてください。そうでないものはチェックを外してください。 $_CLICK",
+	UnComponentsSubText1: "アンインストールの種類を選択:",
+	UnComponentsSubText2_NoInstTypes: "アンインストールする構成要素を選択:",
+	UnComponentsSubText2: "またはアンインストールしたい構成要素を選択:",
+	DirText: "$(^NameDA) を以下のフォルダにインストールします。別のフォルダにインストールするには、「参照」 を押しフォルダを選択してください。 $_CLICK",
+	DirSubText: "インストール先のフォルダ",
+	DirBrowseText: "$(^NameDA) をインストールするフォルダを選択:",
+	UnDirText: "$(^NameDA) を以下のフォルダからアンインストールします。別のフォルダからアンインストールするには、「参照」 を押しフォルダを選択してください。 $_CLICK",
 	UnDirSubText: "\"\"",
-	UnDirBrowseText: "$(^NameDA)をアンインストールするフォルダを選択してください：",
-	SpaceAvailable: "利用可能なディスクスペース： ",
-	SpaceRequired: "必要なディスクスペース： ",
-	UninstallingText: "$(^NameDA)は、以下のフォルダからアンインストールされます。 $_CLICK",
-	UninstallingSubText: "アンインストール元：",
-	FileError: "初期ファイルの作成エラー：\\r\\n\\t\"$0\"\\r\\nインストールを中止するには中止を,\\r\\n再びこのファイルの作成を試みるには再試行を, また\\r\\nこのファイルをスキップして続けるには無視を押してください",
-	FileError_NoIgnore: "初期ファイルの作成エラー: \\r\\n\\t\"$0\"\\r\\n再びこのファイルの作成を試みるには再試行を, また\\r\\nインストールを中止するにはキャンセルを押して下さい",
-	CantWrite: "作成できません：",
-	CopyFailed: "コピーは失敗しました",
-	CopyTo: "コピーします",
+	UnDirBrowseText: "$(^NameDA) をアンインストールするフォルダを選択:",
+	SpaceAvailable: "空き容量: ",
+	SpaceRequired: "必要容量: ",
+	UninstallingText: "$(^NameDA) を以下のフォルダからアンインストールされます。 $_CLICK",
+	UninstallingSubText: "アンインストール元:",
+	FileError: "書き込みファイルオープンのエラー:\\r\\n\\t\"$0\"\\r\\nインストールを中止するには「中止」、\\r\\n再びこのファイルの作成を試みるには「再試行」、\\r\\nこのファイルをスキップして続けるには「無視」を押してください。",
+	FileError_NoIgnore: "書き込みファイルオープンのエラー: \\r\\n\\t\"$0\"\\r\\n再びこのファイルの作成を試みるには「再試行」、\\r\\nインストールを中止するには「キャンセル」を押してください。",
+	CantWrite: "書き込めません:",
+	CopyFailed: "コピー失敗",
+	CopyTo: "コピー",
 	Registering: "登録中:",
 	Unregistering: "登録解除中:",
-	SymbolNotFound: "シンボルを見つけることができません：",
-	CouldNotLoad: "ロードすることができません：",
-	CreateFolder: "フォルダの作成：",
-	CreateShortcut: "ショートカットの作成：",
-	CreatedUninstaller: "アンインストーラの作成：",
-	Delete: "ファイルの削除：",
-	DeleteOnReboot: "リブート時に削除：",
-	ErrorCreatingShortcut: "ショートカットの作成エラー：",
-	ErrorCreating: "作成エラー：",
-	ErrorDecompressing: "データの抽出エラー\\r\\n\\r\\nインストーラが破損しています。",
-	ErrorRegistering: "DLLの登録エラー",
+	SymbolNotFound: "シンボルが見つかりません:",
+	CouldNotLoad: "読み込みに失敗:",
+	CreateFolder: "フォルダ作成:",
+	CreateShortcut: "ショートカット作成:",
+	CreatedUninstaller: "アンインストーラ作成:",
+	Delete: "ファイル削除:",
+	DeleteOnReboot: "再起動時に削除:",
+	ErrorCreatingShortcut: "ショートカット作成エラー:",
+	ErrorCreating: "作成エラー:",
+	ErrorDecompressing: "データの展開エラー\\r\\n\\r\\nインストーラが破損していませんか？",
+	ErrorRegistering: "DLL の登録エラー",
 	ExecShell: "拡張子の関連付け実行: ",
-	Exec: "実行：",
-	Extract: "抽出：",
-	ErrorWriting: "抽出：ファイル作成エラー",
-	InvalidOpcode: "インストールの不正：無効なopcode",
-	NoOLE: "OLEがありません：",
-	OutputFolder: "出力先フォルダ：",
-	RemoveFolder: "フォルダの削除：",
-	RenameOnReboot: "リブート時に名前の変更：",
-	Rename: "名前の変更：",
-	Skipped: "スキップ：",
+	Exec: "実行:",
+	Extract: "展開:",
+	ErrorWriting: "展開:ファイルへの書き込みエラー",
+	InvalidOpcode: "インストーラーが壊れている:無効な opcode",
+	NoOLE: "OLE がありません:",
+	OutputFolder: "出力先フォルダ:",
+	RemoveFolder: "フォルダ削除:",
+	RenameOnReboot: "再起動時に名前の変更:",
+	Rename: "名前の変更:",
+	Skipped: "省略:",
 	CopyDetails: "クリップボードへ詳細をコピー",
-	LogInstall: "インストールプロセスをログヘ記録",
+	LogInstall: "インストールの経過をログヘ記録",
 	Byte: "B",
 	Kilo: " K",
 	Mega: " M",
@@ -8260,13 +8260,17 @@ function mapArguments(args, options) {
     if (options.safePPO === true) {
         args.push('-SAFEPPO');
     }
-    var priority = parseInt(String(options.priority));
-    if (platform() === 'win32' && isInteger(priority) && inRange(priority, 0, 5)) {
-        args.push("-P" + options.priority);
+    if (options.priority) {
+        var priority = parseInt(String(options.priority));
+        if (platform() === 'win32' && isInteger(priority) && inRange(priority, 0, 5)) {
+            args.push("-P" + options.priority);
+        }
     }
-    var verbosity = parseInt(String(options.verbose));
-    if (isInteger(verbosity) && inRange(verbosity, 0, 4)) {
-        args.push("-V" + verbosity);
+    if (options.verbose) {
+        var verbosity = parseInt(String(options.verbose));
+        if (isInteger(verbosity) && inRange(verbosity, 0, 4)) {
+            args.push("-V" + verbosity);
+        }
     }
     if (options.rawArguments) {
         if (typeof options.rawArguments === 'string') {
@@ -8356,16 +8360,22 @@ function objectifyHelp(input, opts) {
     return output;
 }
 function objectifyFlags(input, opts) {
+    var output = {};
     var lines = splitLines(input, opts);
+    if (!(lines === null || lines === void 0 ? void 0 : lines.length)) {
+        return output;
+    }
     var filteredLines = lines.filter(function (line) {
         if (line !== '') {
             return line;
         }
     });
-    var output = {};
     var tableSizes = {};
     var tableSymbols = {};
     var symbols;
+    if (!(filteredLines === null || filteredLines === void 0 ? void 0 : filteredLines.length)) {
+        return output;
+    }
     // Split sizes
     filteredLines.map(function (line) {
         if (line.startsWith('Size of ')) {
@@ -8380,22 +8390,23 @@ function objectifyFlags(input, opts) {
         }
     });
     output['sizes'] = tableSizes;
-    // Split symbols
-    if (symbols === null || symbols === void 0 ? void 0 : symbols.length) {
-        symbols.map(function (symbol) {
-            var pair = symbol.split('=');
-            if (pair.length > 1 && pair[0] !== 'undefined') {
-                if (isInteger(pair[1]) === true) {
-                    pair[1] = parseInt(pair[1], 10);
-                }
-                tableSymbols[pair[0]] = pair[1];
-            }
-            else {
-                tableSymbols[symbol] = true;
-            }
-        });
-        output['defined_symbols'] = tableSymbols;
+    if (!(symbols === null || symbols === void 0 ? void 0 : symbols.length)) {
+        return output;
     }
+    // Split symbols
+    symbols.map(function (symbol) {
+        var pair = symbol.split('=');
+        if (pair.length > 1 && pair[0] !== 'undefined') {
+            if (isInteger(pair[1]) === true) {
+                pair[1] = parseInt(pair[1], 10);
+            }
+            tableSymbols[pair[0]] = pair[1];
+        }
+        else {
+            tableSymbols[symbol] = true;
+        }
+    });
+    output['defined_symbols'] = tableSymbols;
     return output;
 }
 function hasErrorCode(input) {
