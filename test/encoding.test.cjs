@@ -1,7 +1,6 @@
 /* eslint-disable */
 const { compile } = require('../dist/makensis.cjs');
 const { nullDevice } = require('./shared');
-const { platform } = require('os');
 const path = require('path');
 const test = require('ava');
 

@@ -8381,19 +8381,21 @@ function objectifyFlags(input, opts) {
     });
     output['sizes'] = tableSizes;
     // Split symbols
-    symbols.map(function (symbol) {
-        var pair = symbol.split('=');
-        if (pair.length > 1 && pair[0] !== 'undefined') {
-            if (isInteger(pair[1]) === true) {
-                pair[1] = parseInt(pair[1], 10);
+    if (symbols === null || symbols === void 0 ? void 0 : symbols.length) {
+        symbols.map(function (symbol) {
+            var pair = symbol.split('=');
+            if (pair.length > 1 && pair[0] !== 'undefined') {
+                if (isInteger(pair[1]) === true) {
+                    pair[1] = parseInt(pair[1], 10);
+                }
+                tableSymbols[pair[0]] = pair[1];
             }
-            tableSymbols[pair[0]] = pair[1];
-        }
-        else {
-            tableSymbols[symbol] = true;
-        }
-    });
-    output['defined_symbols'] = tableSymbols;
+            else {
+                tableSymbols[symbol] = true;
+            }
+        });
+        output['defined_symbols'] = tableSymbols;
+    }
     return output;
 }
 function hasErrorCode(input) {

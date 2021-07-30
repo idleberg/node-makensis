@@ -1,8 +1,8 @@
 /* eslint-disable */
-const { spawnSync } = require('child_process');
-const MakeNSIS = require('../../dist/makensis.cjs');
-const test = require('ava');
-const which = require('which');
+import { spawnSync } from 'child_process';
+import MakeNSIS from '../../dist/makensis.cjs';
+import test from 'ava';
+import which from 'which';
 
 const cp = spawnSync('wine', ['makensis', '-VERSION']);
 const version = cp.stdout.toString().trim() || cp.stderr.toString().trim();

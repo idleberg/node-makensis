@@ -4,17 +4,17 @@ const MakeNSIS = require('../../dist/makensis.cjs');
 const test = require('ava');
 
 const cp = spawnSync('wine', ['makensis', '-HDRINFO']);
-const headerInfo  = cp.stdout.toString().trim() || cp.stderr.toString().trim();
+const headerInfo = cp.stdout.toString().trim() || cp.stderr.toString().trim();
 
 // Let's run the tests
-test('Print compiler information', t => {
+test('Print compiler information', (t) => {
     const expected = headerInfo;
     const actual = MakeNSIS.headerInfo.sync({ wine: true }).stdout;
 
     t.is(actual, expected);
 });
 
-test('Print compiler information as JSON', t => {
+test('Print compiler information as JSON', (t) => {
     const expected = true;
     const actual = MakeNSIS.headerInfo.sync({ json: true, wine: true }).stdout
         .defined_symbols.__GLOBAL__;
@@ -22,7 +22,7 @@ test('Print compiler information as JSON', t => {
     t.is(actual, expected);
 });
 
-test('Print compiler information [async]', async t => {
+test('Print compiler information [async]', async (t) => {
     try {
         const { stdout } = await MakeNSIS.headerInfo({ wine: true });
 
@@ -40,12 +40,12 @@ test('Print compiler information [async]', async t => {
     }
 });
 
-test('Print compiler information as JSON [async]', async t => {
+test('Print compiler information as JSON [async]', async (t) => {
     try {
-        const actual = (await MakeNSIS.headerInfo({ json: true, wine: true })).stdout
-            .defined_symbols.__GLOBAL__;
+        const actual = (await MakeNSIS.headerInfo({ json: true, wine: true }))
+            .stdout.defined_symbols.__GLOBAL__;
 
-            const expected = true;
+        const expected = true;
 
         t.is(actual, expected);
     } catch (error) {
