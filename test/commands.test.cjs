@@ -4,7 +4,6 @@ const { defaultScriptArray, defaultScriptString, nullDevice, shared } = require(
 const MakeNSIS = require('../dist/makensis.cjs');
 const path = require('path');
 const test = require('ava');
-const which = require('which');
  
 const scriptFile = {
     minimal: path.join(__dirname, 'fixtures', 'utf8.nsi'),
@@ -12,12 +11,6 @@ const scriptFile = {
 };
 
 // Let's run the tests
-test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async t => {
-    const actual = await which('makensis');
-
-    t.not(actual, '');
-});
-
 test('Print makensis version', t => {
     const expected = shared.version;
     const actual = MakeNSIS.version.sync().stdout;

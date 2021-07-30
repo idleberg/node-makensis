@@ -247,21 +247,23 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): Record<s
   output['sizes'] = tableSizes;
 
   // Split symbols
-  symbols.map(symbol => {
-    const pair = symbol.split('=');
+  if (symbols?.length) {
+    symbols.map(symbol => {
+      const pair = symbol.split('=');
 
-    if (pair.length > 1 && pair[0] !== 'undefined') {
-      if (isInteger(pair[1]) === true) {
-        pair[1] = parseInt(pair[1], 10);
+      if (pair.length > 1 && pair[0] !== 'undefined') {
+        if (isInteger(pair[1]) === true) {
+          pair[1] = parseInt(pair[1], 10);
+        }
+
+        tableSymbols[pair[0]] = pair[1];
+      } else {
+        tableSymbols[symbol] = true;
       }
+    });
 
-      tableSymbols[pair[0]] = pair[1];
-    } else {
-      tableSymbols[symbol] = true;
-    }
-  });
-
-  output['defined_symbols'] = tableSymbols;
+    output['defined_symbols'] = tableSymbols;
+  }
 
   return output;
 }

@@ -4,7 +4,6 @@ import { createRequire } from 'node:module';
 import * as MakeNSIS from '../dist/makensis.mjs';
 import path from 'node:path';
 import test from 'ava';
-import which from 'which';
 
 // Temporary workarounds
 const require = createRequire(import.meta.url);
@@ -17,12 +16,6 @@ const scriptFile = {
 };
 
 // Let's run the tests
-test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async t => {
-    const actual = await which('makensis');
-
-    t.not(actual, '');
-});
-
 test('Print makensis version', (t) => {
     const expected = shared.version;
     const actual = MakeNSIS.version.sync().stdout;
