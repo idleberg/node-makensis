@@ -18,7 +18,7 @@ const external = [
   'child_process',
   'events',
   'os',
-  'quoted-string-space-split'
+  'shlex'
 ];
 
 export default [
