@@ -8,8 +8,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['12', '14', '16']
-        os: [macos-latest, ubuntu-latest]
+        node-version: ['lts/*']
+        os: [macos-10.15, ubuntu-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -21,7 +21,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install Wine (macOS)
-      if: matrix.os == 'macos-latest'
+      if: matrix.os == 'macos-10.15'
       run: |
         brew update
         brew install wine-stable
@@ -35,8 +35,9 @@ jobs:
 
     - name: Install NSIS
       run: |
-        curl -L https://downloads.sourceforge.net/project/nsis/NSIS%203/3.07/nsis-3.07-setup.exe -o /tmp/nsis-$GITHUB_SHA.exe
-        wine /tmp/nsis-$GITHUB_SHA.exe /S
+        curl -L https://downloads.sourceforge.net/project/nsis/NSIS%203/3.07/nsis-3.07-setup.exe -o /tmp/nsis-${{ github.sha }}.exe
+        wine /tmp/nsis-${{ github.sha }}.exe /S
+        wine reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Sessions Manager\Environment" /v Path /t REG_EXPAND_SZ /d "%path%;C:\Program Files (x86)\NSIS" /f
 
     - name: Print NSIS version
       run: wine 'C:/Program Files (x86)/NSIS\makensis.exe' /VERSION
