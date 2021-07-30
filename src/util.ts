@@ -222,7 +222,12 @@ function objectifyHelp(input: string, opts: makensis.CompilerOptions): Record<st
 }
 
 function objectifyFlags(input: string, opts: makensis.CompilerOptions): Record<string, unknown> {
+  const output = {};
   const lines = splitLines(input, opts);
+
+  if (!lines?.length) {
+    return output;
+  }
 
   const filteredLines = lines.filter(line => {
     if (line !== '') {
@@ -230,10 +235,13 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): Record<s
     }
   });
 
-  const output = {};
   const tableSizes = {};
   const tableSymbols = {};
   let symbols;
+
+  if (!filteredLines?.length) {
+    return output;
+  }
 
   // Split sizes
   filteredLines.map(line => {
@@ -252,24 +260,26 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): Record<s
 
   output['sizes'] = tableSizes;
 
-  // Split symbols
-  if (symbols?.length) {
-    symbols.map(symbol => {
-      const pair = symbol.split('=');
-
-      if (pair.length > 1 && pair[0] !== 'undefined') {
-        if (isInteger(pair[1]) === true) {
-          pair[1] = parseInt(pair[1], 10);
-        }
-
-        tableSymbols[pair[0]] = pair[1];
-      } else {
-        tableSymbols[symbol] = true;
-      }
-    });
-
-    output['defined_symbols'] = tableSymbols;
+  if (!symbols?.length) {
+    return output;
   }
+
+  // Split symbols
+  symbols.map(symbol => {
+    const pair = symbol.split('=');
+
+    if (pair.length > 1 && pair[0] !== 'undefined') {
+      if (isInteger(pair[1]) === true) {
+        pair[1] = parseInt(pair[1], 10);
+      }
+
+      tableSymbols[pair[0]] = pair[1];
+    } else {
+      tableSymbols[symbol] = true;
+    }
+  });
+
+  output['defined_symbols'] = tableSymbols;
 
   return output;
 }
