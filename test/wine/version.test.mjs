@@ -1,19 +1,12 @@
 /* eslint-disable */
 import { spawnSync } from 'child_process';
-import MakeNSIS from '../../dist/makensis.cjs';
+import * as MakeNSIS from '../../dist/makensis.cjs';
 import test from 'ava';
-import which from 'which';
 
 const cp = spawnSync('wine', ['makensis', '-VERSION']);
 const version = cp.stdout.toString().trim() || cp.stderr.toString().trim();
 
 // Let's run the tests
-test(`MakeNSIS ${version} found in PATH environmental variable`, async (t) => {
-    const actual = await which('makensis');
-
-    t.not(actual, '');
-});
-
 test('Print makensis version', (t) => {
     const expected = version;
     const actual = MakeNSIS.version.sync({ wine: true }).stdout;
