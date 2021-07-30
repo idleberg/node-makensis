@@ -1,13 +1,18 @@
 /* eslint-disable */
-const { nullDevice } = require('./shared');
-const MakeNSIS = require('../dist/makensis.cjs');
-const path = require('path');
-const test = require('ava');
+import { createRequire } from 'node:module';
+import * as MakeNSIS from '../../dist/makensis.mjs';
+import path from 'node:path';
+import test from 'ava';
+
+// Temporary workarounds
+const require = createRequire(import.meta.url);
+const { nullDevice } = require('../shared');
+const __dirname = path.resolve(path.dirname(''));
 
 // Compiler arguments
 const script = {
     // cp850: join(__dirname, 'fixtures', 'cp850.nsi'),
-    utf8: path.join(__dirname, 'fixtures', 'utf8.nsi'),
+    utf8: path.join(__dirname, 'test', 'fixtures', 'utf8.nsi'),
 };
 
 const defaultOptions = {
@@ -15,6 +20,7 @@ const defaultOptions = {
     define: {
         NULL_DEVICE: nullDevice,
     },
+    wine: true
 };
 
 // Let's run the tests

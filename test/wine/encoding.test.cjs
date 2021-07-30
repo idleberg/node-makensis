@@ -1,13 +1,13 @@
 /* eslint-disable */
-const { nullDevice } = require('./shared');
-const MakeNSIS = require('../dist/makensis.cjs');
+const { nullDevice } = require('../shared');
+const MakeNSIS = require('../../dist/makensis.cjs');
 const path = require('path');
 const test = require('ava');
 
 // Compiler arguments
 const script = {
     // cp850: join(__dirname, 'fixtures', 'cp850.nsi'),
-    utf8: path.join(__dirname, 'fixtures', 'utf8.nsi'),
+    utf8: path.join(__dirname, '..', 'fixtures', 'utf8.nsi'),
 };
 
 const defaultOptions = {
@@ -15,6 +15,7 @@ const defaultOptions = {
     define: {
         NULL_DEVICE: nullDevice,
     },
+    wine: true
 };
 
 // Let's run the tests
