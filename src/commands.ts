@@ -189,7 +189,7 @@ headerInfo.sync = (options: makensis.CompilerOptions = {}, spawnOptions: SpawnOp
  * @param options - compiler options
  * @returns - compiler version
  */
-nsisDir.sync = (options: makensis.CompilerOptions = {}): string | JSON => {
+nsisDir.sync = (options: makensis.CompilerOptions = {}): string | Record<string, unknown> => {
   const hdrOptions = { ...options, json: true };
   const hdrinfo: any = headerInfo.sync(hdrOptions);
 

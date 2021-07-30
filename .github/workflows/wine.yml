@@ -9,7 +9,7 @@ jobs:
       fail-fast: false
       matrix:
         node-version: ['lts/*']
-        os: [macos-latest, ubuntu-latest]
+        os: [macos-10.14, ubuntu-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -21,10 +21,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Install Wine (macOS)
-      if: matrix.os == 'macos-latest'
+      if: matrix.os == 'macos-10.14'
       run: |
         brew update
-        brew install wine64
+        brew install wine
 
     - name: Install Wine (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
