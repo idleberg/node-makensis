@@ -38,8 +38,8 @@
     "ava": "^3.15.0",
     "cross-env": "^7.0.3",
     "eslint": "^7.31.0",
+    "eslint-plugin-json": "^3.0.0",
     "husky": "^7.0.0",
-    "jsonlint": "^1.6.3",
     "lint-staged": "11.1.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.2",
@@ -56,8 +56,8 @@
     "build": "rollup -c",
     "dev": "npm run start",
     "fix": "eslint --fix ./src",
+    "lint:code": "eslint ./src --ignore-path .gitignore",
     "lint:md": "remark . --quiet --frail --ignore-path .gitignore",
-    "lint:ts": "eslint ./src --ignore-path .gitignore",
     "lint": "npm-run-all --parallel lint:*",
     "prepublishOnly": "npm run lint && npm run build",
     "start": "rollup -w -c",
@@ -74,8 +74,7 @@
     "babel": true
   },
   "lint-staged": {
-    "*.ts": "eslint --cache --fix",
-    "*.json": "jsonlint --quiet",
+    "*.(ts|json)": "eslint --cache --fix",
     "*.md": "prettier --write"
   }
 }
