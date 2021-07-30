@@ -28,7 +28,7 @@ jobs:
     - name: Install Wine (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run:   |
-        dpkg --add-architecture i386
+        sudo dpkg --add-architecture i386
         sudo apt-get -y update
         sudo apt-get -y install wine
 
