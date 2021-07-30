@@ -8345,16 +8345,18 @@ function objectifyHelp(input, opts) {
     var lines = splitLines(input, opts);
     lines.sort();
     var output = {};
-    lines.map(function (line) {
-        var command = line.substr(0, line.indexOf(' '));
-        var usage = line.substr(line.indexOf(' ') + 1);
-        // Workaround
-        if (['!AddIncludeDir', '!AddPluginDir'].includes(command)) {
-            command = command.toLowerCase();
-        }
-        if (command)
-            output[command] = usage;
-    });
+    if (lines === null || lines === void 0 ? void 0 : lines.length) {
+        lines.map(function (line) {
+            var command = line.substr(0, line.indexOf(' '));
+            var usage = line.substr(line.indexOf(' ') + 1);
+            // Workaround
+            if (['!AddIncludeDir', '!AddPluginDir'].includes(command)) {
+                command = command.toLowerCase();
+            }
+            if (command)
+                output[command] = usage;
+        });
+    }
     return output;
 }
 function objectifyFlags(input, opts) {
