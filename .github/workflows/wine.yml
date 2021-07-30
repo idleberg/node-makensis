@@ -24,7 +24,8 @@ jobs:
       if: matrix.os == 'macos-10.15'
       run: |
         brew update
-        brew install wine-stable
+        brew tap gcenx/wine
+        brew install --cask --no-quarantine wine-crossover
 
     - name: Install Wine (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
@@ -39,10 +40,20 @@ jobs:
         wine /tmp/nsis-${{ github.sha }}.exe /S
         wine reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Sessions Manager\Environment" /v Path /t REG_EXPAND_SZ /d "%path%;C:\Program Files (x86)\NSIS" /f
 
-    - name: Print NSIS version
+    - name: Print NSIS version (macOS)
+      if: matrix.os == 'macos-latest'
+      run: wine32on64 'C:/Program Files (x86)/NSIS\makensis.exe' /VERSION
+
+    - name: Print NSIS version (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
       run: wine 'C:/Program Files (x86)/NSIS\makensis.exe' /VERSION
 
-    - name: Print NSIS header info
+    - name: Print NSIS header info (macOS)
+      if: matrix.os == 'macos-latest'
+      run: wine32on64 'C:/Program Files (x86)/NSIS\makensis.exe' /HDRINFO
+
+    - name: Print NSIS header info (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
       run: wine 'C:/Program Files (x86)/NSIS\makensis.exe' /HDRINFO
 
     - name: Cache node modules
