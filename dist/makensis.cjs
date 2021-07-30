@@ -5,7 +5,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var events = require('events');
 var os = require('os');
 var child_process = require('child_process');
-var quotedStringSpaceSplit = require('quoted-string-space-split');
+var shlex = require('shlex');
 
 var eventEmitter = new events.EventEmitter();
 
@@ -8278,7 +8278,7 @@ function mapArguments(args, options) {
     }
     if (options.rawArguments) {
         if (typeof options.rawArguments === 'string') {
-            args.push.apply(args, quotedStringSpaceSplit.splitSpacesExcludeQuotes(options.rawArguments));
+            args.push.apply(args, shlex.split(options.rawArguments));
         }
         else if (Array.isArray(options.rawArguments)) {
             args = args.concat(options.rawArguments);

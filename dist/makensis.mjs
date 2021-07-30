@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
-import { splitSpacesExcludeQuotes } from 'quoted-string-space-split';
+import { split } from 'shlex';
 
 var eventEmitter = new EventEmitter();
 
@@ -8274,7 +8274,7 @@ function mapArguments(args, options) {
     }
     if (options.rawArguments) {
         if (typeof options.rawArguments === 'string') {
-            args.push.apply(args, splitSpacesExcludeQuotes(options.rawArguments));
+            args.push.apply(args, split(options.rawArguments));
         }
         else if (Array.isArray(options.rawArguments)) {
             args = args.concat(options.rawArguments);
