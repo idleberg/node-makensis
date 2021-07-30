@@ -103,14 +103,20 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): unknow
     args.push('-SAFEPPO');
   }
 
-  const priority = parseInt(String(options.priority));
-  if (platform() === 'win32' && isInteger(priority) && inRange(priority, 0, 5)) {
-    args.push(`-P${options.priority}`);
+  if (options.priority) {
+    const priority = parseInt(String(options.priority));
+
+    if (platform() === 'win32' && isInteger(priority) && inRange(priority, 0, 5)) {
+      args.push(`-P${options.priority}`);
+    }
   }
 
+  if (options.verbose) {
   const verbosity = parseInt(String(options.verbose));
-  if (isInteger(verbosity) && inRange(verbosity, 0, 4)) {
-    args.push(`-V${verbosity}`);
+
+    if (isInteger(verbosity) && inRange(verbosity, 0, 4)) {
+      args.push(`-V${verbosity}`);
+    }
   }
 
   if (options.rawArguments) {
