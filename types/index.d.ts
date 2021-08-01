@@ -24,6 +24,7 @@ declare namespace makensis {
 
     // library
     pathToMakensis?: string;
+    pathToWine?: string;
   }
 
   interface CompilerOutput {
