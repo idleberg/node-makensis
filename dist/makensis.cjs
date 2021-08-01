@@ -139,9 +139,12 @@ function mapArguments(args, options) {
     var pathToMakensis = options.pathToMakensis
         ? options.pathToMakensis
         : 'makensis';
+    var pathToWine = options.pathToWine
+        ? options.pathToWine
+        : 'wine';
     var cmd;
     if (os.platform() !== 'win32' && options.wine === true) {
-        cmd = 'wine';
+        cmd = pathToWine;
         args.unshift(pathToMakensis);
     }
     else {

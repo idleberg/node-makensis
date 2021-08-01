@@ -38,10 +38,14 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): unknow
     ? options.pathToMakensis
     : 'makensis';
 
+  const pathToWine: string = options.pathToWine
+    ? options.pathToWine
+    : 'wine';
+
     let cmd: string;
 
   if (platform() !== 'win32' && options.wine === true) {
-    cmd = 'wine';
+    cmd = pathToWine;
     args.unshift(pathToMakensis);
   } else {
     cmd = pathToMakensis;
