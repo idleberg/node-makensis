@@ -13,7 +13,7 @@ Make sure that NSIS is properly installed with `makensis` in your PATH [environm
 
 ### Windows
 
-Download the NSIS installer from [SourceForge](https://sourceforge.net/p/nsis) and run setup. Once completed, you need to edit your environmental variable manually.
+Download the NSIS installer from [SourceForge][sourceforge] and run setup. Once completed, you need to edit your environmental variable manually.
 
 Alternatively, you can install NSIS using the [Scoop][scoop] package manager:
 
@@ -301,6 +301,7 @@ This work is licensed under [The MIT License][the mit license].
 
 [wine]: http://winehq.org/
 [envvars]: http://superuser.com/a/284351/195953
+[sourceforge]: https://sourceforge.net/p/nsis
 [scoop]: https://github.com/NSIS-Dev/scoop-nsis
 [homebrew]: http://brew.sh/
 [macports]: https://www.macports.org/
