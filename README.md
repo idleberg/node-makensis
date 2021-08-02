@@ -91,7 +91,7 @@ console.log('Compiler output:', output);
 
 ### Methods
 
-:bulb: Any of the following methods is asynchronous. To use their synchronous counterpart, append `.sync()` to the method name, e.g. `compile.sync()` instead of `compile()`.
+:warning: Any of the following methods is asynchronous. To use their synchronous counterpart, append `.sync()` to the method name, e.g. `compile.sync()` instead of `compile()`.
 
 #### commandHelp
 
@@ -272,7 +272,7 @@ Type: `string | string[]`
 
 Specifies raw arguments for `makensis`. For complex quote combinations, consider supplying the arguments as array.
 
-:bulb: These will be added to the compiler arguments last and will hence overwrite any of the NSIS options above!
+:warning: These will be added to the compiler arguments last and will hence overwrite any of the NSIS options above!
 
 ### Events
 
