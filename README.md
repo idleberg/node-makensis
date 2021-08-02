@@ -6,17 +6,17 @@
 [![CI](https://img.shields.io/github/workflow/status/idleberg/node-makensis/CI?style=flat-square)](https://github.com/idleberg/node-makensis/actions)
 [![David](https://flat.badgen.net/david/dep/idleberg/node-makensis)](https://david-dm.org/idleberg/node-makensis)
 
-A Node wrapper for `makensis`, the compiler for NSIS installers. Supports both, native and [Wine](http://winehq.org/).
+A Node wrapper for `makensis`, the compiler for NSIS installers. Supports both, native and [Wine][wine].
 
 ## Prerequisites
 
-Make sure that NSIS is properly installed with `makensis` in your PATH [environment variable](http://superuser.com/a/284351/195953).
+Make sure that NSIS is properly installed with `makensis` in your PATH [environment variable][envvars].
 
 ### Windows
 
 Download the NSIS installer from [SourceForge](https://sourceforge.net/p/nsis) and run setup. Once completed, you need to edit your environmental variable manually.
 
-Alternatively, you can install NSIS using the [Scoop](https://github.com/NSIS-Dev/scoop-nsis) package manager:
+Alternatively, you can install NSIS using the [Scoop][scoop] package manager:
 
 ```sh
 $ scoop install nsis/nsis
@@ -36,7 +36,7 @@ $ sudo dnf install nsis
 
 ### macOS
 
-Install NSIS using [Homebrew](http://brew.sh/) or [MacPorts](https://www.macports.org/):
+Install NSIS using [Homebrew][homebrew] or [MacPorts][macports]:
 
 ```sh
 # Homebrew
@@ -48,7 +48,7 @@ $ port install nsis
 
 ### Wine
 
-You can setup NSIS in your [Wine](http://winehq.org/) environment, but keep in mind that Wine writes standard streams while executing `makensis`. To disable these debug messages, set the `WINEDEBUG` environment variable to `-all`.
+You can setup NSIS in your [Wine][wine] environment, but keep in mind that Wine writes standard streams while executing `makensis`. To disable these debug messages, set the `WINEDEBUG` environment variable to `-all`.
 
 ## Installation
 
@@ -92,7 +92,7 @@ console.log('Compiler output:', output);
 
 ### Methods
 
-**Note:** Any of the following methods is asynchronous. To use their synchronous counterpart, append `.sync()` to the method name, e.g. `compile.sync()` instead of `compile()`.
+:bulb: Any of the following methods is asynchronous. To use their synchronous counterpart, append `.sync()` to the method name, e.g. `compile.sync()` instead of `compile()`.
 
 #### commandHelp
 
@@ -132,7 +132,7 @@ Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 ### Options
 
-**Note:** Some of these options are limited to NSIS v3 (see the [changelog](http://nsis.sourceforge.net/Docs) for details)
+:warning: Some of these options are limited to NSIS v3 (see the [changelog][changelog] for details)
 
 #### verbose
 
@@ -164,7 +164,7 @@ Type: `integer`
 
 Sets the compiler process priority, where x is `5=realtime`, `4=high`, `3=above normal`, `2=normal`, `1=below normal`, `0=idle`. Equivalent of the `-P` switch.
 
-**Note:** Only available on Windows
+:warning: This option is only available on Windows
 
 #### inputCharset
 
@@ -178,7 +178,7 @@ Type: `string`
 
 Allows you to specify the codepage used by stdout when the output is redirected (`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET` switch.
 
-**Note:** Only available on Windows
+:warning: This option is only available on Windows
 
 #### strict
 
@@ -190,7 +190,8 @@ Treat warnings as errors. Equivalent of the `-WX` switch.
 
 Type: `boolean`
 
-Will only run the preprocessor and print the result to stdout. The safe version will not execute instructions like [`!appendfile`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!appendfile.md) or [`!system`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!system.md). [`!packhdr`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!packhdr.md) and [`!finalize`](https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md) are never executed. Equivalent of the `-PPO / SAFEPPO` switches.
+Will only run the preprocessor and print the result to stdout. The safe version will not execute instructions like [`!appendfile`][!appendfile] or [`!system`][!system]. [`!packhdr`][!packhdr] and [`!finalize`][!finalize] are never executed. Equivalent of the `-PPO / SAFEPPO` switches.
+Will only run the preprocessor and print the result to stdout. The safe version will not execute instructions like [`!appendfile`][!appendfile] or [`!system`][!system]. [`!packhdr`][!packhdr] and [`!finalize`][!finalize] are never executed. Equivalent of the `-PPO / SAFEPPO` switches.
 
 Aliases: `PPO` / `safeppo`
 
@@ -246,7 +247,7 @@ postExecute: [`DetailPrint "That's all Folks!"`];
 
 Type: `boolean`
 
-Run `makensis` on [Wine](http://winehq.org/)
+Run `makensis` on [Wine][wine]
 
 #### json
 
@@ -264,7 +265,7 @@ Specifies a custom path to `makensis`
 
 Type: `string`
 
-Specifies a custom path to `wine`, useful when using `wine32` or `wine32on64`.
+Specifies a custom path to `wine`, useful when using `wine32` or [`wine32on64`][wine32on64].
 
 #### rawArguments
 
@@ -272,7 +273,7 @@ Type: `string | string[]`
 
 Specifies raw arguments for `makensis`. For complex quote combinations, consider supplying the arguments as array.
 
-**Note:** These will be added to the compiler arguments last and will hence overwrite any of the NSIS options above!
+:bulb: These will be added to the compiler arguments last and will hence overwrite any of the NSIS options above!
 
 ### Events
 
@@ -292,9 +293,25 @@ Gives access to an object containing the exit code, the full `stdout` and `stder
 
 ## Related
 
--   [atom-language-nsis](https://atom.io/packages/language-nsis) - NSIS package for Atom
--   [vscode-nsis](https://marketplace.visualstudio.com/items?itemName=idleberg.nsis) - NSIS package for Visual Studio Code
+-   [atom-language-nsis][atom-language-nsis] - NSIS package for Atom
+-   [vscode-nsis][vscode-nsis] - NSIS package for Visual Studio Code
 
 ## License
 
-This work is licensed under [The MIT License](https://opensource.org/licenses/MIT)
+This work is licensed under [The MIT License][the mit license].
+
+[wine]: http://winehq.org/
+[envvars]: http://superuser.com/a/284351/195953
+[scoop]: https://github.com/NSIS-Dev/scoop-nsis
+[homebrew]: http://brew.sh/
+[macports]: https://www.macports.org/
+[changelog]: http://nsis.sourceforge.net/Docs
+[!appendfile]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!appendfile.md
+[!finalize]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md
+[!system]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!system.md
+[!packhdr]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!packhdr.md
+[!finalize]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md
+[wine32on64]: https://github.com/Gcenx/homebrew-wine
+[atom-language-nsis]: https://atom.io/packages/language-nsis
+[vscode-nsis]: https://marketplace.visualstudio.com/items?itemName=idleberg.nsis
+[the mit license]: https://opensource.org/licenses/MIT
