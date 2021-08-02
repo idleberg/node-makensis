@@ -190,7 +190,6 @@ Treat warnings as errors. Equivalent of the `-WX` switch.
 Type: `boolean`
 
 Will only run the preprocessor and print the result to stdout. The safe version will not execute instructions like [`!appendfile`][!appendfile] or [`!system`][!system]. [`!packhdr`][!packhdr] and [`!finalize`][!finalize] are never executed. Equivalent of the `-PPO / SAFEPPO` switches.
-Will only run the preprocessor and print the result to stdout. The safe version will not execute instructions like [`!appendfile`][!appendfile] or [`!system`][!system]. [`!packhdr`][!packhdr] and [`!finalize`][!finalize] are never executed. Equivalent of the `-PPO / SAFEPPO` switches.
 
 Aliases: `PPO` / `safeppo`
 
