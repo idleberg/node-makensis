@@ -36,25 +36,25 @@ jobs:
 
     - name: Install NSIS
       run: |
-        curl -L https://downloads.sourceforge.net/project/nsis/NSIS%203/3.07/nsis-3.07-setup.exe -o /tmp/nsis-${{ github.sha }}.exe
-        wine /tmp/nsis-${{ github.sha }}.exe /S
-        wine reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Sessions Manager\Environment" /v Path /t REG_EXPAND_SZ /d "%path%;C:\Program Files (x86)\NSIS" /f
+        curl -L https://downloads.sourceforge.net/project/nsis/NSIS%203/3.07/nsis-3.07-setup.exe -o /tmp/nsis-setup-$GITHUB_SHA.exe
+        wine /tmp/nsis-setup-$GITHUB_SHA.exe /S
+        wine regedit "${GITHUB_WORKSPACE}/.github/nsis.reg"
 
     - name: Print NSIS version (macOS)
       if: matrix.os == 'macos-latest'
-      run: wine32on64 'C:/Program Files (x86)/NSIS\makensis.exe' /VERSION
+      run: wine32on64 makensis /VERSION
 
     - name: Print NSIS version (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
-      run: wine 'C:/Program Files (x86)/NSIS\makensis.exe' /VERSION
+      run: wine makensis /VERSION
 
     - name: Print NSIS header info (macOS)
       if: matrix.os == 'macos-latest'
-      run: wine32on64 'C:/Program Files (x86)/NSIS\makensis.exe' /HDRINFO
+      run: wine32on64 makensis /HDRINFO
 
     - name: Print NSIS header info (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
-      run: wine 'C:/Program Files (x86)/NSIS\makensis.exe' /HDRINFO
+      run: wine makensis /HDRINFO
 
     - name: Cache node modules
       uses: actions/cache@v2
