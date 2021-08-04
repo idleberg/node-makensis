@@ -33,7 +33,7 @@ function splitCommands(data: string | string[]): string[] {
   return args;
 }
 
-function mapArguments(args: string[], options: makensis.CompilerOptions): unknown[] {
+function mapArguments(args: string[], options: makensis.CompilerOptions): makensis.MapArguments {
   const pathToMakensis: string = options.pathToMakensis
     ? options.pathToMakensis
     : 'makensis';

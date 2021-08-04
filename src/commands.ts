@@ -18,7 +18,7 @@ import type makensis from '../types';
 function commandHelp(command = '', options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
   options = { ...options, verbose: 0 };
 
-  const [cmd, args, opts]: any = mapArguments(['-CMDHELP'], options);
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-CMDHELP'], options);
 
   if (command?.length && typeof command !== 'object') {
     args.push(command);
@@ -33,7 +33,7 @@ function commandHelp(command = '', options: makensis.CompilerOptions = {}, spawn
  * @param options - compiler options
  */
 function compile(script: string, options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
-  const [cmd, args, opts]: any = mapArguments([], options);
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments([], options);
 
   if (script) {
     if (cmd === 'wine') {
@@ -62,7 +62,7 @@ function compile(script: string, options: makensis.CompilerOptions = {}, spawnOp
 function headerInfo(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
   options = { ...options, verbose: 0 };
 
-  const [cmd, args, opts]: any = mapArguments(['-HDRINFO'], options);
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-HDRINFO'], options);
 
   return spawnMakensis(cmd, args, opts, spawnOptions);
 }
@@ -74,7 +74,7 @@ function headerInfo(options: makensis.CompilerOptions = {}, spawnOptions: SpawnO
  */
 function license(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
 
-  const [cmd, args, opts]: any = mapArguments(['-LICENSE'], options);
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-LICENSE'], options);
 
   return spawnMakensis(cmd, args, opts, spawnOptions);
 }
@@ -112,7 +112,7 @@ async function nsisDir(options: makensis.CompilerOptions = {}): Promise<string |
 function version(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
   options = { ...options, verbose: 0 };
 
-  const [cmd, args, opts]: any = mapArguments(['-VERSION'], options);
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-VERSION'], options);
 
   return spawnMakensis(cmd, args, opts, spawnOptions);
 }
@@ -126,7 +126,7 @@ function version(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOpti
 commandHelp.sync = (command = '', options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
   options = { ...options, verbose: 0 };
 
-  const [cmd, args, opts]: any = mapArguments(['-CMDHELP'], options);
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-CMDHELP'], options);
 
   if (command?.length && typeof command !== 'object') {
     args.push(command);
@@ -141,7 +141,7 @@ commandHelp.sync = (command = '', options: makensis.CompilerOptions = {}, spawnO
  * @param options - compiler options
  */
  compile.sync = (script: string, options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
-  const [cmd, args, opts]: any = mapArguments([], options);
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments([], options);
 
   if (script) {
     if (cmd === 'wine') {
@@ -168,7 +168,7 @@ commandHelp.sync = (command = '', options: makensis.CompilerOptions = {}, spawnO
 headerInfo.sync = (options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
   options = { ...options, verbose: 0 };
 
-  const [cmd, args, opts]: any = mapArguments(['-HDRINFO'], options);
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-HDRINFO'], options);
 
   return spawnMakensisSync(cmd, args, opts, spawnOptions);
 }
@@ -179,7 +179,7 @@ headerInfo.sync = (options: makensis.CompilerOptions = {}, spawnOptions: SpawnOp
  * @returns - compiler license
  */
  license.sync = (options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
-  const [cmd, args, opts]: any = mapArguments(['-LICENSE'], options);
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-LICENSE'], options);
 
   return spawnMakensisSync(cmd, args, opts, spawnOptions);
 }
@@ -208,7 +208,7 @@ nsisDir.sync = (options: makensis.CompilerOptions = {}): string | Record<string,
 version.sync = (options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
   options = { ...options, verbose: 0 };
 
-  const [cmd, args, opts]: any = mapArguments(['-VERSION'], options);
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-VERSION'], options);
 
   return spawnMakensisSync(cmd, args, opts, spawnOptions);
 }
