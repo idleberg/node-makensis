@@ -108,7 +108,7 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): makens
   }
 
   if (options.priority) {
-    const priority = parseInt(String(options.priority));
+    const priority = parseInt(String(options.priority), 10);
 
     if (platform() === 'win32' && isNumeric(priority) && inRange(priority, 0, 5)) {
       args.push(`-P${options.priority}`);
@@ -116,7 +116,7 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): makens
   }
 
   if (options.verbose) {
-  const verbosity = parseInt(String(options.verbose));
+  const verbosity = parseInt(String(options.verbose), 10);
 
     if (isNumeric(verbosity) && inRange(verbosity, 0, 4)) {
       args.push(`-V${verbosity}`);
@@ -152,7 +152,7 @@ function hasWarnings(line: string): number {
   const match = line.match(/(\d+) warnings?:/);
 
   if (match !== null) {
-    return parseInt(match[1]);
+    return parseInt(match[1], 10);
   }
 
   return 0;
