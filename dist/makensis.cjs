@@ -197,13 +197,13 @@ function mapArguments(args, options) {
     }
     if (options.priority) {
         var priority = parseInt(String(options.priority));
-        if (os.platform() === 'win32' && isInteger(priority) && inRange(priority, 0, 5)) {
+        if (os.platform() === 'win32' && isNumeric(priority) && inRange(priority, 0, 5)) {
             args.push("-P" + options.priority);
         }
     }
     if (options.verbose) {
         var verbosity = parseInt(String(options.verbose));
-        if (isInteger(verbosity) && inRange(verbosity, 0, 4)) {
+        if (isNumeric(verbosity) && inRange(verbosity, 0, 4)) {
             args.push("-V" + verbosity);
         }
     }
@@ -222,8 +222,8 @@ function stringify(data) {
         ? data.toString().trim()
         : '';
 }
-function isInteger(x) {
-    return x % 2 === 0;
+function isNumeric(x) {
+    return !isNaN(x);
 }
 function inRange(value, min, max) {
     return value >= min && value <= max;
@@ -332,7 +332,7 @@ function objectifyFlags(input, opts) {
     symbols.map(function (symbol) {
         var pair = symbol.split('=');
         if (pair.length > 1 && pair[0] !== 'undefined') {
-            if (isInteger(pair[1]) === true) {
+            if (isNumeric(pair[1]) === true) {
                 pair[1] = parseInt(pair[1], 10);
             }
             tableSymbols[pair[0]] = pair[1];
@@ -389,6 +389,7 @@ function spawnMakensis(cmd, args, opts, spawnOptions) {
         };
         var warningsCounter = 0;
         var outFile = '';
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         var child = child_process.spawn(cmd, args, spawnOptions);
         child.stdout.on('data', function (data) {
             var line = stringify(data);
@@ -439,6 +440,7 @@ function spawnMakensis(cmd, args, opts, spawnOptions) {
 }
 function spawnMakensisSync(cmd, args, opts, spawnOptions) {
     if (spawnOptions === void 0) { spawnOptions = {}; }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     var child = child_process.spawnSync(cmd, args, spawnOptions);
     child.stdout = stringify(child.stdout);
     child.stderr = stringify(child.stderr);
@@ -641,9 +643,9 @@ nsisDir.sync = function (options) {
     var hdrOptions = __assign(__assign({}, options), { json: true });
     var hdrinfo = headerInfo.sync(hdrOptions);
     if (options.json === true) {
-        return objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
+        return objectify(hdrinfo.stdout['defined_symbols']['NSISDIR'], 'nsisdir');
     }
-    return hdrinfo.stdout.defined_symbols.NSISDIR;
+    return hdrinfo.stdout['defined_symbols']['NSISDIR'];
 };
 /**
  * Returns version of MakeNSIS
