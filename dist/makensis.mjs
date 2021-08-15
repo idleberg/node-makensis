@@ -192,13 +192,13 @@ function mapArguments(args, options) {
         args.push('-SAFEPPO');
     }
     if (options.priority) {
-        var priority = parseInt(String(options.priority));
+        var priority = parseInt(String(options.priority), 10);
         if (platform() === 'win32' && isNumeric(priority) && inRange(priority, 0, 5)) {
             args.push("-P" + options.priority);
         }
     }
     if (options.verbose) {
-        var verbosity = parseInt(String(options.verbose));
+        var verbosity = parseInt(String(options.verbose), 10);
         if (isNumeric(verbosity) && inRange(verbosity, 0, 4)) {
             args.push("-V" + verbosity);
         }
@@ -227,7 +227,7 @@ function inRange(value, min, max) {
 function hasWarnings(line) {
     var match = line.match(/(\d+) warnings?:/);
     if (match !== null) {
-        return parseInt(match[1]);
+        return parseInt(match[1], 10);
     }
     return 0;
 }
@@ -528,9 +528,9 @@ function nsisDir(compilerOptions) {
     return __awaiter(this, void 0, void 0, function () {
         function handler(hdrinfo) {
             if (compilerOptions.json === true) {
-                return objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
+                return objectify(hdrinfo.stdout['defined_symbols']['NSISDIR'], 'nsisdir');
             }
-            return hdrinfo.stdout.defined_symbols.NSISDIR;
+            return hdrinfo.stdout['defined_symbols']['NSISDIR'];
         }
         var hdrOptions, hdrinfo, error_1;
         return __generator(this, function (_a) {
