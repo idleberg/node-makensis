@@ -93,21 +93,21 @@ let output = NSIS.compile.sync('path/to/installer.nsi', options);
 console.log('Compiler output:', output);
 ```
 
-### Methods
+### API
 
-:warning: Any of the following methods is asynchronous. To use their synchronous counterpart, append `.sync()` to the method name, e.g. `compile.sync()` instead of `compile()`.
+:warning: Any of the following API methods is asynchronous. To use their synchronous counterpart, append `.sync()` to the method name, e.g. `compile.sync()` instead of `compile()`.
 
 #### commandHelp
 
 Usage: `commandHelp([command], [options], [spawnOptions])`
 
-Returns usage information for a specific command, or a list all commands. Equivalent of the `-CMDHELP` switch.
+Returns usage information for a specific command, or a list of all commands. Equivalent of the `-CMDHELP` switch.
 
 #### compile
 
 Usage: `compile(script, [options], [spawnOptions])`
 
-Compiles specified script with MakeNSIS. The script can be omitted in favor of [`preExecute`](#preExecute) / [`postExecute`](#postExecute).
+Compiles specified script with MakeNSIS. The script can be omitted in favor of the [`preExecute`](#preExecute) / [`postExecute`](#postExecute) options.
 
 #### headerInfo
 
@@ -141,7 +141,7 @@ Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 Type: `integer`
 
-Verbosity where x is `4=all`, `3=no script`,`2=no info`, `1=no warnings`, `0=none`. Equivalent of the `-V` switch.
+Verbosity where the value `4=all`, `3=no script`,`2=no info`, `1=no warnings`, `0=none`. Equivalent of the `-V` switch.
 
 #### pause
 
@@ -165,7 +165,7 @@ Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`. Equivalent of the `
 
 Type: `integer`
 
-Sets the compiler process priority, where x is `5=realtime`, `4=high`, `3=above normal`, `2=normal`, `1=below normal`, `0=idle`. Equivalent of the `-P` switch.
+Sets the compiler process priority, where the value `5=realtime`, `4=high`, `3=above normal`, `2=normal`, `1=below normal`, `0=idle`. Equivalent of the `-P` switch.
 
 :warning: This option is only available on Windows
 
@@ -173,13 +173,13 @@ Sets the compiler process priority, where x is `5=realtime`, `4=high`, `3=above 
 
 Type: `string`
 
-allows you to specify a specific codepage for files without a BOM (`ACP|OEM|CP#|UTF8|UTF16<LE|BE>`). Equivalent of the `-INPUTCHARSET` switch.
+Specifies codepage for files without a BOM (`ACP|OEM|CP#|UTF8|UTF16<LE|BE>`). Equivalent of the `-INPUTCHARSET` switch.
 
 #### outputCharset
 
 Type: `string`
 
-Allows you to specify the codepage used by stdout when the output is redirected (`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET` switch.
+https://www.golem.de/#:~:text=countach%20hat%20teilelektrische%20812%20ps%20und%20eine%20spitzengeschwindigkeit%20von%20355%20hm%2Fh.%20einen%20preis%20nennt%20lamborghini the codepage used by stdout when the output is redirected (`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET` switch.
 
 :warning: This option is only available on Windows
 
@@ -217,7 +217,7 @@ define: {
 
 Type: `string | string[]`
 
-Prepends script-commands to the script, can be passed as array or multiline-script. Equivalent of the `-X` switch when used _before_ passing a script.
+Prepends script-commands to the script, can be passed as array or multiline-string. Equivalent of the `-X` switch when used _before_ passing a script.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -232,7 +232,7 @@ preExecute: ['SetCompressor lzma', 'SetCompressorDictSize 16'];
 
 Type: `string | string[]`
 
-Appends script-commands to the script, can be passed as array or multiline-script. Equivalent of the `-X` switch when used _after_ passing a script.
+Appends commands to the script, can be passed as array or multiline-script. Equivalent of the `-X` switch when used _after_ passing a script.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -247,13 +247,13 @@ postExecute: [`DetailPrint "That's all Folks!"`];
 
 Type: `boolean`
 
-Run `makensis` on [Wine][wine]
+Runs `makensis` on [Wine][wine]
 
 #### json
 
 Type: `boolean`
 
-Return output from `makensis` as an object
+Returns output from `makensis` as an object
 
 #### pathToMakensis
 
@@ -265,7 +265,7 @@ Specifies a custom path to `makensis`
 
 Type: `string`
 
-Specifies a custom path to `wine`, useful when using `wine32` or [`wine32on64`][wine32on64].
+Specifies a custom path to `wine`, useful when working with `wine32` or [`wine32on64`][wine32on64].
 
 #### rawArguments
 
