@@ -185,8 +185,8 @@ function formatOutput(stream, args, opts: makensis.CompilerOptions): makensis.St
   return stream;
 }
 
-function objectify(input: string, key: string | null): Record<string, unknown> {
-  let output: any = {};
+function objectify(input: string, key: string | null): Record<string, unknown> | string {
+  let output: { [key: string]: unknown } | string = {};
 
   if (key === 'version' && input.startsWith('v')) {
     input = input.substr(1);
@@ -336,6 +336,7 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
     let warningsCounter = 0;
     let outFile = '';
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const child: any = spawn(cmd, args, spawnOptions);
 
     child.stdout.on('data', data => {
@@ -399,6 +400,7 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
 }
 
 function spawnMakensisSync(cmd: string, args: Array<string>, opts: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let child: any = spawnSync(cmd, args, spawnOptions);
 
   child.stdout = stringify(child.stdout);
