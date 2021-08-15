@@ -87,10 +87,10 @@ async function nsisDir(compilerOptions: makensis.CompilerOptions = {}): Promise<
 
   function handler(hdrinfo) {
     if (compilerOptions.json === true) {
-      return objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
+      return objectify(hdrinfo.stdout['defined_symbols']['NSISDIR'], 'nsisdir');
     }
 
-    return hdrinfo.stdout.defined_symbols.NSISDIR;
+    return hdrinfo.stdout['defined_symbols']['NSISDIR'];
   }
 
   try {
