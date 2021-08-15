@@ -20,7 +20,7 @@ function commandHelp(command = '', options: makensis.CompilerOptions = {}, spawn
 
   const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-CMDHELP'], options);
 
-  if (command?.length && typeof command !== 'object') {
+  if (command?.length && typeof command === 'string') {
     args.push(command);
   }
 
