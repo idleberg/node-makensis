@@ -173,13 +173,13 @@ Sets the compiler process priority, where the value `5=realtime`, `4=high`, `3=a
 
 Type: `string`
 
-Specifies codepage for files without a BOM (`ACP|OEM|CP#|UTF8|UTF16<LE|BE>`). Equivalent of the `-INPUTCHARSET` switch.
+Specifies the codepage for files without a BOM (`ACP|OEM|CP#|UTF8|UTF16<LE|BE>`). Equivalent of the `-INPUTCHARSET` switch.
 
 #### outputCharset
 
 Type: `string`
 
-https://www.golem.de/#:~:text=countach%20hat%20teilelektrische%20812%20ps%20und%20eine%20spitzengeschwindigkeit%20von%20355%20hm%2Fh.%20einen%20preis%20nennt%20lamborghini the codepage used by stdout when the output is redirected (`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET` switch.
+Specifies the codepage used by stdout when the output is redirected (`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET` switch.
 
 :warning: This option is only available on Windows
 
