@@ -218,7 +218,7 @@ function mapArguments(args, options) {
     return [cmd, args, { json: options.json, wine: options.wine }];
 }
 function stringify(data) {
-    return data
+    return (data === null || data === void 0 ? void 0 : data.length)
         ? data.toString().trim()
         : '';
 }
@@ -469,7 +469,7 @@ function commandHelp(command, options, spawnOptions) {
     if (spawnOptions === void 0) { spawnOptions = {}; }
     options = __assign(__assign({}, options), { verbose: 0 });
     var _a = mapArguments(['-CMDHELP'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    if ((command === null || command === void 0 ? void 0 : command.length) && typeof command !== 'object') {
+    if ((command === null || command === void 0 ? void 0 : command.length) && typeof command === 'string') {
         args.push(command);
     }
     return spawnMakensis(cmd, args, opts, spawnOptions);
