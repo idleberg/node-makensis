@@ -141,7 +141,7 @@ function stringify(data): string {
 }
 
 function isInteger(x): boolean {
-  return x % 2 === 0;
+  return !isNaN(x);
 }
 
 function inRange(value: number, min: number, max: number): boolean {
