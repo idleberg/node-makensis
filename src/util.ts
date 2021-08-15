@@ -110,7 +110,7 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): makens
   if (options.priority) {
     const priority = parseInt(String(options.priority));
 
-    if (platform() === 'win32' && isInteger(priority) && inRange(priority, 0, 5)) {
+    if (platform() === 'win32' && isNumeric(priority) && inRange(priority, 0, 5)) {
       args.push(`-P${options.priority}`);
     }
   }
@@ -118,7 +118,7 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): makens
   if (options.verbose) {
   const verbosity = parseInt(String(options.verbose));
 
-    if (isInteger(verbosity) && inRange(verbosity, 0, 4)) {
+    if (isNumeric(verbosity) && inRange(verbosity, 0, 4)) {
       args.push(`-V${verbosity}`);
     }
   }
@@ -140,7 +140,7 @@ function stringify(data): string {
     : '';
 }
 
-function isInteger(x): boolean {
+function isNumeric(x): boolean {
   return !isNaN(x);
 }
 
@@ -273,7 +273,7 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): Record<s
     const pair = symbol.split('=');
 
     if (pair.length > 1 && pair[0] !== 'undefined') {
-      if (isInteger(pair[1]) === true) {
+      if (isNumeric(pair[1]) === true) {
         pair[1] = parseInt(pair[1], 10);
       }
 
