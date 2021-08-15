@@ -135,7 +135,7 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): makens
 }
 
 function stringify(data): string {
-  return data
+  return data?.length
     ? data.toString().trim()
     : '';
 }
