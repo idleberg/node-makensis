@@ -191,13 +191,13 @@ headerInfo.sync = (options: makensis.CompilerOptions = {}, spawnOptions: SpawnOp
  */
 nsisDir.sync = (options: makensis.CompilerOptions = {}): string | Record<string, unknown> => {
   const hdrOptions = { ...options, json: true };
-  const hdrinfo: any = headerInfo.sync(hdrOptions);
+  const hdrinfo = headerInfo.sync(hdrOptions);
 
   if (options.json === true) {
-    return objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
+    return objectify(hdrinfo.stdout['defined_symbols']['NSISDIR'], 'nsisdir');
   }
 
-  return hdrinfo.stdout.defined_symbols.NSISDIR;
+  return hdrinfo.stdout['defined_symbols']['NSISDIR'];
 }
 
 /**
