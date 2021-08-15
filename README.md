@@ -13,9 +13,7 @@ Make sure that NSIS is properly installed with `makensis` in your PATH [environm
 
 ### Windows
 
-Download the NSIS installer from [SourceForge][sourceforge] and run setup. Once completed, you need to edit your environmental variable manually.
-
-Alternatively, you can install NSIS using the [Windows Package Manager][winget] or [Scoop][scoop]:
+Install NSIS using the [Windows Package Manager][winget] or [Scoop][scoop]:
 
 ```powershell
 # Windows Package Manager
@@ -24,6 +22,8 @@ $ winget install NSIS.NSIS
 # Scoop
 $ scoop install nsis/nsis
 ```
+
+Alternatively, you can download the NSIS installer from [SourceForge][sourceforge].
 
 ### Linux
 
