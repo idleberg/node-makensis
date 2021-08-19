@@ -66,6 +66,7 @@
     "prepare": "husky install"
   },
   "prettier": {
+    "embeddedLanguageFormatting": "off",
     "semi": true,
     "singleQuote": true,
     "tabWidth": 4
