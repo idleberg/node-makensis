@@ -67,8 +67,8 @@ import * as NSIS from 'makensis';
 const options = {
     verbose: 2,
     define: {
-        SPECIAL_BUILD: true,
-    },
+        SPECIAL_BUILD: true
+    }
 };
 
 // Asynchronous: async/await
@@ -293,8 +293,8 @@ Gives access to an object containing the exit code, the full `stdout` and `stder
 
 ## Related
 
--   [atom-language-nsis][atom-language-nsis] - NSIS package for Atom
--   [vscode-nsis][vscode-nsis] - NSIS package for Visual Studio Code
+- [atom-language-nsis][atom-language-nsis] - NSIS package for Atom
+- [vscode-nsis][vscode-nsis] - NSIS package for Visual Studio Code
 
 ## License
 
