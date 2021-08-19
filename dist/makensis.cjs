@@ -84,13 +84,7 @@ function __spreadArray(to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 }
 
-var codePages = [];
-Object.keys(languageData.meta).map(function (key) {
-    var codePage = languageData.meta[key].code_page;
-    if (!isNaN(codePage) && !codePages.includes("CP" + codePage)) {
-        codePages.push("CP" + codePage);
-    }
-});
+var codePages = languageData.codepages().map(function (cp) { return "CP" + cp; });
 var input = __spreadArray(__spreadArray([
     'ACP'
 ], codePages), [
