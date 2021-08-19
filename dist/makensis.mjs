@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { meta } from '@nsis/language-data';
+import { codepages } from '@nsis/language-data';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
 import { split } from 'shlex';
@@ -80,13 +80,7 @@ function __spreadArray(to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 }
 
-var codePages = [];
-Object.keys(meta).map(function (key) {
-    var codePage = meta[key].code_page;
-    if (!isNaN(codePage) && !codePages.includes("CP" + codePage)) {
-        codePages.push("CP" + codePage);
-    }
-});
+var codePages = codepages().map(function (cp) { return "CP" + cp; });
 var input = __spreadArray(__spreadArray([
     'ACP'
 ], codePages), [
