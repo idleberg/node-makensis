@@ -75,6 +75,6 @@
   },
   "lint-staged": {
     "*.(ts|json)": "eslint --cache --fix",
-    "*.md": "prettier --write"
+    "*.md": "prettier --write --config prettier.config.cjs"
   }
 }
