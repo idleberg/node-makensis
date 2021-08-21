@@ -26,7 +26,7 @@
   "dependencies": {
     "@nsis/language-data": "^0.7.4",
     "chalk": "^4.1.1",
-    "quoted-string-space-split": "^1.0.0"
+    "shlex": "^2.1.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^19.0.1",
