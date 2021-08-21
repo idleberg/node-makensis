@@ -5,7 +5,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 var events = require('events');
 var os = require('os');
 var child_process = require('child_process');
-var quotedStringSpaceSplit = require('quoted-string-space-split');
+var shlex = require('shlex');
 var chalk = require('chalk');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
@@ -8279,10 +8279,11 @@ function mapArguments(args, options) {
     }
     if (options.rawArguments) {
         if (typeof options.rawArguments === 'string') {
-            args.push.apply(args, quotedStringSpaceSplit.splitSpacesExcludeQuotes(options.rawArguments));
+            console.warn(chalk__default['default'].yellow('makensis: Providing raw arguments as a string has been deprecated and will be removed in v1.0.0. You will still be able to provide an array.'));
+            args.push.apply(args, shlex.split(options.rawArguments));
         }
         else if (Array.isArray(options.rawArguments)) {
-            args = args.concat(options.rawArguments);
+            args = __spreadArray(__spreadArray([], args), options.rawArguments);
         }
     }
     return [cmd, args, { json: options.json, wine: options.wine }];

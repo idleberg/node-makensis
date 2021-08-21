@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
-import { splitSpacesExcludeQuotes } from 'quoted-string-space-split';
+import { split } from 'shlex';
 import chalk from 'chalk';
 
 var eventEmitter = new EventEmitter();
@@ -8271,10 +8271,11 @@ function mapArguments(args, options) {
     }
     if (options.rawArguments) {
         if (typeof options.rawArguments === 'string') {
-            args.push.apply(args, splitSpacesExcludeQuotes(options.rawArguments));
+            console.warn(chalk.yellow('makensis: Providing raw arguments as a string has been deprecated and will be removed in v1.0.0. You will still be able to provide an array.'));
+            args.push.apply(args, split(options.rawArguments));
         }
         else if (Array.isArray(options.rawArguments)) {
-            args = args.concat(options.rawArguments);
+            args = __spreadArray(__spreadArray([], args), options.rawArguments);
         }
     }
     return [cmd, args, { json: options.json, wine: options.wine }];
