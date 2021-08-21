@@ -3,6 +3,7 @@ import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
 import { splitSpacesExcludeQuotes } from 'quoted-string-space-split';
+import chalk from 'chalk';
 
 import { SpawnOptions } from 'child_process';
 import type makensis from '../types';
