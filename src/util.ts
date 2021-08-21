@@ -2,7 +2,7 @@ import { eventEmitter } from './events';
 import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
-import { splitSpacesExcludeQuotes } from 'quoted-string-space-split';
+import { split } from 'shlex';
 import chalk from 'chalk';
 
 import { SpawnOptions } from 'child_process';
@@ -117,9 +117,9 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): unknow
   if (options.rawArguments) {
     if (typeof options.rawArguments === 'string') {
       console.warn(chalk.yellow('makensis: Providing raw arguments as a string has been deprecated and will be removed in v1.0.0. You will still be able to provide an array.'));
-      args.push(...splitSpacesExcludeQuotes(options.rawArguments));
+      args.push(...split(options.rawArguments));
     } else if (Array.isArray(options.rawArguments)) {
-      args = args.concat(options.rawArguments);
+      args = [...args, ...options.rawArguments];
     }
   }
 
