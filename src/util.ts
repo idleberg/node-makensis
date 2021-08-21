@@ -115,6 +115,7 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): unknow
 
   if (options.rawArguments) {
     if (typeof options.rawArguments === 'string') {
+      console.warn(chalk.yellow('makensis: Providing raw arguments as a string has been deprecated and will be removed in v1.0.0. You will still be able to provide an array.'));
       args.push(...splitSpacesExcludeQuotes(options.rawArguments));
     } else if (Array.isArray(options.rawArguments)) {
       args = args.concat(options.rawArguments);
