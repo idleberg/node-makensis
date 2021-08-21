@@ -24,8 +24,7 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@nsis/language-data": "^0.8.0",
-    "shlex": "^2.1.0"
+    "@nsis/language-data": "^0.8.0"
   },
   "devDependencies": {
     "@ava/babel": "^2.0.0",
@@ -76,6 +75,6 @@
   },
   "lint-staged": {
     "*.(ts|json)": "eslint --cache --fix",
-    "*.md": "prettier --write --config prettier.config.cjs"
+    "*.md": "prettier --write"
   }
 }

@@ -4,7 +4,7 @@ const { defaultScriptArray, defaultScriptString, nullDevice, shared } = require(
 const MakeNSIS = require('../dist/makensis.cjs');
 const path = require('path');
 const test = require('ava');
- 
+
 const scriptFile = {
     minimal: path.join(__dirname, 'fixtures', 'utf8.nsi'),
     warning: path.join(__dirname, 'fixtures', 'warnings.nsi'),
@@ -400,35 +400,7 @@ test('Compilation with error', t => {
     t.not(actual, expected);
 });
 
-test('Compilation with raw arguments string', t => {
-    const expected = '';
-    const actual = MakeNSIS.compile.sync(scriptFile.minimal, {
-        rawArguments: '-V0 -X"!echo `Game Over`"',
-    }).stdout;
-
-    t.is(actual, expected);
-});
-
-test('Compilation with raw arguments string [async]', async t => {
-    try {
-        const { status } = await MakeNSIS.compile(scriptFile.minimal, {
-            rawArguments: '-V0 -X"!echo `Game Over`"',
-            define: {
-                NULL_DEVICE: nullDevice,
-            },
-        });
-
-        const expected = 0;
-        const actual = status;
-
-        t.is(actual, expected);
-    } catch ({ stderr }) {
-        t.fail(stderr);
-        t.fail(stderr);
-    }
-});
-
-test('Compilation with raw arguments array', t => {
+test('Compilation with raw arguments', t => {
     const expected = '';
     const actual = MakeNSIS.compile.sync(scriptFile.minimal, {
         rawArguments: ['-V0', '-X"!echo \"EOF\""'],
@@ -437,37 +409,19 @@ test('Compilation with raw arguments array', t => {
     t.is(actual, expected);
 });
 
-test('Compilation with raw arguments array [async]', async t => {
-    try {
-        const { status } = await MakeNSIS.compile(scriptFile.minimal, {
-            rawArguments: '-V0 -X"!echo `Game Over`"',
-            define: {
-                NULL_DEVICE: nullDevice,
-            },
-        });
-
-        const expected = 0;
-        const actual = status;
-
-        t.is(actual, expected);
-    } catch ({ stderr }) {
-        t.fail(stderr);
-    }
-});
-
-test('Compilation with raw arguments string and warning', t => {
+test('Compilation with raw arguments and warning', t => {
     const expected = 1;
     const actual = MakeNSIS.compile.sync(scriptFile.warning, {
-        rawArguments: '-WX',
+        rawArguments: ['-WX'],
     }).status;
 
     t.is(actual, expected);
 });
 
-test('Compilation with raw arguments string and warning [async]', async t => {
+test('Compilation with raw arguments and warning [async]', async t => {
     try {
         const { status } = await MakeNSIS.compile(scriptFile.warning, {
-            rawArguments: '-WX',
+            rawArguments: ['-WX'],
         });
 
         const expected = 1;
