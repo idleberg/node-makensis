@@ -269,9 +269,9 @@ Specifies a custom path to `wine`, useful when working with `wine32` or [`wine32
 
 #### rawArguments
 
-Type: `string | string[]`
+Type: `string[]`
 
-Specifies raw arguments for `makensis`. For complex quote combinations, consider supplying the arguments as array.
+Specifies raw arguments for `makensis`.
 
 :warning: These will be added to the compiler arguments last and will hence overwrite any of the NSIS options above!
 
@@ -293,8 +293,8 @@ Gives access to an object containing the exit code, the full `stdout` and `stder
 
 ## Related
 
-- [atom-language-nsis][atom-language-nsis] - NSIS package for Atom
-- [vscode-nsis][vscode-nsis] - NSIS package for Visual Studio Code
+-   [atom-language-nsis][atom-language-nsis] - NSIS package for Atom
+-   [vscode-nsis][vscode-nsis] - NSIS package for Visual Studio Code
 
 ## License
 

@@ -2,7 +2,6 @@ import { eventEmitter } from './events';
 import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
-import { split } from 'shlex';
 
 import type { SpawnOptions } from 'child_process';
 import type makensis from '../types';
@@ -123,12 +122,8 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): makens
     }
   }
 
-  if (options.rawArguments) {
-    if (typeof options.rawArguments === 'string') {
-      args.push(...split(options.rawArguments));
-    } else if (Array.isArray(options.rawArguments)) {
-      args = args.concat(options.rawArguments);
-    }
+  if (options.rawArguments && Array.isArray(options.rawArguments)) {
+    args = [...args, ...options.rawArguments];
   }
 
   return [cmd, args, { json: options.json, wine: options.wine }];

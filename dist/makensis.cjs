@@ -6,7 +6,6 @@ var events = require('events');
 var languageData = require('@nsis/language-data');
 var os = require('os');
 var child_process = require('child_process');
-var shlex = require('shlex');
 
 var eventEmitter = new events.EventEmitter();
 
@@ -201,13 +200,8 @@ function mapArguments(args, options) {
             args.push("-V" + verbosity);
         }
     }
-    if (options.rawArguments) {
-        if (typeof options.rawArguments === 'string') {
-            args.push.apply(args, shlex.split(options.rawArguments));
-        }
-        else if (Array.isArray(options.rawArguments)) {
-            args = args.concat(options.rawArguments);
-        }
+    if (options.rawArguments && Array.isArray(options.rawArguments)) {
+        args = __spreadArray(__spreadArray([], args), options.rawArguments);
     }
     return [cmd, args, { json: options.json, wine: options.wine }];
 }
