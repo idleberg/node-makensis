@@ -1,14 +1,6 @@
-import { meta } from '@nsis/language-data';
+import { codepages } from '@nsis/language-data';
 
-const codePages: string[] = [];
-
-Object.keys(meta).map( key => {
-  const codePage = meta[key].code_page;
-
-  if (!isNaN(codePage) && !codePages.includes(`CP${codePage}`)) {
-    codePages.push(`CP${codePage}`);
-  }
-});
+const codePages: string[] = codepages().map(cp => `CP${cp}`);
 
 const input: string[] = [
   'ACP',

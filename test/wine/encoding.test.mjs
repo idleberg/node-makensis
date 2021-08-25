@@ -1,11 +1,12 @@
 /* eslint-disable */
-
-// Dependencies
-import { compile } from '../dist/makensis.mjs';
-import { platform } from 'os';
-import path from 'path';
+import { createRequire } from 'node:module';
+import * as MakeNSIS from '../../dist/makensis.mjs';
+import path from 'node:path';
 import test from 'ava';
 
+// Temporary workarounds
+const require = createRequire(import.meta.url);
+const { nullDevice } = require('../shared');
 const __dirname = path.resolve(path.dirname(''));
 
 // Compiler arguments
@@ -13,38 +14,39 @@ const script = {
     // cp850: join(__dirname, 'fixtures', 'cp850.nsi'),
     utf8: path.join(__dirname, 'test', 'fixtures', 'utf8.nsi'),
 };
-const nullDevice = platform() === 'win32' ? 'NUL' : '/dev/null';
-let options = {
+
+const defaultOptions = {
     strict: true,
     define: {
         NULL_DEVICE: nullDevice,
     },
+    wine: true
 };
 
 // Let's run the tests
 test('Compile script with correct charset', (t) => {
-    options = { ...options, inputCharset: 'UTF8' };
+    const options = { ...defaultOptions, inputCharset: 'UTF8' };
 
     const expected = '';
-    const actual = compile.sync(script['utf8'], options).stderr;
+    const actual = MakeNSIS.compile.sync(script['utf8'], options).stderr;
 
     t.is(actual, expected);
 });
 
 test('Compile script with incorrect charset', (t) => {
-    options = { ...options, inputCharset: 'UTF16BE' };
+    const options = { ...defaultOptions, inputCharset: 'UTF16BE' };
 
     const expected = 0;
-    const actual = compile.sync(script['utf8'], options).status;
+    const actual = MakeNSIS.compile.sync(script['utf8'], options).status;
 
     t.not(actual, expected);
 });
 
 test('Compile script with correct charset [async]', async (t) => {
-    options = { ...options, inputCharset: 'UTF8' };
+    const options = { ...defaultOptions, inputCharset: 'UTF8' };
 
     try {
-        const { status } = await compile(script['utf8'], options);
+        const { status } = await MakeNSIS.compile(script['utf8'], options);
 
         const expected = 0;
         const actual = status;
@@ -62,10 +64,10 @@ test('Compile script with correct charset [async]', async (t) => {
 });
 
 test('Compile script with incorrect charset [async]', async (t) => {
-    options = { ...options, inputCharset: 'UTF16BE' };
+    const options = { ...defaultOptions, inputCharset: 'UTF16BE' };
 
     try {
-        const { status } = compile(script['utf8'], options);
+        const { status } = MakeNSIS.compile(script['utf8'], options);
 
         const expected = 0;
         const actual = status;

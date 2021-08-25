@@ -6,9 +6,5 @@ export {
   headerInfo,
   license,
   nsisDir,
-  version,
-
-  // Aliases
-  cmdHelp,
-  hdrInfo
+  version
 } from './commands';

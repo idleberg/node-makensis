@@ -22,7 +22,7 @@ jobs:
     - name: Install NSIS (macOS)
       if: matrix.os == 'macos-latest'
       run: |
-        brew update && brew install nsis
+        brew update
         brew install nsis
 
     - name: Install NSIS (Ubuntu)
@@ -57,7 +57,7 @@ jobs:
           ${{ runner.os }}-build-
           ${{ runner.os }}-
 
-    - name: Install Packages Dependencies
+    - name: Install Package Dependencies
       run: npm ci
 
     - name: Lint Source

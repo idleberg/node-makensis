@@ -2,10 +2,8 @@ import { eventEmitter } from './events';
 import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
-import { split } from 'shlex';
-import chalk from 'chalk';
 
-import { SpawnOptions } from 'child_process';
+import type { SpawnOptions } from 'child_process';
 import type makensis from '../types';
 
 function splitCommands(data: string | string[]): string[] {
@@ -34,15 +32,19 @@ function splitCommands(data: string | string[]): string[] {
   return args;
 }
 
-function mapArguments(args: string[], options: makensis.CompilerOptions): unknown[] {
+function mapArguments(args: string[], options: makensis.CompilerOptions): makensis.MapArguments {
   const pathToMakensis: string = options.pathToMakensis
     ? options.pathToMakensis
     : 'makensis';
 
+  const pathToWine: string = options.pathToWine
+    ? options.pathToWine
+    : 'wine';
+
     let cmd: string;
 
   if (platform() !== 'win32' && options.wine === true) {
-    cmd = 'wine';
+    cmd = pathToWine;
     args.unshift(pathToMakensis);
   } else {
     cmd = pathToMakensis;
@@ -104,36 +106,37 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): unknow
     args.push('-SAFEPPO');
   }
 
-  const priority = parseInt(String(options.priority));
-  if (platform() === 'win32' && isInteger(priority) && inRange(priority, 0, 5)) {
-    args.push(`-P${options.priority}`);
-  }
+  if (options.priority) {
+    const priority = parseInt(String(options.priority), 10);
 
-  const verbosity = parseInt(String(options.verbose));
-  if (isInteger(verbosity) && inRange(verbosity, 0, 4)) {
-    args.push(`-V${verbosity}`);
-  }
-
-  if (options.rawArguments) {
-    if (typeof options.rawArguments === 'string') {
-      console.warn(chalk.yellow('makensis: Providing raw arguments as a string has been deprecated and will be removed in v1.0.0. You will still be able to provide an array.'));
-      args.push(...split(options.rawArguments));
-    } else if (Array.isArray(options.rawArguments)) {
-      args = [...args, ...options.rawArguments];
+    if (platform() === 'win32' && isNumeric(priority) && inRange(priority, 0, 5)) {
+      args.push(`-P${options.priority}`);
     }
+  }
+
+  if (options.verbose) {
+  const verbosity = parseInt(String(options.verbose), 10);
+
+    if (isNumeric(verbosity) && inRange(verbosity, 0, 4)) {
+      args.push(`-V${verbosity}`);
+    }
+  }
+
+  if (options.rawArguments && Array.isArray(options.rawArguments)) {
+    args = [...args, ...options.rawArguments];
   }
 
   return [cmd, args, { json: options.json, wine: options.wine }];
 }
 
 function stringify(data): string {
-  return data
+  return data?.length
     ? data.toString().trim()
     : '';
 }
 
-function isInteger(x): boolean {
-  return x % 2 === 0;
+function isNumeric(x): boolean {
+  return !isNaN(x);
 }
 
 function inRange(value: number, min: number, max: number): boolean {
@@ -144,7 +147,7 @@ function hasWarnings(line: string): number {
   const match = line.match(/(\d+) warnings?:/);
 
   if (match !== null) {
-    return parseInt(match[1]);
+    return parseInt(match[1], 10);
   }
 
   return 0;
@@ -177,8 +180,8 @@ function formatOutput(stream, args, opts: makensis.CompilerOptions): makensis.St
   return stream;
 }
 
-function objectify(input: string, key: string | null): unknown {
-  let output: any = {};
+function objectify(input: string, key: string | null): Record<string, unknown> | string {
+  let output: { [key: string]: unknown } | string = {};
 
   if (key === 'version' && input.startsWith('v')) {
     input = input.substr(1);
@@ -193,30 +196,37 @@ function objectify(input: string, key: string | null): unknown {
   return output;
 }
 
-function objectifyHelp(input: string, opts: makensis.CompilerOptions): unknown {
+function objectifyHelp(input: string, opts: makensis.CompilerOptions): Record<string, unknown> {
   const lines = splitLines(input, opts);
   lines.sort();
 
   const output = {};
 
-  lines.map(line => {
-    let command = line.substr(0, line.indexOf(' '));
-    const usage = line.substr(line.indexOf(' ') + 1);
+  if (lines?.length) {
+    lines.map(line => {
+      let command = line.substr(0, line.indexOf(' '));
+      const usage = line.substr(line.indexOf(' ') + 1);
 
-    // Workaround
-    if (['!AddIncludeDir', '!AddPluginDir'].includes(command)) {
-      command = command.toLowerCase();
-    }
+      // Workaround
+      if (['!AddIncludeDir', '!AddPluginDir'].includes(command)) {
+        command = command.toLowerCase();
+      }
 
-    if (command)
-      output[command] = usage;
-  });
+      if (command)
+        output[command] = usage;
+    });
+  }
 
   return output;
 }
 
-function objectifyFlags(input: string, opts: makensis.CompilerOptions): unknown {
+function objectifyFlags(input: string, opts: makensis.CompilerOptions): Record<string, unknown> {
+  const output = {};
   const lines = splitLines(input, opts);
+
+  if (!lines?.length) {
+    return output;
+  }
 
   const filteredLines = lines.filter(line => {
     if (line !== '') {
@@ -224,10 +234,13 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): unknown 
     }
   });
 
-  const output = {};
   const tableSizes = {};
   const tableSymbols = {};
   let symbols;
+
+  if (!filteredLines?.length) {
+    return output;
+  }
 
   // Split sizes
   filteredLines.map(line => {
@@ -246,12 +259,16 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): unknown 
 
   output['sizes'] = tableSizes;
 
+  if (!symbols?.length) {
+    return output;
+  }
+
   // Split symbols
   symbols.map(symbol => {
     const pair = symbol.split('=');
 
     if (pair.length > 1 && pair[0] !== 'undefined') {
-      if (isInteger(pair[1]) === true) {
+      if (isNumeric(pair[1]) === true) {
         pair[1] = parseInt(pair[1], 10);
       }
 
@@ -314,6 +331,7 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
     let warningsCounter = 0;
     let outFile = '';
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const child: any = spawn(cmd, args, spawnOptions);
 
     child.stdout.on('data', data => {
@@ -377,6 +395,7 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
 }
 
 function spawnMakensisSync(cmd: string, args: Array<string>, opts: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let child: any = spawnSync(cmd, args, spawnOptions);
 
   child.stdout = stringify(child.stdout);

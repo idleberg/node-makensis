@@ -1,0 +1,81 @@
+name: CI:Wine
+
+on: [push]
+
+jobs:
+  default:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ['12', '14', '16']
+        os: [macos-10.15, ubuntu-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 1
+
+    - uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install Wine (macOS)
+      if: matrix.os == 'macos-10.15'
+      run: |
+        brew update
+        brew tap gcenx/wine
+        brew install --cask --no-quarantine wine-crossover
+
+    - name: Install Wine (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run:   |
+        sudo dpkg --add-architecture i386
+        sudo apt-get -y update
+        sudo apt-get -y install wine-stable
+
+    - name: Install NSIS
+      run: |
+        curl -L https://downloads.sourceforge.net/project/nsis/NSIS%203/3.07/nsis-3.07-setup.exe -o /tmp/nsis-setup-$GITHUB_SHA.exe
+        wine /tmp/nsis-setup-$GITHUB_SHA.exe /S
+        wine regedit "${GITHUB_WORKSPACE}/.github/nsis.reg"
+
+    - name: Print NSIS version (macOS)
+      if: matrix.os == 'macos-latest'
+      run: wine32on64 makensis /VERSION
+
+    - name: Print NSIS version (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: wine makensis /VERSION
+
+    - name: Print NSIS header info (macOS)
+      if: matrix.os == 'macos-latest'
+      run: wine32on64 makensis /HDRINFO
+
+    - name: Print NSIS header info (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: wine makensis /HDRINFO
+
+    - name: Cache node modules
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-node-modules
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - name: Install Package Dependencies
+      run: npm ci
+
+    - name: Lint Source
+      run: npm run lint --if-present
+
+    - name: Build Source
+      run: npm run build --if-present
+
+    - name: Run Tests
+      run: npm run test:wine --if-present
