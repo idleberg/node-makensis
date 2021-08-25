@@ -24,6 +24,7 @@ declare namespace makensis {
 
     // library
     pathToMakensis?: string;
+    pathToWine?: string;
   }
 
   interface CompilerOutput {
@@ -33,9 +34,16 @@ declare namespace makensis {
     warnings: number;
   }
 
+  type MapArguments = [string, string[], MapArgumentOptions];
+
+  interface MapArgumentOptions {
+    json?: boolean;
+    wine?: boolean;
+  }
+
   interface StreamOptions {
-    stdout?: string;
-    stderr?: string;
+    stdout: string;
+    stderr: string;
   }
 }
 

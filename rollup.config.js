@@ -15,10 +15,11 @@ const compilerOptions = {
 };
 
 const external = [
+  '@nsis/language-data',
   'child_process',
   'events',
   'os',
-  'quoted-string-space-split'
+  'shlex'
 ];
 
 export default [

@@ -24,21 +24,21 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@nsis/language-data": "^0.7.4",
-    "chalk": "^4.1.2",
-    "shlex": "^2.1.0"
+    "@nsis/language-data": "^0.8.0"
   },
   "devDependencies": {
+    "@ava/babel": "^2.0.0",
     "@rollup/plugin-commonjs": "^20.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-typescript": "^8.2.5",
-    "@types/node": "^16.7.1",
+    "@types/node": "^16.6.2",
     "@typescript-eslint/eslint-plugin": "^4.29.2",
     "@typescript-eslint/parser": "^4.29.2",
     "ava": "^3.15.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
+    "eslint-plugin-json": "^3.1.0",
     "husky": "^7.0.0",
-    "jsonlint": "^1.6.3",
     "lint-staged": "11.1.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.3.2",
@@ -48,19 +48,20 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.56.2",
     "tslib": "^2.3.1",
-    "typescript": "4.3.5"
+    "typescript": "4.3.5",
+    "which": "^2.0.2"
   },
   "scripts": {
     "build": "rollup -c",
     "dev": "npm run start",
     "fix": "eslint --fix ./src",
+    "lint:code": "eslint ./src --ignore-path .gitignore",
     "lint:md": "remark . --quiet --frail --ignore-path .gitignore",
-    "lint:ts": "eslint ./src --ignore-path .gitignore",
     "lint": "npm-run-all --parallel lint:*",
     "prepublishOnly": "npm run lint && npm run build",
     "start": "rollup -w -c",
-    "test": "ava ./test/commands.*js ./test/encoding.*js --verbose",
-    "test:wine": "WINEDEBUG=-all ava ./test/wine.*js --verbose --timeout 2m",
+    "test": "ava ./test/*.test.*js --verbose",
+    "test:wine": "cross-env WINEDEBUG=-all ava ./test/wine/*.test.*js --verbose --timeout 300s",
     "prepare": "husky install"
   },
   "prettier": {
@@ -69,9 +70,11 @@
     "singleQuote": true,
     "tabWidth": 4
   },
+  "ava": {
+    "babel": true
+  },
   "lint-staged": {
-    "*.ts": "eslint --cache --fix",
-    "*.json": "jsonlint --quiet",
+    "*.(ts|json)": "eslint --cache --fix",
     "*.md": "prettier --write"
   }
 }

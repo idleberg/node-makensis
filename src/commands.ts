@@ -6,23 +6,21 @@ import {
   splitCommands
 } from './util';
 
-import chalk from 'chalk';
-
 import type { SpawnOptions } from 'child_process';
 import type makensis from '../types';
 
 /**
  * Returns usage information for a command, or list all commands
  * @param command - an NSIS command
- * @param options - compiler options
+ * @param compilerOptions - compiler options
  * @returns - usage description
  */
-function commandHelp(command = '', options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
-  options = { ...options, verbose: 0 };
+function commandHelp(command = '', compilerOptions: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
+  const options: makensis.CompilerOptions = { ...compilerOptions, verbose: 0 };
 
-  const [cmd, args, opts]: any = mapArguments(['-CMDHELP'], options);
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-CMDHELP'], options);
 
-  if (command?.length && typeof command !== 'object') {
+  if (command?.length && typeof command === 'string') {
     args.push(command);
   }
 
@@ -32,10 +30,10 @@ function commandHelp(command = '', options: makensis.CompilerOptions = {}, spawn
 /**
  * Compile specified script with MakeNSIS
  * @param script - path to NSIS script
- * @param options - compiler options
+ * @param compilerOptions - compiler options
  */
-function compile(script: string, options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
-  const [cmd, args, opts]: any = mapArguments([], options);
+function compile(script: string, compilerOptions: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments([], compilerOptions);
 
   if (script) {
     if (cmd === 'wine') {
@@ -44,9 +42,9 @@ function compile(script: string, options: makensis.CompilerOptions = {}, spawnOp
     args.push(script);
   }
 
-  if (options?.postExecute) {
+  if (compilerOptions?.postExecute) {
 
-    const postExecuteArgs = splitCommands(options.postExecute);
+    const postExecuteArgs = splitCommands(compilerOptions.postExecute);
 
     if (postExecuteArgs.length) {
       args.push(...postExecuteArgs);
@@ -58,43 +56,41 @@ function compile(script: string, options: makensis.CompilerOptions = {}, spawnOp
 
 /**
  * Returns information about which options were used to compile MakeNSIS
- * @param options - compiler options
+ * @param compilerOptions - compiler options
  * @returns - compiler options
  */
-function headerInfo(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
-  options = { ...options, verbose: 0 };
-
-  const [cmd, args, opts]: any = mapArguments(['-HDRINFO'], options);
+function headerInfo(compilerOptions: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
+  const options: makensis.CompilerOptions = { ...compilerOptions, verbose: 0 };
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-HDRINFO'], options);
 
   return spawnMakensis(cmd, args, opts, spawnOptions);
 }
 
 /**
  * Returns MakeNSIS software license
- * @param options - compiler options
+ * @param compilerOptions - compiler options
  * @returns - compiler license
  */
-function license(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
-
-  const [cmd, args, opts]: any = mapArguments(['-LICENSE'], options);
+function license(compilerOptions: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-LICENSE'], compilerOptions);
 
   return spawnMakensis(cmd, args, opts, spawnOptions);
 }
 
 /**
  * Returns directory where NSIS is installed to
- * @param options - compiler options
+ * @param compilerOptions - compiler options
  * @returns - NSIS directory
  */
-async function nsisDir(options: makensis.CompilerOptions = {}): Promise<string | unknown> {
-  const hdrOptions = { ...options, json: true };
+async function nsisDir(compilerOptions: makensis.CompilerOptions = {}): Promise<string | JSON> {
+  const hdrOptions: makensis.CompilerOptions = { ...compilerOptions, json: true };
 
   function handler(hdrinfo) {
-    if (options.json === true) {
-      return objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
+    if (compilerOptions.json === true) {
+      return objectify(hdrinfo.stdout['defined_symbols']['NSISDIR'], 'nsisdir');
     }
 
-    return hdrinfo.stdout.defined_symbols.NSISDIR;
+    return hdrinfo.stdout['defined_symbols']['NSISDIR'];
   }
 
   try {
@@ -108,13 +104,12 @@ async function nsisDir(options: makensis.CompilerOptions = {}): Promise<string |
 
 /**
  * Returns version of MakeNSIS
- * @param options - compiler options
+ * @param compilerOptions - compiler options
  * @returns - compiler version
  */
-function version(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
-  options = { ...options, verbose: 0 };
-
-  const [cmd, args, opts]: any = mapArguments(['-VERSION'], options);
+function version(compilerOptions: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
+  const options: makensis.CompilerOptions = { ...compilerOptions, verbose: 0 };
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-VERSION'], options);
 
   return spawnMakensis(cmd, args, opts, spawnOptions);
 }
@@ -122,13 +117,12 @@ function version(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOpti
 /**
  * Returns usage information for a command, or list all commands
  * @param command - an NSIS command
- * @param options - compiler options
+ * @param compilerOptions - compiler options
  * @returns - usage description
  */
-commandHelp.sync = (command = '', options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
-  options = { ...options, verbose: 0 };
-
-  const [cmd, args, opts]: any = mapArguments(['-CMDHELP'], options);
+commandHelp.sync = (command = '', compilerOptions: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
+  const options: makensis.CompilerOptions = { ...compilerOptions, verbose: 0 };
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-CMDHELP'], options);
 
   if (command?.length && typeof command !== 'object') {
     args.push(command);
@@ -140,10 +134,10 @@ commandHelp.sync = (command = '', options: makensis.CompilerOptions = {}, spawnO
 /**
  * Compile specified script with MakeNSIS
  * @param script - path to NSIS script
- * @param options - compiler options
+ * @param compilerOptions - compiler options
  */
- compile.sync = (script: string, options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
-  const [cmd, args, opts]: any = mapArguments([], options);
+ compile.sync = (script: string, compilerOptions: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments([], compilerOptions);
 
   if (script) {
     if (cmd === 'wine') {
@@ -152,10 +146,10 @@ commandHelp.sync = (command = '', options: makensis.CompilerOptions = {}, spawnO
     args.push(script);
   }
 
-  if (typeof options.postExecute === 'string') {
-    args.push(`-X${options.postExecute}`);
-  } else if (options.postExecute) {
-    options.postExecute.map(key => {
+  if (typeof compilerOptions.postExecute === 'string') {
+    args.push(`-X${compilerOptions.postExecute}`);
+  } else if (compilerOptions.postExecute) {
+    compilerOptions.postExecute.map(key => {
       args.push(`-X${key}`);
     });
   }
@@ -167,113 +161,50 @@ commandHelp.sync = (command = '', options: makensis.CompilerOptions = {}, spawnO
  * Returns information about which options were used to compile MakeNSIS
  * @returns - compiler options
  */
-headerInfo.sync = (options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
-  options = { ...options, verbose: 0 };
-
-  const [cmd, args, opts]: any = mapArguments(['-HDRINFO'], options);
+headerInfo.sync = (compilerOptions: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
+  const options: makensis.CompilerOptions = { ...compilerOptions, verbose: 0 };
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-HDRINFO'], options);
 
   return spawnMakensisSync(cmd, args, opts, spawnOptions);
 }
 
 /**
  * Returns MakeNSIS software license
- * @param options - compiler options
+ * @param compilerOptions - compiler options
  * @returns - compiler license
  */
- license.sync = (options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
-  const [cmd, args, opts]: any = mapArguments(['-LICENSE'], options);
+ license.sync = (compilerOptions: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-LICENSE'], compilerOptions);
 
   return spawnMakensisSync(cmd, args, opts, spawnOptions);
 }
 
 /**
  * Returns NSIS directory
- * @param options - compiler options
+ * @param compilerOptions - compiler options
  * @returns - compiler version
  */
-nsisDir.sync = (options: makensis.CompilerOptions = {}): string | unknown => {
-  const hdrOptions = { ...options, json: true };
-  const hdrinfo: any = headerInfo.sync(hdrOptions);
+nsisDir.sync = (compilerOptions: makensis.CompilerOptions = {}): string | Record<string, unknown> => {
+  const hdrOptions: makensis.CompilerOptions = { ...compilerOptions, json: true };
+  const hdrinfo = headerInfo.sync(hdrOptions);
 
-  if (options.json === true) {
-    return objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
+  if (compilerOptions.json === true) {
+    return objectify(hdrinfo.stdout['defined_symbols']['NSISDIR'], 'nsisdir');
   }
 
-  return hdrinfo.stdout.defined_symbols.NSISDIR;
+  return hdrinfo.stdout['defined_symbols']['NSISDIR'];
 }
 
 /**
  * Returns version of MakeNSIS
- * @param options - compiler options
+ * @param compilerOptions - compiler options
  * @returns - compiler version
  */
-version.sync = (options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
-  options = { ...options, verbose: 0 };
-
-  const [cmd, args, opts]: any = mapArguments(['-VERSION'], options);
+version.sync = (compilerOptions: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
+  const options: makensis.CompilerOptions = { ...compilerOptions, verbose: 0 };
+  const [cmd, args, opts]: makensis.MapArguments = mapArguments(['-VERSION'], options);
 
   return spawnMakensisSync(cmd, args, opts, spawnOptions);
-}
-
-// Aliases
-async function cmdHelp(command = '', options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
-  console.warn(chalk.yellow('makensis: cmdHelp() has been deprecated and will be removed in v1.0.0, please use commandHelp() instead'));
-
-  return await commandHelp(command, options, spawnOptions);
-}
-
-async function hdrInfo(): Promise<makensis.CompilerOutput> {
-  console.warn(chalk.yellow('makensis: hdrInfo() has been deprecated and will be removed in v1.0.0, please use headerInfo() instead'));
-
-  return await headerInfo();
-}
-
-function commandHelpSync(command = '', options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
-  console.warn(chalk.yellow('makensis: commandHelpSync() has been deprecated and will be removed in v1.0.0, please use commandHelp.sync() instead'));
-
-  return commandHelp.sync(command, options, spawnOptions);
-}
-
-function compileSync(script: string, options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
-  console.warn(chalk.yellow('makensis: compileSync() has been deprecated and will be removed in v1.0.0, please use compile.sync() instead'));
-
-  return compile.sync(script, options, spawnOptions);
-}
-
-function headerInfoSync(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
-  console.warn(chalk.yellow('makensis: headerInfoSync() has been deprecated and will be removed in v1.0.0, please use headerInfo.sync() instead'));
-
-  return headerInfo.sync(options, spawnOptions);
-}
-
-function licenseSync(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
-  console.warn(chalk.yellow('makensis: licenseSync() has been deprecated and will be removed in v1.0.0, please use license.sync() instead'));
-
-  return license.sync(options, spawnOptions);
-}
-
-function nsisDirSync(options: makensis.CompilerOptions = {}): string | unknown {
-  console.warn(chalk.yellow('makensis: nsisDirSync() has been deprecated and will be removed in v1.0.0, please use nsisDir.sync() instead'));
-
-  return nsisDir.sync(options);
-}
-
-function versionSync(options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
-  console.warn(chalk.yellow('makensis: versionSync() has been deprecated and will be removed in v1.0.0, please use version.sync() instead'));
-
-  return version.sync(options, spawnOptions);
-}
-
-cmdHelp.sync = (command = '', options: makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput => {
-  console.warn(chalk.yellow('makensis: cmdHelp() has been deprecated and will be removed in v1.0.0, please use commandHelp() instead'));
-
-  return commandHelp.sync(command, options, spawnOptions);
-}
-
-hdrInfo.sync = (): makensis.CompilerOutput => {
-  console.warn(chalk.yellow('makensis: hdrInfo() has been deprecated and will be removed in v1.0.0, please use headerInfo() instead'));
-
-  return headerInfo.sync();
 }
 
 export {
@@ -282,15 +213,5 @@ export {
   headerInfo,
   license,
   nsisDir,
-  version,
-
-  // Aliases
-  cmdHelp,
-  hdrInfo,
-  commandHelpSync,
-  compileSync,
-  headerInfoSync,
-  licenseSync,
-  nsisDirSync,
-  versionSync,
+  version
 };
