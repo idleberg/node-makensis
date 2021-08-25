@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['12', '14', '16']
+        node-version: ['lts/*']
         os: [macos-10.15, ubuntu-latest]
 
     steps:
