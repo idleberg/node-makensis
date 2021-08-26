@@ -223,7 +223,10 @@ Prepends script-commands to the script, can be passed as array or multiline-stri
 <summary><strong>Example</strong></summary>
 
 ```js
-preExecute: ['SetCompressor lzma', 'SetCompressorDictSize 16'];
+preExecute: [
+    'SetCompressor lzma',
+    'SetCompressorDictSize 16'
+];
 ```
 
 </details>
@@ -238,7 +241,7 @@ Appends commands to the script, can be passed as array or multiline-script. Equi
 <summary><strong>Example</strong></summary>
 
 ```js
-postExecute: [`DetailPrint "That's all Folks!"`];
+postExecute: [`!echo "That's all Folks!"`];
 ```
 
 </details>
