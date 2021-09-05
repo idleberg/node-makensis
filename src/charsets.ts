@@ -1,6 +1,6 @@
 import { codepages } from '@nsis/language-data';
 
-const codePages: string[] = codepages().map(cp => `CP${cp}`);
+const codePages: string[] = codepages().map((cp: number) => `CP${cp}`);
 
 const input: string[] = [
   'ACP',
