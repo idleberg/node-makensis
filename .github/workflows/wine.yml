@@ -80,7 +80,7 @@ jobs:
     - name: Run Tests (macOS)
       if: matrix.os == 'macos-10.15'
       run: npm run test:wine --if-present
-      continue-on-error: true
+      continue-on-error: true # unreliable, often times out
 
     - name: Run Tests (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
