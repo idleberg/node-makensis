@@ -8,8 +8,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['12', '14', '16']
-        os: [ubuntu-latest]
+        node-version: ['lts/*']
+        os: [macos-10.15, ubuntu-latest]
 
     steps:
     - uses: actions/checkout@v2
@@ -41,7 +41,7 @@ jobs:
         wine regedit "${GITHUB_WORKSPACE}/.github/nsis.reg"
 
     - name: Print NSIS version (macOS)
-      if: matrix.os == 'macos-latest'
+      if: matrix.os == 'macos-10.15'
       run: wine32on64 makensis /VERSION
 
     - name: Print NSIS version (Ubuntu)
@@ -49,7 +49,7 @@ jobs:
       run: wine makensis /VERSION
 
     - name: Print NSIS header info (macOS)
-      if: matrix.os == 'macos-latest'
+      if: matrix.os == 'macos-10.15'
       run: wine32on64 makensis /HDRINFO
 
     - name: Print NSIS header info (Ubuntu)
@@ -77,5 +77,11 @@ jobs:
     - name: Build Source
       run: npm run build --if-present
 
-    - name: Run Tests
+    - name: Run Tests (macOS)
+      if: matrix.os == 'macos-10.15'
+      run: npm run test:wine --if-present
+      continue-on-error: true
+
+    - name: Run Tests (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
       run: npm run test:wine --if-present
