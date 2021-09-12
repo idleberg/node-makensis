@@ -49,10 +49,6 @@ $ brew install nsis
 $ port install nsis
 ```
 
-### Wine
-
-You can setup NSIS in your [Wine][wine] environment, but keep in mind that Wine writes standard streams while executing `makensis`. To disable these debug messages, set the `WINEDEBUG` environment variable to `-all`.
-
 ## Installation
 
 `yarn add makensis || npm install makensis`
