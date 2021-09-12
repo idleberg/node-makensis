@@ -246,12 +246,6 @@ postExecute: [`!echo "That's all Folks!"`];
 
 </details>
 
-#### wine
-
-Type: `boolean`
-
-Runs `makensis` on [Wine][wine]
-
 #### json
 
 Type: `boolean`
@@ -264,12 +258,6 @@ Type: `string`
 
 Specifies a custom path to `makensis`
 
-#### pathToWine
-
-Type: `string`
-
-Specifies a custom path to `wine`, useful when working with `wine32` or [`wine32on64`][wine32on64].
-
 #### rawArguments
 
 Type: `string[]`
@@ -277,6 +265,24 @@ Type: `string[]`
 Specifies raw arguments for `makensis`.
 
 :warning: These will be added to the compiler arguments last and will hence overwrite any of the NSIS options above!
+
+#### Wine
+
+Environmental variables allow for Wine to be configured by the user. These can be specified using the `spawnOption.env` property. See the [documentation][wine-env] for details.
+
+On top of that, the following options for Wine are available:
+
+#### wine
+
+Type: `boolean`
+
+Runs `makensis` on [Wine][wine]
+
+#### pathToWine
+
+Type: `string`
+
+Specifies a custom path to `wine`, useful when working with `wine32` or [`wine32on64`][wine32on64].
 
 ### Events
 
@@ -317,6 +323,7 @@ This work is licensed under [The MIT License][the mit license].
 [!packhdr]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!packhdr.md
 [!finalize]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md
 [wine32on64]: https://github.com/Gcenx/homebrew-wine
+[wine-env]: https://wiki.winehq.org/Wine_User%27s_Guide#Environment_variables
 [atom-language-nsis]: https://atom.io/packages/language-nsis
 [vscode-nsis]: https://marketplace.visualstudio.com/items?itemName=idleberg.nsis
 [the mit license]: https://opensource.org/licenses/MIT
