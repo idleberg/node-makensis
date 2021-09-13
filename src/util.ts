@@ -5,6 +5,7 @@ import { spawn, spawnSync } from 'child_process';
 
 import type { SpawnOptions } from 'child_process';
 import type makensis from '../types';
+import { env } from 'process';
 
 function splitCommands(data: string | string[]): string[] {
   const args: string[] = [];
@@ -323,6 +324,14 @@ function detectOutfile(str: string): string {
 
 function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
   return new Promise<makensis.CompilerOutput>((resolve, reject) => {
+    if (compilerOptions.wine) {
+      spawnOptions['env'] = Object.create({
+        WINEDEBUG: '-all',
+        ...process.env,
+        ...spawnOptions.env
+      });
+    }
+
     let stream: makensis.StreamOptions = {
       stdout: '',
       stderr: ''
@@ -395,6 +404,14 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
 }
 
 function spawnMakensisSync(cmd: string, args: Array<string>, compilerOptions: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
+  if (compilerOptions.wine) {
+    spawnOptions['env'] = Object.create({
+      WINEDEBUG: '-all',
+      ...process.env,
+      ...spawnOptions.env
+    });
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let child: any = spawnSync(cmd, args, spawnOptions);
 
