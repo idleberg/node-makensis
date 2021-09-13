@@ -5,7 +5,6 @@ import { spawn, spawnSync } from 'child_process';
 
 import type { SpawnOptions } from 'child_process';
 import type makensis from '../types';
-import { env } from 'process';
 
 function splitCommands(data: string | string[]): string[] {
   const args: string[] = [];
