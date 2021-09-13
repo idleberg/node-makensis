@@ -364,7 +364,7 @@ function detectOutfile(str) {
     }
     return '';
 }
-function spawnMakensis(cmd, args, opts, spawnOptions) {
+function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
     if (spawnOptions === void 0) { spawnOptions = {}; }
     return new Promise(function (resolve, reject) {
         var stream = {
@@ -401,7 +401,7 @@ function spawnMakensis(cmd, args, opts, spawnOptions) {
         });
         // Using 'exit' will truncate stdout
         child.on('close', function (code) {
-            stream = formatOutput(stream, args, opts);
+            stream = formatOutput(stream, args, compilerOptions);
             var output = {
                 status: code,
                 stdout: stream.stdout || '',
@@ -422,7 +422,7 @@ function spawnMakensis(cmd, args, opts, spawnOptions) {
         });
     });
 }
-function spawnMakensisSync(cmd, args, opts, spawnOptions) {
+function spawnMakensisSync(cmd, args, compilerOptions, spawnOptions) {
     if (spawnOptions === void 0) { spawnOptions = {}; }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     var child = spawnSync(cmd, args, spawnOptions);
@@ -430,7 +430,7 @@ function spawnMakensisSync(cmd, args, opts, spawnOptions) {
     child.stderr = stringify(child.stderr);
     var warningsCounter = hasWarnings(child.stdout);
     var outFile = detectOutfile(child.stdout);
-    child = formatOutput(child, args, opts);
+    child = formatOutput(child, args, compilerOptions);
     var output = {
         'status': child.status,
         'stdout': child.stdout,
