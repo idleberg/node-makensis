@@ -321,7 +321,7 @@ function detectOutfile(str: string): string {
   return '';
 }
 
-function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
+function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
   return new Promise<makensis.CompilerOutput>((resolve, reject) => {
     let stream: makensis.StreamOptions = {
       stdout: '',
@@ -369,7 +369,7 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
 
     // Using 'exit' will truncate stdout
     child.on('close', code => {
-      stream = formatOutput(stream, args, opts);
+      stream = formatOutput(stream, args, compilerOptions);
 
       const output: makensis.CompilerOutput = {
         status: code,
@@ -394,7 +394,7 @@ function spawnMakensis(cmd: string, args: Array<string>, opts: makensis.Compiler
   });
 }
 
-function spawnMakensisSync(cmd: string, args: Array<string>, opts: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
+function spawnMakensisSync(cmd: string, args: Array<string>, compilerOptions: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let child: any = spawnSync(cmd, args, spawnOptions);
 
@@ -404,7 +404,7 @@ function spawnMakensisSync(cmd: string, args: Array<string>, opts: makensis.Comp
   const warningsCounter = hasWarnings(child.stdout);
   const outFile = detectOutfile(child.stdout);
 
-  child = formatOutput(child, args, opts);
+  child = formatOutput(child, args, compilerOptions);
 
   const output: makensis.CompilerOutput = {
     'status': child.status,
