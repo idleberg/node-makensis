@@ -262,19 +262,19 @@ Specifies raw arguments for `makensis`.
 
 :warning: These will be added to the compiler arguments last and will hence overwrite any of the NSIS options above!
 
-#### Wine
+#### Wine Options
 
 Environmental variables allow for Wine to be configured by the user. These can be specified using the `spawnOption.env` property. See the [documentation][wine-env] for details.
 
 On top of that, the following options for Wine are available:
 
-#### wine
+##### wine
 
 Type: `boolean`
 
 Runs `makensis` on [Wine][wine]
 
-#### pathToWine
+##### pathToWine
 
 Type: `string`
 
