@@ -368,7 +368,7 @@ function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
     if (spawnOptions === void 0) { spawnOptions = {}; }
     return new Promise(function (resolve, reject) {
         if (compilerOptions.wine) {
-            spawnOptions['env'] = Object.create(__assign(__assign({ WINEDEBUG: '-all' }, process.env), spawnOptions.env));
+            spawnOptions['env'] = Object.freeze(__assign(__assign({ WINEDEBUG: '-all' }, process.env), spawnOptions.env));
         }
         var stream = {
             stdout: '',
@@ -428,7 +428,7 @@ function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
 function spawnMakensisSync(cmd, args, compilerOptions, spawnOptions) {
     if (spawnOptions === void 0) { spawnOptions = {}; }
     if (compilerOptions.wine) {
-        spawnOptions['env'] = Object.create(__assign(__assign({ WINEDEBUG: '-all' }, process.env), spawnOptions.env));
+        spawnOptions['env'] = Object.freeze(__assign(__assign({ WINEDEBUG: '-all' }, process.env), spawnOptions.env));
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     var child = spawnSync(cmd, args, spawnOptions);

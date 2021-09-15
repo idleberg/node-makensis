@@ -324,7 +324,7 @@ function detectOutfile(str: string): string {
 function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
   return new Promise<makensis.CompilerOutput>((resolve, reject) => {
     if (compilerOptions.wine) {
-      spawnOptions['env'] = Object.create({
+      spawnOptions['env'] = Object.freeze({
         WINEDEBUG: '-all',
         ...process.env,
         ...spawnOptions.env
@@ -404,7 +404,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
 
 function spawnMakensisSync(cmd: string, args: Array<string>, compilerOptions: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
   if (compilerOptions.wine) {
-    spawnOptions['env'] = Object.create({
+    spawnOptions['env'] = Object.freeze({
       WINEDEBUG: '-all',
       ...process.env,
       ...spawnOptions.env
