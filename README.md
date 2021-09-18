@@ -264,7 +264,7 @@ Specifies raw arguments for `makensis`.
 
 #### Wine Options
 
-Environmental variables allow for Wine to be configured by the user. These can be specified using the `spawnOption.env` property. See the [documentation][wine-env] for details.
+Environmental variables allow for Wine to be configured by the user. These can be specified using the `spawnOptions.env` property. See the [documentation][wine-env] for details.
 
 On top of that, the following options for Wine are available.
 
