@@ -39,22 +39,32 @@ jobs:
         curl -L https://downloads.sourceforge.net/project/nsis/NSIS%203/3.07/nsis-3.07-setup.exe -o /tmp/nsis-setup-$GITHUB_SHA.exe
         wine /tmp/nsis-setup-$GITHUB_SHA.exe /S
         wine regedit "${GITHUB_WORKSPACE}/.github/nsis.reg"
+      env:
+        WINDEBUG: -all
 
     - name: Print NSIS version (macOS)
       if: matrix.os == 'macos-10.15'
       run: wine32on64 makensis /VERSION
+      env:
+        WINDEBUG: -all
 
     - name: Print NSIS version (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run: wine makensis /VERSION
+      env:
+        WINDEBUG: -all
 
     - name: Print NSIS header info (macOS)
       if: matrix.os == 'macos-10.15'
       run: wine32on64 makensis /HDRINFO
+      env:
+        WINDEBUG: -all
 
     - name: Print NSIS header info (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run: wine makensis /HDRINFO
+      env:
+        WINDEBUG: -all
 
     - name: Cache node modules
       uses: actions/cache@v2
