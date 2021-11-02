@@ -230,6 +230,8 @@ NSIS_APP_ENVIRONMENT=development
 !endif
 ```
 
+</details>
+
 #### preExecute
 
 Type: `string | string[]`
