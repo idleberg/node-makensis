@@ -58,7 +58,7 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): makens
     }];
   }
 
-  if (options?.define) {
+  if (options?.define || options?.env) {
     const defines = {
       ...options.define,
       ...mapDefinitions()
