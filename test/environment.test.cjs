@@ -19,7 +19,7 @@ test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async t 
 });
 
 test('Define magic environment variable', (t) => {
-  const { stdout } = MakeNSIS.compile.sync(scriptFile.minimal, {
+  const { stdout } = MakeNSIS.compile.sync(scriptFile, {
       define: {
           NULL_DEVICE: nullDevice,
       },
