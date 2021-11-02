@@ -34,6 +34,10 @@ declare namespace makensis {
     warnings: number;
   }
 
+  interface EnvironmentVariables {
+    [key: string]: string;
+  }
+
   type MapArguments = [string, string[], MapArgumentOptions];
 
   interface MapArgumentOptions {
