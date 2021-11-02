@@ -202,12 +202,33 @@ Defines symbols for the script [to value]. Equivalent of the `-D` switch.
 
 ```js
 define: {
-    "SPECIAL_BUILD": true,
-    "LANGUAGE": "English"
+    SPECIAL_BUILD: true,
+    LANGUAGE: "English"
 }
 ```
 
 </details>
+
+#### env
+
+Type: `boolean`
+
+Enables support for special environment variables, that will be passed to the script as definitions.
+
+<details>
+<summary><strong>Example</strong></summary>
+
+```env
+# .env
+NSIS_APP_ENVIRONMENT=development
+```
+
+```nsis
+# installer.nsi
+!if ${NSIS_APP_ENVIRONMENT} == "development"
+  DetailPrint "Valuable Debug Information"
+!endif
+```
 
 #### preExecute
 
