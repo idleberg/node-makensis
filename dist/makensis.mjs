@@ -2,6 +2,7 @@ import { EventEmitter } from 'events';
 import { codepages } from '@nsis/language-data';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
+import dotenv from 'dotenv';
 
 var eventEmitter = new EventEmitter();
 
@@ -146,9 +147,10 @@ function mapArguments(args, options) {
             }];
     }
     if (options === null || options === void 0 ? void 0 : options.define) {
-        Object.keys(options.define).map(function (key) {
-            if ((options === null || options === void 0 ? void 0 : options.define) && (options === null || options === void 0 ? void 0 : options.define[key])) {
-                args.push("-D" + key + "=" + options.define[key]);
+        var defines_1 = __assign(__assign({}, options.define), mapDefinitions());
+        Object.keys(defines_1).map(function (key) {
+            if (defines_1 && defines_1[key]) {
+                args.push("-D" + key + "=" + defines_1[key]);
             }
         });
     }
@@ -447,6 +449,19 @@ function spawnMakensisSync(cmd, args, compilerOptions, spawnOptions) {
         output['outFile'] = outFile;
     }
     return output;
+}
+function mapDefinitions() {
+    dotenv.config();
+    var definitions = {};
+    var prefix = 'NSIS_APP_';
+    Object.keys(process.env).map(function (item) {
+        if (item.length && new RegExp(prefix + "[a-z0-9]+", 'gi').test(item)) {
+            definitions[item] = process.env[item];
+        }
+    });
+    return Object.keys(definitions).length
+        ? definitions
+        : undefined;
 }
 
 /**

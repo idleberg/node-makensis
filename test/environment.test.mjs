@@ -1,10 +1,15 @@
 /* eslint-disable */
+import { createRequire } from 'node:module';
+import { v4 as uuid } from 'uuid';
+import MakeNSIS from '../dist/makensis.cjs';
+import path from 'path';
+import test from 'ava';
+import which from 'which';
+
+// Temporary workarounds
+const require = createRequire(import.meta.url);
 const { nullDevice, shared } = require('./shared');
-const MakeNSIS = require('../dist/makensis.cjs');
-const path = require('path');
-const test = require('ava');
-const uuid = require('uuid').v4;
-const which = require('which');
+const __dirname = path.resolve(path.dirname(''));
 
 const scriptFile = path.join(__dirname, 'fixtures', 'env.nsi')
 const randomString = uuid();

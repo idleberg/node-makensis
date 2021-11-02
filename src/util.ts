@@ -2,6 +2,7 @@ import { eventEmitter } from './events';
 import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
+import dotenv from 'dotenv';
 
 import type { SpawnOptions } from 'child_process';
 import type makensis from '../types';
@@ -58,9 +59,14 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): makens
   }
 
   if (options?.define) {
-    Object.keys(options.define).map(key => {
-      if (options?.define && options?.define[key]) {
-        args.push(`-D${key}=${options.define[key]}`);
+    const defines = {
+      ...options.define,
+      ...mapDefinitions()
+    }
+
+    Object.keys(defines).map(key => {
+      if (defines && defines[key]) {
+        args.push(`-D${key}=${defines[key]}`);
       }
     });
   }
@@ -435,6 +441,24 @@ function spawnMakensisSync(cmd: string, args: Array<string>, compilerOptions: ma
 
   return output;
 }
+
+function mapDefinitions(): makensis.EnvironmentVariables | undefined {
+  dotenv.config();
+
+  const definitions = {};
+  const prefix = 'NSIS_APP_';
+
+  Object.keys(process.env).map(item => {
+    if (item.length && new RegExp(`${prefix}[a-z0-9]+`, 'gi').test(item)) {
+      definitions[item] = process.env[item];
+    }
+  });
+
+  return Object.keys(definitions).length
+    ? definitions
+    : undefined;
+}
+
 
 export {
   mapArguments,
