@@ -28,8 +28,6 @@ process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = randomString;
 test('Define magic environment variable', (t) => {
   const { stdout } = MakeNSIS.compile.sync(scriptFile, defaultOptions);
 
-  t.log({stdout})
-
   const expected = true;
   const actual = stdout.includes(randomString);
 
@@ -39,8 +37,6 @@ test('Define magic environment variable', (t) => {
 test('Define magic environment variable [async]', async t => {
   try {
       const { stdout } = await MakeNSIS.compile(scriptFile, defaultOptions);
-
-      t.log({stdout})
 
       const expected = true;
       const actual = stdout.includes(randomString);

@@ -29,7 +29,7 @@ test('Define magic environment variable', (t) => {
 });
 
 test('Define magic environment variable [async]', async t => {
-  try {
+  try {a
       const { stdout } = await MakeNSIS.compile(scriptFile, defaultOptions);
 
       const expected = true;
