@@ -154,7 +154,7 @@ function mapArguments(args, options) {
                 wine: options.wine
             }];
     }
-    if (options === null || options === void 0 ? void 0 : options.define) {
+    if ((options === null || options === void 0 ? void 0 : options.define) || (options === null || options === void 0 ? void 0 : options.env)) {
         var defines_1 = __assign(__assign({}, options.define), mapDefinitions());
         Object.keys(defines_1).map(function (key) {
             if (defines_1 && defines_1[key]) {
