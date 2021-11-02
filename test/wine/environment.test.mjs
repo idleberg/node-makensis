@@ -17,6 +17,7 @@ const defaultOptions = {
   define: {
       NULL_DEVICE: nullDevice,
   },
+  env: true,
   verbose: 4,
   wine: true
 };

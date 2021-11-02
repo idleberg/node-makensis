@@ -14,6 +14,14 @@ const __dirname = path.resolve(path.dirname(''));
 const scriptFile = path.join(__dirname, 'fixtures', 'env.nsi')
 const randomString = uuid();
 
+const defaultOptions = {
+  define: {
+      NULL_DEVICE: nullDevice,
+  },
+  env: true,
+  verbose: 4
+};
+
 process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = randomString;
 
 // Let's run the tests
@@ -24,11 +32,7 @@ test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async t 
 });
 
 test('Define magic environment variable', (t) => {
-  const { stdout } = MakeNSIS.compile.sync(scriptFile.minimal, {
-      define: {
-          NULL_DEVICE: nullDevice,
-      },
-  });
+  const { stdout } = MakeNSIS.compile.sync(scriptFile.minimal, defaultOptions);
 
   const expected = true;
   const actual = stdout.includes(randomString);
@@ -38,12 +42,7 @@ test('Define magic environment variable', (t) => {
 
 test('Define magic environment variable [async]', async t => {
   try {
-      const { stdout } = await MakeNSIS.compile(scriptFile, {
-          define: {
-              NULL_DEVICE: nullDevice,
-          },
-          verbose: 4
-      });
+      const { stdout } = await MakeNSIS.compile(scriptFile, defaultOptions);
 
       const expected = true;
       const actual = stdout.includes(randomString);
