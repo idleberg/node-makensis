@@ -3,6 +3,7 @@ import { codepages } from '@nsis/language-data';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
 import dotenv from 'dotenv';
+import dotenvExpand from 'dotenv-expand';
 
 var eventEmitter = new EventEmitter();
 
@@ -451,7 +452,7 @@ function spawnMakensisSync(cmd, args, compilerOptions, spawnOptions) {
     return output;
 }
 function mapDefinitions() {
-    dotenv.config();
+    dotenvExpand(dotenv.config());
     var definitions = {};
     var prefix = 'NSIS_APP_';
     Object.keys(process.env).map(function (item) {

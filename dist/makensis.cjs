@@ -7,10 +7,12 @@ var languageData = require('@nsis/language-data');
 var os = require('os');
 var child_process = require('child_process');
 var dotenv = require('dotenv');
+var dotenvExpand = require('dotenv-expand');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var dotenv__default = /*#__PURE__*/_interopDefaultLegacy(dotenv);
+var dotenvExpand__default = /*#__PURE__*/_interopDefaultLegacy(dotenvExpand);
 
 var eventEmitter = new events.EventEmitter();
 
@@ -459,7 +461,7 @@ function spawnMakensisSync(cmd, args, compilerOptions, spawnOptions) {
     return output;
 }
 function mapDefinitions() {
-    dotenv__default['default'].config();
+    dotenvExpand__default['default'](dotenv__default['default'].config());
     var definitions = {};
     var prefix = 'NSIS_APP_';
     Object.keys(process.env).map(function (item) {

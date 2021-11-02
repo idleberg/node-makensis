@@ -11,7 +11,7 @@ const require = createRequire(import.meta.url);
 const { nullDevice, shared } = require('./shared');
 const __dirname = path.resolve(path.dirname(''));
 
-const scriptFile = path.join(__dirname, 'fixtures', 'env.nsi')
+const scriptFile = path.join(__dirname, 'test', 'fixtures', 'env.nsi')
 const randomString = uuid();
 
 const defaultOptions = {
@@ -32,10 +32,10 @@ test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async t 
 });
 
 test('Define magic environment variable', (t) => {
-  const { stdout } = MakeNSIS.compile.sync(scriptFile.minimal, defaultOptions);
+  const { stdout } = MakeNSIS.compile.sync(scriptFile, defaultOptions);
 
   const expected = true;
-  const actual = stdout.includes(randomString);
+  const actual = stdout.includes(`UUID:${randomString}`);
 
   t.is(actual, expected);
 });
@@ -45,7 +45,7 @@ test('Define magic environment variable [async]', async t => {
       const { stdout } = await MakeNSIS.compile(scriptFile, defaultOptions);
 
       const expected = true;
-      const actual = stdout.includes(randomString);
+      const actual = stdout.includes(`UUID:${randomString}`);
 
       t.is(actual, expected);
   } catch ({ stderr }) {

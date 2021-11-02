@@ -3,6 +3,7 @@ import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
 import dotenv from 'dotenv';
+import dotenvExpand from 'dotenv-expand';
 
 import type { SpawnOptions } from 'child_process';
 import type makensis from '../types';
@@ -443,7 +444,9 @@ function spawnMakensisSync(cmd: string, args: Array<string>, compilerOptions: ma
 }
 
 function mapDefinitions(): makensis.EnvironmentVariables | undefined {
-  dotenv.config();
+  dotenvExpand(
+    dotenv.config()
+  );
 
   const definitions = {};
   const prefix = 'NSIS_APP_';

@@ -12,7 +12,7 @@ const defaultOptions = {
   define: {
       NULL_DEVICE: nullDevice,
   },
-  env: true,
+  dotEnv: true,
   verbose: 4,
   wine: true
 };
@@ -24,7 +24,7 @@ test('Define magic environment variable', (t) => {
   const { stdout } = MakeNSIS.compile.sync(scriptFile, defaultOptions);
 
   const expected = true;
-  const actual = stdout.includes(randomString);
+  const actual = stdout.includes(`UUID:${randomString}`);
 
   t.is(actual, expected);
 });
@@ -34,7 +34,7 @@ test('Define magic environment variable [async]', async t => {
       const { stdout } = await MakeNSIS.compile(scriptFile, defaultOptions);
 
       const expected = true;
-      const actual = stdout.includes(randomString);
+      const actual = stdout.includes(`UUID:${randomString}`);
 
       t.is(actual, expected);
   } catch ({ stderr }) {
