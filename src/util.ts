@@ -1,5 +1,7 @@
 import { eventEmitter } from './events';
+import { existsSync, lstatSync } from 'fs';
 import { input as inputCharsets, output as outputCharsets } from './charsets';
+import { join } from 'path';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
 import dotenv from 'dotenv';
@@ -59,17 +61,24 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): makens
     }];
   }
 
-  if (options?.define || options?.env) {
-    const defines = {
-      ...options.define,
-      ...mapDefinitions()
-    }
-
-    Object.keys(defines).map(key => {
-      if (defines && defines[key]) {
-        args.push(`-D${key}=${defines[key]}`);
+  if (options?.define) {
+    Object.keys(options.define).map(key => {
+      if (options.define && options.define[key]) {
+        args.push(`-D${key}=${options.define[key]}`);
       }
     });
+  }
+
+  if (options?.env) {
+    const defines = getMagicEnvVars(options.env)
+
+    if (defines && Object.keys(defines).length) {
+      Object.keys(defines).map(key => {
+        if (defines && defines[key]) {
+          args.push(`-D${key}=${defines[key]}`);
+        }
+      });
+    }
   }
 
   if (options?.preExecute) {
@@ -443,9 +452,11 @@ function spawnMakensisSync(cmd: string, args: Array<string>, compilerOptions: ma
   return output;
 }
 
-function mapDefinitions(): makensis.EnvironmentVariables | undefined {
+function getMagicEnvVars(envFile: string | boolean): makensis.EnvironmentVariables | undefined {
   dotenvExpand(
-    dotenv.config()
+    dotenv.config({
+      path: findEnvFile(envFile)
+    })
   );
 
   const definitions = {};
@@ -462,6 +473,42 @@ function mapDefinitions(): makensis.EnvironmentVariables | undefined {
     : undefined;
 }
 
+function findEnvFile(dotenvPath: string | boolean): string {
+  if (typeof dotenvPath === 'string' && dotenvPath?.length && existsSync(dotenvPath) && lstatSync(dotenvPath).isFile()) {
+    return dotenvPath;
+  }
+
+  const cwd: string = dotenvPath && typeof dotenvPath === 'string'
+    ? dotenvPath
+    : process.cwd();
+
+  let dotenvFile;
+
+  if (cwd) {
+    switch (true) {
+      case (existsSync(join(cwd, `.env.[${process.env.NODE_ENV}].local`))):
+        dotenvFile = join(cwd, `.env.[${process.env.NODE_ENV}].local`);
+        break;
+
+      case (existsSync(join(cwd, '.env.local'))):
+        dotenvFile = join(cwd, '.env.local');
+        break;
+
+      case (process.env.NODE_ENV && existsSync(join(cwd, `.env.[${process.env.NODE_ENV}]`))):
+        dotenvFile = join(cwd, `.env.[${process.env.NODE_ENV}]`);
+        break;
+
+      case (existsSync(join(cwd, '.env'))):
+        dotenvFile = join(cwd, '.env');
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  return dotenvFile;
+}
 
 export {
   mapArguments,
