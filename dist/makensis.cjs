@@ -3,7 +3,9 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var events = require('events');
+var fs = require('fs');
 var languageData = require('@nsis/language-data');
+var path = require('path');
 var os = require('os');
 var child_process = require('child_process');
 var dotenv = require('dotenv');
@@ -156,13 +158,22 @@ function mapArguments(args, options) {
                 wine: options.wine
             }];
     }
-    if ((options === null || options === void 0 ? void 0 : options.define) || (options === null || options === void 0 ? void 0 : options.env)) {
-        var defines_1 = __assign(__assign({}, options.define), mapDefinitions());
-        Object.keys(defines_1).map(function (key) {
-            if (defines_1 && defines_1[key]) {
-                args.push("-D" + key + "=" + defines_1[key]);
+    if (options === null || options === void 0 ? void 0 : options.define) {
+        Object.keys(options.define).map(function (key) {
+            if (options.define && options.define[key]) {
+                args.push("-D" + key + "=" + options.define[key]);
             }
         });
+    }
+    if (options === null || options === void 0 ? void 0 : options.env) {
+        var defines_1 = getMagicEnvVars(options.env);
+        if (defines_1 && Object.keys(defines_1).length) {
+            Object.keys(defines_1).map(function (key) {
+                if (defines_1 && defines_1[key]) {
+                    args.push("-D" + key + "=" + defines_1[key]);
+                }
+            });
+        }
     }
     if (options === null || options === void 0 ? void 0 : options.preExecute) {
         var preExecuteArgs = splitCommands(options.preExecute);
@@ -460,8 +471,10 @@ function spawnMakensisSync(cmd, args, compilerOptions, spawnOptions) {
     }
     return output;
 }
-function mapDefinitions() {
-    dotenvExpand__default['default'](dotenv__default['default'].config());
+function getMagicEnvVars(envFile) {
+    dotenvExpand__default['default'](dotenv__default['default'].config({
+        path: findEnvFile(envFile)
+    }));
     var definitions = {};
     var prefix = 'NSIS_APP_';
     Object.keys(process.env).map(function (item) {
@@ -472,6 +485,32 @@ function mapDefinitions() {
     return Object.keys(definitions).length
         ? definitions
         : undefined;
+}
+function findEnvFile(dotenvPath) {
+    if (typeof dotenvPath === 'string' && (dotenvPath === null || dotenvPath === void 0 ? void 0 : dotenvPath.length) && fs.existsSync(dotenvPath) && fs.lstatSync(dotenvPath).isFile()) {
+        return dotenvPath;
+    }
+    var cwd = dotenvPath && typeof dotenvPath === 'string'
+        ? dotenvPath
+        : process.cwd();
+    var dotenvFile;
+    if (cwd) {
+        switch (true) {
+            case (fs.existsSync(path.join(cwd, ".env.[" + process.env.NODE_ENV + "].local"))):
+                dotenvFile = path.join(cwd, ".env.[" + process.env.NODE_ENV + "].local");
+                break;
+            case (fs.existsSync(path.join(cwd, '.env.local'))):
+                dotenvFile = path.join(cwd, '.env.local');
+                break;
+            case (process.env.NODE_ENV && fs.existsSync(path.join(cwd, ".env.[" + process.env.NODE_ENV + "]"))):
+                dotenvFile = path.join(cwd, ".env.[" + process.env.NODE_ENV + "]");
+                break;
+            case (fs.existsSync(path.join(cwd, '.env'))):
+                dotenvFile = path.join(cwd, '.env');
+                break;
+        }
+    }
+    return dotenvFile;
 }
 
 /**

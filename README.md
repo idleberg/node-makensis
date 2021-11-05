@@ -211,9 +211,9 @@ define: {
 
 #### env
 
-Type: `boolean`
+Type: `boolean | string`
 
-Enables support for special environment variables, that will be passed to the script as definitions.
+Enables support for special environment variables, that will be passed to the script as definitions. Can be a path containing `.env` files or a specific file.
 
 <details>
 <summary><strong>Example</strong></summary>

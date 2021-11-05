@@ -12,29 +12,98 @@ const defaultOptions = {
   define: {
       NULL_DEVICE: nullDevice,
   },
-  dotEnv: true,
   verbose: 4,
   wine: true
 };
 
-process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = randomString;
-
 // Let's run the tests
-test('Define magic environment variable', (t) => {
-  const { stdout } = MakeNSIS.compile.sync(scriptFile, defaultOptions);
+test('Load magic environment variable from file', (t) => {
+  const { stdout } = MakeNSIS.compile.sync(scriptFile, {
+    ...defaultOptions,
+    env: path.join(__dirname, '..', 'fixtures', '.env')
+  });
 
   const expected = true;
-  const actual = stdout.includes(`UUID:${randomString}`);
+  const actual = stdout.includes('dotenv:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
 
   t.is(actual, expected);
 });
 
-test('Define magic environment variable [async]', async t => {
+test('Load magic environment variable from file [async]', async t => {
   try {
-      const { stdout } = await MakeNSIS.compile(scriptFile, defaultOptions);
+      const { stdout } = await MakeNSIS.compile(scriptFile, {
+        ...defaultOptions,
+        env: path.join(__dirname, '..', 'fixtures', '.env')
+      });
 
       const expected = true;
-      const actual = stdout.includes(`UUID:${randomString}`);
+      const actual = stdout.includes('dotenv:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
+
+      t.is(actual, expected);
+  } catch ({ stderr }) {
+      t.fail(stderr);
+  }
+});
+
+test('Load magic environment variable from process', (t) => {
+  const uuid = `process.env:${randomString}`;
+  process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = uuid;
+
+  const { stdout } = MakeNSIS.compile.sync(scriptFile, {
+    ...defaultOptions,
+    env: true
+  });
+
+  const expected = true;
+  const actual = stdout.includes(uuid);
+
+  t.is(actual, expected);
+});
+
+test('Load magic environment variable from process [async]', async t => {
+  const uuid = `process.env:${randomString}`;
+  process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = uuid;
+
+  try {
+      const { stdout } = await MakeNSIS.compile(scriptFile, {
+        ...defaultOptions,
+        env: true
+      });
+
+      const expected = true;
+      const actual = stdout.includes(uuid);
+
+      t.is(actual, expected);
+  } catch ({ stderr }) {
+      t.fail(stderr);
+  }
+});
+
+test('Ignore magic environment variable', (t) => {
+  process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = `process.env:${randomString}`;
+
+  const { stdout } = MakeNSIS.compile.sync(scriptFile, {
+    ...defaultOptions,
+    env: false
+  });
+
+  const expected = true;
+  const actual = stdout.includes('${NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE}');
+
+  t.is(actual, expected);
+});
+
+test('Ignore magic environment variable [async]', async t => {
+  process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = `process.env:${randomString}`;
+
+  try {
+      const { stdout } = await MakeNSIS.compile(scriptFile, {
+        ...defaultOptions,
+        env: false
+      });
+
+      const expected = true;
+      const actual = stdout.includes('${NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE}');
 
       t.is(actual, expected);
   } catch ({ stderr }) {
