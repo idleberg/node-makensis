@@ -133,64 +133,6 @@ Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 :warning: Some of these options are limited to NSIS v3 (see the [changelog][changelog] for details)
 
-#### verbose
-
-Type: `integer`
-
-Verbosity where the value `4=all`, `3=no script`,`2=no info`, `1=no warnings`, `0=none`. Equivalent of the `-V` switch.
-
-#### pause
-
-Type: `boolean`
-
-Pauses after execution. Equivalent of the `-PAUSE` switch.
-
-#### noCD
-
-Type: `boolean`
-
-Disables the current directory change to that of the .nsi file. Equivalent of the `-NOCD` switch.
-
-#### noConfig
-
-Type: `boolean`
-
-Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`. Equivalent of the `-NOCONFIG` switch.
-
-#### priority
-
-Type: `integer`
-
-Sets the compiler process priority, where the value `5=realtime`, `4=high`, `3=above normal`, `2=normal`, `1=below normal`, `0=idle`. Equivalent of the `-P` switch.
-
-:warning: This option is only available on Windows
-
-#### inputCharset
-
-Type: `string`
-
-Specifies the codepage for files without a BOM (`ACP|OEM|CP#|UTF8|UTF16<LE|BE>`). Equivalent of the `-INPUTCHARSET` switch.
-
-#### outputCharset
-
-Type: `string`
-
-Specifies the codepage used by stdout when the output is redirected (`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET` switch.
-
-:warning: This option is only available on Windows
-
-#### strict
-
-Type: `boolean`
-
-Treat warnings as errors. Equivalent of the `-WX` switch.
-
-#### ppo / safePPO
-
-Type: `boolean`
-
-Will only run the preprocessor and print the result to stdout. The safe version will not execute instructions like [`!appendfile`][!appendfile] or [`!system`][!system]. [`!packhdr`][!packhdr] and [`!finalize`][!finalize] are never executed. Equivalent of the `-PPO / SAFEPPO` switches.
-
 #### define
 
 Type: `Object`
@@ -230,6 +172,70 @@ NSIS_APP_ENVIRONMENT=development
 !endif
 ```
 
+#### inputCharset
+
+Type: `string`
+
+Specifies the codepage for files without a BOM (`ACP|OEM|CP#|UTF8|UTF16<LE|BE>`). Equivalent of the `-INPUTCHARSET` switch.
+
+#### outputCharset
+
+Type: `string`
+
+Specifies the codepage used by stdout when the output is redirected (`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET` switch.
+
+:warning: This option is only available on Windows
+
+#### json
+
+Type: `boolean`
+
+Returns output from `makensis` as an object
+
+#### noCD
+
+Type: `boolean`
+
+Disables the current directory change to that of the .nsi file. Equivalent of the `-NOCD` switch.
+
+#### noConfig
+
+Type: `boolean`
+
+Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`. Equivalent of the `-NOCONFIG` switch.
+
+#### pathToMakensis
+
+Type: `string`
+
+Specifies a custom path to `makensis`
+
+#### pause
+
+Type: `boolean`
+
+Pauses after execution. Equivalent of the `-PAUSE` switch.
+
+#### priority
+
+Type: `integer`
+
+Sets the compiler process priority, where the value `5=realtime`, `4=high`, `3=above normal`, `2=normal`, `1=below normal`, `0=idle`. Equivalent of the `-P` switch.
+
+:warning: This option is only available on Windows
+
+#### strict
+
+Type: `boolean`
+
+Treat warnings as errors. Equivalent of the `-WX` switch.
+
+#### ppo / safePPO
+
+Type: `boolean`
+
+Will only run the preprocessor and print the result to stdout. The safe version will not execute instructions like [`!appendfile`][!appendfile] or [`!system`][!system]. [`!packhdr`][!packhdr] and [`!finalize`][!finalize] are never executed. Equivalent of the `-PPO / SAFEPPO` switches.
+
 </details>
 
 #### preExecute
@@ -265,18 +271,6 @@ postExecute: [`!echo "That's all Folks!"`];
 
 </details>
 
-#### json
-
-Type: `boolean`
-
-Returns output from `makensis` as an object
-
-#### pathToMakensis
-
-Type: `string`
-
-Specifies a custom path to `makensis`
-
 #### rawArguments
 
 Type: `string[]`
@@ -284,6 +278,12 @@ Type: `string[]`
 Specifies raw arguments for `makensis`.
 
 :warning: These will be added to the compiler arguments last and will hence overwrite any of the NSIS options above!
+
+#### verbose
+
+Type: `integer`
+
+Verbosity where the value `4=all`, `3=no script`,`2=no info`, `1=no warnings`, `0=none`. Equivalent of the `-V` switch.
 
 #### Wine Options
 
