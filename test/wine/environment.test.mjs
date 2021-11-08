@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { createRequire } from 'node:module';
 import { v4 as uuid } from 'uuid';
-import MakeNSIS from '../../dist/makensis.cjs';
+import * as MakeNSIS from '../../dist/makensis.mjs';
 import path from 'node:path';
 import test from 'ava';
 

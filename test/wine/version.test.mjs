@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { spawnSync } from 'child_process';
-import * as MakeNSIS from '../../dist/makensis.cjs';
+import * as MakeNSIS from '../../dist/makensis.mjs';
 import test from 'ava';
 
 const cp = spawnSync('wine', ['makensis', '-VERSION']);
