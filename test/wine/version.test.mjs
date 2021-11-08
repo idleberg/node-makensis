@@ -7,7 +7,7 @@ const cp = spawnSync('wine', ['makensis', '-VERSION']);
 const version = cp.stdout.toString().trim() || cp.stderr.toString().trim();
 
 // Let's run the tests
-test('Print makensis version [async]', async (t) => {
+test('Print makensis version', async (t) => {
     try {
         const { stdout } = await MakeNSIS.version({ wine: true });
 
@@ -20,7 +20,7 @@ test('Print makensis version [async]', async (t) => {
     }
 });
 
-test('Print makensis version as JSON [async]', async (t) => {
+test('Print makensis version as JSON', async (t) => {
     try {
         const { stdout } = await MakeNSIS.version({ json: true, wine: true });
 

@@ -15,7 +15,7 @@ const scriptFile = {
 };
 
 // Let's run the tests
-test('Compilation from File [async]', async (t) => {
+test('Compilation from File', async (t) => {
     try {
         const { status } = await MakeNSIS.compile(scriptFile.minimal, {
             define: {
@@ -33,7 +33,7 @@ test('Compilation from File [async]', async (t) => {
     }
 });
 
-test('Compilation from Array [async]', async (t) => {
+test('Compilation from Array', async (t) => {
     try {
         const { status } = await MakeNSIS.compile(null, {
             preExecute: defaultScriptString,
@@ -49,7 +49,7 @@ test('Compilation from Array [async]', async (t) => {
     }
 });
 
-test('Compilation from String [async]', async (t) => {
+test('Compilation from String', async (t) => {
     try {
         const { status } = await MakeNSIS.compile(null, {
             preExecute: defaultScriptString,
@@ -65,7 +65,7 @@ test('Compilation from String [async]', async (t) => {
     }
 });
 
-test('Compilation with warning [async]', async (t) => {
+test('Compilation with warning', async (t) => {
     const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
     try {
@@ -83,7 +83,7 @@ test('Compilation with warning [async]', async (t) => {
     }
 });
 
-test('Compilation with warning as JSON [async]', async (t) => {
+test('Compilation with warning as JSON', async (t) => {
     const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
     try {
@@ -102,7 +102,7 @@ test('Compilation with warning as JSON [async]', async (t) => {
     }
 });
 
-test('Compilation with raw arguments and warning [async]', async (t) => {
+test('Compilation with raw arguments and warning', async (t) => {
     try {
         const { status } = await MakeNSIS.compile(scriptFile.warning, {
             rawArguments: ['-WX'],
@@ -118,7 +118,7 @@ test('Compilation with raw arguments and warning [async]', async (t) => {
     }
 });
 
-test('Compilation with error [async]', async (t) => {
+test('Compilation with error', async (t) => {
     let scriptWithError = [...defaultScriptArray, '!error'];
 
     try {
@@ -136,7 +136,7 @@ test('Compilation with error [async]', async (t) => {
     }
 });
 
-test('Strict compilation with warning [async]', async (t) => {
+test('Strict compilation with warning', async (t) => {
     const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
     try {

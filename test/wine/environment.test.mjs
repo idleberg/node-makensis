@@ -22,7 +22,7 @@ const defaultOptions = {
 };
 
 // Let's run the tests
-test('Load magic environment variable from file [async]', async t => {
+test('Load magic environment variable from file', async t => {
   try {
       const { stdout } = await MakeNSIS.compile(scriptFile, {
         ...defaultOptions,
@@ -38,7 +38,7 @@ test('Load magic environment variable from file [async]', async t => {
   }
 });
 
-test('Load magic environment variable from process [async]', async t => {
+test('Load magic environment variable from process', async t => {
   const uuid = `process.env:${randomString}`;
   process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = uuid;
 
@@ -57,7 +57,7 @@ test('Load magic environment variable from process [async]', async t => {
   }
 });
 
-test('Ignore magic environment variable [async]', async t => {
+test('Ignore magic environment variable', async t => {
   process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = `process.env:${randomString}`;
 
   try {

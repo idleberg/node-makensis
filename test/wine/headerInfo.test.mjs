@@ -7,7 +7,7 @@ const cp = spawnSync('wine', ['makensis', '-HDRINFO']);
 const headerInfo = cp.stdout.toString().trim() || cp.stderr.toString().trim();
 
 // Let's run the tests
-test('Print compiler information [async]', async (t) => {
+test('Print compiler information', async (t) => {
     try {
         const { stdout } = await MakeNSIS.headerInfo({ wine: true });
 
@@ -25,7 +25,7 @@ test('Print compiler information [async]', async (t) => {
     }
 });
 
-test('Print compiler information as JSON [async]', async (t) => {
+test('Print compiler information as JSON', async (t) => {
     try {
         const actual = (await MakeNSIS.headerInfo({ json: true, wine: true }))
             .stdout.defined_symbols.__GLOBAL__;
