@@ -17,6 +17,8 @@ const compilerOptions = {
 const external = [
   '@nsis/language-data',
   'child_process',
+  'dotenv',
+  'dotenv-expand',
   'events',
   'os',
   'shlex'
