@@ -9,6 +9,7 @@ const plugins = [
 
 const compilerOptions = {
   allowSyntheticDefaultImports: true,
+  module: "ES2020",
   moduleResolution: "node",
   strictNullChecks: true,
   typeRoots: ['./types', './node_modules/@types']
@@ -27,28 +28,12 @@ export default [
     external,
     input: 'src/makensis.ts',
     output: {
-      file: 'dist/makensis.cjs',
-      format: 'cjs'
-    },
-    plugins: [
-      ...plugins,
-      typescript(compilerOptions)
-    ]
-  },
-  {
-    external,
-    input: 'src/makensis.ts',
-    output: {
       file: 'dist/makensis.mjs',
       format: 'esm'
     },
     plugins: [
       ...plugins,
-      typescript({
-        ...compilerOptions,
-        module: "ES2020",
-        moduleResolution: "node"
-      })
+      typescript(compilerOptions)
     ]
   }
 ];

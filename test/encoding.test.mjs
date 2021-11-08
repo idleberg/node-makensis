@@ -23,24 +23,6 @@ const defaultOptions = {
 };
 
 // Let's run the tests
-test('Compile script with correct charset', (t) => {
-    const options = { ...defaultOptions, inputCharset: 'UTF8' };
-
-    const expected = '';
-    const actual = MakeNSIS.compile.sync(script['utf8'], options).stderr;
-
-    t.is(actual, expected);
-});
-
-test('Compile script with incorrect charset', (t) => {
-    const options = { ...defaultOptions, inputCharset: 'UTF16BE' };
-
-    const expected = 0;
-    const actual = MakeNSIS.compile.sync(script['utf8'], options).status;
-
-    t.not(actual, expected);
-});
-
 test('Compile script with correct charset [async]', async (t) => {
     const options = { ...defaultOptions, inputCharset: 'UTF8' };
 

@@ -12,15 +12,6 @@ function winePath(filePath) {
 }
 
 // Let's run the tests
-test('Print ${NSISDIR}', (t) => {
-    const nsisDir = MakeNSIS.nsisDir.sync({ wine: true });
-    const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
-
-    const expected = true;
-    const actual = existsSync(winePath(nsisCfg));
-
-    t.is(actual, expected);
-});
 
 test('Print ${NSISDIR} [async]', async (t) => {
     try {
@@ -34,16 +25,6 @@ test('Print ${NSISDIR} [async]', async (t) => {
     } catch ({ stderr }) {
         t.fail(stderr);
     }
-});
-
-test('Print ${NSISDIR} as JSON', (t) => {
-    const nsisDir = MakeNSIS.nsisDir.sync({ json: true, wine: true }).nsisdir;
-    const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
-
-    const expected = true;
-    const actual = existsSync(winePath(nsisCfg));
-
-    t.is(actual, expected);
 });
 
 test('Print ${NSISDIR} as JSON [async]', async (t) => {

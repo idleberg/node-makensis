@@ -3,7 +3,7 @@ import { existsSync, lstatSync } from 'fs';
 import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { join } from 'path';
 import { platform } from 'os';
-import { spawn, spawnSync } from 'child_process';
+import { spawn } from 'child_process';
 import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
 
@@ -417,41 +417,6 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
     });
   });
 }
-
-function spawnMakensisSync(cmd: string, args: Array<string>, compilerOptions: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
-  if (compilerOptions.wine) {
-    spawnOptions['env'] = Object.freeze({
-      WINEDEBUG: '-all',
-      ...process.env,
-      ...spawnOptions.env
-    });
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let child: any = spawnSync(cmd, args, spawnOptions);
-
-  child.stdout = stringify(child.stdout);
-  child.stderr = stringify(child.stderr);
-
-  const warningsCounter = hasWarnings(child.stdout);
-  const outFile = detectOutfile(child.stdout);
-
-  child = formatOutput(child, args, compilerOptions);
-
-  const output: makensis.CompilerOutput = {
-    'status': child.status,
-    'stdout': child.stdout,
-    'stderr': child.stderr,
-    'warnings': warningsCounter
-  };
-
-  if (outFile.length) {
-    output['outFile'] = outFile;
-  }
-
-  return output;
-}
-
 function getMagicEnvVars(envFile: string | boolean): makensis.EnvironmentVariables | undefined {
   dotenvExpand(
     dotenv.config({
@@ -515,6 +480,5 @@ export {
   objectify,
   objectifyFlags,
   spawnMakensis,
-  spawnMakensisSync,
   splitCommands
 };

@@ -3,17 +3,14 @@
   "version": "1.1.1",
   "description": "A Node wrapper for makensis, the NSIS compiler",
   "type": "module",
-  "exports": {
-    "import": "./dist/makensis.mjs",
-    "require": "./dist/makensis.cjs"
-  },
+  "exports": "./dist/makensis.mjs",
   "typings": "types/",
   "files": [
     "dist/",
     "types/"
   ],
   "engines": {
-    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
+    "node": "^14.8.0 || >=16.0.0"
   },
   "repository": {
     "type": "git",
