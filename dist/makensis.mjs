@@ -86,15 +86,15 @@ function __spreadArray(to, from, pack) {
 var codePages = codepages().map(function (cp) { return "CP" + cp; });
 var input = __spreadArray(__spreadArray([
     'ACP'
-], codePages), [
+], codePages, true), [
     'OEM',
     'UTF8',
     'UTF16BE',
     'UTF16LE'
-]);
+], false);
 var output = __spreadArray(__spreadArray([
     'ACP'
-], codePages), [
+], codePages, true), [
     'OEM',
     'UTF16BE',
     'UTF16BEBOM',
@@ -102,7 +102,7 @@ var output = __spreadArray(__spreadArray([
     'UTF16LEBOM',
     'UTF8',
     'UTF8SIG'
-]);
+], false);
 
 function detectOutfile(str) {
     if (str.includes('Output: "')) {
@@ -383,7 +383,7 @@ function mapArguments(args, options) {
                         }
                     }
                     if (options.rawArguments && Array.isArray(options.rawArguments)) {
-                        args = __spreadArray(__spreadArray([], args), options.rawArguments);
+                        args = __spreadArray(__spreadArray([], args, true), options.rawArguments, true);
                     }
                     return [2 /*return*/, [cmd, args, { json: options.json, wine: options.wine }]];
             }
@@ -523,10 +523,11 @@ function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
             }
             eventEmitter.emit('exit', output);
             if (code === 0 || (stream.stderr && !hasErrorCode(stream.stderr))) {
-                // Promise also resolves on MakeNSIS errors
+                // Promise will be resolved on MakeNSIS errors...
                 resolve(output);
             }
             else {
+                // ...but will be rejected on all other errors
                 reject(output.stderr);
             }
         });
