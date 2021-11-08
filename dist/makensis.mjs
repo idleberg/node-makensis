@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { existsSync, lstatSync } from 'fs';
+import { promises, constants } from 'fs';
 import { codepages } from '@nsis/language-data';
 import { join } from 'path';
 import { platform } from 'os';
@@ -129,91 +129,101 @@ function splitCommands(data) {
     return args;
 }
 function mapArguments(args, options) {
-    var pathToMakensis = options.pathToMakensis
-        ? options.pathToMakensis
-        : 'makensis';
-    var pathToWine = options.pathToWine
-        ? options.pathToWine
-        : 'wine';
-    var cmd;
-    if (platform() !== 'win32' && options.wine === true) {
-        cmd = pathToWine;
-        args.unshift(pathToMakensis);
-    }
-    else {
-        cmd = pathToMakensis;
-    }
-    if (args.length > 1 || args.includes('-CMDHELP')) {
-        return [cmd, args, {
-                json: options.json,
-                wine: options.wine
-            }];
-    }
-    if (options === null || options === void 0 ? void 0 : options.define) {
-        Object.keys(options.define).map(function (key) {
-            if (options.define && options.define[key]) {
-                args.push("-D" + key + "=" + options.define[key]);
+    return __awaiter(this, void 0, void 0, function () {
+        var pathToMakensis, pathToWine, cmd, defines_1, preExecuteArgs, priority, verbosity;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    pathToMakensis = options.pathToMakensis
+                        ? options.pathToMakensis
+                        : 'makensis';
+                    pathToWine = options.pathToWine
+                        ? options.pathToWine
+                        : 'wine';
+                    if (platform() !== 'win32' && options.wine === true) {
+                        cmd = pathToWine;
+                        args.unshift(pathToMakensis);
+                    }
+                    else {
+                        cmd = pathToMakensis;
+                    }
+                    if (args.length > 1 || args.includes('-CMDHELP')) {
+                        return [2 /*return*/, [cmd, args, {
+                                    json: options.json,
+                                    wine: options.wine
+                                }]];
+                    }
+                    if (options === null || options === void 0 ? void 0 : options.define) {
+                        Object.keys(options.define).map(function (key) {
+                            if (options.define && options.define[key]) {
+                                args.push("-D" + key + "=" + options.define[key]);
+                            }
+                        });
+                    }
+                    if (!(options === null || options === void 0 ? void 0 : options.env)) return [3 /*break*/, 2];
+                    return [4 /*yield*/, getMagicEnvVars(options.env)];
+                case 1:
+                    defines_1 = _a.sent();
+                    if (defines_1 && Object.keys(defines_1).length) {
+                        Object.keys(defines_1).map(function (key) {
+                            if (defines_1 && defines_1[key]) {
+                                args.push("-D" + key + "=" + defines_1[key]);
+                            }
+                        });
+                    }
+                    _a.label = 2;
+                case 2:
+                    if (options === null || options === void 0 ? void 0 : options.preExecute) {
+                        preExecuteArgs = splitCommands(options.preExecute);
+                        if (preExecuteArgs.length) {
+                            args.push.apply(args, preExecuteArgs);
+                        }
+                    }
+                    if (options.noCD === true) {
+                        args.push('-NOCD');
+                    }
+                    if (options.noConfig === true) {
+                        args.push('-NOCONFIG');
+                    }
+                    if (options.pause === true) {
+                        args.push('-PAUSE');
+                    }
+                    if (options.strict === true) {
+                        args.push('-WX');
+                    }
+                    if (options.inputCharset && input.includes(options.inputCharset)) {
+                        args.push('-INPUTCHARSET', options.inputCharset);
+                    }
+                    if (platform() === 'win32') {
+                        if (options.outputCharset && output.includes(options.outputCharset)) {
+                            args.push('-OUTPUTCHARSET', options.outputCharset);
+                        }
+                    }
+                    if (options.ppo === true) {
+                        args.push('-PPO');
+                    }
+                    if (options.safePPO === true) {
+                        args.push('-SAFEPPO');
+                    }
+                    if (options.priority) {
+                        priority = parseInt(String(options.priority), 10);
+                        if (platform() === 'win32' && isNumeric(priority) && inRange(priority, 0, 5)) {
+                            args.push("-P" + options.priority);
+                        }
+                    }
+                    if (options.verbose) {
+                        verbosity = parseInt(String(options.verbose), 10);
+                        if (isNumeric(verbosity) && inRange(verbosity, 0, 4)) {
+                            args.push("-V" + verbosity);
+                        }
+                    }
+                    if (options.rawArguments && Array.isArray(options.rawArguments)) {
+                        args = __spreadArray(__spreadArray([], args), options.rawArguments);
+                    }
+                    return [2 /*return*/, [cmd, args, { json: options.json, wine: options.wine }]];
             }
         });
-    }
-    if (options === null || options === void 0 ? void 0 : options.env) {
-        var defines_1 = getMagicEnvVars(options.env);
-        if (defines_1 && Object.keys(defines_1).length) {
-            Object.keys(defines_1).map(function (key) {
-                if (defines_1 && defines_1[key]) {
-                    args.push("-D" + key + "=" + defines_1[key]);
-                }
-            });
-        }
-    }
-    if (options === null || options === void 0 ? void 0 : options.preExecute) {
-        var preExecuteArgs = splitCommands(options.preExecute);
-        if (preExecuteArgs.length) {
-            args.push.apply(args, preExecuteArgs);
-        }
-    }
-    if (options.noCD === true) {
-        args.push('-NOCD');
-    }
-    if (options.noConfig === true) {
-        args.push('-NOCONFIG');
-    }
-    if (options.pause === true) {
-        args.push('-PAUSE');
-    }
-    if (options.strict === true) {
-        args.push('-WX');
-    }
-    if (options.inputCharset && input.includes(options.inputCharset)) {
-        args.push('-INPUTCHARSET', options.inputCharset);
-    }
-    if (platform() === 'win32') {
-        if (options.outputCharset && output.includes(options.outputCharset)) {
-            args.push('-OUTPUTCHARSET', options.outputCharset);
-        }
-    }
-    if (options.ppo === true) {
-        args.push('-PPO');
-    }
-    if (options.safePPO === true) {
-        args.push('-SAFEPPO');
-    }
-    if (options.priority) {
-        var priority = parseInt(String(options.priority), 10);
-        if (platform() === 'win32' && isNumeric(priority) && inRange(priority, 0, 5)) {
-            args.push("-P" + options.priority);
-        }
-    }
-    if (options.verbose) {
-        var verbosity = parseInt(String(options.verbose), 10);
-        if (isNumeric(verbosity) && inRange(verbosity, 0, 4)) {
-            args.push("-V" + verbosity);
-        }
-    }
-    if (options.rawArguments && Array.isArray(options.rawArguments)) {
-        args = __spreadArray(__spreadArray([], args), options.rawArguments);
-    }
-    return [cmd, args, { json: options.json, wine: options.wine }];
+    });
 }
 function stringify(data) {
     return (data === null || data === void 0 ? void 0 : data.length)
@@ -440,45 +450,122 @@ function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
     });
 }
 function getMagicEnvVars(envFile) {
-    dotenvExpand(dotenv.config({
-        path: findEnvFile(envFile)
-    }));
-    var definitions = {};
-    var prefix = 'NSIS_APP_';
-    Object.keys(process.env).map(function (item) {
-        if (item.length && new RegExp(prefix + "[a-z0-9]+", 'gi').test(item)) {
-            definitions[item] = process.env[item];
-        }
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, _b, _c, definitions, prefix;
+        var _d;
+        return __generator(this, function (_e) {
+            switch (_e.label) {
+                case 0:
+                    _a = dotenvExpand;
+                    _c = (_b = dotenv).config;
+                    _d = {};
+                    return [4 /*yield*/, findEnvFile(envFile)];
+                case 1:
+                    _a.apply(void 0, [_c.apply(_b, [(_d.path = _e.sent(),
+                                _d)])]);
+                    definitions = {};
+                    prefix = 'NSIS_APP_';
+                    Object.keys(process.env).map(function (item) {
+                        if (item.length && new RegExp(prefix + "[a-z0-9]+", 'gi').test(item)) {
+                            definitions[item] = process.env[item];
+                        }
+                    });
+                    return [2 /*return*/, Object.keys(definitions).length
+                            ? definitions
+                            : undefined];
+            }
+        });
     });
-    return Object.keys(definitions).length
-        ? definitions
-        : undefined;
 }
 function findEnvFile(dotenvPath) {
-    if (typeof dotenvPath === 'string' && (dotenvPath === null || dotenvPath === void 0 ? void 0 : dotenvPath.length) && existsSync(dotenvPath) && lstatSync(dotenvPath).isFile()) {
-        return dotenvPath;
-    }
-    var cwd = dotenvPath && typeof dotenvPath === 'string'
-        ? dotenvPath
-        : process.cwd();
-    var dotenvFile;
-    if (cwd) {
-        switch (true) {
-            case (existsSync(join(cwd, ".env.[" + process.env.NODE_ENV + "].local"))):
-                dotenvFile = join(cwd, ".env.[" + process.env.NODE_ENV + "].local");
-                break;
-            case (existsSync(join(cwd, '.env.local'))):
-                dotenvFile = join(cwd, '.env.local');
-                break;
-            case (process.env.NODE_ENV && existsSync(join(cwd, ".env.[" + process.env.NODE_ENV + "]"))):
-                dotenvFile = join(cwd, ".env.[" + process.env.NODE_ENV + "]");
-                break;
-            case (existsSync(join(cwd, '.env'))):
-                dotenvFile = join(cwd, '.env');
-                break;
-        }
-    }
-    return dotenvFile;
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, _b, cwd, dotenvFile, _c, _d;
+        return __generator(this, function (_e) {
+            switch (_e.label) {
+                case 0:
+                    _b = typeof dotenvPath === 'string' && (dotenvPath === null || dotenvPath === void 0 ? void 0 : dotenvPath.length);
+                    if (!_b) return [3 /*break*/, 2];
+                    return [4 /*yield*/, fileExists(dotenvPath)];
+                case 1:
+                    _b = (_e.sent());
+                    _e.label = 2;
+                case 2:
+                    _a = _b;
+                    if (!_a) return [3 /*break*/, 4];
+                    return [4 /*yield*/, promises.lstat(dotenvPath)];
+                case 3:
+                    _a = (_e.sent()).isFile();
+                    _e.label = 4;
+                case 4:
+                    if (_a) {
+                        return [2 /*return*/, dotenvPath];
+                    }
+                    cwd = dotenvPath && typeof dotenvPath === 'string'
+                        ? dotenvPath
+                        : process.cwd();
+                    if (!cwd) return [3 /*break*/, 15];
+                    _c = true;
+                    return [4 /*yield*/, fileExists(join(cwd, ".env.[" + process.env.NODE_ENV + "].local"))];
+                case 5:
+                    switch (_c) {
+                        case (_e.sent()): return [3 /*break*/, 10];
+                    }
+                    return [4 /*yield*/, fileExists(join(cwd, '.env.local'))];
+                case 6:
+                    switch (_c) {
+                        case (_e.sent()): return [3 /*break*/, 11];
+                    }
+                    _d = process.env.NODE_ENV;
+                    if (!_d) return [3 /*break*/, 8];
+                    return [4 /*yield*/, fileExists(join(cwd, ".env.[" + process.env.NODE_ENV + "]"))];
+                case 7:
+                    _d = (_e.sent());
+                    _e.label = 8;
+                case 8:
+                    switch (_c) {
+                        case (_d): return [3 /*break*/, 12];
+                    }
+                    return [4 /*yield*/, fileExists(join(cwd, '.env'))];
+                case 9:
+                    switch (_c) {
+                        case (_e.sent()): return [3 /*break*/, 13];
+                    }
+                    return [3 /*break*/, 14];
+                case 10:
+                    dotenvFile = join(cwd, ".env.[" + process.env.NODE_ENV + "].local");
+                    return [3 /*break*/, 15];
+                case 11:
+                    dotenvFile = join(cwd, '.env.local');
+                    return [3 /*break*/, 15];
+                case 12:
+                    dotenvFile = join(cwd, ".env.[" + process.env.NODE_ENV + "]");
+                    return [3 /*break*/, 15];
+                case 13:
+                    dotenvFile = join(cwd, '.env');
+                    return [3 /*break*/, 15];
+                case 14: return [3 /*break*/, 15];
+                case 15: return [2 /*return*/, dotenvFile];
+            }
+        });
+    });
+}
+function fileExists(filePath) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, promises.access(filePath, constants.F_OK)];
+                case 1:
+                    _a.sent();
+                    return [3 /*break*/, 3];
+                case 2:
+                    _a.sent();
+                    return [2 /*return*/, false];
+                case 3: return [2 /*return*/, true];
+            }
+        });
+    });
 }
 
 /**
@@ -491,12 +578,22 @@ function commandHelp(command, compilerOptions, spawnOptions) {
     if (command === void 0) { command = ''; }
     if (compilerOptions === void 0) { compilerOptions = {}; }
     if (spawnOptions === void 0) { spawnOptions = {}; }
-    var options = __assign(__assign({}, compilerOptions), { verbose: 0 });
-    var _a = mapArguments(['-CMDHELP'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    if ((command === null || command === void 0 ? void 0 : command.length) && typeof command === 'string') {
-        args.push(command);
-    }
-    return spawnMakensis(cmd, args, opts, spawnOptions);
+    return __awaiter(this, void 0, void 0, function () {
+        var options, _a, cmd, args, opts;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    options = __assign(__assign({}, compilerOptions), { verbose: 0 });
+                    return [4 /*yield*/, mapArguments(['-CMDHELP'], options)];
+                case 1:
+                    _a = _b.sent(), cmd = _a[0], args = _a[1], opts = _a[2];
+                    if ((command === null || command === void 0 ? void 0 : command.length) && typeof command === 'string') {
+                        args.push(command);
+                    }
+                    return [2 /*return*/, spawnMakensis(cmd, args, opts, spawnOptions)];
+            }
+        });
+    });
 }
 /**
  * Compile specified script with MakeNSIS
@@ -506,20 +603,29 @@ function commandHelp(command, compilerOptions, spawnOptions) {
 function compile(script, compilerOptions, spawnOptions) {
     if (compilerOptions === void 0) { compilerOptions = {}; }
     if (spawnOptions === void 0) { spawnOptions = {}; }
-    var _a = mapArguments([], compilerOptions), cmd = _a[0], args = _a[1], opts = _a[2];
-    if (script) {
-        if (cmd === 'wine') {
-            args.push('--');
-        }
-        args.push(script);
-    }
-    if (compilerOptions === null || compilerOptions === void 0 ? void 0 : compilerOptions.postExecute) {
-        var postExecuteArgs = splitCommands(compilerOptions.postExecute);
-        if (postExecuteArgs.length) {
-            args.push.apply(args, postExecuteArgs);
-        }
-    }
-    return spawnMakensis(cmd, args, opts, spawnOptions);
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, cmd, args, opts, postExecuteArgs;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, mapArguments([], compilerOptions)];
+                case 1:
+                    _a = _b.sent(), cmd = _a[0], args = _a[1], opts = _a[2];
+                    if (script) {
+                        if (cmd === 'wine') {
+                            args.push('--');
+                        }
+                        args.push(script);
+                    }
+                    if (compilerOptions === null || compilerOptions === void 0 ? void 0 : compilerOptions.postExecute) {
+                        postExecuteArgs = splitCommands(compilerOptions.postExecute);
+                        if (postExecuteArgs.length) {
+                            args.push.apply(args, postExecuteArgs);
+                        }
+                    }
+                    return [2 /*return*/, spawnMakensis(cmd, args, opts, spawnOptions)];
+            }
+        });
+    });
 }
 /**
  * Returns information about which options were used to compile MakeNSIS
@@ -529,9 +635,19 @@ function compile(script, compilerOptions, spawnOptions) {
 function headerInfo(compilerOptions, spawnOptions) {
     if (compilerOptions === void 0) { compilerOptions = {}; }
     if (spawnOptions === void 0) { spawnOptions = {}; }
-    var options = __assign(__assign({}, compilerOptions), { verbose: 0 });
-    var _a = mapArguments(['-HDRINFO'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    return spawnMakensis(cmd, args, opts, spawnOptions);
+    return __awaiter(this, void 0, void 0, function () {
+        var options, _a, cmd, args, opts;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    options = __assign(__assign({}, compilerOptions), { verbose: 0 });
+                    return [4 /*yield*/, mapArguments(['-HDRINFO'], options)];
+                case 1:
+                    _a = _b.sent(), cmd = _a[0], args = _a[1], opts = _a[2];
+                    return [2 /*return*/, spawnMakensis(cmd, args, opts, spawnOptions)];
+            }
+        });
+    });
 }
 /**
  * Returns MakeNSIS software license
@@ -541,8 +657,17 @@ function headerInfo(compilerOptions, spawnOptions) {
 function license(compilerOptions, spawnOptions) {
     if (compilerOptions === void 0) { compilerOptions = {}; }
     if (spawnOptions === void 0) { spawnOptions = {}; }
-    var _a = mapArguments(['-LICENSE'], compilerOptions), cmd = _a[0], args = _a[1], opts = _a[2];
-    return spawnMakensis(cmd, args, opts, spawnOptions);
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, cmd, args, opts;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0: return [4 /*yield*/, mapArguments(['-LICENSE'], compilerOptions)];
+                case 1:
+                    _a = _b.sent(), cmd = _a[0], args = _a[1], opts = _a[2];
+                    return [2 /*return*/, spawnMakensis(cmd, args, opts, spawnOptions)];
+            }
+        });
+    });
 }
 /**
  * Returns directory where NSIS is installed to
@@ -587,9 +712,19 @@ function nsisDir(compilerOptions) {
 function version(compilerOptions, spawnOptions) {
     if (compilerOptions === void 0) { compilerOptions = {}; }
     if (spawnOptions === void 0) { spawnOptions = {}; }
-    var options = __assign(__assign({}, compilerOptions), { verbose: 0 });
-    var _a = mapArguments(['-VERSION'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    return spawnMakensis(cmd, args, opts, spawnOptions);
+    return __awaiter(this, void 0, void 0, function () {
+        var options, _a, cmd, args, opts;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    options = __assign(__assign({}, compilerOptions), { verbose: 0 });
+                    return [4 /*yield*/, mapArguments(['-VERSION'], options)];
+                case 1:
+                    _a = _b.sent(), cmd = _a[0], args = _a[1], opts = _a[2];
+                    return [2 /*return*/, spawnMakensis(cmd, args, opts, spawnOptions)];
+            }
+        });
+    });
 }
 
 export { commandHelp, compile, eventEmitter as events, headerInfo, license, nsisDir, version };
