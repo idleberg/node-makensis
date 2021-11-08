@@ -436,9 +436,10 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
       eventEmitter.emit('exit', output);
 
       if (code === 0 || (stream.stderr && !hasErrorCode(stream.stderr))) {
-        // Promise also resolves on MakeNSIS errors
+        // Promise will be resolved on MakeNSIS errors...
         resolve(output);
       } else {
+        // ...but will be rejected on all other errors
         reject(output.stderr);
       }
     });
