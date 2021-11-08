@@ -67,31 +67,15 @@ const options = {
     }
 };
 
-// Asynchronous: async/await
 try {
     let output = await NSIS.compile('path/to/installer.nsi', options);
     console.log('Compiler output:', output);
 } catch (error) {
     console.error(error);
 }
-
-// Asynchronous: Promise API
-NSIS.compile('path/to/installer.nsi', options)
-    .then((output) => {
-        console.log('Compiler output:', output);
-    })
-    .catch((error) => {
-        console.error(error);
-    });
-
-// Synchronous
-let output = NSIS.compile.sync('path/to/installer.nsi', options);
-console.log('Compiler output:', output);
 ```
 
 ### API
-
-:warning: Any of the following API methods is asynchronous. To use their synchronous counterpart, append `.sync()` to the method name, e.g. `compile.sync()` instead of `compile()`.
 
 #### commandHelp
 

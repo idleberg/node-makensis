@@ -12,14 +12,6 @@ cp = spawnSync('wine', ['makensis', '-CMDHELP', 'OutFile']);
 const outFile = cp.stdout.toString().trim() || cp.stderr.toString().trim();
 
 // Let's run the tests
-test('Print help for all commands', (t) => {
-    const expected = commandHelp.replace(/\r/gm, '');
-    const actual = MakeNSIS.commandHelp
-        .sync('', { wine: true })
-        .stdout.replace(/\r/gm, '');
-
-    t.is(actual, expected);
-});
 
 test('Print help for all commands [async]', async (t) => {
     try {
@@ -37,13 +29,6 @@ test('Print help for all commands [async]', async (t) => {
 
         t.is(actual, expected);
     }
-});
-
-test('Print help for OutFile command', (t) => {
-    const expected = outFile;
-    const actual = MakeNSIS.commandHelp.sync('OutFile', { wine: true }).stdout;
-
-    t.is(actual, expected);
 });
 
 test('Print help for OutFile command [async]', async (t) => {
@@ -64,19 +49,6 @@ test('Print help for OutFile command [async]', async (t) => {
 
         t.is(actual, expected);
     }
-});
-
-test('Print help for OutFile command as JSON', (t) => {
-    let expected = outFile;
-    let actual = MakeNSIS.commandHelp.sync('OutFile', {
-        json: true,
-        wine: true,
-    }).stdout;
-
-    actual = JSON.stringify(actual);
-    expected = JSON.stringify({ help: expected });
-
-    t.is(actual, expected);
 });
 
 test('Print help for OutFile command as JSON [async]', async (t) => {

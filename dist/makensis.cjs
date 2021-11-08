@@ -448,29 +448,6 @@ function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
         });
     });
 }
-function spawnMakensisSync(cmd, args, compilerOptions, spawnOptions) {
-    if (spawnOptions === void 0) { spawnOptions = {}; }
-    if (compilerOptions.wine) {
-        spawnOptions['env'] = Object.freeze(__assign(__assign({ WINEDEBUG: '-all' }, process.env), spawnOptions.env));
-    }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    var child = child_process.spawnSync(cmd, args, spawnOptions);
-    child.stdout = stringify(child.stdout);
-    child.stderr = stringify(child.stderr);
-    var warningsCounter = hasWarnings(child.stdout);
-    var outFile = detectOutfile(child.stdout);
-    child = formatOutput(child, args, compilerOptions);
-    var output = {
-        'status': child.status,
-        'stdout': child.stdout,
-        'stderr': child.stderr,
-        'warnings': warningsCounter
-    };
-    if (outFile.length) {
-        output['outFile'] = outFile;
-    }
-    return output;
-}
 function getMagicEnvVars(envFile) {
     dotenvExpand__default['default'](dotenv__default['default'].config({
         path: findEnvFile(envFile)
@@ -623,96 +600,6 @@ function version(compilerOptions, spawnOptions) {
     var _a = mapArguments(['-VERSION'], options), cmd = _a[0], args = _a[1], opts = _a[2];
     return spawnMakensis(cmd, args, opts, spawnOptions);
 }
-/**
- * Returns usage information for a command, or list all commands
- * @param command - an NSIS command
- * @param compilerOptions - compiler options
- * @returns - usage description
- */
-commandHelp.sync = function (command, compilerOptions, spawnOptions) {
-    if (command === void 0) { command = ''; }
-    if (compilerOptions === void 0) { compilerOptions = {}; }
-    if (spawnOptions === void 0) { spawnOptions = {}; }
-    var options = __assign(__assign({}, compilerOptions), { verbose: 0 });
-    var _a = mapArguments(['-CMDHELP'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    if ((command === null || command === void 0 ? void 0 : command.length) && typeof command !== 'object') {
-        args.push(command);
-    }
-    return spawnMakensisSync(cmd, args, opts, spawnOptions);
-};
-/**
- * Compile specified script with MakeNSIS
- * @param script - path to NSIS script
- * @param compilerOptions - compiler options
- */
-compile.sync = function (script, compilerOptions, spawnOptions) {
-    if (compilerOptions === void 0) { compilerOptions = {}; }
-    if (spawnOptions === void 0) { spawnOptions = {}; }
-    var _a = mapArguments([], compilerOptions), cmd = _a[0], args = _a[1], opts = _a[2];
-    if (script) {
-        if (cmd === 'wine') {
-            args.push('--');
-        }
-        args.push(script);
-    }
-    if (typeof compilerOptions.postExecute === 'string') {
-        args.push("-X" + compilerOptions.postExecute);
-    }
-    else if (compilerOptions.postExecute) {
-        compilerOptions.postExecute.map(function (key) {
-            args.push("-X" + key);
-        });
-    }
-    return spawnMakensisSync(cmd, args, opts, spawnOptions);
-};
-/**
- * Returns information about which options were used to compile MakeNSIS
- * @returns - compiler options
- */
-headerInfo.sync = function (compilerOptions, spawnOptions) {
-    if (compilerOptions === void 0) { compilerOptions = {}; }
-    if (spawnOptions === void 0) { spawnOptions = {}; }
-    var options = __assign(__assign({}, compilerOptions), { verbose: 0 });
-    var _a = mapArguments(['-HDRINFO'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    return spawnMakensisSync(cmd, args, opts, spawnOptions);
-};
-/**
- * Returns MakeNSIS software license
- * @param compilerOptions - compiler options
- * @returns - compiler license
- */
-license.sync = function (compilerOptions, spawnOptions) {
-    if (compilerOptions === void 0) { compilerOptions = {}; }
-    if (spawnOptions === void 0) { spawnOptions = {}; }
-    var _a = mapArguments(['-LICENSE'], compilerOptions), cmd = _a[0], args = _a[1], opts = _a[2];
-    return spawnMakensisSync(cmd, args, opts, spawnOptions);
-};
-/**
- * Returns NSIS directory
- * @param compilerOptions - compiler options
- * @returns - compiler version
- */
-nsisDir.sync = function (compilerOptions) {
-    if (compilerOptions === void 0) { compilerOptions = {}; }
-    var hdrOptions = __assign(__assign({}, compilerOptions), { json: true });
-    var hdrinfo = headerInfo.sync(hdrOptions);
-    if (compilerOptions.json === true) {
-        return objectify(hdrinfo.stdout['defined_symbols']['NSISDIR'], 'nsisdir');
-    }
-    return hdrinfo.stdout['defined_symbols']['NSISDIR'];
-};
-/**
- * Returns version of MakeNSIS
- * @param compilerOptions - compiler options
- * @returns - compiler version
- */
-version.sync = function (compilerOptions, spawnOptions) {
-    if (compilerOptions === void 0) { compilerOptions = {}; }
-    if (spawnOptions === void 0) { spawnOptions = {}; }
-    var options = __assign(__assign({}, compilerOptions), { verbose: 0 });
-    var _a = mapArguments(['-VERSION'], options), cmd = _a[0], args = _a[1], opts = _a[2];
-    return spawnMakensisSync(cmd, args, opts, spawnOptions);
-};
 
 exports.commandHelp = commandHelp;
 exports.compile = compile;

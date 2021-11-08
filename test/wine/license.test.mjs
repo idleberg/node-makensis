@@ -7,23 +7,6 @@ const cp = spawnSync('wine', ['makensis', '-LICENSE']);
 const license = cp.stdout.toString().trim() || cp.stderr.toString().trim();
 
 // Let's run the tests
-test('Print makensis license', (t) => {
-    let expected = license;
-    let actual = MakeNSIS.license.sync({ wine: true }).stdout;
-
-    t.is(actual, expected);
-});
-
-test('Print makensis license as JSON', (t) => {
-    let expected = license;
-    let actual = MakeNSIS.license.sync({ json: true, wine: true }).stdout;
-
-    actual = JSON.stringify(actual);
-    expected = JSON.stringify({ license: expected });
-
-    t.is(actual, expected);
-});
-
 test('Print makensis license [async]', async (t) => {
     try {
         const { stdout } = await MakeNSIS.license({ wine: true });
