@@ -10,30 +10,148 @@ import dotenvExpand from 'dotenv-expand';
 import type { SpawnOptions } from 'child_process';
 import type makensis from '../types';
 
-function splitCommands(data: string | string[]): string[] {
-  const args: string[] = [];
+function detectOutfile(str: string): string {
+  if (str.includes('Output: "')) {
+    const regex = new RegExp('Output: "(.*.exe)"', 'g');
+    const result = regex.exec(str.toString());
 
-  if (typeof data === 'string') {
-    if (data.trim().includes('\n')) {
-      const lines = data.trim().split('\n');
-
-      lines.map(line => {
-        if (line.trim().length) {
-          args.push(`-X${line}`);
-        }
-      });
-    } else {
-      args.push(`-X${data}`);
-    }
-  } else {
-    data.map(key => {
-      if (key.trim().length) {
-        args.push(`-X${key}`);
+    if (typeof result === 'object' && result && result['1']) {
+      try {
+        return result['1'];
+      } catch (e) {
+        return '';
       }
-    });
+    }
   }
 
-  return args;
+  return '';
+}
+
+async function fileExists(filePath: string): Promise<boolean> {
+  try {
+    await fs.access(filePath, constants.F_OK);
+  } catch (err) {
+    return false;
+  }
+
+  return true;
+}
+
+async function findEnvFile(dotenvPath: string | boolean): Promise<string> {
+  if (typeof dotenvPath === 'string' && dotenvPath?.length && await fileExists(dotenvPath) && (await fs.lstat(dotenvPath)).isFile()) {
+    return dotenvPath;
+  }
+
+  const cwd: string = dotenvPath && typeof dotenvPath === 'string'
+    ? dotenvPath
+    : process.cwd();
+
+  let dotenvFile;
+
+  if (cwd) {
+    switch (true) {
+      case (await fileExists(join(cwd, `.env.[${process.env.NODE_ENV}].local`))):
+        dotenvFile = join(cwd, `.env.[${process.env.NODE_ENV}].local`);
+        break;
+
+      case (await fileExists(join(cwd, '.env.local'))):
+        dotenvFile = join(cwd, '.env.local');
+        break;
+
+      case (process.env.NODE_ENV && await fileExists(join(cwd, `.env.[${process.env.NODE_ENV}]`))):
+        dotenvFile = join(cwd, `.env.[${process.env.NODE_ENV}]`);
+        break;
+
+      case (await fileExists(join(cwd, '.env'))):
+        dotenvFile = join(cwd, '.env');
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  return dotenvFile;
+}
+
+function formatOutput(stream, args, opts: makensis.CompilerOptions): makensis.StreamOptions {
+  if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
+    // CMDHELP writes to stderr by default, let's fix this
+    [stream.stdout, stream.stderr] = [stream.stderr, ''];
+  }
+
+  if (opts.json === true) {
+    if (args.includes('-CMDHELP')) {
+      const minLength = (opts.wine === true) ? 2 : 1;
+
+      if (args.length === minLength) {
+        stream.stdout = objectifyHelp(stream.stdout, opts);
+      } else {
+        stream.stdout = objectify(stream.stdout, 'help');
+      }
+    } else if (args.includes('-HDRINFO')) {
+      stream.stdout = objectifyFlags(stream.stdout, opts);
+    } else if (args.includes('-LICENSE')) {
+      stream.stdout = objectify(stream.stdout, 'license');
+    } else if (args.includes('-VERSION')) {
+      stream.stdout = objectify(stream.stdout, 'version');
+    }
+  }
+
+  return stream;
+}
+
+async function getMagicEnvVars(envFile: string | boolean): Promise<makensis.EnvironmentVariables | undefined > {
+  dotenvExpand(
+    dotenv.config({
+      path: await findEnvFile(envFile)
+    })
+  );
+
+  const definitions = {};
+  const prefix = 'NSIS_APP_';
+
+  Object.keys(process.env).map(item => {
+    if (item.length && new RegExp(`${prefix}[a-z0-9]+`, 'gi').test(item)) {
+      definitions[item] = process.env[item];
+    }
+  });
+
+  return Object.keys(definitions).length
+    ? definitions
+    : undefined;
+}
+
+function hasErrorCode(input: string) {
+  if (input?.includes('ENOENT') && input.match(/\bENOENT\b/)) {
+    return true;
+  } else if (input?.includes('EACCES') && input.match(/\bEACCES\b/)) {
+    return true;
+  } else if (input?.includes('EISDIR') && input.match(/\bEISDIR\b/)) {
+    return true;
+  } else if (input?.includes('EMFILE') && input.match(/\bEMFILE\b/)) {
+    return true;
+  }
+
+  return false;
+}
+
+function hasWarnings(line: string): number {
+  const match = line.match(/(\d+) warnings?:/);
+
+  if (match !== null) {
+    return parseInt(match[1], 10);
+  }
+
+  return 0;
+}
+
+function isNumeric(x): boolean {
+  return !isNaN(x);
+}
+
+function inRange(value: number, min: number, max: number): boolean {
+  return value >= min && value <= max;
 }
 
 async function mapArguments(args: string[], options: makensis.CompilerOptions): Promise<makensis.MapArguments> {
@@ -143,60 +261,7 @@ async function mapArguments(args: string[], options: makensis.CompilerOptions): 
   }
 
   return [cmd, args, { json: options.json, wine: options.wine }];
-}
-
-function stringify(data): string {
-  return data?.length
-    ? data.toString().trim()
-    : '';
-}
-
-function isNumeric(x): boolean {
-  return !isNaN(x);
-}
-
-function inRange(value: number, min: number, max: number): boolean {
-  return value >= min && value <= max;
-}
-
-function hasWarnings(line: string): number {
-  const match = line.match(/(\d+) warnings?:/);
-
-  if (match !== null) {
-    return parseInt(match[1], 10);
-  }
-
-  return 0;
-}
-
-function formatOutput(stream, args, opts: makensis.CompilerOptions): makensis.StreamOptions {
-  if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
-    // CMDHELP writes to stderr by default, let's fix this
-    [stream.stdout, stream.stderr] = [stream.stderr, ''];
-  }
-
-  if (opts.json === true) {
-    if (args.includes('-CMDHELP')) {
-      const minLength = (opts.wine === true) ? 2 : 1;
-
-      if (args.length === minLength) {
-        stream.stdout = objectifyHelp(stream.stdout, opts);
-      } else {
-        stream.stdout = objectify(stream.stdout, 'help');
-      }
-    } else if (args.includes('-HDRINFO')) {
-      stream.stdout = objectifyFlags(stream.stdout, opts);
-    } else if (args.includes('-LICENSE')) {
-      stream.stdout = objectify(stream.stdout, 'license');
-    } else if (args.includes('-VERSION')) {
-      stream.stdout = objectify(stream.stdout, 'version');
-    }
-  }
-
-  return stream;
-}
-
-function objectify(input: string, key: string | null): Record<string, unknown> | string {
+}function objectify(input: string, key: string | null): Record<string, unknown> | string {
   let output: { [key: string]: unknown } | string = {};
 
   if (key === 'version' && input.startsWith('v')) {
@@ -207,30 +272,6 @@ function objectify(input: string, key: string | null): Record<string, unknown> |
     output = input;
   } else {
     output[key] = input;
-  }
-
-  return output;
-}
-
-function objectifyHelp(input: string, opts: makensis.CompilerOptions): Record<string, unknown> {
-  const lines = splitLines(input, opts);
-  lines.sort();
-
-  const output = {};
-
-  if (lines?.length) {
-    lines.map(line => {
-      let command = line.substr(0, line.indexOf(' '));
-      const usage = line.substr(line.indexOf(' ') + 1);
-
-      // Workaround
-      if (['!AddIncludeDir', '!AddPluginDir'].includes(command)) {
-        command = command.toLowerCase();
-      }
-
-      if (command)
-        output[command] = usage;
-    });
   }
 
   return output;
@@ -299,42 +340,28 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): Record<s
   return output;
 }
 
-function hasErrorCode(input: string) {
-  if (input?.includes('ENOENT') && input.match(/\bENOENT\b/)) {
-    return true;
-  } else if (input?.includes('EACCES') && input.match(/\bEACCES\b/)) {
-    return true;
-  } else if (input?.includes('EISDIR') && input.match(/\bEISDIR\b/)) {
-    return true;
-  } else if (input?.includes('EMFILE') && input.match(/\bEMFILE\b/)) {
-    return true;
+function objectifyHelp(input: string, opts: makensis.CompilerOptions): Record<string, unknown> {
+  const lines = splitLines(input, opts);
+  lines.sort();
+
+  const output = {};
+
+  if (lines?.length) {
+    lines.map(line => {
+      let command = line.substr(0, line.indexOf(' '));
+      const usage = line.substr(line.indexOf(' ') + 1);
+
+      // Workaround
+      if (['!AddIncludeDir', '!AddPluginDir'].includes(command)) {
+        command = command.toLowerCase();
+      }
+
+      if (command)
+        output[command] = usage;
+    });
   }
-
-  return false;
-}
-
-function splitLines(input: string, opts: makensis.CompilerOptions = {}): string[] {
-  const lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
-  const output = input.split(lineBreak);
 
   return output;
-}
-
-function detectOutfile(str: string): string {
-  if (str.includes('Output: "')) {
-    const regex = new RegExp('Output: "(.*.exe)"', 'g');
-    const result = regex.exec(str.toString());
-
-    if (typeof result === 'object' && result && result['1']) {
-      try {
-        return result['1'];
-      } catch (e) {
-        return '';
-      }
-    }
-  }
-
-  return '';
 }
 
 function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
@@ -418,72 +445,43 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
   });
 }
 
-async function getMagicEnvVars(envFile: string | boolean): Promise<makensis.EnvironmentVariables | undefined > {
-  dotenvExpand(
-    dotenv.config({
-      path: await findEnvFile(envFile)
-    })
-  );
+function splitCommands(data: string | string[]): string[] {
+  const args: string[] = [];
 
-  const definitions = {};
-  const prefix = 'NSIS_APP_';
+  if (typeof data === 'string') {
+    if (data.trim().includes('\n')) {
+      const lines = data.trim().split('\n');
 
-  Object.keys(process.env).map(item => {
-    if (item.length && new RegExp(`${prefix}[a-z0-9]+`, 'gi').test(item)) {
-      definitions[item] = process.env[item];
+      lines.map(line => {
+        if (line.trim().length) {
+          args.push(`-X${line}`);
+        }
+      });
+    } else {
+      args.push(`-X${data}`);
     }
-  });
+  } else {
+    data.map(key => {
+      if (key.trim().length) {
+        args.push(`-X${key}`);
+      }
+    });
+  }
 
-  return Object.keys(definitions).length
-    ? definitions
-    : undefined;
+  return args;
 }
 
-async function findEnvFile(dotenvPath: string | boolean): Promise<string> {
-  if (typeof dotenvPath === 'string' && dotenvPath?.length && await fileExists(dotenvPath) && (await fs.lstat(dotenvPath)).isFile()) {
-    return dotenvPath;
-  }
+function splitLines(input: string, opts: makensis.CompilerOptions = {}): string[] {
+  const lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
+  const output = input.split(lineBreak);
 
-  const cwd: string = dotenvPath && typeof dotenvPath === 'string'
-    ? dotenvPath
-    : process.cwd();
-
-  let dotenvFile;
-
-  if (cwd) {
-    switch (true) {
-      case (await fileExists(join(cwd, `.env.[${process.env.NODE_ENV}].local`))):
-        dotenvFile = join(cwd, `.env.[${process.env.NODE_ENV}].local`);
-        break;
-
-      case (await fileExists(join(cwd, '.env.local'))):
-        dotenvFile = join(cwd, '.env.local');
-        break;
-
-      case (process.env.NODE_ENV && await fileExists(join(cwd, `.env.[${process.env.NODE_ENV}]`))):
-        dotenvFile = join(cwd, `.env.[${process.env.NODE_ENV}]`);
-        break;
-
-      case (await fileExists(join(cwd, '.env'))):
-        dotenvFile = join(cwd, '.env');
-        break;
-
-      default:
-        break;
-    }
-  }
-
-  return dotenvFile;
+  return output;
 }
 
-async function fileExists(filePath: string): Promise<boolean> {
-  try {
-    await fs.access(filePath, constants.F_OK);
-  } catch (err) {
-    return false;
-  }
-
-  return true;
+function stringify(data): string {
+  return data?.length
+    ? data.toString().trim()
+    : '';
 }
 
 export {
