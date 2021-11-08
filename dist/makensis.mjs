@@ -104,29 +104,194 @@ var output = __spreadArray(__spreadArray([
     'UTF8SIG'
 ]);
 
-function splitCommands(data) {
-    var args = [];
-    if (typeof data === 'string') {
-        if (data.trim().includes('\n')) {
-            var lines = data.trim().split('\n');
-            lines.map(function (line) {
-                if (line.trim().length) {
-                    args.push("-X" + line);
-                }
-            });
-        }
-        else {
-            args.push("-X" + data);
+function detectOutfile(str) {
+    if (str.includes('Output: "')) {
+        var regex = new RegExp('Output: "(.*.exe)"', 'g');
+        var result = regex.exec(str.toString());
+        if (typeof result === 'object' && result && result['1']) {
+            try {
+                return result['1'];
+            }
+            catch (e) {
+                return '';
+            }
         }
     }
-    else {
-        data.map(function (key) {
-            if (key.trim().length) {
-                args.push("-X" + key);
+    return '';
+}
+function fileExists(filePath) {
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, promises.access(filePath, constants.F_OK)];
+                case 1:
+                    _a.sent();
+                    return [3 /*break*/, 3];
+                case 2:
+                    _a.sent();
+                    return [2 /*return*/, false];
+                case 3: return [2 /*return*/, true];
             }
         });
+    });
+}
+function findEnvFile(dotenvPath) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, _b, cwd, dotenvFile, _c, _d;
+        return __generator(this, function (_e) {
+            switch (_e.label) {
+                case 0:
+                    _b = typeof dotenvPath === 'string' && (dotenvPath === null || dotenvPath === void 0 ? void 0 : dotenvPath.length);
+                    if (!_b) return [3 /*break*/, 2];
+                    return [4 /*yield*/, fileExists(dotenvPath)];
+                case 1:
+                    _b = (_e.sent());
+                    _e.label = 2;
+                case 2:
+                    _a = _b;
+                    if (!_a) return [3 /*break*/, 4];
+                    return [4 /*yield*/, promises.lstat(dotenvPath)];
+                case 3:
+                    _a = (_e.sent()).isFile();
+                    _e.label = 4;
+                case 4:
+                    if (_a) {
+                        return [2 /*return*/, dotenvPath];
+                    }
+                    cwd = dotenvPath && typeof dotenvPath === 'string'
+                        ? dotenvPath
+                        : process.cwd();
+                    if (!cwd) return [3 /*break*/, 15];
+                    _c = true;
+                    return [4 /*yield*/, fileExists(join(cwd, ".env.[" + process.env.NODE_ENV + "].local"))];
+                case 5:
+                    switch (_c) {
+                        case (_e.sent()): return [3 /*break*/, 10];
+                    }
+                    return [4 /*yield*/, fileExists(join(cwd, '.env.local'))];
+                case 6:
+                    switch (_c) {
+                        case (_e.sent()): return [3 /*break*/, 11];
+                    }
+                    _d = process.env.NODE_ENV;
+                    if (!_d) return [3 /*break*/, 8];
+                    return [4 /*yield*/, fileExists(join(cwd, ".env.[" + process.env.NODE_ENV + "]"))];
+                case 7:
+                    _d = (_e.sent());
+                    _e.label = 8;
+                case 8:
+                    switch (_c) {
+                        case (_d): return [3 /*break*/, 12];
+                    }
+                    return [4 /*yield*/, fileExists(join(cwd, '.env'))];
+                case 9:
+                    switch (_c) {
+                        case (_e.sent()): return [3 /*break*/, 13];
+                    }
+                    return [3 /*break*/, 14];
+                case 10:
+                    dotenvFile = join(cwd, ".env.[" + process.env.NODE_ENV + "].local");
+                    return [3 /*break*/, 15];
+                case 11:
+                    dotenvFile = join(cwd, '.env.local');
+                    return [3 /*break*/, 15];
+                case 12:
+                    dotenvFile = join(cwd, ".env.[" + process.env.NODE_ENV + "]");
+                    return [3 /*break*/, 15];
+                case 13:
+                    dotenvFile = join(cwd, '.env');
+                    return [3 /*break*/, 15];
+                case 14: return [3 /*break*/, 15];
+                case 15: return [2 /*return*/, dotenvFile];
+            }
+        });
+    });
+}
+function formatOutput(stream, args, opts) {
+    var _a;
+    if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
+        // CMDHELP writes to stderr by default, let's fix this
+        _a = [stream.stderr, ''], stream.stdout = _a[0], stream.stderr = _a[1];
     }
-    return args;
+    if (opts.json === true) {
+        if (args.includes('-CMDHELP')) {
+            var minLength = (opts.wine === true) ? 2 : 1;
+            if (args.length === minLength) {
+                stream.stdout = objectifyHelp(stream.stdout, opts);
+            }
+            else {
+                stream.stdout = objectify(stream.stdout, 'help');
+            }
+        }
+        else if (args.includes('-HDRINFO')) {
+            stream.stdout = objectifyFlags(stream.stdout, opts);
+        }
+        else if (args.includes('-LICENSE')) {
+            stream.stdout = objectify(stream.stdout, 'license');
+        }
+        else if (args.includes('-VERSION')) {
+            stream.stdout = objectify(stream.stdout, 'version');
+        }
+    }
+    return stream;
+}
+function getMagicEnvVars(envFile) {
+    return __awaiter(this, void 0, void 0, function () {
+        var _a, _b, _c, definitions, prefix;
+        var _d;
+        return __generator(this, function (_e) {
+            switch (_e.label) {
+                case 0:
+                    _a = dotenvExpand;
+                    _c = (_b = dotenv).config;
+                    _d = {};
+                    return [4 /*yield*/, findEnvFile(envFile)];
+                case 1:
+                    _a.apply(void 0, [_c.apply(_b, [(_d.path = _e.sent(),
+                                _d)])]);
+                    definitions = {};
+                    prefix = 'NSIS_APP_';
+                    Object.keys(process.env).map(function (item) {
+                        if (item.length && new RegExp(prefix + "[a-z0-9]+", 'gi').test(item)) {
+                            definitions[item] = process.env[item];
+                        }
+                    });
+                    return [2 /*return*/, Object.keys(definitions).length
+                            ? definitions
+                            : undefined];
+            }
+        });
+    });
+}
+function hasErrorCode(input) {
+    if ((input === null || input === void 0 ? void 0 : input.includes('ENOENT')) && input.match(/\bENOENT\b/)) {
+        return true;
+    }
+    else if ((input === null || input === void 0 ? void 0 : input.includes('EACCES')) && input.match(/\bEACCES\b/)) {
+        return true;
+    }
+    else if ((input === null || input === void 0 ? void 0 : input.includes('EISDIR')) && input.match(/\bEISDIR\b/)) {
+        return true;
+    }
+    else if ((input === null || input === void 0 ? void 0 : input.includes('EMFILE')) && input.match(/\bEMFILE\b/)) {
+        return true;
+    }
+    return false;
+}
+function hasWarnings(line) {
+    var match = line.match(/(\d+) warnings?:/);
+    if (match !== null) {
+        return parseInt(match[1], 10);
+    }
+    return 0;
+}
+function isNumeric(x) {
+    return !isNaN(x);
+}
+function inRange(value, min, max) {
+    return value >= min && value <= max;
 }
 function mapArguments(args, options) {
     return __awaiter(this, void 0, void 0, function () {
@@ -225,52 +390,6 @@ function mapArguments(args, options) {
         });
     });
 }
-function stringify(data) {
-    return (data === null || data === void 0 ? void 0 : data.length)
-        ? data.toString().trim()
-        : '';
-}
-function isNumeric(x) {
-    return !isNaN(x);
-}
-function inRange(value, min, max) {
-    return value >= min && value <= max;
-}
-function hasWarnings(line) {
-    var match = line.match(/(\d+) warnings?:/);
-    if (match !== null) {
-        return parseInt(match[1], 10);
-    }
-    return 0;
-}
-function formatOutput(stream, args, opts) {
-    var _a;
-    if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
-        // CMDHELP writes to stderr by default, let's fix this
-        _a = [stream.stderr, ''], stream.stdout = _a[0], stream.stderr = _a[1];
-    }
-    if (opts.json === true) {
-        if (args.includes('-CMDHELP')) {
-            var minLength = (opts.wine === true) ? 2 : 1;
-            if (args.length === minLength) {
-                stream.stdout = objectifyHelp(stream.stdout, opts);
-            }
-            else {
-                stream.stdout = objectify(stream.stdout, 'help');
-            }
-        }
-        else if (args.includes('-HDRINFO')) {
-            stream.stdout = objectifyFlags(stream.stdout, opts);
-        }
-        else if (args.includes('-LICENSE')) {
-            stream.stdout = objectify(stream.stdout, 'license');
-        }
-        else if (args.includes('-VERSION')) {
-            stream.stdout = objectify(stream.stdout, 'version');
-        }
-    }
-    return stream;
-}
 function objectify(input, key) {
     var output = {};
     if (key === 'version' && input.startsWith('v')) {
@@ -281,24 +400,6 @@ function objectify(input, key) {
     }
     else {
         output[key] = input;
-    }
-    return output;
-}
-function objectifyHelp(input, opts) {
-    var lines = splitLines(input, opts);
-    lines.sort();
-    var output = {};
-    if (lines === null || lines === void 0 ? void 0 : lines.length) {
-        lines.map(function (line) {
-            var command = line.substr(0, line.indexOf(' '));
-            var usage = line.substr(line.indexOf(' ') + 1);
-            // Workaround
-            if (['!AddIncludeDir', '!AddPluginDir'].includes(command)) {
-                command = command.toLowerCase();
-            }
-            if (command)
-                output[command] = usage;
-        });
     }
     return output;
 }
@@ -352,41 +453,23 @@ function objectifyFlags(input, opts) {
     output['defined_symbols'] = tableSymbols;
     return output;
 }
-function hasErrorCode(input) {
-    if ((input === null || input === void 0 ? void 0 : input.includes('ENOENT')) && input.match(/\bENOENT\b/)) {
-        return true;
+function objectifyHelp(input, opts) {
+    var lines = splitLines(input, opts);
+    lines.sort();
+    var output = {};
+    if (lines === null || lines === void 0 ? void 0 : lines.length) {
+        lines.map(function (line) {
+            var command = line.substr(0, line.indexOf(' '));
+            var usage = line.substr(line.indexOf(' ') + 1);
+            // Workaround
+            if (['!AddIncludeDir', '!AddPluginDir'].includes(command)) {
+                command = command.toLowerCase();
+            }
+            if (command)
+                output[command] = usage;
+        });
     }
-    else if ((input === null || input === void 0 ? void 0 : input.includes('EACCES')) && input.match(/\bEACCES\b/)) {
-        return true;
-    }
-    else if ((input === null || input === void 0 ? void 0 : input.includes('EISDIR')) && input.match(/\bEISDIR\b/)) {
-        return true;
-    }
-    else if ((input === null || input === void 0 ? void 0 : input.includes('EMFILE')) && input.match(/\bEMFILE\b/)) {
-        return true;
-    }
-    return false;
-}
-function splitLines(input, opts) {
-    if (opts === void 0) { opts = {}; }
-    var lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
-    var output = input.split(lineBreak);
     return output;
-}
-function detectOutfile(str) {
-    if (str.includes('Output: "')) {
-        var regex = new RegExp('Output: "(.*.exe)"', 'g');
-        var result = regex.exec(str.toString());
-        if (typeof result === 'object' && result && result['1']) {
-            try {
-                return result['1'];
-            }
-            catch (e) {
-                return '';
-            }
-        }
-    }
-    return '';
 }
 function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
     if (spawnOptions === void 0) { spawnOptions = {}; }
@@ -449,123 +532,40 @@ function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
         });
     });
 }
-function getMagicEnvVars(envFile) {
-    return __awaiter(this, void 0, void 0, function () {
-        var _a, _b, _c, definitions, prefix;
-        var _d;
-        return __generator(this, function (_e) {
-            switch (_e.label) {
-                case 0:
-                    _a = dotenvExpand;
-                    _c = (_b = dotenv).config;
-                    _d = {};
-                    return [4 /*yield*/, findEnvFile(envFile)];
-                case 1:
-                    _a.apply(void 0, [_c.apply(_b, [(_d.path = _e.sent(),
-                                _d)])]);
-                    definitions = {};
-                    prefix = 'NSIS_APP_';
-                    Object.keys(process.env).map(function (item) {
-                        if (item.length && new RegExp(prefix + "[a-z0-9]+", 'gi').test(item)) {
-                            definitions[item] = process.env[item];
-                        }
-                    });
-                    return [2 /*return*/, Object.keys(definitions).length
-                            ? definitions
-                            : undefined];
+function splitCommands(data) {
+    var args = [];
+    if (typeof data === 'string') {
+        if (data.trim().includes('\n')) {
+            var lines = data.trim().split('\n');
+            lines.map(function (line) {
+                if (line.trim().length) {
+                    args.push("-X" + line);
+                }
+            });
+        }
+        else {
+            args.push("-X" + data);
+        }
+    }
+    else {
+        data.map(function (key) {
+            if (key.trim().length) {
+                args.push("-X" + key);
             }
         });
-    });
+    }
+    return args;
 }
-function findEnvFile(dotenvPath) {
-    return __awaiter(this, void 0, void 0, function () {
-        var _a, _b, cwd, dotenvFile, _c, _d;
-        return __generator(this, function (_e) {
-            switch (_e.label) {
-                case 0:
-                    _b = typeof dotenvPath === 'string' && (dotenvPath === null || dotenvPath === void 0 ? void 0 : dotenvPath.length);
-                    if (!_b) return [3 /*break*/, 2];
-                    return [4 /*yield*/, fileExists(dotenvPath)];
-                case 1:
-                    _b = (_e.sent());
-                    _e.label = 2;
-                case 2:
-                    _a = _b;
-                    if (!_a) return [3 /*break*/, 4];
-                    return [4 /*yield*/, promises.lstat(dotenvPath)];
-                case 3:
-                    _a = (_e.sent()).isFile();
-                    _e.label = 4;
-                case 4:
-                    if (_a) {
-                        return [2 /*return*/, dotenvPath];
-                    }
-                    cwd = dotenvPath && typeof dotenvPath === 'string'
-                        ? dotenvPath
-                        : process.cwd();
-                    if (!cwd) return [3 /*break*/, 15];
-                    _c = true;
-                    return [4 /*yield*/, fileExists(join(cwd, ".env.[" + process.env.NODE_ENV + "].local"))];
-                case 5:
-                    switch (_c) {
-                        case (_e.sent()): return [3 /*break*/, 10];
-                    }
-                    return [4 /*yield*/, fileExists(join(cwd, '.env.local'))];
-                case 6:
-                    switch (_c) {
-                        case (_e.sent()): return [3 /*break*/, 11];
-                    }
-                    _d = process.env.NODE_ENV;
-                    if (!_d) return [3 /*break*/, 8];
-                    return [4 /*yield*/, fileExists(join(cwd, ".env.[" + process.env.NODE_ENV + "]"))];
-                case 7:
-                    _d = (_e.sent());
-                    _e.label = 8;
-                case 8:
-                    switch (_c) {
-                        case (_d): return [3 /*break*/, 12];
-                    }
-                    return [4 /*yield*/, fileExists(join(cwd, '.env'))];
-                case 9:
-                    switch (_c) {
-                        case (_e.sent()): return [3 /*break*/, 13];
-                    }
-                    return [3 /*break*/, 14];
-                case 10:
-                    dotenvFile = join(cwd, ".env.[" + process.env.NODE_ENV + "].local");
-                    return [3 /*break*/, 15];
-                case 11:
-                    dotenvFile = join(cwd, '.env.local');
-                    return [3 /*break*/, 15];
-                case 12:
-                    dotenvFile = join(cwd, ".env.[" + process.env.NODE_ENV + "]");
-                    return [3 /*break*/, 15];
-                case 13:
-                    dotenvFile = join(cwd, '.env');
-                    return [3 /*break*/, 15];
-                case 14: return [3 /*break*/, 15];
-                case 15: return [2 /*return*/, dotenvFile];
-            }
-        });
-    });
+function splitLines(input, opts) {
+    if (opts === void 0) { opts = {}; }
+    var lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
+    var output = input.split(lineBreak);
+    return output;
 }
-function fileExists(filePath) {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, promises.access(filePath, constants.F_OK)];
-                case 1:
-                    _a.sent();
-                    return [3 /*break*/, 3];
-                case 2:
-                    _a.sent();
-                    return [2 /*return*/, false];
-                case 3: return [2 /*return*/, true];
-            }
-        });
-    });
+function stringify(data) {
+    return (data === null || data === void 0 ? void 0 : data.length)
+        ? data.toString().trim()
+        : '';
 }
 
 /**
