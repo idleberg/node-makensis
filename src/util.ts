@@ -1,5 +1,5 @@
 import { eventEmitter } from './events';
-import { existsSync, lstatSync } from 'fs';
+import { constants, promises as fs } from 'fs';
 import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { join } from 'path';
 import { platform } from 'os';
@@ -36,7 +36,7 @@ function splitCommands(data: string | string[]): string[] {
   return args;
 }
 
-function mapArguments(args: string[], options: makensis.CompilerOptions): makensis.MapArguments {
+async function mapArguments(args: string[], options: makensis.CompilerOptions): Promise<makensis.MapArguments> {
   const pathToMakensis: string = options.pathToMakensis
     ? options.pathToMakensis
     : 'makensis';
@@ -70,7 +70,7 @@ function mapArguments(args: string[], options: makensis.CompilerOptions): makens
   }
 
   if (options?.env) {
-    const defines = getMagicEnvVars(options.env)
+    const defines = await getMagicEnvVars(options.env)
 
     if (defines && Object.keys(defines).length) {
       Object.keys(defines).map(key => {
@@ -417,10 +417,11 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
     });
   });
 }
-function getMagicEnvVars(envFile: string | boolean): makensis.EnvironmentVariables | undefined {
+
+async function getMagicEnvVars(envFile: string | boolean): Promise<makensis.EnvironmentVariables | undefined > {
   dotenvExpand(
     dotenv.config({
-      path: findEnvFile(envFile)
+      path: await findEnvFile(envFile)
     })
   );
 
@@ -438,8 +439,8 @@ function getMagicEnvVars(envFile: string | boolean): makensis.EnvironmentVariabl
     : undefined;
 }
 
-function findEnvFile(dotenvPath: string | boolean): string {
-  if (typeof dotenvPath === 'string' && dotenvPath?.length && existsSync(dotenvPath) && lstatSync(dotenvPath).isFile()) {
+async function findEnvFile(dotenvPath: string | boolean): Promise<string> {
+  if (typeof dotenvPath === 'string' && dotenvPath?.length && await fileExists(dotenvPath) && (await fs.lstat(dotenvPath)).isFile()) {
     return dotenvPath;
   }
 
@@ -451,19 +452,19 @@ function findEnvFile(dotenvPath: string | boolean): string {
 
   if (cwd) {
     switch (true) {
-      case (existsSync(join(cwd, `.env.[${process.env.NODE_ENV}].local`))):
+      case (await fileExists(join(cwd, `.env.[${process.env.NODE_ENV}].local`))):
         dotenvFile = join(cwd, `.env.[${process.env.NODE_ENV}].local`);
         break;
 
-      case (existsSync(join(cwd, '.env.local'))):
+      case (await fileExists(join(cwd, '.env.local'))):
         dotenvFile = join(cwd, '.env.local');
         break;
 
-      case (process.env.NODE_ENV && existsSync(join(cwd, `.env.[${process.env.NODE_ENV}]`))):
+      case (process.env.NODE_ENV && await fileExists(join(cwd, `.env.[${process.env.NODE_ENV}]`))):
         dotenvFile = join(cwd, `.env.[${process.env.NODE_ENV}]`);
         break;
 
-      case (existsSync(join(cwd, '.env'))):
+      case (await fileExists(join(cwd, '.env'))):
         dotenvFile = join(cwd, '.env');
         break;
 
@@ -473,6 +474,16 @@ function findEnvFile(dotenvPath: string | boolean): string {
   }
 
   return dotenvFile;
+}
+
+async function fileExists(filePath: string): Promise<boolean> {
+  try {
+    await fs.access(filePath, constants.F_OK);
+  } catch (err) {
+    return false;
+  }
+
+  return true;
 }
 
 export {
