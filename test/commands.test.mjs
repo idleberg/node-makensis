@@ -16,7 +16,7 @@ const scriptFile = {
 };
 
 // Let's run the tests
-test('Print makensis version [async]', async (t) => {
+test('Print makensis version', async (t) => {
     try {
         const { stdout } = await MakeNSIS.version();
 
@@ -29,7 +29,7 @@ test('Print makensis version [async]', async (t) => {
     }
 });
 
-test('Print makensis version as JSON [async]', async (t) => {
+test('Print makensis version as JSON', async (t) => {
     try {
         const { stdout } = await MakeNSIS.version({ json: true });
 
@@ -51,7 +51,7 @@ test('Print makensis version as JSON [async]', async (t) => {
     }
 });
 
-test('Print makensis license [async]', async (t) => {
+test('Print makensis license', async (t) => {
     try {
         const { stdout } = await MakeNSIS.license();
 
@@ -69,7 +69,7 @@ test('Print makensis license [async]', async (t) => {
     }
 });
 
-test('Print makensis license as JSON [async]', async (t) => {
+test('Print makensis license as JSON', async (t) => {
     try {
         const { stdout } = await MakeNSIS.license({ json: true });
 
@@ -95,7 +95,7 @@ test('Print makensis license as JSON [async]', async (t) => {
     }
 });
 
-test('Print compiler information [async]', async (t) => {
+test('Print compiler information', async (t) => {
     try {
         const { stdout } = await MakeNSIS.headerInfo();
 
@@ -113,7 +113,7 @@ test('Print compiler information [async]', async (t) => {
     }
 });
 
-test('Print compiler information as JSON [async]', async t => {
+test('Print compiler information as JSON', async t => {
     try {
         const actual = (await MakeNSIS.headerInfo({ json: true })).stdout
             .defined_symbols.__GLOBAL__;
@@ -131,7 +131,7 @@ test('Print compiler information as JSON [async]', async t => {
     }
 });
 
-test('Print help for all commands [async]', async t => {
+test('Print help for all commands', async t => {
     try {
         const output = await MakeNSIS.commandHelp();
 
@@ -149,7 +149,7 @@ test('Print help for all commands [async]', async t => {
     }
 });
 
-test('Print help for OutFile command [async]', async (t) => {
+test('Print help for OutFile command', async (t) => {
     try {
         const { stdout } = await MakeNSIS.commandHelp('OutFile');
 
@@ -167,7 +167,7 @@ test('Print help for OutFile command [async]', async (t) => {
     }
 });
 
-test('Print help for OutFile command as JSON [async]', async t => {
+test('Print help for OutFile command as JSON', async t => {
     try {
         let expected = shared.outFile;
         let actual = (await MakeNSIS.commandHelp('OutFile', { json: true })).stdout;
@@ -186,7 +186,7 @@ test('Print help for OutFile command as JSON [async]', async t => {
     }
 });
 
-test('Compilation from File [async]', async (t) => {
+test('Compilation from File', async (t) => {
     try {
         const { status } = await MakeNSIS.compile(scriptFile.minimal, {
             define: {
@@ -203,7 +203,7 @@ test('Compilation from File [async]', async (t) => {
     }
 });
 
-test('Compilation from Array [async]', async (t) => {
+test('Compilation from Array', async (t) => {
     try {
         const { status } = await MakeNSIS.compile(null, {
             preExecute: defaultScriptString,
@@ -218,7 +218,7 @@ test('Compilation from Array [async]', async (t) => {
     }
 });
 
-test('Compilation from String [async]', async (t) => {
+test('Compilation from String', async (t) => {
     try {
         const { status } = await MakeNSIS.compile(null, {
             preExecute: defaultScriptString,
@@ -233,7 +233,7 @@ test('Compilation from String [async]', async (t) => {
     }
 });
 
-test('Compilation with warning [async]', async (t) => {
+test('Compilation with warning', async (t) => {
     const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
     try {
@@ -250,7 +250,7 @@ test('Compilation with warning [async]', async (t) => {
     }
 });
 
-test('Compilation with warning as JSON [async]', async (t) => {
+test('Compilation with warning as JSON', async (t) => {
     const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
     try {
@@ -268,7 +268,7 @@ test('Compilation with warning as JSON [async]', async (t) => {
     }
 });
 
-test('Compilation with raw arguments and warning [async]', async (t) => {
+test('Compilation with raw arguments and warning', async (t) => {
     try {
         const { status } = await MakeNSIS.compile(scriptFile.warning, {
             rawArguments: ['-WX'],
@@ -283,7 +283,7 @@ test('Compilation with raw arguments and warning [async]', async (t) => {
     }
 });
 
-test('Compilation with error [async]', async (t) => {
+test('Compilation with error', async (t) => {
     let scriptWithError = [...defaultScriptArray, '!error'];
 
     try {
@@ -300,7 +300,7 @@ test('Compilation with error [async]', async (t) => {
     }
 });
 
-test('Strict compilation with warning [async]', async (t) => {
+test('Strict compilation with warning', async (t) => {
     const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
     try {
@@ -318,7 +318,7 @@ test('Strict compilation with warning [async]', async (t) => {
     }
 });
 
-test('Print ${NSISDIR} [async]', async (t) => {
+test('Print ${NSISDIR}', async (t) => {
     try {
         const nsisDir = await MakeNSIS.nsisDir();
         const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
@@ -332,7 +332,7 @@ test('Print ${NSISDIR} [async]', async (t) => {
     }
 });
 
-test('Print ${NSISDIR} as JSON [async]', async (t) => {
+test('Print ${NSISDIR} as JSON', async (t) => {
     try {
         const nsisDir = await MakeNSIS.nsisDir({ json: true });
         const nsisCfg = path.join(nsisDir.nsisdir, 'Include', 'MUI2.nsh');

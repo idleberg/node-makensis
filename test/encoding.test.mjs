@@ -23,7 +23,7 @@ const defaultOptions = {
 };
 
 // Let's run the tests
-test('Compile script with correct charset [async]', async (t) => {
+test('Compile script with correct charset', async (t) => {
     const options = { ...defaultOptions, inputCharset: 'UTF8' };
 
     try {
@@ -44,7 +44,7 @@ test('Compile script with correct charset [async]', async (t) => {
     }
 });
 
-test('Compile script with incorrect charset [async]', async (t) => {
+test('Compile script with incorrect charset', async (t) => {
     const options = { ...defaultOptions, inputCharset: 'UTF16BE' };
 
     try {

@@ -13,7 +13,7 @@ const outFile = cp.stdout.toString().trim() || cp.stderr.toString().trim();
 
 // Let's run the tests
 
-test('Print help for all commands [async]', async (t) => {
+test('Print help for all commands', async (t) => {
     try {
         const output = await MakeNSIS.commandHelp('', { wine: true });
 
@@ -31,7 +31,7 @@ test('Print help for all commands [async]', async (t) => {
     }
 });
 
-test('Print help for OutFile command [async]', async (t) => {
+test('Print help for OutFile command', async (t) => {
     try {
         const { stdout } = await MakeNSIS.commandHelp('OutFile', {
             wine: true,
@@ -51,7 +51,7 @@ test('Print help for OutFile command [async]', async (t) => {
     }
 });
 
-test('Print help for OutFile command as JSON [async]', async (t) => {
+test('Print help for OutFile command as JSON', async (t) => {
     try {
         let expected = outFile;
         let actual = (
