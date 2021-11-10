@@ -30,7 +30,7 @@ declare namespace makensis {
   interface CompilerOutput {
     outFile?: string;
     status: number;
-    stdout: string;
+    stdout: string | HeaderInfo | HelpObject | Objectified;
     stderr: string;
     warnings: number;
   }
@@ -70,5 +70,13 @@ declare namespace makensis {
   interface StreamOptions {
     stdout: string;
     stderr: string;
+  }
+  interface StreamOptionsFormatted {
+    stdout: string | HeaderInfo | HelpObject | Objectified;
+    stderr: string;
+  }
+
+  interface Objectified {
+    [key: string]: boolean | number | string | undefined;
   }
 }

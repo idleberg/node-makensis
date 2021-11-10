@@ -83,7 +83,8 @@ async function license(compilerOptions: makensis.CompilerOptions = {}, spawnOpti
 async function nsisDir(compilerOptions: makensis.CompilerOptions = {}): Promise<string | JSON> {
   const hdrOptions: makensis.CompilerOptions = { ...compilerOptions, json: true };
 
-  function handler(hdrinfo) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function handler(hdrinfo: any) {
     if (compilerOptions.json === true) {
       return objectify(hdrinfo.stdout['defined_symbols']['NSISDIR'], 'nsisdir');
     }

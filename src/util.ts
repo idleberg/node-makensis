@@ -4,8 +4,8 @@ import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { join } from 'node:path';
 import { platform } from 'node:os';
 import { spawn } from 'node:child_process';
-import * as dotenv from 'dotenv';
-import * as dotenvExpand from 'dotenv-expand';
+import dotenv from 'dotenv';
+import dotenvExpand from 'dotenv-expand';
 
 import type { SpawnOptions } from 'node:child_process';
 
@@ -73,10 +73,17 @@ async function findEnvFile(dotenvPath: string | boolean): Promise<string | undef
   return dotenvFile;
 }
 
-function formatOutput(stream: makensis.StreamOptions, args: Array<string>, opts: makensis.CompilerOptions): any {
-  if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
+function formatOutput(stream: makensis.StreamOptions, args: Array<string>, opts: makensis.CompilerOptions): makensis.StreamOptionsFormatted {
+  const stdOut = stream.stdout.toString();
+  const stdErr = stream.stderr.toString();
+  const output: makensis.StreamOptionsFormatted = {
+    stdout: stdOut,
+    stderr: stdErr
+  }
+
+  if (args.includes('-CMDHELP') && !stdOut.trim() && stdErr) {
     // CMDHELP writes to stderr by default, let's fix this
-    [stream.stdout, stream.stderr] = [stream.stderr, ''];
+    [output.stdout, output.stderr] = [stdErr, ''];
   }
 
   if (opts.json === true) {
@@ -84,20 +91,20 @@ function formatOutput(stream: makensis.StreamOptions, args: Array<string>, opts:
       const minLength = (opts.wine === true) ? 2 : 1;
 
       if (args.length === minLength) {
-        stream.stdout = objectifyHelp(stream.stdout, opts);
+        output.stdout = objectifyHelp(stdOut, opts);
       } else {
-        stream.stdout = objectify(stream.stdout, 'help');
+        output.stdout = objectify(stdOut, 'help');
       }
     } else if (args.includes('-HDRINFO')) {
-      stream.stdout = objectifyFlags(stream.stdout, opts);
+      output.stdout = objectifyFlags(stdOut, opts);
     } else if (args.includes('-LICENSE')) {
-      stream.stdout = objectify(stream.stdout, 'license');
+      output.stdout = objectify(stdOut, 'license');
     } else if (args.includes('-VERSION')) {
-      stream.stdout = objectify(stream.stdout, 'version');
+      output.stdout = objectify(stdOut, 'version');
     }
   }
 
-  return stream;
+  return output;
 }
 
 async function getMagicEnvVars(envFile: string | boolean): Promise<makensis.EnvironmentVariables> {
@@ -260,18 +267,17 @@ async function mapArguments(args: string[], options: makensis.CompilerOptions): 
   return [cmd, args, { json: options.json, wine: options.wine }];
 }
 
-function objectify(input: string, key: string | null): Record<string, unknown> | string {
-  let output: { [key: string]: unknown } | string = {};
-
+function objectify(input: string, key: string | null): makensis.Objectified | string {
   if (key === 'version' && input.startsWith('v')) {
     input = input.substr(1);
   }
 
   if (key === null) {
-    output = input;
-  } else {
-    output[key] = input;
+    return input;
   }
+
+  const output: makensis.Objectified = {};
+  output[key] = input;
 
   return output;
 }
