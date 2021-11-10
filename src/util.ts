@@ -1,14 +1,13 @@
 import { eventEmitter } from './events';
-import { constants, promises as fs } from 'fs';
+import { constants, promises as fs } from 'node:fs';
 import { input as inputCharsets, output as outputCharsets } from './charsets';
-import { join } from 'path';
-import { platform } from 'os';
-import { spawn } from 'child_process';
-import dotenv from 'dotenv';
-import dotenvExpand from 'dotenv-expand';
+import { join } from 'node:path';
+import { platform } from 'node:os';
+import { spawn } from 'node:child_process';
+import * as dotenv from 'dotenv';
+import * as dotenvExpand from 'dotenv-expand';
 
-import type { SpawnOptions } from 'child_process';
-import type makensis from '../types';
+import type { SpawnOptions } from 'node:child_process';
 
 function detectOutfile(str: string): string {
   if (str.includes('Output: "')) {
@@ -37,7 +36,7 @@ async function fileExists(filePath: string): Promise<boolean> {
   return true;
 }
 
-async function findEnvFile(dotenvPath: string | boolean): Promise<string> {
+async function findEnvFile(dotenvPath: string | boolean): Promise<string | undefined> {
   if (typeof dotenvPath === 'string' && dotenvPath?.length && await fileExists(dotenvPath) && (await fs.lstat(dotenvPath)).isFile()) {
     return dotenvPath;
   }
@@ -74,7 +73,7 @@ async function findEnvFile(dotenvPath: string | boolean): Promise<string> {
   return dotenvFile;
 }
 
-function formatOutput(stream, args, opts: makensis.CompilerOptions): makensis.StreamOptions {
+function formatOutput(stream: makensis.StreamOptions, args: Array<string>, opts: makensis.CompilerOptions): any {
   if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
     // CMDHELP writes to stderr by default, let's fix this
     [stream.stdout, stream.stderr] = [stream.stderr, ''];
@@ -101,25 +100,23 @@ function formatOutput(stream, args, opts: makensis.CompilerOptions): makensis.St
   return stream;
 }
 
-async function getMagicEnvVars(envFile: string | boolean): Promise<makensis.EnvironmentVariables | undefined > {
+async function getMagicEnvVars(envFile: string | boolean): Promise<makensis.EnvironmentVariables> {
   dotenvExpand(
     dotenv.config({
       path: await findEnvFile(envFile)
     })
   );
 
-  const definitions = {};
+  const definitions: makensis.EnvironmentVariables = {};
   const prefix = 'NSIS_APP_';
 
   Object.keys(process.env).map(item => {
-    if (item.length && new RegExp(`${prefix}[a-z0-9]+`, 'gi').test(item)) {
+    if (item?.length && new RegExp(`${prefix}[a-z0-9]+`, 'gi').test(item)) {
       definitions[item] = process.env[item];
     }
   });
 
-  return Object.keys(definitions).length
-    ? definitions
-    : undefined;
+  return definitions;
 }
 
 function hasErrorCode(input: string) {
@@ -146,7 +143,7 @@ function hasWarnings(line: string): number {
   return 0;
 }
 
-function isNumeric(x): boolean {
+function isNumeric(x: number): boolean {
   return !isNaN(x);
 }
 
@@ -261,7 +258,9 @@ async function mapArguments(args: string[], options: makensis.CompilerOptions): 
   }
 
   return [cmd, args, { json: options.json, wine: options.wine }];
-}function objectify(input: string, key: string | null): Record<string, unknown> | string {
+}
+
+function objectify(input: string, key: string | null): Record<string, unknown> | string {
   let output: { [key: string]: unknown } | string = {};
 
   if (key === 'version' && input.startsWith('v')) {
@@ -277,8 +276,12 @@ async function mapArguments(args: string[], options: makensis.CompilerOptions): 
   return output;
 }
 
-function objectifyFlags(input: string, opts: makensis.CompilerOptions): Record<string, unknown> {
-  const output = {};
+function objectifyFlags(input: string, opts: makensis.CompilerOptions): makensis.HeaderInfo {
+  const output: makensis.HeaderInfo = {
+    sizes: {},
+    defined_symbols: {}
+  };
+
   const lines = splitLines(input, opts);
 
   if (!lines?.length) {
@@ -291,9 +294,9 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): Record<s
     }
   });
 
-  const tableSizes = {};
-  const tableSymbols = {};
-  let symbols;
+  const tableSizes: makensis.HeaderInfoSizes = {};
+  const tableSymbols: makensis.HeaderInfoSymbols = {};
+  let symbols: string[] = [];
 
   if (!filteredLines?.length) {
     return output;
@@ -322,11 +325,11 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): Record<s
 
   // Split symbols
   symbols.map(symbol => {
-    const pair = symbol.split('=');
+    const pair: Array<number | string> = symbol.split('=');
 
     if (pair.length > 1 && pair[0] !== 'undefined') {
-      if (isNumeric(pair[1]) === true) {
-        pair[1] = parseInt(pair[1], 10);
+      if (isNumeric(Number(pair[1])) === true) {
+        pair[1] = parseInt(String(pair[1]), 10);
       }
 
       tableSymbols[pair[0]] = pair[1];
@@ -340,11 +343,11 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): Record<s
   return output;
 }
 
-function objectifyHelp(input: string, opts: makensis.CompilerOptions): Record<string, unknown> {
+function objectifyHelp(input: string, opts: makensis.CompilerOptions): makensis.HelpObject | string {
   const lines = splitLines(input, opts);
   lines.sort();
 
-  const output = {};
+  const output: makensis.CommandHelpOptions = {};
 
   if (lines?.length) {
     lines.map(line => {
@@ -374,7 +377,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
       });
     }
 
-    let stream: makensis.StreamOptions = {
+    const stream: makensis.StreamOptions = {
       stdout: '',
       stderr: ''
     };
@@ -385,7 +388,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const child: any = spawn(cmd, args, spawnOptions);
 
-    child.stdout.on('data', data => {
+    child.stdout.on('data', (data: Buffer) => {
       const line = stringify(data);
       const warnings = hasWarnings(line);
 
@@ -404,7 +407,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
       stream.stdout += line;
     });
 
-    child.stderr.on('data', data => {
+    child.stderr.on('data', (data: Buffer) => {
       const line = stringify(data);
 
       eventEmitter.emit('stderr', {
@@ -414,18 +417,18 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
       stream.stderr += line;
     });
 
-    child.on('error', errorMessage => {
+    child.on('error', (errorMessage: string) => {
       console.error(errorMessage);
     });
 
     // Using 'exit' will truncate stdout
-    child.on('close', code => {
-      stream = formatOutput(stream, args, compilerOptions);
+    child.on('close', (code: number) => {
+      const streamFormatted = formatOutput(stream, args, compilerOptions);
 
       const output: makensis.CompilerOutput = {
         status: code,
-        stdout: stream.stdout || '',
-        stderr: stream.stderr || '',
+        stdout: streamFormatted.stdout || '',
+        stderr: streamFormatted.stderr || '',
         warnings: warningsCounter
       };
 
@@ -435,7 +438,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
 
       eventEmitter.emit('exit', output);
 
-      if (code === 0 || (stream.stderr && !hasErrorCode(stream.stderr))) {
+      if (code === 0 || (streamFormatted.stderr && !hasErrorCode(streamFormatted.stderr))) {
         // Promise will be resolved on MakeNSIS errors...
         resolve(output);
       } else {
@@ -479,7 +482,7 @@ function splitLines(input: string, opts: makensis.CompilerOptions = {}): string[
   return output;
 }
 
-function stringify(data): string {
+function stringify(data: Buffer): string {
   return data?.length
     ? data.toString().trim()
     : '';

@@ -1,4 +1,4 @@
-export { eventEmitter as events } from './events'
+export { eventEmitter as events } from './events';
 
 export {
   commandHelp,
