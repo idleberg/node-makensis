@@ -4,7 +4,6 @@ declare namespace makensis {
   }
 
   interface CompilerOptions {
-    // makensis
     define?: DefineOptions;
     env?: string | boolean;
     inputCharset?: string;
@@ -52,9 +51,11 @@ declare namespace makensis {
   interface HeaderInfoSizes {
     [key: string]: string;
   }
+
   interface HeaderInfoSymbols {
     [key: string]: boolean | number | string;
   }
+
   interface HelpObject {
     [key: string]: string;
   }
