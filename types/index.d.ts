@@ -1,5 +1,5 @@
 declare namespace makensis {
-  interface DefineOptions {
+  interface CommandHelpOptions {
     [key: string]: string;
   }
 
@@ -29,13 +29,33 @@ declare namespace makensis {
   }
 
   interface CompilerOutput {
+    outFile?: string;
     status: number;
     stdout: string;
     stderr: string;
     warnings: number;
   }
 
+  interface DefineOptions {
+    [key: string]: string;
+  }
+
   interface EnvironmentVariables {
+    [key: string]: string | undefined;
+  }
+
+  interface HeaderInfo {
+    sizes: HeaderInfoSizes;
+    defined_symbols: HeaderInfoSymbols;
+  }
+
+  interface HeaderInfoSizes {
+    [key: string]: string;
+  }
+  interface HeaderInfoSymbols {
+    [key: string]: boolean | number | string;
+  }
+  interface HelpObject {
     [key: string]: string;
   }
 
@@ -51,5 +71,3 @@ declare namespace makensis {
     stderr: string;
   }
 }
-
-export = makensis;
