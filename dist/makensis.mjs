@@ -1,9 +1,9 @@
-import { EventEmitter } from 'events';
-import { promises, constants } from 'fs';
+import { EventEmitter } from 'node:events';
+import { promises, constants } from 'node:fs';
 import { codepages } from '@nsis/language-data';
-import { join } from 'path';
-import { platform } from 'os';
-import { spawn } from 'child_process';
+import { join } from 'node:path';
+import { platform } from 'node:os';
+import { spawn } from 'node:child_process';
 import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
 
@@ -211,31 +211,37 @@ function findEnvFile(dotenvPath) {
 }
 function formatOutput(stream, args, opts) {
     var _a;
-    if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
+    var stdOut = stream.stdout.toString();
+    var stdErr = stream.stderr.toString();
+    var output = {
+        stdout: stdOut,
+        stderr: stdErr
+    };
+    if (args.includes('-CMDHELP') && !stdOut.trim() && stdErr) {
         // CMDHELP writes to stderr by default, let's fix this
-        _a = [stream.stderr, ''], stream.stdout = _a[0], stream.stderr = _a[1];
+        _a = [stdErr, ''], output.stdout = _a[0], output.stderr = _a[1];
     }
     if (opts.json === true) {
         if (args.includes('-CMDHELP')) {
             var minLength = (opts.wine === true) ? 2 : 1;
             if (args.length === minLength) {
-                stream.stdout = objectifyHelp(stream.stdout, opts);
+                output.stdout = objectifyHelp(stdOut, opts);
             }
             else {
-                stream.stdout = objectify(stream.stdout, 'help');
+                output.stdout = objectify(stdOut, 'help');
             }
         }
         else if (args.includes('-HDRINFO')) {
-            stream.stdout = objectifyFlags(stream.stdout, opts);
+            output.stdout = objectifyFlags(stdOut, opts);
         }
         else if (args.includes('-LICENSE')) {
-            stream.stdout = objectify(stream.stdout, 'license');
+            output.stdout = objectify(stdOut, 'license');
         }
         else if (args.includes('-VERSION')) {
-            stream.stdout = objectify(stream.stdout, 'version');
+            output.stdout = objectify(stdOut, 'version');
         }
     }
-    return stream;
+    return output;
 }
 function getMagicEnvVars(envFile) {
     return __awaiter(this, void 0, void 0, function () {
@@ -254,13 +260,11 @@ function getMagicEnvVars(envFile) {
                     definitions = {};
                     prefix = 'NSIS_APP_';
                     Object.keys(process.env).map(function (item) {
-                        if (item.length && new RegExp(prefix + "[a-z0-9]+", 'gi').test(item)) {
+                        if ((item === null || item === void 0 ? void 0 : item.length) && new RegExp(prefix + "[a-z0-9]+", 'gi').test(item)) {
                             definitions[item] = process.env[item];
                         }
                     });
-                    return [2 /*return*/, Object.keys(definitions).length
-                            ? definitions
-                            : undefined];
+                    return [2 /*return*/, definitions];
             }
         });
     });
@@ -391,20 +395,21 @@ function mapArguments(args, options) {
     });
 }
 function objectify(input, key) {
-    var output = {};
     if (key === 'version' && input.startsWith('v')) {
         input = input.substr(1);
     }
     if (key === null) {
-        output = input;
+        return input;
     }
-    else {
-        output[key] = input;
-    }
+    var output = {};
+    output[key] = input;
     return output;
 }
 function objectifyFlags(input, opts) {
-    var output = {};
+    var output = {
+        sizes: {},
+        defined_symbols: {}
+    };
     var lines = splitLines(input, opts);
     if (!(lines === null || lines === void 0 ? void 0 : lines.length)) {
         return output;
@@ -416,7 +421,7 @@ function objectifyFlags(input, opts) {
     });
     var tableSizes = {};
     var tableSymbols = {};
-    var symbols;
+    var symbols = [];
     if (!(filteredLines === null || filteredLines === void 0 ? void 0 : filteredLines.length)) {
         return output;
     }
@@ -441,8 +446,8 @@ function objectifyFlags(input, opts) {
     symbols.map(function (symbol) {
         var pair = symbol.split('=');
         if (pair.length > 1 && pair[0] !== 'undefined') {
-            if (isNumeric(pair[1]) === true) {
-                pair[1] = parseInt(pair[1], 10);
+            if (isNumeric(Number(pair[1])) === true) {
+                pair[1] = parseInt(String(pair[1]), 10);
             }
             tableSymbols[pair[0]] = pair[1];
         }
@@ -511,18 +516,18 @@ function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
         });
         // Using 'exit' will truncate stdout
         child.on('close', function (code) {
-            stream = formatOutput(stream, args, compilerOptions);
+            var streamFormatted = formatOutput(stream, args, compilerOptions);
             var output = {
                 status: code,
-                stdout: stream.stdout || '',
-                stderr: stream.stderr || '',
+                stdout: streamFormatted.stdout || '',
+                stderr: streamFormatted.stderr || '',
                 warnings: warningsCounter
             };
             if (outFile.length) {
                 output['outFile'] = outFile;
             }
             eventEmitter.emit('exit', output);
-            if (code === 0 || (stream.stderr && !hasErrorCode(stream.stderr))) {
+            if (code === 0 || (streamFormatted.stderr && !hasErrorCode(streamFormatted.stderr))) {
                 // Promise will be resolved on MakeNSIS errors...
                 resolve(output);
             }
@@ -678,6 +683,7 @@ function license(compilerOptions, spawnOptions) {
 function nsisDir(compilerOptions) {
     if (compilerOptions === void 0) { compilerOptions = {}; }
     return __awaiter(this, void 0, void 0, function () {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         function handler(hdrinfo) {
             if (compilerOptions.json === true) {
                 return objectify(hdrinfo.stdout['defined_symbols']['NSISDIR'], 'nsisdir');
