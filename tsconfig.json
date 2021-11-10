@@ -1,0 +1,7 @@
+{
+  "allowSyntheticDefaultImports": true,
+  "module": "ES2020",
+  "moduleResolution": "node",
+  "strict": true,
+  "typeRoots": ["./types", "./node_modules/@types"]
+}
