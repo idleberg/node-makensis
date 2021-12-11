@@ -479,6 +479,7 @@ function objectifyHelp(input, opts) {
 function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
     if (spawnOptions === void 0) { spawnOptions = {}; }
     return new Promise(function (resolve, reject) {
+        var _a, _b;
         if (compilerOptions.wine) {
             spawnOptions['env'] = Object.freeze(__assign(__assign({ WINEDEBUG: '-all' }, process.env), spawnOptions.env));
         }
@@ -488,9 +489,8 @@ function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
         };
         var warningsCounter = 0;
         var outFile = '';
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         var child = spawn(cmd, args, spawnOptions);
-        child.stdout.on('data', function (data) {
+        (_a = child.stdout) === null || _a === void 0 ? void 0 : _a.on('data', function (data) {
             var line = stringify(data);
             var warnings = hasWarnings(line);
             warningsCounter += warnings;
@@ -504,7 +504,7 @@ function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
             });
             stream.stdout += line;
         });
-        child.stderr.on('data', function (data) {
+        (_b = child.stderr) === null || _b === void 0 ? void 0 : _b.on('data', function (data) {
             var line = stringify(data);
             eventEmitter.emit('stderr', {
                 line: line
