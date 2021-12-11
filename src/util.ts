@@ -7,7 +7,7 @@ import { spawn } from 'node:child_process';
 import dotenv from 'dotenv';
 import dotenvExpand from 'dotenv-expand';
 
-import type { SpawnOptions } from 'node:child_process';
+import type { ChildProcess, SpawnOptions } from 'node:child_process';
 
 function detectOutfile(str: string): string {
   if (str.includes('Output: "')) {
@@ -391,10 +391,9 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
     let warningsCounter = 0;
     let outFile = '';
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const child: any = spawn(cmd, args, spawnOptions);
+    const child: ChildProcess = spawn(cmd, args, spawnOptions);
 
-    child.stdout.on('data', (data: Buffer) => {
+    child.stdout?.on('data', (data: Buffer) => {
       const line = stringify(data);
       const warnings = hasWarnings(line);
 
@@ -413,7 +412,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
       stream.stdout += line;
     });
 
-    child.stderr.on('data', (data: Buffer) => {
+    child.stderr?.on('data', (data: Buffer) => {
       const line = stringify(data);
 
       eventEmitter.emit('stderr', {
