@@ -51,5 +51,3 @@ declare namespace makensis {
     stderr: string;
   }
 }
-
-export = makensis;
