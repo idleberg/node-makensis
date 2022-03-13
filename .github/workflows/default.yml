@@ -31,7 +31,8 @@ jobs:
       if: matrix.os == 'windows-latest'
       shell: pwsh
       run: |
-        Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+        iwr -useb get.scoop.sh -outfile 'install.ps1'
+        .\install.ps1 -RunAsAdmin
         scoop bucket add nsis https://github.com/NSIS-Dev/scoop-nsis
         scoop install nsis/nsis
 
