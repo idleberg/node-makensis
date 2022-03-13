@@ -5,7 +5,7 @@ import { join } from 'path';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
 import dotenv from 'dotenv';
-import dotenvExpand from 'dotenv-expand';
+import { expand } from 'dotenv-expand';
 
 var eventEmitter = new EventEmitter();
 
@@ -83,18 +83,18 @@ function __spreadArray(to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 }
 
-var codePages = codepages().map(function (cp) { return "CP" + cp; });
+var codePages = codepages().map(function (cp) { return "CP".concat(cp); });
 var input = __spreadArray(__spreadArray([
     'ACP'
-], codePages), [
+], codePages, true), [
     'OEM',
     'UTF8',
     'UTF16BE',
     'UTF16LE'
-]);
+], false);
 var output = __spreadArray(__spreadArray([
     'ACP'
-], codePages), [
+], codePages, true), [
     'OEM',
     'UTF16BE',
     'UTF16BEBOM',
@@ -102,7 +102,7 @@ var output = __spreadArray(__spreadArray([
     'UTF16LEBOM',
     'UTF8',
     'UTF8SIG'
-]);
+], false);
 
 function splitCommands(data) {
     var args = [];
@@ -111,18 +111,18 @@ function splitCommands(data) {
             var lines = data.trim().split('\n');
             lines.map(function (line) {
                 if (line.trim().length) {
-                    args.push("-X" + line);
+                    args.push("-X".concat(line));
                 }
             });
         }
         else {
-            args.push("-X" + data);
+            args.push("-X".concat(data));
         }
     }
     else {
         data.map(function (key) {
             if (key.trim().length) {
-                args.push("-X" + key);
+                args.push("-X".concat(key));
             }
         });
     }
@@ -152,7 +152,7 @@ function mapArguments(args, options) {
     if (options === null || options === void 0 ? void 0 : options.define) {
         Object.keys(options.define).map(function (key) {
             if (options.define && options.define[key]) {
-                args.push("-D" + key + "=" + options.define[key]);
+                args.push("-D".concat(key, "=").concat(options.define[key]));
             }
         });
     }
@@ -161,7 +161,7 @@ function mapArguments(args, options) {
         if (defines_1 && Object.keys(defines_1).length) {
             Object.keys(defines_1).map(function (key) {
                 if (defines_1 && defines_1[key]) {
-                    args.push("-D" + key + "=" + defines_1[key]);
+                    args.push("-D".concat(key, "=").concat(defines_1[key]));
                 }
             });
         }
@@ -201,17 +201,17 @@ function mapArguments(args, options) {
     if (options.priority) {
         var priority = parseInt(String(options.priority), 10);
         if (platform() === 'win32' && isNumeric(priority) && inRange(priority, 0, 5)) {
-            args.push("-P" + options.priority);
+            args.push("-P".concat(options.priority));
         }
     }
     if (options.verbose) {
         var verbosity = parseInt(String(options.verbose), 10);
         if (isNumeric(verbosity) && inRange(verbosity, 0, 4)) {
-            args.push("-V" + verbosity);
+            args.push("-V".concat(verbosity));
         }
     }
     if (options.rawArguments && Array.isArray(options.rawArguments)) {
-        args = __spreadArray(__spreadArray([], args), options.rawArguments);
+        args = __spreadArray(__spreadArray([], args, true), options.rawArguments, true);
     }
     return [cmd, args, { json: options.json, wine: options.wine }];
 }
@@ -463,13 +463,13 @@ function spawnMakensisSync(cmd, args, compilerOptions, spawnOptions) {
     return output;
 }
 function getMagicEnvVars(envFile) {
-    dotenvExpand(dotenv.config({
+    expand(dotenv.config({
         path: findEnvFile(envFile)
     }));
     var definitions = {};
     var prefix = 'NSIS_APP_';
     Object.keys(process.env).map(function (item) {
-        if (item.length && new RegExp(prefix + "[a-z0-9]+", 'gi').test(item)) {
+        if (item.length && new RegExp("".concat(prefix, "[a-z0-9]+"), 'gi').test(item)) {
             definitions[item] = process.env[item];
         }
     });
@@ -487,14 +487,14 @@ function findEnvFile(dotenvPath) {
     var dotenvFile;
     if (cwd) {
         switch (true) {
-            case (existsSync(join(cwd, ".env.[" + process.env.NODE_ENV + "].local"))):
-                dotenvFile = join(cwd, ".env.[" + process.env.NODE_ENV + "].local");
+            case (existsSync(join(cwd, ".env.[".concat(process.env.NODE_ENV, "].local")))):
+                dotenvFile = join(cwd, ".env.[".concat(process.env.NODE_ENV, "].local"));
                 break;
             case (existsSync(join(cwd, '.env.local'))):
                 dotenvFile = join(cwd, '.env.local');
                 break;
-            case (process.env.NODE_ENV && existsSync(join(cwd, ".env.[" + process.env.NODE_ENV + "]"))):
-                dotenvFile = join(cwd, ".env.[" + process.env.NODE_ENV + "]");
+            case (process.env.NODE_ENV && existsSync(join(cwd, ".env.[".concat(process.env.NODE_ENV, "]")))):
+                dotenvFile = join(cwd, ".env.[".concat(process.env.NODE_ENV, "]"));
                 break;
             case (existsSync(join(cwd, '.env'))):
                 dotenvFile = join(cwd, '.env');
@@ -647,11 +647,11 @@ compile.sync = function (script, compilerOptions, spawnOptions) {
         args.push(script);
     }
     if (typeof compilerOptions.postExecute === 'string') {
-        args.push("-X" + compilerOptions.postExecute);
+        args.push("-X".concat(compilerOptions.postExecute));
     }
     else if (compilerOptions.postExecute) {
         compilerOptions.postExecute.map(function (key) {
-            args.push("-X" + key);
+            args.push("-X".concat(key));
         });
     }
     return spawnMakensisSync(cmd, args, opts, spawnOptions);
