@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { platform } from 'node:os';
 import { spawn } from 'node:child_process';
 import dotenv from 'dotenv';
-import dotenvExpand from 'dotenv-expand';
+import { expand } from 'dotenv-expand';
 
 var eventEmitter = new EventEmitter();
 
@@ -83,7 +83,7 @@ function __spreadArray(to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 }
 
-var codePages = codepages().map(function (cp) { return "CP" + cp; });
+var codePages = codepages().map(function (cp) { return "CP".concat(cp); });
 var input = __spreadArray(__spreadArray([
     'ACP'
 ], codePages, true), [
@@ -165,7 +165,7 @@ function findEnvFile(dotenvPath) {
                         : process.cwd();
                     if (!cwd) return [3 /*break*/, 15];
                     _c = true;
-                    return [4 /*yield*/, fileExists(join(cwd, ".env.[" + process.env.NODE_ENV + "].local"))];
+                    return [4 /*yield*/, fileExists(join(cwd, ".env.[".concat(process.env.NODE_ENV, "].local")))];
                 case 5:
                     switch (_c) {
                         case (_e.sent()): return [3 /*break*/, 10];
@@ -177,7 +177,7 @@ function findEnvFile(dotenvPath) {
                     }
                     _d = process.env.NODE_ENV;
                     if (!_d) return [3 /*break*/, 8];
-                    return [4 /*yield*/, fileExists(join(cwd, ".env.[" + process.env.NODE_ENV + "]"))];
+                    return [4 /*yield*/, fileExists(join(cwd, ".env.[".concat(process.env.NODE_ENV, "]")))];
                 case 7:
                     _d = (_e.sent());
                     _e.label = 8;
@@ -192,13 +192,13 @@ function findEnvFile(dotenvPath) {
                     }
                     return [3 /*break*/, 14];
                 case 10:
-                    dotenvFile = join(cwd, ".env.[" + process.env.NODE_ENV + "].local");
+                    dotenvFile = join(cwd, ".env.[".concat(process.env.NODE_ENV, "].local"));
                     return [3 /*break*/, 15];
                 case 11:
                     dotenvFile = join(cwd, '.env.local');
                     return [3 /*break*/, 15];
                 case 12:
-                    dotenvFile = join(cwd, ".env.[" + process.env.NODE_ENV + "]");
+                    dotenvFile = join(cwd, ".env.[".concat(process.env.NODE_ENV, "]"));
                     return [3 /*break*/, 15];
                 case 13:
                     dotenvFile = join(cwd, '.env');
@@ -250,7 +250,7 @@ function getMagicEnvVars(envFile) {
         return __generator(this, function (_e) {
             switch (_e.label) {
                 case 0:
-                    _a = dotenvExpand;
+                    _a = expand;
                     _c = (_b = dotenv).config;
                     _d = {};
                     return [4 /*yield*/, findEnvFile(envFile)];
@@ -260,7 +260,7 @@ function getMagicEnvVars(envFile) {
                     definitions = {};
                     prefix = 'NSIS_APP_';
                     Object.keys(process.env).map(function (item) {
-                        if ((item === null || item === void 0 ? void 0 : item.length) && new RegExp(prefix + "[a-z0-9]+", 'gi').test(item)) {
+                        if ((item === null || item === void 0 ? void 0 : item.length) && new RegExp("".concat(prefix, "[a-z0-9]+"), 'gi').test(item)) {
                             definitions[item] = process.env[item];
                         }
                     });
@@ -325,7 +325,7 @@ function mapArguments(args, options) {
                     if (options === null || options === void 0 ? void 0 : options.define) {
                         Object.keys(options.define).map(function (key) {
                             if (options.define && options.define[key]) {
-                                args.push("-D" + key + "=" + options.define[key]);
+                                args.push("-D".concat(key, "=").concat(options.define[key]));
                             }
                         });
                     }
@@ -336,7 +336,7 @@ function mapArguments(args, options) {
                     if (defines_1 && Object.keys(defines_1).length) {
                         Object.keys(defines_1).map(function (key) {
                             if (defines_1 && defines_1[key]) {
-                                args.push("-D" + key + "=" + defines_1[key]);
+                                args.push("-D".concat(key, "=").concat(defines_1[key]));
                             }
                         });
                     }
@@ -377,13 +377,13 @@ function mapArguments(args, options) {
                     if (options.priority) {
                         priority = parseInt(String(options.priority), 10);
                         if (platform() === 'win32' && isNumeric(priority) && inRange(priority, 0, 5)) {
-                            args.push("-P" + options.priority);
+                            args.push("-P".concat(options.priority));
                         }
                     }
                     if (options.verbose) {
                         verbosity = parseInt(String(options.verbose), 10);
                         if (isNumeric(verbosity) && inRange(verbosity, 0, 4)) {
-                            args.push("-V" + verbosity);
+                            args.push("-V".concat(verbosity));
                         }
                     }
                     if (options.rawArguments && Array.isArray(options.rawArguments)) {
@@ -545,18 +545,18 @@ function splitCommands(data) {
             var lines = data.trim().split('\n');
             lines.map(function (line) {
                 if (line.trim().length) {
-                    args.push("-X" + line);
+                    args.push("-X".concat(line));
                 }
             });
         }
         else {
-            args.push("-X" + data);
+            args.push("-X".concat(data));
         }
     }
     else {
         data.map(function (key) {
             if (key.trim().length) {
-                args.push("-X" + key);
+                args.push("-X".concat(key));
             }
         });
     }
