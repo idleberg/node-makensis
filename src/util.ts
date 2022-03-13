@@ -5,7 +5,7 @@ import { join } from 'path';
 import { platform } from 'os';
 import { spawn, spawnSync } from 'child_process';
 import dotenv from 'dotenv';
-import dotenvExpand from 'dotenv-expand';
+import { expand as dotenvExpand } from 'dotenv-expand';
 
 import type { SpawnOptions } from 'child_process';
 import type makensis from '../types';
