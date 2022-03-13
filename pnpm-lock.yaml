@@ -10,8 +10,8 @@ specifiers:
   '@typescript-eslint/eslint-plugin': ^5.3.1
   '@typescript-eslint/parser': ^5.3.1
   ava: ^3.15.0
-  dotenv: ^10.0.0
-  dotenv-expand: ^5.1.0
+  dotenv: ^16.0.0
+  dotenv-expand: ^8.0.0
   eslint: ^8.2.0
   eslint-plugin-json: ^3.1.0
   husky: ^7.0.4
@@ -30,8 +30,8 @@ specifiers:
 
 dependencies:
   '@nsis/language-data': 0.9.0
-  dotenv: 10.0.0
-  dotenv-expand: 5.1.0
+  dotenv: 16.0.0
+  dotenv-expand: 8.0.2
 
 devDependencies:
   '@ava/babel': 2.0.0
@@ -1473,13 +1473,14 @@ packages:
       is-obj: 2.0.0
     dev: true
 
-  /dotenv-expand/5.1.0:
-    resolution: {integrity: sha512-YXQl1DSa4/PQyRfgrv6aoNjhasp/p4qs9FjJ4q4cQk+8m4r6k4ZSiEyytKG8f8W9gi8WsQtIObNmKd+tMzNTmA==}
+  /dotenv-expand/8.0.2:
+    resolution: {integrity: sha512-vKKAk+VOzAWOV/dPIeSYqhgC/TQY+6L6Ibkzfsr8xd1stdBsTuGu9asCOXgbYbBeS+f2Y6lqqEuw7riOA+xEUQ==}
+    engines: {node: '>=12'}
     dev: false
 
-  /dotenv/10.0.0:
-    resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
-    engines: {node: '>=10'}
+  /dotenv/16.0.0:
+    resolution: {integrity: sha512-qD9WU0MPM4SWLPJy/r2Be+2WgQj8plChsyrCNQzW/0WjvcJQiKQJ9mH3ZgB3fxbUUxgc/11ZJ0Fi5KiimWGz2Q==}
+    engines: {node: '>=12'}
     dev: false
 
   /duplexer3/0.1.4:

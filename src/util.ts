@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { platform } from 'node:os';
 import { spawn } from 'node:child_process';
 import dotenv from 'dotenv';
-import dotenvExpand from 'dotenv-expand';
+import { expand as dotenvExpand } from 'dotenv-expand';
 
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
 
