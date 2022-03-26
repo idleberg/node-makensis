@@ -25,7 +25,7 @@ jobs:
       run: |
         brew update
         brew tap gcenx/wine
-        brew install --cask --no-quarantine wine-crossover
+        brew install --cask --no-quarantine gcenx/wine/wine-crossover
 
     - name: Install Wine (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
