@@ -116,7 +116,7 @@ test('Print compiler information as JSON', async t => {
         const actual = (await MakeNSIS.headerInfo({ json: true })).stdout
             .defined_symbols.__GLOBAL__;
 
-            const expected = true;
+        const expected = true;
 
         t.is(actual, expected);
     } catch (error) {
