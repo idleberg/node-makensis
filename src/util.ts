@@ -334,7 +334,7 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): makensis
     const pair: Array<number | string> = symbol.split('=');
 
     if (pair.length > 1 && pair[0] !== 'undefined') {
-      if (isNumeric(Number(pair[1])) === true && !/^(0x|0X)[a-fA-F0-9]+$/.test(String(pair[1])) ) {
+      if (isNumeric(Number(pair[1])) === true && !/^(0x|0X)[a-fA-F0-9]+$/.test(String(pair[1]))) {
         pair[1] = parseInt(String(pair[1]), 10);
       }
 
