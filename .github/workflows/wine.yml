@@ -22,6 +22,7 @@ jobs:
         brew update
         brew tap gcenx/wine
         brew install --cask --no-quarantine gcenx/wine/wine-crossover
+        WINEARCH=win32 WINEPREFIX=~/.wine32 winecfg
 
     - name: Install Wine (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
@@ -40,7 +41,7 @@ jobs:
 
     - name: Print NSIS version (macOS)
       if: matrix.os == 'macos-10.15'
-      run: wine32on64 makensis /VERSION
+      run: wine makensis /VERSION
       env:
         WINEDEBUG: -all
 
@@ -52,7 +53,7 @@ jobs:
 
     - name: Print NSIS header info (macOS)
       if: matrix.os == 'macos-10.15'
-      run: wine32on64 makensis /HDRINFO
+      run: wine makensis /HDRINFO
       env:
         WINEDEBUG: -all
 
