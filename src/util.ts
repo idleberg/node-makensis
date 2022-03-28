@@ -150,6 +150,10 @@ function hasWarnings(line: string): number {
   return 0;
 }
 
+function isHex(x: number | string): boolean {
+  return /^(0x|0X)[a-fA-F0-9]+$/.test(String(x));
+}
+
 function isNumeric(x: number): boolean {
   return !isNaN(x);
 }
@@ -334,7 +338,7 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): makensis
     const pair: Array<number | string> = symbol.split('=');
 
     if (pair.length > 1 && pair[0] !== 'undefined') {
-      if (isNumeric(Number(pair[1])) === true && !/^(0x|0X)[a-fA-F0-9]+$/.test(String(pair[1]))) {
+      if (!isHex(pair[1]) && isNumeric(Number(pair[1]))) {
         pair[1] = parseInt(String(pair[1]), 10);
       }
 
