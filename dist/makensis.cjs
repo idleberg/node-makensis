@@ -228,6 +228,9 @@ function stringify(data) {
         ? data.toString().trim()
         : '';
 }
+function isHex(x) {
+    return /^(0x|0X)[a-fA-F0-9]+$/.test(String(x));
+}
 function isNumeric(x) {
     return !isNaN(x);
 }
@@ -338,7 +341,7 @@ function objectifyFlags(input, opts) {
     symbols.map(function (symbol) {
         var pair = symbol.split('=');
         if (pair.length > 1 && pair[0] !== 'undefined') {
-            if (isNumeric(Number(pair[1])) === true && !/^(0x|0X)[a-fA-F0-9]+$/.test(String(pair[1]))) {
+            if (!isHex(pair[1]) && isNumeric(Number(pair[1]))) {
                 pair[1] = parseInt(pair[1], 10);
             }
             tableSymbols[pair[0]] = pair[1];
