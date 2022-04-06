@@ -211,8 +211,8 @@ function findEnvFile(dotenvPath) {
 }
 function formatOutput(stream, args, opts) {
     var _a;
-    var stdOut = stream.stdout.toString();
-    var stdErr = stream.stderr.toString();
+    var stdOut = stream.stdout.toString().trim();
+    var stdErr = stream.stderr.toString().trim();
     var output = {
         stdout: stdOut,
         stderr: stdErr
@@ -494,7 +494,7 @@ function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
         var outFile = '';
         var child = spawn(cmd, args, spawnOptions);
         (_a = child.stdout) === null || _a === void 0 ? void 0 : _a.on('data', function (data) {
-            var line = stringify(data);
+            var line = args.includes('-LICENSE') ? data.toString() : stringify(data);
             var warnings = hasWarnings(line);
             warningsCounter += warnings;
             if (outFile === '') {
@@ -508,7 +508,7 @@ function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
             stream.stdout += line;
         });
         (_b = child.stderr) === null || _b === void 0 ? void 0 : _b.on('data', function (data) {
-            var line = stringify(data);
+            var line = data.toString();
             eventEmitter.emit('stderr', {
                 line: line
             });
