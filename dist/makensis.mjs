@@ -494,7 +494,7 @@ function spawnMakensis(cmd, args, compilerOptions, spawnOptions) {
         var outFile = '';
         var child = spawn(cmd, args, spawnOptions);
         (_a = child.stdout) === null || _a === void 0 ? void 0 : _a.on('data', function (data) {
-            var line = args.includes('-LICENSE') ? data.toString() : stringify(data);
+            var line = data.toString();
             var warnings = hasWarnings(line);
             warningsCounter += warnings;
             if (outFile === '') {
@@ -570,11 +570,6 @@ function splitLines(input, opts) {
     var lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
     var output = input.split(lineBreak);
     return output;
-}
-function stringify(data) {
-    return (data === null || data === void 0 ? void 0 : data.length)
-        ? data.toString().trim()
-        : '';
 }
 
 /**
