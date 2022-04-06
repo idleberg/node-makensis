@@ -398,7 +398,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
     const child: ChildProcess = spawn(cmd, args, spawnOptions);
 
     child.stdout?.on('data', (data: Buffer) => {
-      const line = args.includes('-LICENSE') ? data.toString() : stringify(data);
+      const line = data.toString();
       const warnings = hasWarnings(line);
 
       warningsCounter += warnings;
@@ -489,12 +489,6 @@ function splitLines(input: string, opts: makensis.CompilerOptions = {}): string[
   const output = input.split(lineBreak);
 
   return output;
-}
-
-function stringify(data: Buffer): string {
-  return data?.length
-    ? data.toString().trim()
-    : '';
 }
 
 export {
