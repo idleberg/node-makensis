@@ -398,7 +398,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
     const child: ChildProcess = spawn(cmd, args, spawnOptions);
 
     child.stdout?.on('data', (data: Buffer) => {
-      const line = stringify(data);
+      const line = args.includes('-LICENSE') ? data.toString() : stringify(data);
       const warnings = hasWarnings(line);
 
       warningsCounter += warnings;
