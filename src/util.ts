@@ -74,8 +74,8 @@ async function findEnvFile(dotenvPath: string | boolean): Promise<string | undef
 }
 
 function formatOutput(stream: makensis.StreamOptions, args: Array<string>, opts: makensis.CompilerOptions): makensis.StreamOptionsFormatted {
-  const stdOut = stream.stdout.toString();
-  const stdErr = stream.stderr.toString();
+  const stdOut = stream.stdout.toString().trim();
+  const stdErr = stream.stderr.toString().trim();
   const output: makensis.StreamOptionsFormatted = {
     stdout: stdOut,
     stderr: stdErr
@@ -417,7 +417,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
     });
 
     child.stderr?.on('data', (data: Buffer) => {
-      const line = stringify(data);
+      const line = data.toString();
 
       eventEmitter.emit('stderr', {
         line
