@@ -23,6 +23,8 @@ const defaultOptions = {
 test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async t => {
     let actual;
 
+    t.log('PATH', process.env.PATH);
+
     try {
       actual = await which('makensis');
     } catch(e) {
