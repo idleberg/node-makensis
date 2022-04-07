@@ -1,12 +1,10 @@
 /* eslint-disable */
-import { createRequire } from 'node:module';
 import * as MakeNSIS from '../../dist/makensis.mjs';
 import path from 'node:path';
 import test from 'ava';
 
 // Temporary workarounds
-const require = createRequire(import.meta.url);
-const { defaultScriptArray, defaultScriptString, nullDevice } = require('../shared');
+import { defaultScriptArray, defaultScriptString, nullDevice } from '../shared.mjs';
 const __dirname = path.resolve(path.dirname(''));
 
 const scriptFile = {
