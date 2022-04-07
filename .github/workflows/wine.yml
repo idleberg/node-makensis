@@ -33,7 +33,7 @@ jobs:
 
     - name: Install NSIS
       run: |
-        curl -L https://downloads.sourceforge.net/project/nsis/NSIS%203/3.07/nsis-3.07-setup.exe -o /tmp/nsis-setup-$GITHUB_SHA.exe
+        curl -L https://downloads.sourceforge.net/project/nsis/NSIS%203/3.08/nsis-3.08-setup.exe -o /tmp/nsis-setup-$GITHUB_SHA.exe
         wine /tmp/nsis-setup-$GITHUB_SHA.exe /S
         wine regedit "${GITHUB_WORKSPACE}/.github/nsis.reg"
       env:
