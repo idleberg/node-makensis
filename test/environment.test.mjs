@@ -21,7 +21,13 @@ const defaultOptions = {
 
 // Let's run the tests
 test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async t => {
-    const actual = await which('makensis');
+    let actual;
+
+    try {
+      actual = await which('makensis');
+    } catch(e) {
+      t.log('error', e)
+    }
 
     t.not(actual, '');
 });
