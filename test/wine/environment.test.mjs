@@ -1,13 +1,11 @@
 /* eslint-disable */
-import { createRequire } from 'node:module';
 import { v4 as uuid } from 'uuid';
 import * as MakeNSIS from '../../dist/makensis.mjs';
 import path from 'node:path';
 import test from 'ava';
 
 // Temporary workarounds
-const require = createRequire(import.meta.url);
-const { nullDevice } = require('../shared');
+import { nullDevice } from '../shared.mjs';
 const __dirname = path.resolve(path.dirname(''));
 
 const scriptFile = path.join(__dirname, 'test', 'fixtures', 'env.nsi')
