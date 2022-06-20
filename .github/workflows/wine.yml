@@ -32,7 +32,7 @@ jobs:
       run:   |
         sudo dpkg --add-architecture i386
         sudo apt-get -y update
-        sudo apt-get -y install wine-stable wine32
+        sudo apt-get -y install wine32
         winecfg
       env:
         WINEARCH: win32
