@@ -61,12 +61,14 @@ jobs:
       run: wine makensis /HDRINFO
       env:
         WINEDEBUG: -all
+        WINEARCH: win32
 
     - name: Print NSIS header info (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run: wine makensis /HDRINFO
       env:
         WINEDEBUG: -all
+        WINEARCH: win32
 
     - name: Cache node modules
       uses: actions/cache@v2
