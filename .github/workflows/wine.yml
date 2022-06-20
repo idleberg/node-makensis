@@ -33,6 +33,10 @@ jobs:
         sudo dpkg --add-architecture i386
         sudo apt-get -y update
         sudo apt-get -y install wine-stable
+        winecfg
+      env:
+        WINEARCH: win32
+        WINEPREFIX: ${{ runner.temp }}/.wine32
 
     - name: Install NSIS
       run: |
@@ -40,35 +44,36 @@ jobs:
         wine /tmp/nsis-setup-$GITHUB_SHA.exe /S
         wine regedit "${GITHUB_WORKSPACE}/.github/nsis.reg"
       env:
+        WINEARCH: win32
         WINEDEBUG: -all
 
     - name: Print NSIS version (macOS)
       if: matrix.os == 'macos-10.15'
       run: wine makensis /VERSION
       env:
-        WINEDEBUG: -all
         WINEARCH: win32
+        WINEDEBUG: -all
 
     - name: Print NSIS version (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run: wine makensis /VERSION
       env:
-        WINEDEBUG: -all
         WINEARCH: win32
+        WINEDEBUG: -all
 
     - name: Print NSIS header info (macOS)
       if: matrix.os == 'macos-10.15'
       run: wine makensis /HDRINFO
       env:
-        WINEDEBUG: -all
         WINEARCH: win32
+        WINEDEBUG: -all
 
     - name: Print NSIS header info (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run: wine makensis /HDRINFO
       env:
-        WINEDEBUG: -all
         WINEARCH: win32
+        WINEDEBUG: -all
 
     - name: Cache node modules
       uses: actions/cache@v2
