@@ -17,7 +17,7 @@ var dotenv__default = /*#__PURE__*/_interopDefaultLegacy(dotenv);
 
 var eventEmitter = new events.EventEmitter();
 
-/*! *****************************************************************************
+/******************************************************************************
 Copyright (c) Microsoft Corporation.
 
 Permission to use, copy, modify, and/or distribute this software for any
