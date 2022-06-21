@@ -26,7 +26,6 @@ jobs:
         brew update
         brew tap gcenx/wine
         brew install --cask --no-quarantine gcenx/wine/wine-crossover
-        winecfg
       env:
         WINEARCH: win32
         WINEPREFIX: ${{ runner.temp }}/.wine32
@@ -37,7 +36,6 @@ jobs:
         sudo dpkg --add-architecture i386
         sudo apt-get -y update
         sudo apt-get -y install wine-stable
-        winecfg
       env:
         WINEARCH: win32
         WINEPREFIX: ${{ runner.temp }}/.wine32
