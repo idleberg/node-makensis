@@ -26,6 +26,10 @@ jobs:
         brew update
         brew tap gcenx/wine
         brew install --cask --no-quarantine gcenx/wine/wine-crossover
+        winecfg
+      env:
+        WINEARCH: win32
+        WINEPREFIX: ~/.wine32
 
     - name: Install Wine (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
@@ -36,7 +40,7 @@ jobs:
         winecfg
       env:
         WINEARCH: win32
-        WINEPREFIX: ${{ runner.temp }}/.wine32
+        WINEPREFIX: ~/.wine32
 
     - name: Install NSIS
       run: |
