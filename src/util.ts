@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import { expand as dotenvExpand } from 'dotenv-expand';
 
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
+import type makensis from '../types';
 
 function detectOutfile(str: string): string {
   if (str.includes('Output: "')) {
