@@ -29,7 +29,7 @@ jobs:
         winecfg
       env:
         WINEARCH: win32
-        WINEPREFIX: ~/.wine32
+        WINEPREFIX: ${{ runner.temp }}/.wine32
 
     - name: Install Wine (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
@@ -40,7 +40,7 @@ jobs:
         winecfg
       env:
         WINEARCH: win32
-        WINEPREFIX: ~/.wine32
+        WINEPREFIX: ${{ runner.temp }}/.wine32
 
     - name: Install NSIS
       run: |
