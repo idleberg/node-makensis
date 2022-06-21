@@ -80,3 +80,5 @@ declare namespace makensis {
     [key: string]: boolean | number | string | undefined;
   }
 }
+
+export default makensis;
