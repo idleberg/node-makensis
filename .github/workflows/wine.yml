@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['12', '14', '16']
+        node-version: ['14', '16', '18']
         os: [macos-10.15, ubuntu-latest]
 
     steps:
@@ -16,13 +16,19 @@ jobs:
       with:
         fetch-depth: 10
 
+    - uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
     - name: Install Wine (macOS)
       if: matrix.os == 'macos-10.15'
       run: |
         brew update
         brew tap gcenx/wine
         brew install --cask --no-quarantine gcenx/wine/wine-crossover
-        WINEARCH=win32 WINEPREFIX=~/.wine32 winecfg
+      env:
+        WINEARCH: win32
+        WINEPREFIX: ${{ runner.temp }}/.wine32
 
     - name: Install Wine (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
@@ -30,63 +36,73 @@ jobs:
         sudo dpkg --add-architecture i386
         sudo apt-get -y update
         sudo apt-get -y install wine-stable
+      env:
+        WINEARCH: win32
+        WINEPREFIX: ${{ runner.temp }}/.wine32
 
     - name: Install NSIS
       run: |
-        curl -L https://downloads.sourceforge.net/project/nsis/NSIS%203/3.08/nsis-3.08-setup.exe -o /tmp/nsis-setup-$GITHUB_SHA.exe
-        wine /tmp/nsis-setup-$GITHUB_SHA.exe /S
+        curl -L https://downloads.sourceforge.net/project/nsis/NSIS%203/3.07/nsis-3.07-setup.exe -o ${{ runner.temp }}/nsis-setup-$GITHUB_SHA.exe
+        wine ${{ runner.temp }}/nsis-setup-$GITHUB_SHA.exe /S
         wine regedit "${GITHUB_WORKSPACE}/.github/nsis.reg"
       env:
+        WINEARCH: win32
         WINEDEBUG: -all
 
     - name: Print NSIS version (macOS)
       if: matrix.os == 'macos-10.15'
       run: wine makensis /VERSION
       env:
+        WINEARCH: win32
         WINEDEBUG: -all
 
     - name: Print NSIS version (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run: wine makensis /VERSION
       env:
+        WINEARCH: win32
         WINEDEBUG: -all
 
     - name: Print NSIS header info (macOS)
       if: matrix.os == 'macos-10.15'
       run: wine makensis /HDRINFO
       env:
+        WINEARCH: win32
         WINEDEBUG: -all
 
     - name: Print NSIS header info (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run: wine makensis /HDRINFO
       env:
+        WINEARCH: win32
         WINEDEBUG: -all
 
-    - name: Cache pnpm modules
+    - name: Cache node modules
       uses: actions/cache@v2
+      env:
+        cache-name: cache-node-modules
       with:
-        path: ~/.pnpm-store
-        key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+        path: ~/.npm
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
           ${{ runner.os }}-
 
-    - uses: pnpm/action-setup@v2.0.1
-      with:
-        version: 6
-        run_install: |
-          - recursive: true
-          - args: [--frozen-lockfile, --strict-peer-dependencies]
-
-    - uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
+    - name: Install Package Dependencies
+      run: npm ci
 
     - name: Lint Source
-      run: pnpm run lint --if-present
+      run: npm run lint --if-present
 
     - name: Build Source
-      run: pnpm run build --if-present
+      run: npm run build --if-present
 
-    - name: Run Tests
-      run: pnpm run test --if-present
+    - name: Run Tests (macOS)
+      if: matrix.os == 'macos-10.15'
+      run: npm run test:wine --if-present
+      continue-on-error: true # unreliable, often times out
+
+    - name: Run Tests (Ubuntu)
+      if: matrix.os == 'ubuntu-latest'
+      run: npm run test:wine --if-present
