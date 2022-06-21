@@ -52,4 +52,4 @@ declare namespace makensis {
   }
 }
 
-export default makensis
+export default makensis;
