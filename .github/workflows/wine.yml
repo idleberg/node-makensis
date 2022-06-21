@@ -77,32 +77,32 @@ jobs:
         WINEARCH: win32
         WINEDEBUG: -all
 
-    - name: Cache node modules
+    - name: Cache pnpm modules
       uses: actions/cache@v2
-      env:
-        cache-name: cache-node-modules
       with:
-        path: ~/.npm
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+        path: ~/.pnpm-store
+        key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
           ${{ runner.os }}-
 
-    - name: Install Package Dependencies
-      run: npm ci
+    - uses: pnpm/action-setup@v2.0.1
+      with:
+        version: 6
+        run_install: |
+          - recursive: true
+          - args: [--frozen-lockfile, --strict-peer-dependencies]
 
     - name: Lint Source
-      run: npm run lint --if-present
+      run: pnpm run lint --if-present
 
     - name: Build Source
-      run: npm run build --if-present
+      run: pnpm run build --if-present
 
     - name: Run Tests (macOS)
       if: matrix.os == 'macos-10.15'
-      run: npm run test:wine --if-present
+      run: pnpm run test:wine --if-present
       continue-on-error: true # unreliable, often times out
 
     - name: Run Tests (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
-      run: npm run test:wine --if-present
+      run: pnpm run test:wine --if-present
