@@ -15,16 +15,17 @@ module.exports = {
   ignorePatterns: [
     'test/**/*'
   ],
-  "overrides": [
+  overrides: [
     {
-      "files": ["tsconfig.json"],
-      "rules": {
+      files: ["tsconfig.json"],
+      rules: {
         "json/*": ["error", "allowComments"]
       }
     }
   ],
   rules: {
     "@typescript-eslint/no-explicit-any": "off",
+    "no-constant-binary-expression": "error"
   }
 };
 
