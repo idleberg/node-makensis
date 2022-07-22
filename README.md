@@ -61,17 +61,17 @@ Example usage in script:
 import * as NSIS from 'makensis';
 
 const options = {
-    verbose: 2,
-    define: {
-        SPECIAL_BUILD: true
-    }
+	verbose: 2,
+	define: {
+		SPECIAL_BUILD: true
+	}
 };
 
 try {
-    let output = await NSIS.compile('path/to/installer.nsi', options);
-    console.log('Compiler output:', output);
+	let output = await NSIS.compile('path/to/installer.nsi', options);
+	console.log('Compiler output:', output);
 } catch (error) {
-    console.error(error);
+	console.error(error);
 }
 ```
 
@@ -128,8 +128,8 @@ Defines symbols for the script [to value]. Equivalent of the `-D` switch.
 
 ```js
 define: {
-    SPECIAL_BUILD: true,
-    LANGUAGE: "English"
+	SPECIAL_BUILD: true,
+	LANGUAGE: "English"
 }
 ```
 
@@ -152,7 +152,7 @@ NSIS_APP_ENVIRONMENT=development
 ```nsis
 # installer.nsi
 !if ${NSIS_APP_ENVIRONMENT} == "development"
-    DetailPrint "Valuable Debug Information"
+	DetailPrint "Valuable Debug Information"
 !endif
 ```
 
@@ -233,8 +233,8 @@ Prepends script-commands to the script, can be passed as array or multiline-stri
 
 ```js
 preExecute: [
-    'SetCompressor lzma',
-    'SetCompressorDictSize 16'
+	'SetCompressor lzma',
+	'SetCompressorDictSize 16'
 ];
 ```
 
@@ -305,8 +305,8 @@ Gives access to an object containing the exit code, the full `stdout` and `stder
 
 ## Related
 
--   [atom-language-nsis][atom-language-nsis] - NSIS package for Atom
--   [vscode-nsis][vscode-nsis] - NSIS package for Visual Studio Code
+- [atom-language-nsis][atom-language-nsis] - NSIS package for Atom
+- [vscode-nsis][vscode-nsis] - NSIS package for Visual Studio Code
 
 ## License
 

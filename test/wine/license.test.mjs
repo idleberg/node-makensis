@@ -8,45 +8,45 @@ const license = cp.stdout.toString().trim() || cp.stderr.toString().trim();
 
 // Let's run the tests
 test('Print makensis license', async (t) => {
-    try {
-        const { stdout } = await MakeNSIS.license({ wine: true });
+	try {
+		const { stdout } = await MakeNSIS.license({ wine: true });
 
-        const expected = license;
-        const actual = stdout;
+		const expected = license;
+		const actual = stdout;
 
-        t.is(actual, expected);
-    } catch ({ stdout }) {
-        // NSIS < 3.03
-        t.log('Legacy NSIS');
-        const expected = license;
-        const actual = stdout;
+		t.is(actual, expected);
+	} catch ({ stdout }) {
+		// NSIS < 3.03
+		t.log('Legacy NSIS');
+		const expected = license;
+		const actual = stdout;
 
-        t.is(actual, expected);
-    }
+		t.is(actual, expected);
+	}
 });
 
 test('Print makensis license as JSON', async (t) => {
-    try {
-        const { stdout } = await MakeNSIS.license({ json: true, wine: true });
+	try {
+		const { stdout } = await MakeNSIS.license({ json: true, wine: true });
 
-        let expected = license;
-        expected = JSON.stringify({ license: expected });
+		let expected = license;
+		expected = JSON.stringify({ license: expected });
 
-        let actual = stdout;
-        actual.license = `${actual.license}`;
-        actual = JSON.stringify(actual);
+		let actual = stdout;
+		actual.license = `${actual.license}`;
+		actual = JSON.stringify(actual);
 
-        t.is(actual, expected);
-    } catch ({ stdout }) {
-        // NSIS < 3.03
-        t.log('Legacy NSIS');
-        let expected = license;
-        expected = JSON.stringify({ license: expected });
+		t.is(actual, expected);
+	} catch ({ stdout }) {
+		// NSIS < 3.03
+		t.log('Legacy NSIS');
+		let expected = license;
+		expected = JSON.stringify({ license: expected });
 
-        let actual = stdout;
-        actual.license = `${actual.license}`;
-        actual = JSON.stringify(actual);
+		let actual = stdout;
+		actual.license = `${actual.license}`;
+		actual = JSON.stringify(actual);
 
-        t.is(actual, expected);
-    }
+		t.is(actual, expected);
+	}
 });

@@ -22,19 +22,8 @@ shared['version'] = cp.stdout?.toString().trim() || cp.stderr?.toString().trim()
 
 const nullDevice = platform() === 'win32' ? 'NUL' : '/dev/null';
 
-const defaultScriptArray = [
-    `OutFile ${nullDevice}`,
-    `Unicode true`,
-    `Section -default`,
-    `Nop`,
-    `SectionEnd`,
-];
+const defaultScriptArray = [`OutFile ${nullDevice}`, `Unicode true`, `Section -default`, `Nop`, `SectionEnd`];
 
 const defaultScriptString = defaultScriptArray.join('\n');
 
-export {
-  defaultScriptArray,
-  defaultScriptString,
-  nullDevice,
-  shared
-};
+export { defaultScriptArray, defaultScriptString, nullDevice, shared };

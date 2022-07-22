@@ -66,9 +66,11 @@
   },
   "prettier": {
     "embeddedLanguageFormatting": "off",
+	"printWidth": 240,
     "semi": true,
     "singleQuote": true,
-    "tabWidth": 4
+    "tabWidth": 2,
+	"useTabs": true
   },
   "lint-staged": {
     "*.(ts|json)": "eslint --cache --fix",
