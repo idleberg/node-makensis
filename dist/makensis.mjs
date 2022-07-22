@@ -9,7 +9,7 @@ import { expand } from 'dotenv-expand';
 
 var eventEmitter = new EventEmitter();
 
-/*! *****************************************************************************
+/******************************************************************************
 Copyright (c) Microsoft Corporation.
 
 Permission to use, copy, modify, and/or distribute this software for any
@@ -160,20 +160,18 @@ function findEnvFile(dotenvPath) {
                     if (_a) {
                         return [2 /*return*/, dotenvPath];
                     }
-                    cwd = dotenvPath && typeof dotenvPath === 'string'
-                        ? dotenvPath
-                        : process.cwd();
+                    cwd = dotenvPath && typeof dotenvPath === 'string' ? dotenvPath : process.cwd();
                     if (!cwd) return [3 /*break*/, 15];
                     _c = true;
                     return [4 /*yield*/, fileExists(join(cwd, ".env.[".concat(process.env.NODE_ENV, "].local")))];
                 case 5:
                     switch (_c) {
-                        case (_e.sent()): return [3 /*break*/, 10];
+                        case _e.sent(): return [3 /*break*/, 10];
                     }
                     return [4 /*yield*/, fileExists(join(cwd, '.env.local'))];
                 case 6:
                     switch (_c) {
-                        case (_e.sent()): return [3 /*break*/, 11];
+                        case _e.sent(): return [3 /*break*/, 11];
                     }
                     _d = process.env.NODE_ENV;
                     if (!_d) return [3 /*break*/, 8];
@@ -183,12 +181,12 @@ function findEnvFile(dotenvPath) {
                     _e.label = 8;
                 case 8:
                     switch (_c) {
-                        case (_d): return [3 /*break*/, 12];
+                        case _d: return [3 /*break*/, 12];
                     }
                     return [4 /*yield*/, fileExists(join(cwd, '.env'))];
                 case 9:
                     switch (_c) {
-                        case (_e.sent()): return [3 /*break*/, 13];
+                        case _e.sent(): return [3 /*break*/, 13];
                     }
                     return [3 /*break*/, 14];
                 case 10:
@@ -223,7 +221,7 @@ function formatOutput(stream, args, opts) {
     }
     if (opts.json === true) {
         if (args.includes('-CMDHELP')) {
-            var minLength = (opts.wine === true) ? 2 : 1;
+            var minLength = opts.wine === true ? 2 : 1;
             if (args.length === minLength) {
                 output.stdout = objectifyHelp(stdOut, opts);
             }
@@ -306,12 +304,8 @@ function mapArguments(args, options) {
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    pathToMakensis = options.pathToMakensis
-                        ? options.pathToMakensis
-                        : 'makensis';
-                    pathToWine = options.pathToWine
-                        ? options.pathToWine
-                        : 'wine';
+                    pathToMakensis = options.pathToMakensis ? options.pathToMakensis : 'makensis';
+                    pathToWine = options.pathToWine ? options.pathToWine : 'wine';
                     if (platform() !== 'win32' && options.wine === true) {
                         cmd = pathToWine;
                         args.unshift(pathToMakensis);
@@ -320,10 +314,14 @@ function mapArguments(args, options) {
                         cmd = pathToMakensis;
                     }
                     if (args.length > 1 || args.includes('-CMDHELP')) {
-                        return [2 /*return*/, [cmd, args, {
+                        return [2 /*return*/, [
+                                cmd,
+                                args,
+                                {
                                     json: options.json,
                                     wine: options.wine
-                                }]];
+                                },
+                            ]];
                     }
                     if (options === null || options === void 0 ? void 0 : options.define) {
                         Object.keys(options.define).map(function (key) {
@@ -567,7 +565,7 @@ function splitCommands(data) {
 }
 function splitLines(input, opts) {
     if (opts === void 0) { opts = {}; }
-    var lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
+    var lineBreak = platform() === 'win32' || opts.wine === true ? '\r\n' : '\n';
     var output = input.split(lineBreak);
     return output;
 }
