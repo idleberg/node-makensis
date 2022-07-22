@@ -6,37 +6,37 @@ import { win32 as path } from 'node:path';
 import test from 'ava';
 
 function winePath(filePath) {
-    return spawnSync('winepath', [path.normalize(filePath)])
-        .stdout.toString()
-        .trim();
+	return spawnSync('winepath', [path.normalize(filePath)])
+		.stdout.toString()
+		.trim();
 }
 
 // Let's run the tests
 
 test('Print ${NSISDIR}', async (t) => {
-    try {
-        const nsisDir = await MakeNSIS.nsisDir({ wine: true });
-        const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
+	try {
+		const nsisDir = await MakeNSIS.nsisDir({ wine: true });
+		const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
 
-        const expected = true;
-        const actual = existsSync(winePath(nsisCfg));
+		const expected = true;
+		const actual = existsSync(winePath(nsisCfg));
 
-        t.is(actual, expected);
-    } catch ({ stderr }) {
-        t.fail(stderr);
-    }
+		t.is(actual, expected);
+	} catch ({ stderr }) {
+		t.fail(stderr);
+	}
 });
 
 test('Print ${NSISDIR} as JSON', async (t) => {
-    try {
-        const nsisDir = await MakeNSIS.nsisDir({ json: true, wine: true });
-        const nsisCfg = path.join(nsisDir.nsisdir, 'Include', 'MUI2.nsh');
+	try {
+		const nsisDir = await MakeNSIS.nsisDir({ json: true, wine: true });
+		const nsisCfg = path.join(nsisDir.nsisdir, 'Include', 'MUI2.nsh');
 
-        const expected = true;
-        const actual = existsSync(winePath(nsisCfg));
+		const expected = true;
+		const actual = existsSync(winePath(nsisCfg));
 
-        t.is(actual, expected);
-    } catch ({ stderr }) {
-        t.fail(stderr);
-    }
+		t.is(actual, expected);
+	} catch ({ stderr }) {
+		t.fail(stderr);
+	}
 });
