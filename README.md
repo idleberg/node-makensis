@@ -51,7 +51,7 @@ $ port install nsis
 
 ## Installation
 
-`yarn add makensis || npm install makensis`
+`npm install makensis`
 
 ## Usage
 
