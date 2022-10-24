@@ -1,7 +1,8 @@
 /* eslint-disable */
 import { spawnSync } from 'node:child_process';
+import { test } from 'uvu';
+import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../../dist/makensis.mjs';
-import test from 'ava';
 
 const cp = spawnSync('wine', ['makensis', '-LICENSE']);
 const license = cp.stdout.toString().trim() || cp.stderr.toString().trim();
@@ -14,14 +15,14 @@ test('Print makensis license', async (t) => {
 		const expected = license;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		const expected = license;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
 
@@ -36,10 +37,10 @@ test('Print makensis license as JSON', async (t) => {
 		actual.license = `${actual.license}`;
 		actual = JSON.stringify(actual);
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		let expected = license;
 		expected = JSON.stringify({ license: expected });
 
@@ -47,6 +48,8 @@ test('Print makensis license as JSON', async (t) => {
 		actual.license = `${actual.license}`;
 		actual = JSON.stringify(actual);
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
+
+test.run();

@@ -1,15 +1,16 @@
 /* eslint-disable */
+import { test } from 'uvu';
+import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../../dist/makensis.mjs';
 import path from 'node:path';
-import test from 'ava';
 
 // Temporary workarounds
 import { defaultScriptArray, defaultScriptString, nullDevice } from '../shared.mjs';
 const __dirname = path.resolve(path.dirname(''));
 
 const scriptFile = {
-	minimal: path.join(__dirname, 'test', 'fixtures', 'utf8.nsi'),
-	warning: path.join(__dirname, 'test', 'fixtures', 'warnings.nsi'),
+	minimal: path.join(__dirname, 'tests', 'fixtures', 'utf8.nsi'),
+	warning: path.join(__dirname, 'tests', 'fixtures', 'warnings.nsi'),
 };
 
 // Let's run the tests
@@ -25,9 +26,9 @@ test('Compilation from File', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -41,9 +42,9 @@ test('Compilation from Array', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -57,9 +58,9 @@ test('Compilation from String', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -75,9 +76,9 @@ test('Compilation with warning', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -94,9 +95,9 @@ test('Compilation with warning as JSON', async (t) => {
 		const expected = 1;
 		const actual = warnings;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -110,9 +111,9 @@ test('Compilation with raw arguments and warning', async (t) => {
 		const expected = 1;
 		const actual = status;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -128,9 +129,9 @@ test('Compilation with error', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.not(actual, expected);
+		assert.is.not(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -147,8 +148,10 @@ test('Strict compilation with warning', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.not(actual, expected);
+		assert.is.not(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
+
+test.run();

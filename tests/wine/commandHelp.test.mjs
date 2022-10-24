@@ -1,7 +1,8 @@
 /* eslint-disable */
 import { spawnSync } from 'node:child_process';
+import { test } from 'uvu';
+import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../../dist/makensis.mjs';
-import test from 'ava';
 
 let cp;
 
@@ -20,14 +21,14 @@ test('Print help for all commands', async (t) => {
 		const expected = commandHelp.replace(/\s+/g, '');
 		const actual = output.stdout.replace(/\s+/g, '');
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		const expected = commandHelp.replace(/\s+/g, '');
 		const actual = stdout.replace(/\s+/g, '');
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
 
@@ -40,14 +41,14 @@ test('Print help for OutFile command', async (t) => {
 		const expected = outFile;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		const expected = outFile;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
 
@@ -59,13 +60,15 @@ test('Print help for OutFile command as JSON', async (t) => {
 		actual = JSON.stringify(actual);
 		expected = JSON.stringify({ help: expected });
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		const expected = outFile;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
+
+test.run();

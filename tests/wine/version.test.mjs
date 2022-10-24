@@ -1,7 +1,8 @@
 /* eslint-disable */
 import { spawnSync } from 'child_process';
+import { test } from 'uvu';
+import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../../dist/makensis.mjs';
-import test from 'ava';
 
 const cp = spawnSync('wine', ['makensis', '-VERSION']);
 const version = cp.stdout.toString().trim() || cp.stderr.toString().trim();
@@ -14,9 +15,9 @@ test('Print makensis version', async (t) => {
 		const expected = version;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -36,8 +37,10 @@ test('Print makensis version as JSON', async (t) => {
 		actual.version = `${actual.version}`;
 		actual = JSON.stringify(actual);
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
+
+test.run();
