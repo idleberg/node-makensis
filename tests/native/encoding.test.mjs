@@ -1,8 +1,9 @@
 /* eslint-disable */
-import { nullDevice } from './shared.mjs';
-import * as MakeNSIS from '../dist/makensis.mjs';
+import { nullDevice } from '../shared.mjs';
+import { test } from 'uvu';
+import * as assert from 'uvu/assert';
+import * as MakeNSIS from '../../dist/makensis.mjs';
 import path from 'node:path';
-import test from 'ava';
 
 // Temporary workaround
 const __dirname = path.resolve(path.dirname(''));
@@ -10,7 +11,7 @@ const __dirname = path.resolve(path.dirname(''));
 // Compiler arguments
 const script = {
 	// cp850: join(__dirname, 'fixtures', 'cp850.nsi'),
-	utf8: path.join(__dirname, 'test', 'fixtures', 'utf8.nsi'),
+	utf8: path.join(__dirname, 'tests', 'fixtures', 'utf8.nsi'),
 };
 
 const defaultOptions = {
@@ -30,15 +31,15 @@ test('Compile script with correct charset', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS', e);
 
 		const expected = '';
 		const actual = stderr;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
 
@@ -51,8 +52,10 @@ test('Compile script with incorrect charset', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.not(actual, expected);
+		assert.is.not(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
+
+test.run();

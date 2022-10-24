@@ -1,9 +1,10 @@
 /* eslint-disable */
 import { existsSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
-import * as MakeNSIS from '../../dist/makensis.mjs';
+import { test } from 'uvu';
 import { win32 as path } from 'node:path';
-import test from 'ava';
+import * as assert from 'uvu/assert';
+import * as MakeNSIS from '../../dist/makensis.mjs';
 
 function winePath(filePath) {
 	return spawnSync('winepath', [path.normalize(filePath)])
@@ -21,9 +22,9 @@ test('Print ${NSISDIR}', async (t) => {
 		const expected = true;
 		const actual = existsSync(winePath(nsisCfg));
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -35,8 +36,10 @@ test('Print ${NSISDIR} as JSON', async (t) => {
 		const expected = true;
 		const actual = existsSync(winePath(nsisCfg));
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
+
+test.run();

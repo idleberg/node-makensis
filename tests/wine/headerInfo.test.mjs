@@ -1,7 +1,8 @@
 /* eslint-disable */
 import { spawnSync } from 'node:child_process';
+import { test } from 'uvu';
+import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../../dist/makensis.mjs';
-import test from 'ava';
 
 const cp = spawnSync('wine', ['makensis', '-HDRINFO']);
 const headerInfo = cp.stdout.toString().trim() || cp.stderr.toString().trim();
@@ -14,14 +15,14 @@ test('Print compiler information', async (t) => {
 		const expected = headerInfo;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		const expected = headerInfo;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
 
@@ -31,13 +32,15 @@ test('Print compiler information as JSON', async (t) => {
 
 		const expected = true;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch (error) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		const expected = true;
 		const actual = stdout.defined_symbols.__GLOBAL__;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
+
+test.run();

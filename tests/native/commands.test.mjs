@@ -1,16 +1,17 @@
 /* eslint-disable */
+import { defaultScriptArray, defaultScriptString, nullDevice, shared } from '../shared.mjs';
 import { existsSync } from 'node:fs';
-import { defaultScriptArray, defaultScriptString, nullDevice, shared } from './shared.mjs';
-import * as MakeNSIS from '../dist/makensis.mjs';
+import { test } from 'uvu';
+import * as assert from 'uvu/assert';
+import * as MakeNSIS from '../../dist/makensis.mjs';
 import path from 'node:path';
-import test from 'ava';
 
 // Temporary workaround
 const __dirname = path.resolve(path.dirname(''));
 
 const scriptFile = {
-	minimal: path.join(__dirname, 'test', 'fixtures', 'utf8.nsi'),
-	warning: path.join(__dirname, 'test', 'fixtures', 'warnings.nsi'),
+	minimal: path.join(__dirname, 'tests', 'fixtures', 'utf8.nsi'),
+	warning: path.join(__dirname, 'tests', 'fixtures', 'warnings.nsi'),
 };
 
 // Let's run the tests
@@ -21,9 +22,9 @@ test('Print makensis version', async (t) => {
 		const expected = shared.version;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -43,9 +44,9 @@ test('Print makensis version as JSON', async (t) => {
 		actual.version = `${actual.version}`;
 		actual = JSON.stringify(actual);
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -56,14 +57,14 @@ test('Print makensis license', async (t) => {
 		const expected = shared.license;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
 		t.log('Legacy NSIS');
 		const expected = shared.license;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
 
@@ -78,7 +79,7 @@ test('Print makensis license as JSON', async (t) => {
 		actual.license = `${actual.license}`;
 		actual = JSON.stringify(actual);
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
 		t.log('Legacy NSIS');
@@ -89,7 +90,7 @@ test('Print makensis license as JSON', async (t) => {
 		actual.license = `${actual.license}`;
 		actual = JSON.stringify(actual);
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
 
@@ -100,14 +101,14 @@ test('Print compiler information', async (t) => {
 		const expected = shared.headerInfo;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
 		t.log('Legacy NSIS');
 		const expected = shared.headerInfo;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
 
@@ -117,14 +118,14 @@ test('Print compiler information as JSON', async (t) => {
 
 		const expected = true;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch (error) {
 		// NSIS < 3.03
 		t.log('Legacy NSIS');
 		const expected = true;
 		const actual = stdout.defined_symbols.__GLOBAL__;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
 
@@ -135,14 +136,14 @@ test('Print help for all commands', async (t) => {
 		const expected = shared.commandHelp.replace(/\s+/g, '');
 		const actual = output.stdout.replace(/\s+/g, '');
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
 		t.log('Legacy NSIS');
 		const expected = shared.commandHelp.replace(/\s+/g, '');
 		const actual = stdout.replace(/\s+/g, '');
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
 
@@ -153,14 +154,14 @@ test('Print help for OutFile command', async (t) => {
 		const expected = shared.outFile;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
 		t.log('Legacy NSIS');
 		const expected = shared.outFile;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
 
@@ -172,14 +173,14 @@ test('Print help for OutFile command as JSON', async (t) => {
 		actual = JSON.stringify(actual);
 		expected = JSON.stringify({ help: expected });
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
 		t.log('Legacy NSIS');
 		const expected = outFile;
 		const actual = stdout;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	}
 });
 
@@ -194,9 +195,9 @@ test('Compilation from File', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -209,9 +210,9 @@ test('Compilation from Array', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -224,9 +225,9 @@ test('Compilation from String', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -241,9 +242,9 @@ test('Compilation with warning', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -259,9 +260,9 @@ test('Compilation with warning as JSON', async (t) => {
 		const expected = 1;
 		const actual = warnings;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -274,9 +275,9 @@ test('Compilation with raw arguments and warning', async (t) => {
 		const expected = 1;
 		const actual = status;
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -291,9 +292,9 @@ test('Compilation with error', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.not(actual, expected);
+		assert.is.not(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -309,9 +310,9 @@ test('Strict compilation with warning', async (t) => {
 		const expected = 0;
 		const actual = status;
 
-		t.not(actual, expected);
+		assert.is.not(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -323,9 +324,9 @@ test('Print ${NSISDIR}', async (t) => {
 		const expected = true;
 		const actual = existsSync(nsisCfg);
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
 
@@ -337,8 +338,10 @@ test('Print ${NSISDIR} as JSON', async (t) => {
 		const expected = true;
 		const actual = existsSync(nsisCfg);
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw new Error(stderr);
 	}
 });
+
+test.run();
