@@ -7,7 +7,9 @@
   "typings": "types/",
   "files": [
     "dist/",
-    "types/"
+		"types/",
+		"LICENSE",
+		"README.md"
   ],
   "engines": {
     "node": "^14.8.0 || >=16.0.0"
