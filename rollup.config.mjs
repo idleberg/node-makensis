@@ -8,8 +8,7 @@ const external = [
 	'dotenv',
 	'dotenv-expand',
 	'events',
-	'os',
-	'shlex'
+	'os'
 ];
 
 export default [
