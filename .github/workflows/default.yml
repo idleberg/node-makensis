@@ -32,6 +32,7 @@ jobs:
       if: matrix.os == 'windows-latest'
       shell: pwsh
       run: |
+        [Net.ServicePointManager]::SecurityProtocol = "tls12, tls11, tls"
         iwr -useb get.scoop.sh -outfile 'install.ps1'
         .\install.ps1 -RunAsAdmin
         scoop bucket add nsis https://github.com/NSIS-Dev/scoop-nsis
