@@ -79,37 +79,37 @@ try {
 
 #### commandHelp
 
-Usage: `commandHelp([command], [options], [spawnOptions])`
+Usage: `commandHelp(command?, options?, spawnOptions?)`
 
 Returns usage information for a specific command, or a list of all commands. Equivalent of the `-CMDHELP` switch.
 
 #### compile
 
-Usage: `compile(script, [options], [spawnOptions])`
+Usage: `compile(script, options?, spawnOptions?)`
 
 Compiles specified script with MakeNSIS. The script can be omitted in favor of the [`preExecute`](#preExecute) / [`postExecute`](#postExecute) options.
 
 #### headerInfo
 
-Usage: `headerInfo([options], [spawnOptions])`
+Usage: `headerInfo(options?, spawnOptions?)`
 
 Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
 
 #### license
 
-Usage: `license([options], [spawnOptions])`
+Usage: `license(options?, spawnOptions?)`
 
 Returns MakeNSIS software license. Equivalent of the `-LICENSE` switch.
 
 #### nsisDir
 
-Usage: `nsisDir([options], [spawnOptions])`
+Usage: `nsisDir(options?, spawnOptions?)`
 
 Returns the path of `${NSISDIR}`.
 
 #### version
 
-Usage: `version([options], [spawnOptions])`
+Usage: `version(options?, spawnOptions?)`
 
 Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
