@@ -1,6 +1,6 @@
 {
   "name": "makensis",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "A Node wrapper for makensis, the NSIS compiler",
   "type": "module",
   "exports": "./dist/makensis.mjs",
