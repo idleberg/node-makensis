@@ -367,13 +367,13 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
       const line = stringify(data);
       const warnings = hasWarnings(line);
 
+			stream.stdout += line;
       warningsCounter += warnings;
 
       if (outFile === '') {
         outFile = detectOutfile(line);
       }
 
-      stream.stdout += line;
 
       if (!compilerOptions.events) {
         return;
@@ -388,7 +388,6 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
 
     child.stderr.on('data', data => {
       const line = stringify(data);
-
       stream.stderr += line;
 
       if (!compilerOptions.events) {
