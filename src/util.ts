@@ -180,8 +180,9 @@ async function mapArguments(args: string[], options: makensis.CompilerOptions): 
 			cmd,
 			args,
 			{
+				events: options.events,
 				json: options.json,
-				wine: options.wine,
+				wine: options.wine
 			},
 		];
 	}
@@ -267,7 +268,7 @@ async function mapArguments(args: string[], options: makensis.CompilerOptions): 
 		args = [...args, ...options.rawArguments];
 	}
 
-	return [cmd, args, { json: options.json, wine: options.wine }];
+	return [cmd, args, { events: options.events, wine: options.wine }];
 }
 
 function objectify(input: string, key: string | null): makensis.Objectified | string {
@@ -397,6 +398,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
 
 		child.stdout?.on('data', (data: Buffer) => {
 			const line = data.toString();
+			stream.stdout += line;
 			const warnings = hasWarnings(line);
 
 			warningsCounter += warnings;
@@ -405,23 +407,30 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
 				outFile = detectOutfile(line);
 			}
 
+			if (!compilerOptions.events) {
+				return;
+			}
+
 			eventEmitter.emit('stdout', {
 				line,
 				outFile,
 				hasWarning: Boolean(warnings),
 			});
 
-			stream.stdout += line;
 		});
 
 		child.stderr?.on('data', (data: Buffer) => {
 			const line = data.toString();
+			stream.stderr += line;
+
+			if (!compilerOptions.events) {
+				return;
+			}
 
 			eventEmitter.emit('stderr', {
 				line,
 			});
 
-			stream.stderr += line;
 		});
 
 		child.on('error', (errorMessage: string) => {
@@ -443,7 +452,9 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
 				output['outFile'] = outFile;
 			}
 
-			eventEmitter.emit('exit', output);
+			if (compilerOptions.events) {
+				eventEmitter.emit('exit', output);
+			}
 
 			if (code === 0 || (streamFormatted.stderr && !hasErrorCode(streamFormatted.stderr))) {
 				// Promise will be resolved on MakeNSIS errors...
