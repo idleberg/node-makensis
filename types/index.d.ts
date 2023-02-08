@@ -6,6 +6,7 @@ declare namespace makensis {
 	interface CompilerOptions {
 		define?: DefineOptions;
 		env?: string | boolean;
+		events?: boolean;
 		inputCharset?: string;
 		json?: boolean;
 		noCD?: boolean;
@@ -63,6 +64,7 @@ declare namespace makensis {
 	type MapArguments = [string, string[], MapArgumentOptions];
 
 	interface MapArgumentOptions {
+		events?: boolean;
 		json?: boolean;
 		wine?: boolean;
 	}
