@@ -51,7 +51,7 @@ $ port install nsis
 
 ## Installation
 
-`npm install makensis`
+`npm install makensis@lts`
 
 ## Usage
 
