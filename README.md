@@ -174,6 +174,14 @@ NSIS_APP_ENVIRONMENT=development
 
 </details>
 
+#### events
+
+Type: `boolean`
+
+Allows dispatching the log events `stdout`, `stderr` and `exit`.
+
+</details>
+
 #### inputCharset
 
 Type: `string`
