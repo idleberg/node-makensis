@@ -268,7 +268,7 @@ async function mapArguments(args: string[], options: makensis.CompilerOptions): 
 		args = [...args, ...options.rawArguments];
 	}
 
-	return [cmd, args, { events: options.events, wine: options.wine }];
+	return [cmd, args, { events: options.events, json: options.json, wine: options.wine }];
 }
 
 function objectify(input: string, key: string | null): makensis.Objectified | string {
