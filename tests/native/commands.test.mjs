@@ -60,7 +60,7 @@ test('Print makensis license', async (t) => {
 		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		const expected = shared.license;
 		const actual = stdout;
 
@@ -82,7 +82,7 @@ test('Print makensis license as JSON', async (t) => {
 		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		let expected = shared.license;
 		expected = JSON.stringify({ license: expected });
 
@@ -104,7 +104,7 @@ test('Print compiler information', async (t) => {
 		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		const expected = shared.headerInfo;
 		const actual = stdout;
 
@@ -121,7 +121,7 @@ test('Print compiler information as JSON', async (t) => {
 		assert.is(actual, expected);
 	} catch (error) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		const expected = true;
 		const actual = stdout.defined_symbols.__GLOBAL__;
 
@@ -139,7 +139,7 @@ test('Print help for all commands', async (t) => {
 		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		const expected = shared.commandHelp.replace(/\s+/g, '');
 		const actual = stdout.replace(/\s+/g, '');
 
@@ -157,7 +157,7 @@ test('Print help for OutFile command', async (t) => {
 		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		const expected = shared.outFile;
 		const actual = stdout;
 
@@ -176,7 +176,7 @@ test('Print help for OutFile command as JSON', async (t) => {
 		assert.is(actual, expected);
 	} catch ({ stdout }) {
 		// NSIS < 3.03
-		t.log('Legacy NSIS');
+		console.log('Legacy NSIS');
 		const expected = outFile;
 		const actual = stdout;
 
