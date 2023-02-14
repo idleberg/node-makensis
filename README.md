@@ -1,7 +1,7 @@
 # makensis
 
 [![npm](https://flat.badgen.net/npm/license/makensis)](https://www.npmjs.org/package/makensis)
-[![npm](https://flat.badgen.net/npm/v/makensis)](https://www.npmjs.org/package/makensis)
+[![npm](https://flat.badgen.net/npm/v/makensis/lts)](https://www.npmjs.org/package/makensis)
 [![CI](https://img.shields.io/github/actions/workflow/status/idleberg/node-makensis/default.yml?style=flat-square)](https://github.com/idleberg/node-makensis/actions)
 [![Snyk](https://flat.badgen.net/snyk/idleberg/node-makensis)](https://snyk.io/vuln/npm:makensis)
 
