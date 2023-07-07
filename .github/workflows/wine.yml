@@ -1,6 +1,23 @@
 name: CI:Wine
 
-on: [push]
+on:
+  push:
+    paths:
+    - '.github/**'
+    - 'src/**'
+    - 'test/**'
+    - 'types/**'
+    - 'package.json'
+    - 'package-lock.json'
+  pull_request:
+      paths:
+      - '.github/**'
+      - 'src/**'
+      - 'test/**'
+      - 'types/**'
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch:
 
 jobs:
   default:
