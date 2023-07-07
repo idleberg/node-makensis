@@ -1,4 +1,15 @@
-declare namespace makensis {
+import type { EventEmitter } from 'node:events';
+import type { SpawnOptions } from 'node:child_process';
+
+declare module 'makensis' {
+	function commandHelp(command: string, compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
+	function compile(script: string, compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
+	function headerInfo(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
+	function license(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
+	function nsisDir(compilerOptions: CompilerOptions): Promise<string | JSON>;
+	function version(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
+
+	const events: EventEmitter;
   interface DefineOptions {
     [key: string]: string;
   }
@@ -53,5 +64,3 @@ declare namespace makensis {
     stderr: string;
   }
 }
-
-export default makensis;
