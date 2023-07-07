@@ -10,6 +10,7 @@ declare module 'makensis' {
 	function version(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
 
   const events: EventEmitter;
+
 	interface CommandHelpOptions {
 		[key: string]: string;
 	}
