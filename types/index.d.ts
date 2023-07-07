@@ -4,7 +4,6 @@ import type { SpawnOptions } from 'node:child_process';
 declare module 'makensis' {
 	function commandHelp(command: string, compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
 	function compile(script: string, compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
-	function events(): EventEmitter;
 	function headerInfo(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
 	function license(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
 	function nsisDir(compilerOptions: CompilerOptions): Promise<string | JSON>;
@@ -93,5 +92,3 @@ declare module 'makensis' {
 		[key: string]: boolean | number | string | undefined;
 	}
 }
-
-export default makensis;
