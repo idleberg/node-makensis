@@ -81,10 +81,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
 
     - name: Lint Source
-      run: pnpm run lint --if-present
+      run: pnpm run --if-present lint
 
     - name: Build Source
-      run: pnpm run build --if-present
+      run: pnpm run --if-present build
 
     - name: Run Tests
-      run: pnpm run test --if-present
+      run: pnpm run --if-present test
