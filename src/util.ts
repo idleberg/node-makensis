@@ -7,8 +7,8 @@ import { spawn, spawnSync } from 'child_process';
 import dotenv from 'dotenv';
 import { expand as dotenvExpand } from 'dotenv-expand';
 
-import type { SpawnOptions } from 'child_process';
-import type makensis from '../types';
+import { type SpawnOptions } from 'child_process';
+import { type makensis } from '../types';
 
 function splitCommands(data: string | string[]): string[] {
   const args: string[] = [];
