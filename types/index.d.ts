@@ -9,6 +9,7 @@ declare module 'makensis' {
 	function nsisDir(compilerOptions: CompilerOptions): Promise<string | JSON>;
 	function version(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
 
+  const events: EventEmitter;
 	interface CommandHelpOptions {
 		[key: string]: string;
 	}
