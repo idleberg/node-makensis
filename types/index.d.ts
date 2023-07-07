@@ -1,7 +1,7 @@
 import type { EventEmitter } from 'node:events';
 import type { SpawnOptions } from 'node:child_process';
 
-declare module 'makensis' {
+export declare namespace makensis {
 	function commandHelp(command: string, compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
 	function compile(script: string, compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
 	function headerInfo(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
@@ -11,11 +11,11 @@ declare module 'makensis' {
 
   const events: EventEmitter;
 
-	interface CommandHelpOptions {
+	export interface CommandHelpOptions {
 		[key: string]: string;
 	}
 
-	interface CompilerOptions {
+	export interface CompilerOptions {
 		define?: DefineOptions;
 		env?: string | boolean;
 		events?: boolean;
