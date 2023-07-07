@@ -1,6 +1,23 @@
 name: CI
 
-on: [push]
+on:
+  push:
+    paths:
+    - '.github/**'
+    - 'src/**'
+    - 'test/**'
+    - 'types/**'
+    - 'package.json'
+    - 'pnpm-lock.yaml'
+  pull_request:
+      paths:
+      - '.github/**'
+      - 'src/**'
+      - 'test/**'
+      - 'types/**'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+  workflow_dispatch:
 
 jobs:
   default:
@@ -54,7 +71,7 @@ jobs:
 
     - uses: pnpm/action-setup@v2.0.1
       with:
-        version: 6
+        version: 8
         run_install: |
           - recursive: true
           - args: [--frozen-lockfile, --strict-peer-dependencies]
