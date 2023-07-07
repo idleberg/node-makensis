@@ -11,7 +11,8 @@ A Node wrapper for `makensis`, the compiler for NSIS installers. Supports both, 
 
 Make sure that NSIS is properly installed. If `makensis` isn't exposed to your PATH [environment variable][envvars], you need to set [`pathToMakensis`](#pathtomakensis).
 
-### Windows
+<details>
+<summary><strong>Windows</strong></summary>
 
 Install NSIS using the [Windows Package Manager][winget] or [Scoop][scoop]:
 
@@ -25,7 +26,10 @@ $ scoop install nsis/nsis
 
 Alternatively, you can download the NSIS installer from [SourceForge][sourceforge].
 
-### Linux
+</details>
+
+<details>
+<summary><strong>Linux</strong></summary>
 
 Install NSIS from your distribution's default package manager, for example:
 
@@ -37,7 +41,10 @@ $ sudo apt-get install nsis
 $ sudo dnf install nsis
 ```
 
-### macOS
+</details>
+
+<details>
+<summary><strong>macOS</strong></summary>
 
 Install NSIS using [Homebrew][homebrew] or [MacPorts][macports]:
 
@@ -48,6 +55,8 @@ $ brew install nsis
 # MacPorts
 $ port install nsis
 ```
+
+</details>
 
 ## Installation
 
