@@ -110,16 +110,16 @@ jobs:
           - args: [--frozen-lockfile, --strict-peer-dependencies]
 
     - name: Lint Source
-      run: pnpm run lint --if-present
+      run: pnpm --if-present run lint
 
     - name: Build Source
-      run: pnpm run build --if-present
+      run: pnpm --if-present run build
 
     - name: Run Tests (macOS)
       if: matrix.os == 'macos-10.15'
-      run: pnpm run test:wine --if-present
+      run: pnpm run --if-present test:wine
       continue-on-error: true # unreliable, often times out
 
     - name: Run Tests (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
-      run: pnpm run test:wine --if-present
+      run: pnpm run --if-present test:wine
