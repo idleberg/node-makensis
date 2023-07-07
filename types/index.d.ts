@@ -1,4 +1,13 @@
-declare namespace makensis {
+import type { SpawnOptions } from "child_process";
+
+declare module 'makensis' {
+	function commandHelp(command: string, compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
+	function compile(script: string, compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
+	function headerInfo(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
+	function license(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
+	function nsisDir(compilerOptions: CompilerOptions): Promise<string | JSON>;
+	function version(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
+
 	interface CommandHelpOptions {
 		[key: string]: string;
 	}
