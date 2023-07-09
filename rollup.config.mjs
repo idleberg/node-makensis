@@ -9,7 +9,9 @@ const plugins = [
 
 const compilerOptions = {
   allowSyntheticDefaultImports: true,
+  declaration: true,
   moduleResolution: "node",
+  outDir: "dist",
   strictNullChecks: true,
   typeRoots: ['./types', './node_modules/@types']
 };
