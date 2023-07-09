@@ -11,11 +11,11 @@ declare namespace Makensis {
 
 	const events: EventEmitter;
 
-	export interface CommandHelpOptions {
+	interface CommandHelpOptions {
 		[key: string]: string;
 	}
 
-	export interface CompilerOptions {
+	interface CompilerOptions {
 		define?: DefineOptions;
 		env?: string | boolean;
 		events?: boolean;
