@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "strict": true
+  },
+  "typeRoots": [
+    "./types",
+    "./node_modules/@types"
+  ]
+}

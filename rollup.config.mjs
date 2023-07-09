@@ -7,15 +7,6 @@ const plugins = [
   json()
 ];
 
-const compilerOptions = {
-  allowSyntheticDefaultImports: true,
-  declaration: true,
-  moduleResolution: "node",
-  outDir: "dist",
-  strictNullChecks: true,
-  typeRoots: ['./types', './node_modules/@types']
-};
-
 const external = [
   '@nsis/language-data',
   'child_process',
@@ -36,7 +27,7 @@ export default [
     },
     plugins: [
       ...plugins,
-      typescript(compilerOptions)
+      typescript()
     ]
   },
   {
@@ -49,7 +40,6 @@ export default [
     plugins: [
       ...plugins,
       typescript({
-        ...compilerOptions,
         module: "ES2020",
         moduleResolution: "node"
       })
