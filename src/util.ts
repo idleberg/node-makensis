@@ -1,14 +1,13 @@
-import { eventEmitter } from './events';
 import { constants, promises as fs } from 'node:fs';
+import { eventEmitter } from './events';
+import { expand as dotenvExpand } from 'dotenv-expand';
 import { input as inputCharsets, output as outputCharsets } from './charsets';
 import { join } from 'node:path';
 import { platform } from 'node:os';
 import { spawn } from 'node:child_process';
 import dotenv from 'dotenv';
-import { expand as dotenvExpand } from 'dotenv-expand';
 
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
-import { type makensis } from '../types';
 
 function detectOutfile(str: string): string {
 	if (str.includes('Output: "')) {
@@ -72,10 +71,10 @@ async function findEnvFile(dotenvPath: string | boolean): Promise<string | undef
 	return dotenvFile;
 }
 
-function formatOutput(stream: makensis.StreamOptions, args: Array<string>, opts: makensis.CompilerOptions): makensis.StreamOptionsFormatted {
+function formatOutput(stream: Makensis.StreamOptions, args: Array<string>, opts: Makensis.CompilerOptions): Makensis.StreamOptionsFormatted {
 	const stdOut = stream.stdout.toString().trim();
 	const stdErr = stream.stderr.toString().trim();
-	const output: makensis.StreamOptionsFormatted = {
+	const output: Makensis.StreamOptionsFormatted = {
 		stdout: stdOut,
 		stderr: stdErr,
 	};
@@ -106,14 +105,14 @@ function formatOutput(stream: makensis.StreamOptions, args: Array<string>, opts:
 	return output;
 }
 
-async function getMagicEnvVars(envFile: string | boolean): Promise<makensis.EnvironmentVariables> {
+async function getMagicEnvVars(envFile: string | boolean): Promise<Makensis.EnvironmentVariables> {
 	dotenvExpand(
 		dotenv.config({
 			path: await findEnvFile(envFile),
 		})
 	);
 
-	const definitions: makensis.EnvironmentVariables = {};
+	const definitions: Makensis.EnvironmentVariables = {};
 	const prefix = 'NSIS_APP_';
 
 	Object.keys(process.env).map((item) => {
@@ -161,7 +160,7 @@ function inRange(value: number, min: number, max: number): boolean {
 	return value >= min && value <= max;
 }
 
-async function mapArguments(args: string[], options: makensis.CompilerOptions): Promise<makensis.MapArguments> {
+async function mapArguments(args: string[], options: Makensis.CompilerOptions): Promise<Makensis.MapArguments> {
 	const pathToMakensis: string = options.pathToMakensis ? options.pathToMakensis : 'makensis';
 
 	const pathToWine: string = options.pathToWine ? options.pathToWine : 'wine';
@@ -271,7 +270,7 @@ async function mapArguments(args: string[], options: makensis.CompilerOptions): 
 	return [cmd, args, { events: options.events, json: options.json, wine: options.wine }];
 }
 
-function objectify(input: string, key: string | null): makensis.Objectified | string {
+function objectify(input: string, key: string | null): Makensis.Objectified | string {
 	if (key === 'version' && input.startsWith('v')) {
 		input = input.substr(1);
 	}
@@ -280,14 +279,14 @@ function objectify(input: string, key: string | null): makensis.Objectified | st
 		return input;
 	}
 
-	const output: makensis.Objectified = {};
+	const output: Makensis.Objectified = {};
 	output[key] = input;
 
 	return output;
 }
 
-function objectifyFlags(input: string, opts: makensis.CompilerOptions): makensis.HeaderInfo {
-	const output: makensis.HeaderInfo = {
+function objectifyFlags(input: string, opts: Makensis.CompilerOptions): Makensis.HeaderInfo {
+	const output: Makensis.HeaderInfo = {
 		sizes: {},
 		defined_symbols: {},
 	};
@@ -304,8 +303,8 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): makensis
 		}
 	});
 
-	const tableSizes: makensis.HeaderInfoSizes = {};
-	const tableSymbols: makensis.HeaderInfoSymbols = {};
+	const tableSizes: Makensis.HeaderInfoSizes = {};
+	const tableSymbols: Makensis.HeaderInfoSymbols = {};
 	let symbols: string[] = [];
 
 	if (!filteredLines?.length) {
@@ -353,11 +352,11 @@ function objectifyFlags(input: string, opts: makensis.CompilerOptions): makensis
 	return output;
 }
 
-function objectifyHelp(input: string, opts: makensis.CompilerOptions): makensis.HelpObject | string {
+function objectifyHelp(input: string, opts: Makensis.CompilerOptions): Makensis.HelpObject | string {
 	const lines = splitLines(input, opts);
 	lines.sort();
 
-	const output: makensis.CommandHelpOptions = {};
+	const output: Makensis.CommandHelpOptions = {};
 
 	if (lines?.length) {
 		lines.map((line) => {
@@ -376,8 +375,8 @@ function objectifyHelp(input: string, opts: makensis.CompilerOptions): makensis.
 	return output;
 }
 
-function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
-	return new Promise<makensis.CompilerOutput>((resolve, reject) => {
+function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: Makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
+	return new Promise<Makensis.CompilerOutput>((resolve, reject) => {
 		if (compilerOptions.wine) {
 			spawnOptions['env'] = Object.freeze({
 				WINEDEBUG: '-all',
@@ -386,7 +385,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
 			});
 		}
 
-		const stream: makensis.StreamOptions = {
+		const stream: Makensis.StreamOptions = {
 			stdout: '',
 			stderr: '',
 		};
@@ -441,7 +440,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
 		child.on('close', (code: number) => {
 			const streamFormatted = formatOutput(stream, args, compilerOptions);
 
-			const output: makensis.CompilerOutput = {
+			const output: Makensis.CompilerOutput = {
 				status: code,
 				stdout: streamFormatted.stdout || '',
 				stderr: streamFormatted.stderr || '',
@@ -493,7 +492,7 @@ function splitCommands(data: string | string[]): string[] {
 	return args;
 }
 
-function splitLines(input: string, opts: makensis.CompilerOptions = {}): string[] {
+function splitLines(input: string, opts: Makensis.CompilerOptions = {}): string[] {
 	const lineBreak = platform() === 'win32' || opts.wine === true ? '\r\n' : '\n';
 	const output = input.split(lineBreak);
 
