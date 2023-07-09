@@ -8,7 +8,6 @@ import dotenv from 'dotenv';
 import { expand as dotenvExpand } from 'dotenv-expand';
 
 import { type SpawnOptions } from 'child_process';
-import { type makensis } from '../types';
 
 function splitCommands(data: string | string[]): string[] {
   const args: string[] = [];
@@ -36,7 +35,7 @@ function splitCommands(data: string | string[]): string[] {
   return args;
 }
 
-function mapArguments(args: string[], options: makensis.CompilerOptions): makensis.MapArguments {
+function mapArguments(args: string[], options: Makensis.CompilerOptions): Makensis.MapArguments {
   const pathToMakensis: string = options.pathToMakensis
     ? options.pathToMakensis
     : 'makensis';
@@ -174,7 +173,7 @@ function hasWarnings(line: string): number {
   return 0;
 }
 
-function formatOutput(stream, args, opts: makensis.CompilerOptions): makensis.StreamOptions {
+function formatOutput(stream, args, opts: Makensis.CompilerOptions): Makensis.StreamOptions {
   if (args.includes('-CMDHELP') && !stream.stdout.trim() && stream.stderr) {
     // CMDHELP writes to stderr by default, let's fix this
     [stream.stdout, stream.stderr] = [stream.stderr, ''];
@@ -217,7 +216,7 @@ function objectify(input: string, key: string | null): Record<string, unknown> |
   return output;
 }
 
-function objectifyHelp(input: string, opts: makensis.CompilerOptions): Record<string, unknown> {
+function objectifyHelp(input: string, opts: Makensis.CompilerOptions): Record<string, unknown> {
   const lines = splitLines(input, opts);
   lines.sort();
 
@@ -241,7 +240,7 @@ function objectifyHelp(input: string, opts: makensis.CompilerOptions): Record<st
   return output;
 }
 
-function objectifyFlags(input: string, opts: makensis.CompilerOptions): Record<string, unknown> {
+function objectifyFlags(input: string, opts: Makensis.CompilerOptions): Record<string, unknown> {
   const output = {};
   const lines = splitLines(input, opts);
 
@@ -318,7 +317,7 @@ function hasErrorCode(input: string) {
   return false;
 }
 
-function splitLines(input: string, opts: makensis.CompilerOptions = {}): string[] {
+function splitLines(input: string, opts: Makensis.CompilerOptions = {}): string[] {
   const lineBreak = (platform() === 'win32' || opts.wine === true) ? '\r\n' : '\n';
   const output = input.split(lineBreak);
 
@@ -342,7 +341,7 @@ function detectOutfile(str: string): string {
   return '';
 }
 
-function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
+function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: Makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): Promise<makensis.CompilerOutput> {
   return new Promise<makensis.CompilerOutput>((resolve, reject) => {
     if (compilerOptions.wine) {
       spawnOptions['env'] = Object.freeze({
@@ -352,7 +351,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
       });
     }
 
-    let stream: makensis.StreamOptions = {
+    let stream: Makensis.StreamOptions = {
       stdout: '',
       stderr: ''
     };
@@ -408,7 +407,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
     child.on('close', code => {
       stream = formatOutput(stream, args, compilerOptions);
 
-      const output: makensis.CompilerOutput = {
+      const output: Makensis.CompilerOutput = {
         status: code,
         stdout: stream.stdout || '',
         stderr: stream.stderr || '',
@@ -433,7 +432,7 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: makens
   });
 }
 
-function spawnMakensisSync(cmd: string, args: Array<string>, compilerOptions: makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): makensis.CompilerOutput {
+function spawnMakensisSync(cmd: string, args: Array<string>, compilerOptions: Makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): Makensis.CompilerOutput {
   if (compilerOptions.wine) {
     spawnOptions['env'] = Object.freeze({
       WINEDEBUG: '-all',
@@ -453,7 +452,7 @@ function spawnMakensisSync(cmd: string, args: Array<string>, compilerOptions: ma
 
   child = formatOutput(child, args, compilerOptions);
 
-  const output: makensis.CompilerOutput = {
+  const output: Makensis.CompilerOutput = {
     'status': child.status,
     'stdout': child.stdout,
     'stderr': child.stderr,
@@ -467,7 +466,7 @@ function spawnMakensisSync(cmd: string, args: Array<string>, compilerOptions: ma
   return output;
 }
 
-function getMagicEnvVars(envFile: string | boolean): makensis.EnvironmentVariables | undefined {
+function getMagicEnvVars(envFile: string | boolean): Makensis.EnvironmentVariables | undefined {
   dotenvExpand(
     dotenv.config({
       path: findEnvFile(envFile)
