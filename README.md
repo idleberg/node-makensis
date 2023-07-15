@@ -1,7 +1,7 @@
 # makensis
 
-[![License](https://img.shields.io/github/license/idleberg/scoop-playdate-sdk?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/github/v/release/idleberg/scoop-playdate-sdk?style=for-the-badge)](https://github.com/idleberg/scoop-playdate-sdk/releases)
+[![License](https://img.shields.io/github/license/idleberg/node-makensis?style=for-the-badge)](LICENSE)
+[![Version](https://img.shields.io/github/v/release/idleberg/node-makensis?style=for-the-badge)](https://github.com/idleberg/node-makensis/releases)
 ![NodeJS version](https://img.shields.io/node/v/makensis?style=for-the-badge)
 [![CI](https://img.shields.io/github/actions/workflow/status/idleberg/node-makensis/default.yml?style=for-the-badge)](https://github.com/idleberg/node-makensis/actions)
 
