@@ -1,11 +1,12 @@
 {
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "declaration": true,
-    "module": "ES2020",
-    "moduleResolution": "node",
-    "outDir": "dist",
-    "strict": true
-  },
-  "typeRoots": ["./types", "./node_modules/@types"]
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"declaration": true,
+		"module": "ES2020",
+		"moduleResolution": "node",
+		"outDir": "dist",
+		"skipLibCheck": true,
+		"strict": true
+	},
+	"typeRoots": ["./types", "./node_modules/@types"]
 }
