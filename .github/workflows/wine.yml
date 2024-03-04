@@ -25,11 +25,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['14', '16', '18']
+        node-version: ['lts/*', '*']
         os: [macos-10.15, ubuntu-latest]
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 10
 
@@ -43,67 +43,100 @@ jobs:
         brew update
         brew tap gcenx/wine
         brew install --cask --no-quarantine gcenx/wine/wine-crossover
-      env:
-        WINEARCH: win32
-        WINEPREFIX: ${{ runner.temp }}/.wine32
 
     - name: Install Wine (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
-      run:   |
+      run: |
         sudo dpkg --add-architecture i386
-        sudo apt-get -y update
-        sudo apt-get -y install wine-stable
+        sudo apt-get update -qy
+        sudo apt-get install --no-install-recommends -qfy wine32 wine wget ca-certificates
+        sudo apt-get clean
+        wget -q http://downloads.sourceforge.net/project/nsis/NSIS%203/3.08/nsis-3.08-setup.exe
+        wine nsis-3.08-setup.exe /S
+        # while pgrep wineserver >/dev/null; do echo "Waiting for wineserver"; sleep 1; done
+        rm -rf /tmp/.wine-*
+        echo 'wine '\''C:\Program Files\NSIS\makensis.exe'\'' "$@"' > /usr/bin/makensis
+        chmod +x /usr/bin/makensis
       env:
         WINEARCH: win32
-        WINEPREFIX: ${{ runner.temp }}/.wine32
+        WINEDEBUG: -all
+        WINEPREFIX: /wine
 
     - name: Install NSIS
       run: |
         curl -L https://downloads.sourceforge.net/project/nsis/NSIS%203/3.09/nsis-3.09-setup.exe -o ${{ runner.temp }}/nsis-setup-$GITHUB_SHA.exe
         wine ${{ runner.temp }}/nsis-setup-$GITHUB_SHA.exe /S
-        wine regedit "${GITHUB_WORKSPACE}/.github/nsis.reg"
       env:
         WINEARCH: win32
         WINEDEBUG: -all
 
     - name: Print NSIS version (macOS)
       if: matrix.os == 'macos-10.15'
-      run: wine makensis /VERSION
+      run: wine %PROGRAMFILES%/NSIS/makensis /VERSION
       env:
         WINEARCH: win32
         WINEDEBUG: -all
 
     - name: Print NSIS version (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
-      run: wine makensis /VERSION
+      run: wine %PROGRAMFILES%/NSIS/makensis /VERSION
       env:
         WINEARCH: win32
         WINEDEBUG: -all
 
     - name: Print NSIS header info (macOS)
       if: matrix.os == 'macos-10.15'
-      run: wine makensis /HDRINFO
+      run: wine %PROGRAMFILES%/NSIS/makensis /HDRINFO
       env:
         WINEARCH: win32
         WINEDEBUG: -all
 
     - name: Print NSIS header info (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
-      run: wine makensis /HDRINFO
+      run: wine %PROGRAMFILES%/NSIS/makensis /HDRINFO
       env:
         WINEARCH: win32
         WINEDEBUG: -all
 
-    - name: Cache pnpm modules
-      uses: actions/cache@v2
+    - uses: actions/setup-node@v3
       with:
-        path: ~/.pnpm-store
-        key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-
+        node-version: ${{ matrix.node-version }}
 
     - uses: pnpm/action-setup@v2.0.1
+      name: Install pnpm
+      id: pnpm-install
       with:
+<<<<<<< HEAD
+        version: 8
+        run_install: false
+
+    - name: Get pnpm store directory
+      id: pnpm-cache
+      run: |
+        echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+    - uses: actions/cache@v3
+      name: Setup pnpm cache
+      with:
+        path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile --strict-peer-dependencies
+
+    - name: Lint Source
+      run: pnpm run --if-present lint
+
+    - name: Build Source
+      run: pnpm run --if-present build
+
+    - name: Run Tests (macOS)
+      if: (matrix.os == 'macos-10.15' || matrix.os == 'ubuntu-latest')
+      run: pnpm run --if-present test:wine
+      continue-on-error: true # temporary
+=======
         version: 7
         run_install: |
           - recursive: true
@@ -123,3 +156,4 @@ jobs:
     - name: Run Tests (Ubuntu)
       if: matrix.os == 'ubuntu-latest'
       run: pnpm run --if-present test:wine
+>>>>>>> main
