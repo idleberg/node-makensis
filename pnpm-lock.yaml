@@ -8,12 +8,6 @@ dependencies:
   '@nsis/language-data':
     specifier: ^0.9.2
     version: 0.9.2
-  dotenv:
-    specifier: ^16.3.1
-    version: 16.3.1
-  dotenv-expand:
-    specifier: ^10.0.0
-    version: 10.0.0
 
 devDependencies:
   '@types/node':
@@ -1575,16 +1569,6 @@ packages:
     dependencies:
       type-fest: 2.19.0
     dev: true
-
-  /dotenv-expand@10.0.0:
-    resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
-    engines: {node: '>=12'}
-    dev: false
-
-  /dotenv@16.3.1:
-    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
-    engines: {node: '>=12'}
-    dev: false
 
   /eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==}
