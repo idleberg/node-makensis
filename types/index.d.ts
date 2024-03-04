@@ -1,38 +1,36 @@
-import type { EventEmitter } from 'node:events';
-import type { SpawnOptions } from 'node:child_process';
-
 declare namespace Makensis {
-	function commandHelp(command: string, compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
-	function compile(script: string, compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
-	function headerInfo(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
-	function license(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
-	function nsisDir(compilerOptions: CompilerOptions): Promise<string | JSON>;
-	function version(compilerOptions: CompilerOptions, spawnOptions: SpawnOptions): Promise<CompilerOutput>;
-
-	const events: EventEmitter;
 
 	interface CommandHelpOptions {
 		[key: string]: string;
 	}
 
+	interface CompilerData {
+		line: string;
+		outFile: string;
+		hasWarning: boolean;
+	}
+
 	interface CompilerOptions {
 		define?: DefineOptions;
-		env?: string | boolean;
+		env?: Record<string, string>;
 		events?: boolean;
 		inputCharset?: string;
 		json?: boolean;
 		noCD?: boolean;
 		noConfig?: boolean;
 		outputCharset?: string;
+		onData?: (data: CompilerData) => void;
+		onError?: (line: string) => void;
+		onClose?: (data: CompilerOutput) => void;
 		pause?: boolean;
 		postExecute?: string | string[];
 		preExecute?: string | string[];
-		priority?: 0 | '0' | 1 | '1' | 2 | '2' | 3 | '3' | 4 | '4' | 5 | '5';
+		priority?: 0 | 1 | 2 | 3 | 4 | 5;
 		ppo?: boolean;
 		rawArguments?: string;
 		safePPO?: boolean;
 		strict?: boolean;
-		verbose?: 0 | '0' | 1 | '1' | 2 | '2' | 3 | '3' | 4 | '4';
+		verbose?: 0 | 1 | 2 | 3 | 4;
 		wine?: boolean;
 
 		// library

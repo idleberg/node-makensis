@@ -1,11 +1,7 @@
-import { constants, promises as fs } from 'node:fs';
-import { eventEmitter } from './events';
-import { expand as dotenvExpand } from 'dotenv-expand';
+// import { constants, promises as fs } from 'node:fs';
 import { input as inputCharsets, output as outputCharsets } from './charsets';
-import { join } from 'node:path';
 import { platform } from 'node:os';
 import { spawn } from 'node:child_process';
-import dotenv from 'dotenv';
 
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
 
@@ -26,50 +22,50 @@ function detectOutfile(str: string): string {
 	return '';
 }
 
-async function fileExists(filePath: string): Promise<boolean> {
-	try {
-		await fs.access(filePath, constants.F_OK);
-	} catch (err) {
-		return false;
-	}
+// async function fileExists(filePath: string): Promise<boolean> {
+// 	try {
+// 		await fs.access(filePath, constants.F_OK);
+// 	} catch (err) {
+// 		return false;
+// 	}
 
-	return true;
-}
+// 	return true;
+// }
 
-async function findEnvFile(dotenvPath: string | boolean): Promise<string | undefined> {
-	if (typeof dotenvPath === 'string' && dotenvPath?.length && (await fileExists(dotenvPath)) && (await fs.lstat(dotenvPath)).isFile()) {
-		return dotenvPath;
-	}
+// async function findEnvFile(dotenvPath: string | boolean): Promise<string | undefined> {
+// 	if (typeof dotenvPath === 'string' && dotenvPath?.length && (await fileExists(dotenvPath)) && (await fs.lstat(dotenvPath)).isFile()) {
+// 		return dotenvPath;
+// 	}
 
-	const cwd: string = dotenvPath && typeof dotenvPath === 'string' ? dotenvPath : process.cwd();
+// 	const cwd: string = dotenvPath && typeof dotenvPath === 'string' ? dotenvPath : process.cwd();
 
-	let dotenvFile;
+// 	let dotenvFile;
 
-	if (cwd) {
-		switch (true) {
-			case await fileExists(join(cwd, `.env.[${process.env.NODE_ENV}].local`)):
-				dotenvFile = join(cwd, `.env.[${process.env.NODE_ENV}].local`);
-				break;
+// 	if (cwd) {
+// 		switch (true) {
+// 			case await fileExists(join(cwd, `.env.[${process.env.NODE_ENV}].local`)):
+// 				dotenvFile = join(cwd, `.env.[${process.env.NODE_ENV}].local`);
+// 				break;
 
-			case await fileExists(join(cwd, '.env.local')):
-				dotenvFile = join(cwd, '.env.local');
-				break;
+// 			case await fileExists(join(cwd, '.env.local')):
+// 				dotenvFile = join(cwd, '.env.local');
+// 				break;
 
-			case process.env.NODE_ENV && (await fileExists(join(cwd, `.env.[${process.env.NODE_ENV}]`))):
-				dotenvFile = join(cwd, `.env.[${process.env.NODE_ENV}]`);
-				break;
+// 			case process.env.NODE_ENV && (await fileExists(join(cwd, `.env.[${process.env.NODE_ENV}]`))):
+// 				dotenvFile = join(cwd, `.env.[${process.env.NODE_ENV}]`);
+// 				break;
 
-			case await fileExists(join(cwd, '.env')):
-				dotenvFile = join(cwd, '.env');
-				break;
+// 			case await fileExists(join(cwd, '.env')):
+// 				dotenvFile = join(cwd, '.env');
+// 				break;
 
-			default:
-				break;
-		}
-	}
+// 			default:
+// 				break;
+// 		}
+// 	}
 
-	return dotenvFile;
-}
+// 	return dotenvFile;
+// }
 
 function formatOutput(stream: Makensis.StreamOptions, args: Array<string>, opts: Makensis.CompilerOptions): Makensis.StreamOptionsFormatted {
 	const stdOut = stream.stdout.toString().trim();
@@ -105,13 +101,7 @@ function formatOutput(stream: Makensis.StreamOptions, args: Array<string>, opts:
 	return output;
 }
 
-async function getMagicEnvVars(envFile: string | boolean): Promise<Makensis.EnvironmentVariables> {
-	dotenvExpand(
-		dotenv.config({
-			path: await findEnvFile(envFile),
-		})
-	);
-
+async function getMagicEnvVars(): Promise<Makensis.EnvironmentVariables> {
 	const definitions: Makensis.EnvironmentVariables = {};
 	const prefix = 'NSIS_APP_';
 
@@ -195,7 +185,7 @@ async function mapArguments(args: string[], options: Makensis.CompilerOptions): 
 	}
 
 	if (options?.env) {
-		const defines = await getMagicEnvVars(options.env);
+		const defines = await getMagicEnvVars();
 
 		if (defines && Object.keys(defines).length) {
 			Object.keys(defines).map((key) => {
@@ -406,30 +396,26 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: Makens
 				outFile = detectOutfile(line);
 			}
 
-			if (!compilerOptions.events) {
+			if (typeof compilerOptions.onData !== 'function') {
 				return;
 			}
 
-			eventEmitter.emit('stdout', {
+			compilerOptions.onData({
 				line,
 				outFile,
 				hasWarning: Boolean(warnings),
 			});
-
 		});
 
 		child.stderr?.on('data', (data: Buffer) => {
 			const line = data.toString();
 			stream.stderr += line;
 
-			if (!compilerOptions.events) {
+			if (typeof compilerOptions.onError !== 'function') {
 				return;
 			}
 
-			eventEmitter.emit('stderr', {
-				line,
-			});
-
+			compilerOptions.onError(line);
 		});
 
 		child.on('error', (errorMessage: string) => {
@@ -451,8 +437,8 @@ function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: Makens
 				output['outFile'] = outFile;
 			}
 
-			if (compilerOptions.events) {
-				eventEmitter.emit('exit', output);
+			if (typeof compilerOptions.onClose === 'function') {
+				compilerOptions.onClose(output);
 			}
 
 			if (code === 0 || (streamFormatted.stderr && !hasErrorCode(streamFormatted.stderr))) {
