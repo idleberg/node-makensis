@@ -258,7 +258,7 @@ test('Compilation with warning as JSON', async (t) => {
 		});
 
 		const expected = 0;
-		const actual = warnings;
+		const actual = status;
 
 		assert.is(actual, expected);
 	} catch ({ stderr }) {
