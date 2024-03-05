@@ -45,7 +45,7 @@ test('Load magic environment variable from file', async (t) => {
 
 		t.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw Error(stderr);
 	}
 });
 
@@ -64,7 +64,7 @@ test('Load magic environment variable from process', async (t) => {
 
 		t.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw Error(stderr);
 	}
 });
 
@@ -82,7 +82,7 @@ test('Ignore magic environment variable', async (t) => {
 
 		t.is(actual, expected);
 	} catch ({ stderr }) {
-		t.fail(stderr);
+		throw Error(stderr);
 	}
 });
 
