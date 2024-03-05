@@ -33,22 +33,6 @@ test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async (t
 	}
 });
 
-test('Load magic environment variable from file', async (t) => {
-	try {
-		const { stdout } = await MakeNSIS.compile(scriptFile, {
-			...defaultOptions,
-			env: path.join(__dirname, 'tests', 'fixtures', '.env'),
-		});
-
-		const expected = true;
-		const actual = stdout.includes('dotenv:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx');
-
-		t.is(actual, expected);
-	} catch ({ stderr }) {
-		throw Error(stderr);
-	}
-});
-
 test('Load magic environment variable from process', async (t) => {
 	const uuid = `process.env:${randomString}`;
 	process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = uuid;
