@@ -1,8 +1,8 @@
 /* eslint-disable */
-import { nullDevice } from '../shared.mjs';
+import { nullDevice } from './shared.mjs';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
-import * as MakeNSIS from '../../dist/makensis.mjs';
+import * as MakeNSIS from '../dist/makensis.js';
 import path from 'node:path';
 
 // Temporary workaround
