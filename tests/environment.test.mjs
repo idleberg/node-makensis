@@ -7,12 +7,12 @@ import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../dist/makensis.js';
 import path from 'node:path';
 import which from 'which';
+import { randomUUID } from 'node:crypto';
 
 // Temporary workaround
 const __dirname = path.resolve(path.dirname(''));
 
 const scriptFile = path.join(__dirname, 'tests', 'fixtures', 'env.nsi');
-const randomString = uuid();
 
 const defaultOptions = {
 	define: {
@@ -22,7 +22,7 @@ const defaultOptions = {
 };
 
 // Let's run the tests
-test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async (t) => {
+test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async () => {
 	if (platform() === 'win32') {
 		// TODO: investigate why this test fails on Windows
 		console.log('Skipping test on Windows');
@@ -33,9 +33,9 @@ test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async (t
 	}
 });
 
-test('Load magic environment variable from process', async (t) => {
-	const uuid = `process.env:${randomString}`;
-	process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = uuid;
+test('Load magic environment variable from process', async () => {
+	const randomString = uuid();
+	process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = randomString;
 
 	try {
 		const { stdout } = await MakeNSIS.compile(scriptFile, {
@@ -44,16 +44,17 @@ test('Load magic environment variable from process', async (t) => {
 		});
 
 		const expected = true;
-		const actual = stdout.includes(uuid);
+		const actual = stdout.includes('NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE') && stdout.includes(randomString);
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
 		throw Error(stderr);
 	}
 });
 
-test('Ignore magic environment variable', async (t) => {
-	process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = `process.env:${randomString}`;
+test('Ignore magic environment variable', async () => {
+	const randomString = uuid();
+	process.env['NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE'] = randomString;
 
 	try {
 		const { stdout } = await MakeNSIS.compile(scriptFile, {
@@ -62,9 +63,9 @@ test('Ignore magic environment variable', async (t) => {
 		});
 
 		const expected = true;
-		const actual = stdout.includes('${NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE}');
+		const actual = !stdout.includes(randomString);
 
-		t.is(actual, expected);
+		assert.is(actual, expected);
 	} catch ({ stderr }) {
 		throw Error(stderr);
 	}
