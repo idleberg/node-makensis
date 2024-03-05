@@ -112,7 +112,7 @@ export async function mapArguments(args: string[], options: Makensis.CompilerOpt
 	let cmd: string;
 
 	if (platform() !== 'win32' && options.wine === true) {
-		console.warn('Wine support has been degraded to an experimental feature, but ut will be continued to be supported for the time being.');
+		console.warn('Wine support has been degraded to an experimental feature, but it will be continued to be supported for the time being.');
 
 		cmd = pathToWine;
 		args.unshift(pathToMakensis);
