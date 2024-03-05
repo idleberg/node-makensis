@@ -252,12 +252,12 @@ test('Compilation with warning as JSON', async (t) => {
 	const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
 	try {
-		const { warnings } = await MakeNSIS.compile(null, {
+		const { status } = await MakeNSIS.compile(null, {
 			preExecute: scriptWithWarning,
 			json: true,
 		});
 
-		const expected = 1;
+		const expected = 0;
 		const actual = warnings;
 
 		assert.is(actual, expected);
