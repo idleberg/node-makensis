@@ -85,3 +85,5 @@ test('Ignore magic environment variable', async (t) => {
 		t.fail(stderr);
 	}
 });
+
+test.run();
