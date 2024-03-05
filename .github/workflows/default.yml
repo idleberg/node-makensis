@@ -5,7 +5,7 @@ on:
     paths:
     - '.github/**'
     - 'src/**'
-    - 'test/**'
+    - 'tests/**'
     - 'types/**'
     - 'package.json'
     - 'pnpm-lock.yaml'
@@ -13,7 +13,7 @@ on:
       paths:
       - '.github/**'
       - 'src/**'
-      - 'test/**'
+      - 'tests/**'
       - 'types/**'
       - 'package.json'
       - 'pnpm-lock.yaml'
