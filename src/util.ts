@@ -383,7 +383,7 @@ export function spawnMakensis(cmd: string, args: Array<string>, compilerOptions:
 			const streamFormatted = formatOutput(stream, args, compilerOptions);
 
 			const output: Makensis.CompilerOutput = {
-				status: code || 0,
+				status: code,
 				stdout: streamFormatted.stdout || '',
 				stderr: streamFormatted.stderr || '',
 				warnings: warningsCounter,
