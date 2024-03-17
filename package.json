@@ -3,8 +3,16 @@
   "version": "2.0.8",
   "description": "A Node wrapper for makensis, the NSIS compiler",
   "type": "module",
-  "exports": "./dist/makensis.js",
-  "typings": "types/",
+  "main": "./dist/makensis.cjs",
+  "modules": "./dist/makensis.js",
+  "exports": {
+		".": {
+			"import": "./dist/makensis.js",
+			"require": "./dist/makensis.cjs",
+			"types": "./dist/makensis.d.ts"
+		}
+	},
+  "types": "./types",
   "files": [
     "dist/",
     "types/",

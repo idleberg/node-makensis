@@ -6,7 +6,7 @@ export default defineConfig({
   dts: true,
   entry: ['src/makensis.ts'],
 	external: ['@nsis/language-data'],
-	format: 'esm',
+	format: ['cjs', 'esm'],
   minify: true,
   treeshake: 'recommended'
 });
