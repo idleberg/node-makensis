@@ -34,7 +34,7 @@ test('Print makensis version as JSON', async (t) => {
 
 		let expected = shared.version;
 
-		if (expected.startsWith('v')) {
+		if (expected?.startsWith('v')) {
 			expected = expected.substr(1);
 		}
 
@@ -51,137 +51,69 @@ test('Print makensis version as JSON', async (t) => {
 });
 
 test('Print makensis license', async (t) => {
-	try {
-		const { stdout } = await MakeNSIS.license();
+	const { stdout } = await MakeNSIS.license();
 
-		const expected = shared.license;
-		const actual = stdout;
+	const expected = shared.license;
+	const actual = stdout;
 
-		assert.is(actual, expected);
-	} catch ({ stdout }) {
-		// NSIS < 3.03
-		console.log('Legacy NSIS');
-		const expected = shared.license;
-		const actual = stdout;
-
-		assert.is(actual, expected);
-	}
+	assert.is(actual, expected);
 });
 
 test('Print makensis license as JSON', async (t) => {
-	try {
-		const { stdout } = await MakeNSIS.license({ json: true });
+	const { stdout } = await MakeNSIS.license({ json: true });
 
-		let expected = shared.license;
-		expected = JSON.stringify({ license: expected });
+	let expected = shared.license;
+	expected = JSON.stringify({ license: expected });
 
-		let actual = stdout;
-		actual.license = `${actual.license}`;
-		actual = JSON.stringify(actual);
+	let actual = stdout;
+	actual.license = `${actual.license}`;
+	actual = JSON.stringify(actual);
 
-		assert.is(actual, expected);
-	} catch ({ stdout }) {
-		// NSIS < 3.03
-		console.log('Legacy NSIS');
-		let expected = shared.license;
-		expected = JSON.stringify({ license: expected });
-
-		let actual = stdout;
-		actual.license = `${actual.license}`;
-		actual = JSON.stringify(actual);
-
-		assert.is(actual, expected);
-	}
+	assert.is(actual, expected);
 });
 
 test('Print compiler information', async (t) => {
-	try {
-		const { stdout } = await MakeNSIS.headerInfo();
+	const { stdout } = await MakeNSIS.headerInfo();
 
-		const expected = shared.headerInfo;
-		const actual = stdout;
+	const expected = shared.headerInfo;
+	const actual = stdout;
 
-		assert.is(actual, expected);
-	} catch ({ stdout }) {
-		// NSIS < 3.03
-		console.log('Legacy NSIS');
-		const expected = shared.headerInfo;
-		const actual = stdout;
-
-		assert.is(actual, expected);
-	}
+	assert.is(actual, expected);
 });
 
 test('Print compiler information as JSON', async (t) => {
-	try {
-		const actual = (await MakeNSIS.headerInfo({ json: true })).stdout.defined_symbols.__GLOBAL__;
+	const actual = (await MakeNSIS.headerInfo({ json: true })).stdout.defined_symbols.__GLOBAL__;
+	const expected = true;
 
-		const expected = true;
-
-		assert.is(actual, expected);
-	} catch (error) {
-		// NSIS < 3.03
-		console.log('Legacy NSIS');
-		const expected = true;
-		const actual = stdout.defined_symbols.__GLOBAL__;
-
-		assert.is(actual, expected);
-	}
+	assert.is(actual, expected);
 });
 
 test('Print help for all commands', async (t) => {
-	try {
-		const output = await MakeNSIS.commandHelp();
+	const output = await MakeNSIS.commandHelp();
 
-		const expected = shared.commandHelp.replace(/\s+/g, '');
-		const actual = output.stdout.replace(/\s+/g, '');
+	const expected = shared.commandHelp.replace(/\s+/g, '');
+	const actual = output.stdout.replace(/\s+/g, '');
 
-		assert.is(actual, expected);
-	} catch ({ stdout }) {
-		// NSIS < 3.03
-		console.log('Legacy NSIS');
-		const expected = shared.commandHelp.replace(/\s+/g, '');
-		const actual = stdout.replace(/\s+/g, '');
-
-		assert.is(actual, expected);
-	}
+	assert.is(actual, expected);
 });
 
 test('Print help for OutFile command', async (t) => {
-	try {
-		const { stdout } = await MakeNSIS.commandHelp('OutFile');
+	const { stdout } = await MakeNSIS.commandHelp('OutFile');
 
-		const expected = shared.outFile;
-		const actual = stdout;
+	const expected = shared.outFile;
+	const actual = stdout;
 
-		assert.is(actual, expected);
-	} catch ({ stdout }) {
-		// NSIS < 3.03
-		console.log('Legacy NSIS');
-		const expected = shared.outFile;
-		const actual = stdout;
-
-		assert.is(actual, expected);
-	}
+	assert.is(actual, expected);
 });
 
 test('Print help for OutFile command as JSON', async (t) => {
-	try {
-		let expected = shared.outFile;
-		let actual = (await MakeNSIS.commandHelp('OutFile', { json: true })).stdout;
+	let expected = shared.outFile;
+	let actual = (await MakeNSIS.commandHelp('OutFile', { json: true })).stdout;
 
-		actual = JSON.stringify(actual);
-		expected = JSON.stringify({ help: expected });
+	actual = JSON.stringify(actual);
+	expected = JSON.stringify({ help: expected });
 
-		assert.is(actual, expected);
-	} catch ({ stdout }) {
-		// NSIS < 3.03
-		console.log('Legacy NSIS');
-		const expected = outFile;
-		const actual = stdout;
-
-		assert.is(actual, expected);
-	}
+	assert.is(actual, expected);
 });
 
 test('Compilation from File', async (t) => {

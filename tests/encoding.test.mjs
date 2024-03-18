@@ -25,22 +25,11 @@ const defaultOptions = {
 test('Compile script with correct charset', async (t) => {
 	const options = { ...defaultOptions, inputCharset: 'UTF8' };
 
-	try {
-		const { status } = await MakeNSIS.compile(script['utf8'], options);
+	const { status } = await MakeNSIS.compile(script['utf8'], options);
+	const expected = 0;
+	const actual = status;
 
-		const expected = 0;
-		const actual = status;
-
-		assert.is(actual, expected);
-	} catch ({ stderr }) {
-		// NSIS < 3.03
-		console.log('Legacy NSIS', e);
-
-		const expected = '';
-		const actual = stderr;
-
-		assert.is(actual, expected);
-	}
+	assert.is(actual, expected);
 });
 
 test('Compile script with incorrect charset', async (t) => {

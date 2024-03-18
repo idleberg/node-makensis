@@ -2,7 +2,7 @@ import { codepages } from '@nsis/language-data';
 
 const codePages: string[] = codepages().map((cp: number) => `CP${cp}`);
 
-const input: string[] = [
+export const input: string[] = [
 	'ACP',
 	...codePages,
 	'OEM',
@@ -11,7 +11,7 @@ const input: string[] = [
 	'UTF16LE'
 ];
 
-const output: string[] = [
+export const output: string[] = [
 	'ACP',
 	...codePages,
 	'OEM',
@@ -22,8 +22,3 @@ const output: string[] = [
 	'UTF8',
 	'UTF8SIG'
 ];
-
-export {
-	input,
-	output
-};
