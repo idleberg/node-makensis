@@ -8,7 +8,7 @@ import type { SpawnOptions } from 'node:child_process';
  * @param compilerOptions - compiler options
  * @returns - usage description
  */
-async function commandHelp(command = '', compilerOptions: Makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
+export async function commandHelp(command = '', compilerOptions: Makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
 	const options: Makensis.CompilerOptions = { ...compilerOptions, verbose: 0 };
 
 	const [cmd, args, opts]: Makensis.MapArguments = await mapArguments(['-CMDHELP'], options);
@@ -25,7 +25,7 @@ async function commandHelp(command = '', compilerOptions: Makensis.CompilerOptio
  * @param script - path to NSIS script
  * @param compilerOptions - compiler options
  */
-async function compile(script: string, compilerOptions: Makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
+export async function compile(script: string, compilerOptions: Makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
 	const [cmd, args, opts]: Makensis.MapArguments = await mapArguments([], compilerOptions);
 
 	if (script) {
@@ -51,7 +51,7 @@ async function compile(script: string, compilerOptions: Makensis.CompilerOptions
  * @param compilerOptions - compiler options
  * @returns - compiler options
  */
-async function headerInfo(compilerOptions: Makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
+export async function headerInfo(compilerOptions: Makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
 	const options: Makensis.CompilerOptions = { ...compilerOptions, verbose: 0 };
 	const [cmd, args, opts]: Makensis.MapArguments = await mapArguments(['-HDRINFO'], options);
 
@@ -63,7 +63,7 @@ async function headerInfo(compilerOptions: Makensis.CompilerOptions = {}, spawnO
  * @param compilerOptions - compiler options
  * @returns - compiler license
  */
-async function license(compilerOptions: Makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
+export async function license(compilerOptions: Makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
 	const [cmd, args, opts]: Makensis.MapArguments = await mapArguments(['-LICENSE'], compilerOptions);
 
 	return spawnMakensis(cmd, args, opts, spawnOptions);
@@ -74,7 +74,7 @@ async function license(compilerOptions: Makensis.CompilerOptions = {}, spawnOpti
  * @param compilerOptions - compiler options
  * @returns - NSIS directory
  */
-async function nsisDir(compilerOptions: Makensis.CompilerOptions = {}): Promise<string | JSON> {
+export async function nsisDir(compilerOptions: Makensis.CompilerOptions = {}): Promise<string | JSON> {
 	const hdrOptions: Makensis.CompilerOptions = { ...compilerOptions, json: true };
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -86,13 +86,9 @@ async function nsisDir(compilerOptions: Makensis.CompilerOptions = {}): Promise<
 		return hdrinfo.stdout['defined_symbols']['NSISDIR'];
 	}
 
-	try {
-		const hdrinfo = await headerInfo(hdrOptions);
-		return handler(hdrinfo);
-	} catch (error) {
-		// NSIS < 3.03
-		return handler(error);
-	}
+	const hdrinfo = await headerInfo(hdrOptions);
+
+	return handler(hdrinfo);
 }
 
 /**
@@ -100,11 +96,10 @@ async function nsisDir(compilerOptions: Makensis.CompilerOptions = {}): Promise<
  * @param compilerOptions - compiler options
  * @returns - compiler version
  */
-async function version(compilerOptions: Makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
+export async function version(compilerOptions: Makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
 	const options: Makensis.CompilerOptions = { ...compilerOptions, verbose: 0 };
 	const [cmd, args, opts]: Makensis.MapArguments = await mapArguments(['-VERSION'], options);
 
 	return spawnMakensis(cmd, args, opts, spawnOptions);
 }
 
-export { commandHelp, compile, headerInfo, license, nsisDir, version };
