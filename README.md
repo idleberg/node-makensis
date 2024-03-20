@@ -146,9 +146,9 @@ define: {
 
 #### env
 
-Type: `boolean | string`
+Type: `boolean`
 
-Enables support for special environment variables, that will be passed on to the script as definitions. Can be a path containing `.env` files or a specific file.
+Enables support for special environment variables, that will be passed on to the script as definitions.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -166,12 +166,6 @@ NSIS_APP_ENVIRONMENT=development
 ```
 
 </details>
-
-#### events
-
-Type: `boolean`
-
-Allows dispatching the log events `stdout`, `stderr` and `exit`.
 
 #### inputCharset
 
