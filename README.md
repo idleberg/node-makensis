@@ -296,22 +296,6 @@ Type: `string`
 
 Specifies a custom path to `wine`, useful when working with `wine32` or [`wine32on64`][wine32on64].
 
-### Events
-
-This module emits three types of events you can hook into using the `on()` and `once()` methods:
-
-#### stdout
-
-Gives access to an object containing the current line, and whether it contains a warning of the path of the outfile.
-
-#### stderr
-
-Gives access to an object containing the current line.
-
-#### exit
-
-Gives access to an object containing the exit code, the full `stdout` and `stderr`, and the number of warnings.
-
 ## Related
 
 - [atom-language-nsis][atom-language-nsis] - NSIS package for Atom
