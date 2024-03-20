@@ -125,7 +125,6 @@ export async function mapArguments(args: string[], options: Makensis.CompilerOpt
 			cmd,
 			args,
 			{
-				events: options.events,
 				json: options.json,
 				wine: options.wine
 			},
@@ -213,7 +212,7 @@ export async function mapArguments(args: string[], options: Makensis.CompilerOpt
 		args = [...args, ...options.rawArguments];
 	}
 
-	return [cmd, args, { events: options.events, json: options.json, wine: options.wine }];
+	return [cmd, args, { json: options.json, wine: options.wine }];
 }
 
 export function objectify(input: string, key: string | null): Makensis.Objectified | string {
