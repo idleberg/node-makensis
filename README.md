@@ -293,7 +293,6 @@ On top of that, the following options for Wine are available.
 
 This work is licensed under [The MIT License][the mit license].
 
-[wine]: http://winehq.org/
 [envvars]: http://superuser.com/a/284351/195953
 [sourceforge]: https://sourceforge.net/p/nsis
 [winget]: https://github.com/microsoft/winget-cli
