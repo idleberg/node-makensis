@@ -6,12 +6,12 @@
   "main": "./dist/makensis.cjs",
   "modules": "./dist/makensis.js",
   "exports": {
-		".": {
-			"import": "./dist/makensis.js",
-			"require": "./dist/makensis.cjs",
-			"types": "./dist/makensis.d.ts"
-		}
-	},
+    ".": {
+      "import": "./dist/makensis.js",
+      "require": "./dist/makensis.cjs",
+      "types": "./dist/makensis.d.ts"
+    }
+  },
   "types": "./types",
   "files": [
     "dist/",
@@ -36,13 +36,13 @@
   },
   "devDependencies": {
     "@types/node": "^18.19.21",
-    "@typescript-eslint/eslint-plugin": "^7.1.1",
-    "@typescript-eslint/parser": "^7.1.1",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
     "eslint": "^8.57.0",
     "eslint-plugin-json": "^3.1.0",
     "husky": "^9.0.11",
     "lint-staged": "15.2.2",
-    "np": "^10.0.0",
+    "np": "^10.0.1",
     "npm-run-all2": "^6.1.2",
     "prettier": "^3.2.5",
     "remark-cli": "^12.0.0",
@@ -51,7 +51,7 @@
     "rimraf": "^5.0.5",
     "tslib": "^2.6.2",
     "tsup": "^8.0.2",
-    "typescript": "^5.3.3",
+    "typescript": "^5.4.3",
     "uuid": "^9.0.1",
     "uvu": "^0.5.6",
     "which": "^3.0.1"
