@@ -284,18 +284,6 @@ Environmental variables allow for Wine to be configured by the user. These can b
 
 On top of that, the following options for Wine are available.
 
-##### wine
-
-Type: `boolean`
-
-Runs `makensis` on [Wine][wine]
-
-##### pathToWine
-
-Type: `string`
-
-Specifies a custom path to `wine`, useful when working with `wine32` or [`wine32on64`][wine32on64].
-
 ## Related
 
 - [atom-language-nsis][atom-language-nsis] - NSIS package for Atom
