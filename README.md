@@ -77,7 +77,7 @@ const options = {
 };
 
 try {
-	let output = await NSIS.compile('path/to/installer.nsi', options);
+	const output = await NSIS.compile('path/to/installer.nsi', options);
 	console.log('Compiler output:', output);
 } catch (error) {
 	console.error(error);
