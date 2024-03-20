@@ -2,12 +2,12 @@
 import { nullDevice, shared } from './shared.mjs';
 import { platform } from 'node:os';
 import { test } from 'uvu';
-import { v4 as uuid } from 'uuid';
+// import { v4 as uuid } from 'uuid';
 import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../dist/makensis.js';
 import path from 'node:path';
 import which from 'which';
-import { randomUUID } from 'node:crypto';
+import { randomUUID as uuid } from 'node:crypto';
 
 // Temporary workaround
 const __dirname = path.resolve(path.dirname(''));
