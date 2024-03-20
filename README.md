@@ -306,8 +306,6 @@ This work is licensed under [The MIT License][the mit license].
 [!system]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!system.md
 [!packhdr]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!packhdr.md
 [!finalize]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md
-[wine32on64]: https://github.com/Gcenx/homebrew-wine
-[wine-env]: https://wiki.winehq.org/Wine_User%27s_Guide#Environment_variables
 [atom-language-nsis]: https://atom.io/packages/language-nsis
 [vscode-nsis]: https://marketplace.visualstudio.com/items?itemName=idleberg.nsis
 [the mit license]: https://opensource.org/licenses/MIT
