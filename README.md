@@ -5,7 +5,7 @@
 ![NodeJS version](https://img.shields.io/node/v/makensis?style=for-the-badge)
 [![CI](https://img.shields.io/github/actions/workflow/status/idleberg/node-makensis/default.yml?style=for-the-badge)](https://github.com/idleberg/node-makensis/actions)
 
-A Node wrapper for `makensis`, the compiler for NSIS installers. Supports both, native and [Wine][wine].
+A Node wrapper for `makensis`, the compiler for NSIS installers.
 
 ## Prerequisites
 
@@ -277,12 +277,6 @@ Specifies raw arguments for `makensis`.
 Type: `integer`
 
 Verbosity where the value `4=all`, `3=no script`,`2=no info`, `1=no warnings`, `0=none`. Equivalent of the `-V` switch.
-
-#### Wine Options
-
-Environmental variables allow for Wine to be configured by the user. These can be specified using the `spawnOptions.env` property. See the [documentation][wine-env] for details.
-
-On top of that, the following options for Wine are available.
 
 ## Related
 
