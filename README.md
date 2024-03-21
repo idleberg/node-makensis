@@ -58,7 +58,7 @@ $ port install nsis
 
 </details>
 
-:warning: If you need to support a version of NSIS older than 3.06, please use `makensis@2` as it employs some workarounds required for these versions.
+:warning: If you need to support a version of NSIS older than 3.06, you cam use `makensis@2` as it employs some useful workarounds.
 
 ## Installation
 
