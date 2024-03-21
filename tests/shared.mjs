@@ -1,6 +1,5 @@
-/* eslint-disable */
-import { platform } from 'os';
-import { spawnSync } from 'child_process';
+import { platform } from 'node:os';
+import { spawnSync } from 'node:child_process';
 
 let cp;
 const shared = {};
