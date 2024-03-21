@@ -25,7 +25,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ['lts/*', '*']
+        node-version: ['18', 'lts/*', '*']
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
@@ -71,7 +71,7 @@ jobs:
     - name: Get pnpm store directory
       id: pnpm-cache
       run: |
-        echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+        echo "name=pnpm_cache_dir::$(pnpm store path)" >> $GITHUB_OUTPUT
 
     - uses: actions/cache@13aacd865c20de90d75de3b17ebe84f7a17d57d2 # v4.0.0
       name: Setup pnpm cache
