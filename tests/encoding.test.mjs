@@ -2,7 +2,7 @@
 import { nullDevice } from './shared';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
-import * as MakeNSIS from '../dist/makensis';
+import * as MakeNSIS from '../src/makensis';
 import path from 'node:path';
 
 // Compiler arguments

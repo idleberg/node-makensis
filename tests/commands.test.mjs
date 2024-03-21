@@ -3,7 +3,7 @@ import { defaultScriptArray, defaultScriptString, nullDevice, shared } from './s
 import { existsSync } from 'node:fs';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
-import * as MakeNSIS from '../dist/makensis';
+import * as MakeNSIS from '../src/makensis';
 import path from 'node:path';
 
 const scriptFile = {
