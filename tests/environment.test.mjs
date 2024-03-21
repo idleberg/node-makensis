@@ -8,10 +8,7 @@ import * as MakeNSIS from '../dist/makensis.js';
 import path from 'node:path';
 import which from 'which';
 
-// Temporary workaround
-const __dirname = path.resolve(path.dirname(''));
-
-const scriptFile = path.join(__dirname, 'tests', 'fixtures', 'env.nsi');
+const scriptFile = path.join(process.cwd(), 'tests', 'fixtures', 'env.nsi');
 
 const defaultOptions = {
 	define: {
