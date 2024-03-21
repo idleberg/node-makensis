@@ -5,13 +5,10 @@ import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../dist/makensis.js';
 import path from 'node:path';
 
-// Temporary workaround
-const __dirname = path.resolve(path.dirname(''));
-
 // Compiler arguments
 const script = {
 	// cp850: join(__dirname, 'fixtures', 'cp850.nsi'),
-	utf8: path.join(__dirname, 'tests', 'fixtures', 'utf8.nsi'),
+	utf8: path.join(process.cwd(), 'tests', 'fixtures', 'utf8.nsi'),
 };
 
 const defaultOptions = {

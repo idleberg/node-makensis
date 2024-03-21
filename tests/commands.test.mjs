@@ -6,12 +6,9 @@ import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../dist/makensis.js';
 import path from 'node:path';
 
-// Temporary workaround
-const __dirname = path.resolve(path.dirname(''));
-
 const scriptFile = {
-	minimal: path.join(__dirname, 'tests', 'fixtures', 'utf8.nsi'),
-	warning: path.join(__dirname, 'tests', 'fixtures', 'warnings.nsi'),
+	minimal: path.join(process.cwd(), 'tests', 'fixtures', 'utf8.nsi'),
+	warning: path.join(process.cwd(), 'tests', 'fixtures', 'warnings.nsi'),
 };
 
 // Let's run the tests
