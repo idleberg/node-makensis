@@ -4,7 +4,7 @@ import { platform } from 'node:os';
 import { randomUUID as uuid } from 'node:crypto';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
-import * as MakeNSIS from '../dist/makensis';
+import * as MakeNSIS from '../src/makensis';
 import path from 'node:path';
 import which from 'which';
 
