@@ -1,9 +1,9 @@
 /* eslint-disable */
-import { defaultScriptArray, defaultScriptString, nullDevice, shared } from './shared.mjs';
+import { defaultScriptArray, defaultScriptString, nullDevice, shared } from './shared';
 import { existsSync } from 'node:fs';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
-import * as MakeNSIS from '../dist/makensis.js';
+import * as MakeNSIS from '../dist/makensis';
 import path from 'node:path';
 
 const scriptFile = {
