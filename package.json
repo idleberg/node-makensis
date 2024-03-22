@@ -5,6 +5,7 @@
   "type": "module",
   "main": "./dist/makensis.cjs",
   "module": "./dist/makensis.js",
+	"types": "./dist/makensis.d.ts",
   "exports": {
     ".": {
       "import": "./dist/makensis.js",
@@ -12,7 +13,6 @@
       "types": "./dist/makensis.d.ts"
     }
   },
-  "types": "./types",
   "files": [
     "dist/",
     "types/",
