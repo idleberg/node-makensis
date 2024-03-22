@@ -6,7 +6,7 @@ declare namespace Makensis {
 
 	interface CompilerData {
 		line: string;
-		outFile: string;
+		outFile: string | null;
 		hasWarning: boolean;
 	}
 
@@ -41,8 +41,8 @@ declare namespace Makensis {
 	interface CompilerOutput {
 		outFile?: string;
 		status: number;
-		stdout: string | HeaderInfo | HelpObject | Objectified;
-		stderr: string;
+		stdout: string | HeaderInfo | HelpObject | Objectified | null;
+		stderr: string | null;
 		warnings: number;
 	}
 

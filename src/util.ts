@@ -4,7 +4,7 @@ import { spawn } from 'node:child_process';
 
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
 
-function detectOutfile(str: string): string {
+function detectOutfile(str: string): null | string {
 	if (str.includes('Output: "')) {
 		const regex = new RegExp('Output: "(.*.exe)"', 'g');
 		const result = regex.exec(str.toString());
@@ -13,12 +13,12 @@ function detectOutfile(str: string): string {
 			try {
 				return result['1'];
 			} catch (e) {
-				return '';
+				return null;
 			}
 		}
 	}
 
-	return '';
+	return null;
 }
 
 function formatOutput(stream: Makensis.StreamOptions, args: Array<string>, opts: Makensis.CompilerOptions): Makensis.StreamOptionsFormatted {
@@ -341,7 +341,7 @@ export function spawnMakensis(cmd: string, args: Array<string>, compilerOptions:
 		};
 
 		let warningsCounter = 0;
-		let outFile = '';
+		let outFile: string | null = '';
 
 		const child: ChildProcess = spawn(cmd, args, spawnOptions);
 
@@ -388,12 +388,12 @@ export function spawnMakensis(cmd: string, args: Array<string>, compilerOptions:
 
 			const output: Makensis.CompilerOutput = {
 				status: code,
-				stdout: streamFormatted.stdout || '',
-				stderr: streamFormatted.stderr || '',
+				stdout: streamFormatted.stdout || null,
+				stderr: streamFormatted.stderr || null,
 				warnings: warningsCounter,
 			};
 
-			if (outFile.length) {
+			if (outFile) {
 				output['outFile'] = outFile;
 			}
 
