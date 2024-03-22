@@ -24,6 +24,7 @@ function detectOutfile(str: string): null | string {
 function formatOutput(stream: Makensis.StreamOptions, args: Array<string>, opts: Makensis.CompilerOptions): Makensis.StreamOptionsFormatted {
 	const stdOut = stream.stdout.toString().trim();
 	const stdErr = stream.stderr.toString().trim();
+
 	const output: Makensis.StreamOptionsFormatted = {
 		stdout: stdOut,
 		stderr: stdErr,
@@ -117,7 +118,6 @@ export async function mapArguments(args: string[], options: Makensis.CompilerOpt
 	};
 
 	let cmd: string;
-
 
 	if (platform() !== 'win32' && options.wine === true) {
 		console.warn('Wine support has been degraded to an experimental feature, but it will be continued to be supported for the time being.');
