@@ -32,7 +32,7 @@ test('Print makensis version as JSON', async () => {
 		let expected = shared.version;
 
 		if (expected?.startsWith('v')) {
-			expected = expected.substr(1);
+			expected = expected.substring(1);
 		}
 
 		expected = JSON.stringify({ version: expected });

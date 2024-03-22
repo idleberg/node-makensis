@@ -310,8 +310,8 @@ function objectifyHelp(input: string, opts: Makensis.CompilerOptions): Makensis.
 
 	if (lines?.length) {
 		lines.map((line) => {
-			let command = line.substr(0, line.indexOf(' '));
-			const usage = line.substr(line.indexOf(' ') + 1);
+			let command = line.substring(0, line.indexOf(' '));
+			const usage = line.substring(line.indexOf(' ') + 1);
 
 			// Workaround
 			if (['!AddIncludeDir', '!AddPluginDir'].includes(command)) {
