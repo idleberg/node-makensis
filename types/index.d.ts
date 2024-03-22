@@ -77,6 +77,9 @@ declare namespace Makensis {
 		events?: boolean;
 		json?: boolean;
 		wine?: boolean;
+		onData?: (data: CompilerData) => void;
+		onError?: (line: string) => void;
+		onClose?: (data: CompilerOutput) => void;
 	}
 
 	interface StreamOptions {
