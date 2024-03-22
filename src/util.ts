@@ -106,10 +106,18 @@ function inRange(value: number, min: number, max: number): boolean {
 
 export async function mapArguments(args: string[], options: Makensis.CompilerOptions): Promise<Makensis.MapArguments> {
 	const pathToMakensis: string = options.pathToMakensis ? options.pathToMakensis : 'makensis';
-
 	const pathToWine: string = options.pathToWine ? options.pathToWine : 'wine';
 
+	const defaultArguments = {
+		json: options.json,
+		wine: options.wine,
+		onData: options.onData,
+		onClose: options.onClose,
+		onError: options.onError
+	};
+
 	let cmd: string;
+
 
 	if (platform() !== 'win32' && options.wine === true) {
 		console.warn('Wine support has been degraded to an experimental feature, but it will be continued to be supported for the time being.');
@@ -124,10 +132,7 @@ export async function mapArguments(args: string[], options: Makensis.CompilerOpt
 		return [
 			cmd,
 			args,
-			{
-				json: options.json,
-				wine: options.wine
-			},
+			defaultArguments,
 		];
 	}
 
@@ -212,7 +217,7 @@ export async function mapArguments(args: string[], options: Makensis.CompilerOpt
 		args = [...args, ...options.rawArguments];
 	}
 
-	return [cmd, args, { json: options.json, wine: options.wine }];
+	return [cmd, args, defaultArguments];
 }
 
 export function objectify(input: string, key: string | null): Makensis.Objectified | string {
