@@ -25,7 +25,7 @@ export async function commandHelp(command = '', compilerOptions: Makensis.Compil
  * @param script - path to NSIS script
  * @param compilerOptions - compiler options
  */
-export async function compile(script: string, compilerOptions: Makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
+export async function compile(script: string | null, compilerOptions: Makensis.CompilerOptions = {}, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
 	const [cmd, args, opts]: Makensis.MapArguments = await mapArguments([], compilerOptions);
 
 	if (script) {
