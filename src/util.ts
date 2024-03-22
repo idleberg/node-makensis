@@ -222,7 +222,7 @@ export async function mapArguments(args: string[], options: Makensis.CompilerOpt
 
 export function objectify(input: string, key: string | null): Makensis.Objectified | string {
 	if (key === 'version' && input.startsWith('v')) {
-		input = input.substr(1);
+		input = input.substring(1);
 	}
 
 	if (key === null) {
