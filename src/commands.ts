@@ -1,6 +1,7 @@
 import { mapArguments, objectify, spawnMakensis, splitCommands } from './util';
 
 import type { SpawnOptions } from 'node:child_process';
+import type Makensis from '../types';
 
 /**
  * Returns usage information for a command, or list all commands
@@ -74,7 +75,7 @@ export async function license(compilerOptions: Makensis.CompilerOptions = {}, sp
  * @param compilerOptions - compiler options
  * @returns - NSIS directory
  */
-export async function nsisDir(compilerOptions: Makensis.CompilerOptions = {}): Promise<string | JSON> {
+export async function nsisDir(compilerOptions: Makensis.CompilerOptions = {}): Promise<string | Makensis.CompilerOutput> {
 	const hdrOptions: Makensis.CompilerOptions = { ...compilerOptions, json: true };
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
