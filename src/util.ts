@@ -3,6 +3,7 @@ import { platform } from 'node:os';
 import { spawn } from 'node:child_process';
 
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
+import type Makensis from '../types';
 
 function detectOutfile(str: string): null | string {
 	if (str.includes('Output: "')) {
@@ -347,6 +348,7 @@ export function spawnMakensis(cmd: string, args: Array<string>, compilerOptions:
 
 		child.stdout?.on('data', (data: Buffer) => {
 			const line = data.toString();
+
 			stream.stdout += line;
 			const warnings = hasWarnings(line);
 
