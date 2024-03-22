@@ -88,7 +88,7 @@ test('Print compiler information as JSON', async () => {
 test('Print help for all commands', async () => {
 	const output = await MakeNSIS.commandHelp();
 
-	const expected = shared.commandHelp.replace(/\s+/g, '');
+	const expected = shared.commandHelp?.replace(/\s+/g, '');
 	const actual = output.stdout.replace(/\s+/g, '');
 
 	assert.is(actual, expected);
