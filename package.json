@@ -67,7 +67,7 @@
     "prepack": "npm run build",
     "prepare": "husky",
     "prepublishOnly": "npm run lint && npm run test",
-    "test": "uvu tests -r tsm --ignore shared.mjs"
+    "test": "uvu tests -r tsm --ignore shared.ts"
   },
   "prettier": {
     "embeddedLanguageFormatting": "off",
