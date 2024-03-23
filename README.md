@@ -279,6 +279,20 @@ Type: `integer`
 
 Verbosity where the value `4=all`, `3=no script`,`2=no info`, `1=no warnings`, `0=none`. Equivalent of the `-V` switch.
 
+### Callbacks
+
+#### onData
+
+Gives access to an object containing the current line, and whether it contains a warning of the path of the outfile.
+
+#### onError
+
+Gives access to an object containing the current line.
+
+#### onExit
+
+Gives access to an object containing the exit code, the full `stdout` and `stderr`, and the number of warnings.
+
 ## Related
 
 - [atom-language-nsis][atom-language-nsis] - NSIS package for Atom
