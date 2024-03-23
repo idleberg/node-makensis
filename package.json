@@ -1,11 +1,11 @@
 {
   "name": "makensis",
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.0-alpha.2",
   "description": "A Node wrapper for makensis, the NSIS compiler",
   "type": "module",
   "main": "./dist/makensis.cjs",
   "module": "./dist/makensis.js",
-	"types": "./dist/makensis.d.ts",
+  "types": "./dist/makensis.d.ts",
   "exports": {
     ".": {
       "import": "./dist/makensis.js",
