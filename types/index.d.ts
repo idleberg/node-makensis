@@ -12,7 +12,7 @@ declare namespace Makensis {
 
 	interface CompilerOptions {
 		define?: DefineOptions;
-		env?: Record<string, string>;
+		env?: boolean;
 		events?: boolean;
 		inputCharset?: string;
 		json?: boolean;
