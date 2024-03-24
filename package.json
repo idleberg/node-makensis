@@ -69,14 +69,6 @@
     "prepublishOnly": "npm run lint && npm run test",
     "test": "uvu tests -r tsm --ignore shared.ts"
   },
-  "prettier": {
-    "embeddedLanguageFormatting": "off",
-    "printWidth": 240,
-    "semi": true,
-    "singleQuote": true,
-    "tabWidth": 2,
-    "useTabs": true
-  },
   "lint-staged": {
     "*.(ts|json)": "eslint --cache --fix",
     "*.md": "prettier --write"
