@@ -103,4 +103,3 @@ export async function version(compilerOptions: Makensis.CompilerOptions = {}, sp
 
 	return spawnMakensis(cmd, args, opts, spawnOptions);
 }
-
