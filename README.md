@@ -57,7 +57,7 @@ $ port install nsis
 
 </details>
 
-:warning: If you need to support a version of NSIS older than 3.06, you cam use `makensis@2` as it employs some useful workarounds.
+:warning: If you need to support a version of NSIS older than 3.06, you can use `makensis@2` as it employs some useful workarounds.
 
 ## Installation
 
@@ -73,8 +73,8 @@ import * as NSIS from 'makensis';
 const options = {
 	verbose: 2,
 	define: {
-		SPECIAL_BUILD: true
-	}
+		SPECIAL_BUILD: true,
+	},
 };
 
 try {
@@ -242,10 +242,7 @@ Prepends script-commands to the script, can be passed as array or multiline-stri
 <summary><strong>Example</strong></summary>
 
 ```js
-preExecute: [
-	'SetCompressor lzma',
-	'SetCompressorDictSize 16'
-];
+preExecute: ['SetCompressor lzma', 'SetCompressorDictSize 16'];
 ```
 
 </details>
