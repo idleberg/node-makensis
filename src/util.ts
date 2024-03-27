@@ -350,7 +350,7 @@ export function spawnMakensis(cmd: string, args: Array<string>, compilerOptions:
 
 			warningsCounter += warnings;
 
-			if (outFile === '') {
+			if (!outFile) {
 				outFile = detectOutfile(line);
 			}
 
