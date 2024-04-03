@@ -60,7 +60,7 @@ $ port install nsis
 <details>
 <summary><strong>Nix</strong></summary>
 
-Open a Nix shell with NSIS installed:
+Open a [Nix][nix] shell with NSIS installed:
 
 ```sh
 $ nix-shell -p nsis
@@ -310,18 +310,19 @@ Gives access to an object containing the exit code, the full `stdout` and `stder
 
 This work is licensed under [The MIT License][the mit license].
 
-[envvars]: http://superuser.com/a/284351/195953
-[sourceforge]: https://sourceforge.net/p/nsis
-[winget]: https://github.com/microsoft/winget-cli
-[scoop]: https://github.com/NSIS-Dev/scoop-nsis
-[homebrew]: http://brew.sh/
-[macports]: https://www.macports.org/
-[changelog]: http://nsis.sourceforge.net/Docs
 [!appendfile]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!appendfile.md
 [!finalize]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md
-[!system]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!system.md
-[!packhdr]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!packhdr.md
 [!finalize]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md
+[!packhdr]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!packhdr.md
+[!system]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!system.md
 [atom-language-nsis]: https://atom.io/packages/language-nsis
-[vscode-nsis]: https://marketplace.visualstudio.com/items?itemName=idleberg.nsis
+[changelog]: http://nsis.sourceforge.net/Docs
+[envvars]: http://superuser.com/a/284351/195953
+[homebrew]: http://brew.sh/
+[macports]: https://www.macports.org/
+[nix]: https://nixos.org/
+[scoop]: https://github.com/NSIS-Dev/scoop-nsis
+[sourceforge]: https://sourceforge.net/p/nsis
 [the mit license]: https://opensource.org/licenses/MIT
+[vscode-nsis]: https://marketplace.visualstudio.com/items?itemName=idleberg.nsis
+[winget]: https://github.com/microsoft/winget-cli
