@@ -57,11 +57,23 @@ $ port install nsis
 
 </details>
 
-:warning: If you need to support a version of NSIS older than 3.06, you can use `makensis@2` as it employs some useful workarounds.
+<details>
+<summary><strong>Nix Shell</strong></summary>
+
+Open a Nix shell with NSIS installed:
+
+```sh
+# Homebrew
+$ nix-shell -p nsis
+```
+
+</details>
 
 ## Installation
 
 `npm install makensis`
+
+:warning: If you need to support a version of NSIS older than 3.06, you can use `makensis@2` as it employs some useful workarounds.
 
 ## Usage
 
