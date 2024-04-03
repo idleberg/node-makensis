@@ -38,6 +38,9 @@ $ sudo apt-get install nsis
 
 # Red Hat
 $ sudo dnf install nsis
+
+# Arch Linux
+$ pacman -S nsis
 ```
 
 </details>
