@@ -58,12 +58,11 @@ $ port install nsis
 </details>
 
 <details>
-<summary><strong>Nix Shell</strong></summary>
+<summary><strong>Nix</strong></summary>
 
 Open a Nix shell with NSIS installed:
 
 ```sh
-# Homebrew
 $ nix-shell -p nsis
 ```
 
