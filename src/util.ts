@@ -381,11 +381,11 @@ export function spawnMakensis(cmd: string, args: Array<string>, compilerOptions:
 		});
 
 		// Using 'exit' will truncate stdout
-		child.on('close', (code: number) => {
+		child.on('close', (code: number | null) => {
 			const streamFormatted = formatOutput(stream, args, compilerOptions);
 
 			const output: Makensis.CompilerOutput = {
-				status: code,
+				status: code || 0,
 				stdout: streamFormatted.stdout || null,
 				stderr: streamFormatted.stderr || null,
 				warnings: warningsCounter,
