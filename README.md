@@ -8,7 +8,7 @@ A Node wrapper for `makensis`, the compiler for NSIS installers.
 
 ## Prerequisites
 
-Make sure that NSIS 3.06 (or later) is installed. If `makensis` isn't exposed to your PATH [environment variable][envvars], you need to set [`pathToMakensis`](#pathtomakensis).
+Make sure that NSIS 3.06 (or later) is installed. If `makensis` isn't exposed to your `PATH` [environment variable][envvars], you need to set [`pathToMakensis`](#pathtomakensis).
 
 <details>
 <summary><strong>Windows</strong></summary>
