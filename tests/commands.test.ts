@@ -260,7 +260,7 @@ test('Print ${NSISDIR}', async () => {
 
 test('Print ${NSISDIR} as JSON', async () => {
 	try {
-		const nsisDir = await MakeNSIS.nsisDir({ json: true }) as Makensis.CompilerOutput;
+		const nsisDir = await MakeNSIS.nsisDir({ json: true });
 		const nsisCfg = path.join(nsisDir.nsisdir, 'Include', 'MUI2.nsh');
 
 		const expected = true;
