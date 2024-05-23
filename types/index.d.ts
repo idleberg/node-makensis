@@ -1,5 +1,4 @@
 declare namespace Makensis {
-
 	interface CommandHelpOptions {
 		[key: string]: string;
 	}
