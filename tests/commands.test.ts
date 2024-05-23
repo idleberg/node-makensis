@@ -5,7 +5,6 @@ import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../src/makensis';
 import path from 'node:path';
-import type Makensis from '../types';
 
 const scriptFile = {
 	minimal: path.join(process.cwd(), 'tests', 'fixtures', 'utf8.nsi'),
