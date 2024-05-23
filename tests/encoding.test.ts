@@ -4,6 +4,7 @@ import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../src/makensis';
 import path from 'node:path';
+import type Makensis from '../types';
 
 // Compiler arguments
 const script = {
@@ -11,7 +12,7 @@ const script = {
 	utf8: path.join(process.cwd(), 'tests', 'fixtures', 'utf8.nsi'),
 };
 
-const defaultOptions = {
+const defaultOptions: Makensis.CompilerOptions = {
 	strict: true,
 	define: {
 		NULL_DEVICE: nullDevice,
