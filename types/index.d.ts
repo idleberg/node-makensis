@@ -96,5 +96,4 @@ declare namespace Makensis {
 	}
 }
 
-export = Makensis;
-export as namespace Makensis;
+export default Makensis;
