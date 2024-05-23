@@ -5,6 +5,7 @@ import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../src/makensis';
 import path from 'node:path';
+import type Makensis from '../types';
 
 const scriptFile = {
 	minimal: path.join(process.cwd(), 'tests', 'fixtures', 'utf8.nsi'),
@@ -38,7 +39,6 @@ test('Print makensis version as JSON', async () => {
 		expected = JSON.stringify({ version: expected });
 
 		let actual = stdout;
-		actual.version = `${actual.version}`;
 		actual = JSON.stringify(actual);
 
 		assert.is(actual, expected);
@@ -63,7 +63,6 @@ test('Print makensis license as JSON', async () => {
 	expected = JSON.stringify({ license: expected });
 
 	let actual = stdout;
-	actual.license = `${actual.license}`;
 	actual = JSON.stringify(actual);
 
 	assert.is(actual, expected);
@@ -79,7 +78,7 @@ test('Print compiler information', async () => {
 });
 
 test('Print compiler information as JSON', async () => {
-	const actual = (await MakeNSIS.headerInfo({ json: true })).stdout.defined_symbols.__GLOBAL__;
+	const actual = (await MakeNSIS.headerInfo({ json: true })).stdout?.defined_symbols.__GLOBAL__;
 	const expected = true;
 
 	assert.is(actual, expected);
@@ -198,7 +197,7 @@ test('Compilation with warning as JSON', async () => {
 test('Compilation with raw arguments and warning', async () => {
 	try {
 		const { status } = await MakeNSIS.compile(scriptFile.warning, {
-			rawArguments: ['-WX'],
+			rawArguments: '-WX',
 		});
 
 		const expected = 1;
@@ -261,7 +260,7 @@ test('Print ${NSISDIR}', async () => {
 
 test('Print ${NSISDIR} as JSON', async () => {
 	try {
-		const nsisDir = await MakeNSIS.nsisDir({ json: true });
+		const nsisDir = await MakeNSIS.nsisDir({ json: true }) as Makensis.CompilerOutput;
 		const nsisCfg = path.join(nsisDir.nsisdir, 'Include', 'MUI2.nsh');
 
 		const expected = true;

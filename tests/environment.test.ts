@@ -8,9 +8,11 @@ import * as MakeNSIS from '../src/makensis';
 import path from 'node:path';
 import which from 'which';
 
+import type Makensis from '../types';
+
 const scriptFile = path.join(process.cwd(), 'tests', 'fixtures', 'env.nsi');
 
-const defaultOptions = {
+const defaultOptions: Makensis.CompilerOptions = {
 	define: {
 		NULL_DEVICE: nullDevice,
 	},
