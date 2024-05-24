@@ -1,5 +1,12 @@
 {
 	"name": "@idleberg/makensis",
 	"version": "3.0.0-alpha.3",
-	"exports": "./src/makensis.ts"
+	"exports": "./src/makensis.ts",
+	"publish": {
+		"include": [
+			"LICENSE",
+			"README.md",
+			"src/**/*.ts"
+		]
+	}
 }
