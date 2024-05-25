@@ -4,6 +4,7 @@
 	"exports": "./src/makensis.ts",
 	"publish": {
 		"include": [
+			"jsr.json",
 			"LICENSE",
 			"README.md",
 			"src/**/*.ts"
