@@ -5,6 +5,7 @@ import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../src/makensis';
 import path from 'node:path';
+import type Makensis from '../types';
 
 const scriptFile = {
 	minimal: path.join(process.cwd(), 'tests', 'fixtures', 'utf8.nsi'),
@@ -77,17 +78,17 @@ test('Print compiler information', async () => {
 });
 
 test('Print compiler information as JSON', async () => {
-	const actual = (await MakeNSIS.headerInfo({ json: true })).stdout?.defined_symbols.__GLOBAL__;
+	const actual = ((await MakeNSIS.headerInfo({ json: true })).stdout as Makensis.HeaderInfo).defined_symbols.__GLOBAL__;
 	const expected = true;
 
 	assert.is(actual, expected);
 });
 
 test('Print help for all commands', async () => {
-	const output = await MakeNSIS.commandHelp();
+	const { stdout } = await MakeNSIS.commandHelp() as { stdout: string };
 
 	const expected = shared.commandHelp?.replace(/\s+/g, '');
-	const actual = output.stdout.replace(/\s+/g, '');
+	const actual = stdout.replace(/\s+/g, '');
 
 	assert.is(actual, expected);
 });
@@ -245,7 +246,7 @@ test('Strict compilation with warning', async () => {
 
 test('Print ${NSISDIR}', async () => {
 	try {
-		const nsisDir = await MakeNSIS.nsisDir();
+		const nsisDir = await MakeNSIS.nsisDir() as string;
 		const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
 
 		const expected = true;
@@ -259,8 +260,8 @@ test('Print ${NSISDIR}', async () => {
 
 test('Print ${NSISDIR} as JSON', async () => {
 	try {
-		const nsisDir = await MakeNSIS.nsisDir({ json: true });
-		const nsisCfg = path.join(nsisDir.nsisdir, 'Include', 'MUI2.nsh');
+		const { nsisdir } = await MakeNSIS.nsisDir({ json: true }) as unknown as { nsisdir: string};
+		const nsisCfg = path.join(nsisdir, 'Include', 'MUI2.nsh');
 
 		const expected = true;
 		const actual = existsSync(nsisCfg);

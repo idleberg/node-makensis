@@ -34,7 +34,7 @@ test('Compile script with incorrect charset', async () => {
 	const options = { ...defaultOptions, inputCharset: 'UTF16BE' };
 
 	try {
-		const { status } = MakeNSIS.compile(script['utf8'], options);
+		const { status } = await MakeNSIS.compile(script['utf8'], options) as { status: number };
 
 		const expected = 0;
 		const actual = status;

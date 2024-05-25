@@ -39,7 +39,7 @@ test('Load magic environment variable from process', async () => {
 		const { stdout } = await MakeNSIS.compile(scriptFile, {
 			...defaultOptions,
 			env: true,
-		});
+		}) as { stdout: string };
 
 		const expected = true;
 		const actual = stdout.includes('NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE') && stdout.includes(randomString);
@@ -58,7 +58,7 @@ test('Ignore magic environment variable', async () => {
 		const { stdout } = await MakeNSIS.compile(scriptFile, {
 			...defaultOptions,
 			env: false,
-		});
+		}) as { stdout: string };
 
 		const expected = true;
 		const actual = !stdout.includes(randomString);
