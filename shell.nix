@@ -3,9 +3,15 @@
 pkgs.mkShell {
 	packages = with pkgs; [
 		corepack_20
+		deno
 		git
-		nodejs
+		nodejs_20
 		nsis
 		openssh
 	];
+
+	shellHook = ''
+		corepack enable
+		corepack up
+  '';
 }
