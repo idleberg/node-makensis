@@ -12,9 +12,11 @@ trim_trailing_whitespace = true
 indent_style = space
 
 [*.{cjs,js,mjs,ts}]
-block_comment_start = /*
 block_comment = *
+block_comment_start = /*
 block_comment_end = */
 
 [*.{markdown,md}]
+indent_size = 4
+indent_style = space
 trim_trailing_whitespace = false
