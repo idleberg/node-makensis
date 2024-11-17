@@ -31,7 +31,8 @@
 		"strictNullChecks": true,
 		"declaration": true,
 		"outDir": "dist",
-		"allowImportingTsExtensions": true
+		"allowImportingTsExtensions": true,
+		"noEmit": true
 	},
 	/**
    * Use global.d.ts instead of compilerOptions.types
