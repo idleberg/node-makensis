@@ -1,4 +1,4 @@
-import { mapArguments, objectify, spawnMakensis, splitCommands } from './util';
+import { mapArguments, objectify, spawnMakensis, splitCommands } from './util.ts';
 
 import type { SpawnOptions } from 'node:child_process';
 import type Makensis from '../types';
@@ -78,7 +78,7 @@ export async function license(compilerOptions: Makensis.CompilerOptions = {}, sp
 export async function nsisDir(compilerOptions: Makensis.CompilerOptions = {}): Promise<string | Makensis.CompilerOutput> {
 	const hdrOptions: Makensis.CompilerOptions = { ...compilerOptions, json: true };
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	 
 	function handler(hdrinfo: any) {
 		if (compilerOptions.json === true) {
 			return objectify(hdrinfo.stdout['defined_symbols']['NSISDIR'], 'nsisdir');

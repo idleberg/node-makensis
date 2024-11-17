@@ -1,6 +1,7 @@
-import { input as inputCharsets, output as outputCharsets } from './charsets';
+import { input as inputCharsets, output as outputCharsets } from './charsets.ts';
 import { platform } from 'node:os';
 import { spawn } from 'node:child_process';
+import { env } from 'node:process';
 
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import type Makensis from '../types';
@@ -13,7 +14,7 @@ function detectOutfile(str: string): null | string {
 		if (typeof result === 'object' && result && result['1']) {
 			try {
 				return result['1'];
-			} catch (e) {
+			} catch (_error) {
 				return null;
 			}
 		}
@@ -57,13 +58,13 @@ function formatOutput(stream: Makensis.StreamOptions, args: Array<string>, opts:
 	return output;
 }
 
-async function getMagicEnvVars(): Promise<Makensis.EnvironmentVariables> {
+function getMagicEnvVars(): Makensis.EnvironmentVariables {
 	const definitions: Makensis.EnvironmentVariables = {};
 	const prefix = 'NSIS_APP_';
 
-	Object.keys(process.env).map(item => {
+	Object.keys(env).map(item => {
 		if (item?.length && new RegExp(`${prefix}[a-z0-9]+`, 'gi').test(item)) {
-			definitions[item] = process.env[item];
+			definitions[item] = env[item];
 		}
 	});
 
@@ -327,7 +328,7 @@ export function spawnMakensis(cmd: string, args: Array<string>, compilerOptions:
 		if (compilerOptions.wine) {
 			spawnOptions['env'] = Object.freeze({
 				WINEDEBUG: '-all',
-				...process.env,
+				...env,
 				...spawnOptions.env,
 			});
 		}
@@ -342,7 +343,7 @@ export function spawnMakensis(cmd: string, args: Array<string>, compilerOptions:
 
 		const child: ChildProcess = spawn(cmd, args, spawnOptions);
 
-		child.stdout?.on('data', (data: Buffer) => {
+		child.stdout?.on('data', (data) => {
 			const line = data.toString();
 
 			stream.stdout += line;
@@ -365,7 +366,7 @@ export function spawnMakensis(cmd: string, args: Array<string>, compilerOptions:
 			});
 		});
 
-		child.stderr?.on('data', (data: Buffer) => {
+		child.stderr?.on('data', (data) => {
 			const line = data.toString();
 			stream.stderr += line;
 

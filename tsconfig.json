@@ -30,7 +30,8 @@
 		"checkJs": true,
 		"strictNullChecks": true,
 		"declaration": true,
-		"outDir": "dist"
+		"outDir": "dist",
+		"allowImportingTsExtensions": true
 	},
 	/**
    * Use global.d.ts instead of compilerOptions.types

@@ -1,1 +1,1 @@
-export { commandHelp, compile, headerInfo, license, nsisDir, version } from './commands';
+export { commandHelp, compile, headerInfo, license, nsisDir, version } from './commands.ts';
