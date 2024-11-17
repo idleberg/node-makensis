@@ -23,7 +23,11 @@ function detectOutfile(str: string): null | string {
 	return null;
 }
 
-function formatOutput(stream: Makensis.StreamOptions, args: Array<string>, opts: Makensis.CompilerOptions): Makensis.StreamOptionsFormatted {
+function formatOutput(
+	stream: Makensis.StreamOptions,
+	args: Array<string>,
+	opts: Makensis.CompilerOptions,
+): Makensis.StreamOptionsFormatted {
 	const stdOut = stream.stdout.toString().trim();
 	const stdErr = stream.stderr.toString().trim();
 
@@ -62,7 +66,7 @@ function getMagicEnvVars(): Makensis.EnvironmentVariables {
 	const definitions: Makensis.EnvironmentVariables = {};
 	const prefix = 'NSIS_APP_';
 
-	Object.keys(env).map(item => {
+	Object.keys(env).map((item) => {
 		if (item?.length && new RegExp(`${prefix}[a-z0-9]+`, 'gi').test(item)) {
 			definitions[item] = env[item];
 		}
@@ -122,7 +126,9 @@ export async function mapArguments(args: string[], options: Makensis.CompilerOpt
 	let cmd: string;
 
 	if (platform() !== 'win32' && options.wine === true) {
-		console.warn('Wine support has been degraded to an experimental feature, but it will be continued to be supported for the time being.');
+		console.warn(
+			'Wine support has been degraded to an experimental feature, but it will be continued to be supported for the time being.',
+		);
 
 		cmd = pathToWine;
 		args.unshift(pathToMakensis);
@@ -135,7 +141,7 @@ export async function mapArguments(args: string[], options: Makensis.CompilerOpt
 	}
 
 	if (options?.define) {
-		Object.keys(options.define).map(key => {
+		Object.keys(options.define).map((key) => {
 			if (options.define && options.define[key]) {
 				args.push(`-D${key}=${options.define[key]}`);
 			}
@@ -146,7 +152,7 @@ export async function mapArguments(args: string[], options: Makensis.CompilerOpt
 		const defines = await getMagicEnvVars();
 
 		if (defines && Object.keys(defines).length) {
-			Object.keys(defines).map(key => {
+			Object.keys(defines).map((key) => {
 				if (defines && defines[key]) {
 					args.push(`-D${key}=${defines[key]}`);
 				}
@@ -245,7 +251,7 @@ export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): M
 		return output;
 	}
 
-	const filteredLines = lines.filter(line => {
+	const filteredLines = lines.filter((line) => {
 		if (line !== '') {
 			return line;
 		}
@@ -260,7 +266,7 @@ export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): M
 	}
 
 	// Split sizes
-	filteredLines.map(line => {
+	filteredLines.map((line) => {
 		if (line.startsWith('Size of ')) {
 			const pair = line.split(' is ');
 
@@ -281,7 +287,7 @@ export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): M
 	}
 
 	// Split symbols
-	symbols.map(symbol => {
+	symbols.map((symbol) => {
 		const pair: Array<number | string> = symbol.split('=');
 
 		if (pair.length > 1 && pair[0] !== 'undefined') {
@@ -307,7 +313,7 @@ function objectifyHelp(input: string, opts: Makensis.CompilerOptions): Makensis.
 	const output: Makensis.CommandHelpOptions = {};
 
 	if (lines?.length) {
-		lines.map(line => {
+		lines.map((line) => {
 			let command = line.substring(0, line.indexOf(' '));
 			const usage = line.substring(line.indexOf(' ') + 1);
 
@@ -323,7 +329,12 @@ function objectifyHelp(input: string, opts: Makensis.CompilerOptions): Makensis.
 	return output;
 }
 
-export function spawnMakensis(cmd: string, args: Array<string>, compilerOptions: Makensis.CompilerOptions, spawnOptions: SpawnOptions = {}): Promise<Makensis.CompilerOutput> {
+export function spawnMakensis(
+	cmd: string,
+	args: Array<string>,
+	compilerOptions: Makensis.CompilerOptions,
+	spawnOptions: SpawnOptions = {},
+): Promise<Makensis.CompilerOutput> {
 	return new Promise<Makensis.CompilerOutput>((resolve, reject) => {
 		if (compilerOptions.wine) {
 			spawnOptions['env'] = Object.freeze({
@@ -418,7 +429,7 @@ export function splitCommands(data: string | string[]): string[] {
 		if (data.trim().includes('\n')) {
 			const lines = data.trim().split('\n');
 
-			lines.map(line => {
+			lines.map((line) => {
 				if (line.trim().length) {
 					args.push(`-X${line}`);
 				}
@@ -427,7 +438,7 @@ export function splitCommands(data: string | string[]): string[] {
 			args.push(`-X${data}`);
 		}
 	} else {
-		data.map(key => {
+		data.map((key) => {
 			if (key.trim().length) {
 				args.push(`-X${key}`);
 			}
