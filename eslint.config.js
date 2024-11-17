@@ -2,7 +2,7 @@
 import eslint from '@eslint/js';
 import eslintPluginJsonc from 'eslint-plugin-jsonc';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
-import importPlugin from 'eslint-plugin-import';
+import * as importPlugin from 'eslint-plugin-import';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
