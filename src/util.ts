@@ -4,7 +4,7 @@ import { spawn } from 'node:child_process';
 import { env } from 'node:process';
 
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
-import type Makensis from '../types';
+import type Makensis from '../types/index.d.ts';
 
 function detectOutfile(str: string): null | string {
 	if (str.includes('Output: "')) {
