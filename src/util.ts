@@ -111,7 +111,7 @@ function inRange(value: number, min: number, max: number): boolean {
 	return value >= min && value <= max;
 }
 
-export async function mapArguments(args: string[], options: Makensis.CompilerOptions): Promise<Makensis.MapArguments> {
+export function mapArguments(args: string[], options: Makensis.CompilerOptions): Makensis.MapArguments {
 	const pathToMakensis: string = options.pathToMakensis ? options.pathToMakensis : 'makensis';
 	const pathToWine: string = options.pathToWine ? options.pathToWine : 'wine';
 
@@ -149,7 +149,7 @@ export async function mapArguments(args: string[], options: Makensis.CompilerOpt
 	}
 
 	if (options?.env) {
-		const defines = await getMagicEnvVars();
+		const defines = getMagicEnvVars();
 
 		if (defines && Object.keys(defines).length) {
 			Object.keys(defines).map((key) => {
