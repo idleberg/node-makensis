@@ -233,8 +233,9 @@ export function objectify(input: string, key: string | null): Makensis.Objectifi
 		return input;
 	}
 
-	const output: Makensis.Objectified = {};
-	output[key] = input;
+	const output: Makensis.Objectified = {
+		[key]: input,
+	};
 
 	return output;
 }
