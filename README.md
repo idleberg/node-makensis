@@ -75,7 +75,8 @@ $ nix-shell -p nsis
 
 `npm install makensis`
 
-:warning: If you need to support a version of NSIS older than 3.06, you can use `makensis@2` as it employs some useful workarounds.
+> [!WARNING]  
+> If you need to support a version of NSIS older than 3.06, you can use `makensis@2` as it employs some useful workarounds.
 
 ## Usage
 
@@ -139,7 +140,8 @@ Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 ### Options
 
-:warning: Some of these options are limited to NSIS v3 (see the [changelog][changelog] for details)
+> [!WARNING]  
+> Some of these options are limited to NSIS v3 (see the [changelog][changelog] for details).
 
 #### define
 
@@ -194,7 +196,8 @@ Type: `string`
 
 Specifies the codepage used by stdout when the output is redirected (`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET` switch.
 
-:warning: This option is only available on Windows
+> [!WARNING]  
+> This option is only available on Windows.
 
 #### json
 
@@ -232,7 +235,8 @@ Type: `integer`
 
 Sets the compiler process priority, where the value `5=realtime`, `4=high`, `3=above normal`, `2=normal`, `1=below normal`, `0=idle`. Equivalent of the `-P` switch.
 
-:warning: This option is only available on Windows
+> [!WARNING]  
+> This option is only available on Windows.
 
 #### strict
 
@@ -282,7 +286,10 @@ Type: `string[]`
 
 Specifies raw arguments for `makensis`.
 
-:warning: These will be added to the compiler arguments last and will hence overwrite any of the NSIS options above!
+If you need to support a version of NSIS older than 3.06, you can use `makensis@2` as it employs some useful workarounds.
+
+> [!IMPORTANT]  
+> These will be added to the compiler arguments last and will hence overwrite any of the NSIS options above!
 
 #### verbose
 
