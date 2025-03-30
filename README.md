@@ -140,7 +140,7 @@ Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 ### Options
 
-> [!WARNING]  
+> [!NOTE]  
 > Some of these options are limited to NSIS v3 (see the [changelog][changelog] for details).
 
 #### define
