@@ -1,5 +1,5 @@
-import { platform } from 'node:os';
 import { spawnSync } from 'node:child_process';
+import { platform } from 'node:os';
 
 const commands = {
 	commandHelp: ['-CMDHELP'],
@@ -18,5 +18,5 @@ export const shared = Object.fromEntries(
 );
 
 export const nullDevice = platform() === 'win32' ? 'NUL' : '/dev/null';
-export const defaultScriptArray = [`OutFile ${nullDevice}`, `Unicode true`, `Section -default`, `Nop`, `SectionEnd`];
+export const defaultScriptArray = [`OutFile ${nullDevice}`, 'Unicode true', 'Section -default', 'Nop', 'SectionEnd'];
 export const defaultScriptString = defaultScriptArray.join('\n');
