@@ -1,11 +1,11 @@
-/* eslint-disable */
-import { defaultScriptArray, defaultScriptString, nullDevice, shared } from './shared';
 import { existsSync } from 'node:fs';
+import path from 'node:path';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../src/makensis';
-import path from 'node:path';
 import type Makensis from '../types';
+/* eslint-disable */
+import { defaultScriptArray, defaultScriptString, nullDevice, shared } from './shared';
 
 const scriptFile = {
 	minimal: path.join(process.cwd(), 'tests', 'fixtures', 'utf8.nsi'),
@@ -85,7 +85,7 @@ test('Print compiler information as JSON', async () => {
 });
 
 test('Print help for all commands', async () => {
-	const { stdout } = await MakeNSIS.commandHelp() as { stdout: string };
+	const { stdout } = (await MakeNSIS.commandHelp()) as { stdout: string };
 
 	const expected = shared.commandHelp?.replace(/\s+/g, '');
 	const actual = stdout.replace(/\s+/g, '');
@@ -210,7 +210,7 @@ test('Compilation with raw arguments and warning', async () => {
 });
 
 test('Compilation with error', async () => {
-	let scriptWithError = [...defaultScriptArray, '!error'];
+	const scriptWithError = [...defaultScriptArray, '!error'];
 
 	try {
 		const { status } = await MakeNSIS.compile(null, {
@@ -246,7 +246,7 @@ test('Strict compilation with warning', async () => {
 
 test('Print ${NSISDIR}', async () => {
 	try {
-		const nsisDir = await MakeNSIS.nsisDir() as string;
+		const nsisDir = (await MakeNSIS.nsisDir()) as string;
 		const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
 
 		const expected = true;
@@ -260,7 +260,7 @@ test('Print ${NSISDIR}', async () => {
 
 test('Print ${NSISDIR} as JSON', async () => {
 	try {
-		const { nsisdir } = await MakeNSIS.nsisDir({ json: true }) as unknown as { nsisdir: string};
+		const { nsisdir } = (await MakeNSIS.nsisDir({ json: true })) as unknown as { nsisdir: string };
 		const nsisCfg = path.join(nsisdir, 'Include', 'MUI2.nsh');
 
 		const expected = true;

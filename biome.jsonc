@@ -7,7 +7,7 @@
 		"include": [
 			".vscode/*.json",
 			"src/*.ts",
-			"test/*.ts",
+			"tests/*.ts",
 			"biome.json",
 			"README.md",
 			"tsconfig.json"

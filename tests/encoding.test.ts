@@ -1,10 +1,10 @@
-/* eslint-disable */
-import { nullDevice } from './shared';
+import path from 'node:path';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../src/makensis';
-import path from 'node:path';
 import type Makensis from '../types';
+/* eslint-disable */
+import { nullDevice } from './shared';
 
 // Compiler arguments
 const script = {
@@ -23,7 +23,7 @@ const defaultOptions: Makensis.CompilerOptions = {
 test('Compile script with correct charset', async () => {
 	const options = { ...defaultOptions, inputCharset: 'UTF8' };
 
-	const { status } = await MakeNSIS.compile(script['utf8'], options);
+	const { status } = await MakeNSIS.compile(script.utf8, options);
 	const expected = 0;
 	const actual = status;
 
@@ -34,7 +34,7 @@ test('Compile script with incorrect charset', async () => {
 	const options = { ...defaultOptions, inputCharset: 'UTF16BE' };
 
 	try {
-		const { status } = await MakeNSIS.compile(script['utf8'], options) as { status: number };
+		const { status } = (await MakeNSIS.compile(script.utf8, options)) as { status: number };
 
 		const expected = 0;
 		const actual = status;
