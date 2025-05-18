@@ -4,16 +4,16 @@
 		"target": "esnext",
 		"module": "esnext",
 		/**
-     * svelte-preprocess cannot figure out whether you have
-     * a value or a type, so tell TypeScript to enforce using
-     * `import type` instead of `import` for Types.
-     */
+		 * svelte-preprocess cannot figure out whether you have
+		 * a value or a type, so tell TypeScript to enforce using
+		 * `import type` instead of `import` for Types.
+		 */
 		"isolatedModules": true,
 		"resolveJsonModule": true,
 		/**
-     * To have warnings / errors of the Svelte compiler at the
-     * correct position, enable source maps by default.
-     */
+		 * To have warnings / errors of the Svelte compiler at the
+		 * correct position, enable source maps by default.
+		 */
 		"sourceMap": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
@@ -21,11 +21,11 @@
 		"allowSyntheticDefaultImports": true,
 		"baseUrl": ".",
 		/**
-     * Typecheck JS in `.svelte` and `.js` files by default.
-     * Disable checkJs if you'd like to use dynamic types in JS.
-     * Note that setting allowJs false does not prevent the use
-     * of JS in `.svelte` files.
-     */
+		 * Typecheck JS in `.svelte` and `.js` files by default.
+		 * Disable checkJs if you'd like to use dynamic types in JS.
+		 * Note that setting allowJs false does not prevent the use
+		 * of JS in `.svelte` files.
+		 */
 		"allowJs": true,
 		"checkJs": true,
 		"strictNullChecks": true,
@@ -35,11 +35,8 @@
 		"noEmit": true
 	},
 	/**
-   * Use global.d.ts instead of compilerOptions.types
-   * to avoid limiting type declarations.
-   */
-	"include": [
-		"src/**/*",
-		"types/**/*.d.ts"
-	]
+	 * Use global.d.ts instead of compilerOptions.types
+	 * to avoid limiting type declarations.
+	 */
+	"include": ["src/**/*", "types/**/*.d.ts"]
 }

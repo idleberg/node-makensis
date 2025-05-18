@@ -1,14 +1,14 @@
-import { input as inputCharsets, output as outputCharsets } from './charsets.ts';
-import { platform } from 'node:os';
 import { spawn } from 'node:child_process';
+import { platform } from 'node:os';
 import { env } from 'node:process';
+import { input as inputCharsets, output as outputCharsets } from './charsets.ts';
 
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import type Makensis from '../types/index.d.ts';
 
 function detectOutfile(str: string): null | string {
 	if (str.includes('Output: "')) {
-		const regex = new RegExp('Output: "(.*.exe)"', 'g');
+		const regex = /Output: "(.*.exe)"/g;
 		const result = regex.exec(str.toString());
 
 		if (typeof result === 'object' && result && result['1']) {
@@ -78,11 +78,14 @@ function getMagicEnvVars(): Makensis.EnvironmentVariables {
 function hasErrorCode(input: string) {
 	if (input?.includes('ENOENT') && input.match(/\bENOENT\b/)) {
 		return true;
-	} else if (input?.includes('EACCES') && input.match(/\bEACCES\b/)) {
+	}
+	if (input?.includes('EACCES') && input.match(/\bEACCES\b/)) {
 		return true;
-	} else if (input?.includes('EISDIR') && input.match(/\bEISDIR\b/)) {
+	}
+	if (input?.includes('EISDIR') && input.match(/\bEISDIR\b/)) {
 		return true;
-	} else if (input?.includes('EMFILE') && input.match(/\bEMFILE\b/)) {
+	}
+	if (input?.includes('EMFILE') && input.match(/\bEMFILE\b/)) {
 		return true;
 	}
 
@@ -93,7 +96,7 @@ function hasWarnings(line: string): number {
 	const match = line.match(/(\d+) warnings?:/);
 
 	if (match !== null) {
-		return parseInt(match[1], 10);
+		return Number.parseInt(match[1], 10);
 	}
 
 	return 0;
@@ -104,7 +107,7 @@ function isHex(x: number | string): boolean {
 }
 
 function isNumeric(x: number): boolean {
-	return !isNaN(x);
+	return !Number.isNaN(x);
 }
 
 function inRange(value: number, min: number, max: number): boolean {
@@ -142,7 +145,7 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 
 	if (options?.define) {
 		Object.keys(options.define).map((key) => {
-			if (options.define && options.define[key]) {
+			if (options.define?.[key]) {
 				args.push(`-D${key}=${options.define[key]}`);
 			}
 		});
@@ -153,7 +156,7 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 
 		if (defines && Object.keys(defines).length) {
 			Object.keys(defines).map((key) => {
-				if (defines && defines[key]) {
+				if (defines?.[key]) {
 					args.push(`-D${key}=${defines[key]}`);
 				}
 			});
@@ -202,7 +205,7 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 	}
 
 	if (options.priority) {
-		const priority = parseInt(String(options.priority), 10);
+		const priority = Number.parseInt(String(options.priority), 10);
 
 		if (platform() === 'win32' && isNumeric(priority) && inRange(priority, 0, 5)) {
 			args.push(`-P${options.priority}`);
@@ -210,7 +213,7 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 	}
 
 	if (options.verbose) {
-		const verbosity = parseInt(String(options.verbose), 10);
+		const verbosity = Number.parseInt(String(options.verbose), 10);
 
 		if (isNumeric(verbosity) && inRange(verbosity, 0, 4)) {
 			args.push(`-V${verbosity}`);
@@ -218,23 +221,21 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 	}
 
 	if (options.rawArguments && Array.isArray(options.rawArguments)) {
-		args = [...args, ...options.rawArguments];
+		args.push(options.rawArguments);
 	}
 
 	return [cmd, args, defaultArguments];
 }
 
 export function objectify(input: string, key: string | null): Makensis.Objectified | string {
-	if (key === 'version' && input.startsWith('v')) {
-		input = input.substring(1);
-	}
+	const normalizedInput = key === 'version' && input.startsWith('v') ? input.substring(1) : input;
 
 	if (key === null) {
-		return input;
+		return normalizedInput;
 	}
 
 	const output: Makensis.Objectified = {
-		[key]: input,
+		[key]: normalizedInput,
 	};
 
 	return output;
@@ -281,7 +282,7 @@ export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): M
 		}
 	});
 
-	output['sizes'] = tableSizes;
+	output.sizes = tableSizes;
 
 	if (!symbols?.length) {
 		return output;
@@ -293,7 +294,7 @@ export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): M
 
 		if (pair.length > 1 && pair[0] !== 'undefined') {
 			if (!isHex(pair[1]) && isNumeric(Number(pair[1]))) {
-				pair[1] = parseInt(String(pair[1]), 10);
+				pair[1] = Number.parseInt(String(pair[1]), 10);
 			}
 
 			tableSymbols[pair[0]] = pair[1];
@@ -302,7 +303,7 @@ export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): M
 		}
 	});
 
-	output['defined_symbols'] = tableSymbols;
+	output.defined_symbols = tableSymbols;
 
 	return output;
 }
@@ -338,7 +339,7 @@ export function spawnMakensis(
 ): Promise<Makensis.CompilerOutput> {
 	return new Promise<Makensis.CompilerOutput>((resolve, reject) => {
 		if (compilerOptions.wine) {
-			spawnOptions['env'] = Object.freeze({
+			spawnOptions.env = Object.freeze({
 				WINEDEBUG: '-all',
 				...env,
 				...spawnOptions.env,
@@ -405,7 +406,7 @@ export function spawnMakensis(
 			};
 
 			if (outFile) {
-				output['outFile'] = outFile;
+				output.outFile = outFile;
 			}
 
 			if (typeof compilerOptions.onClose === 'function') {
