@@ -29,7 +29,7 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkoutv4
         with:
           fetch-depth: 10
 
@@ -61,7 +61,7 @@ jobs:
       - name: Print NSIS header info
         run: makensis -HDRINFO
 
-      - uses: actions/setup-node@cdca7365b2dadb8aad0a33bc7601856ffabcc48e # v4.3.0
+      - uses: actions/setup-nodev4
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -73,7 +73,7 @@ jobs:
         run: |
           echo "::set-output name=pnpm_store_path::$(pnpm store path)"
 
-      - uses: actions/cache@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+      - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_store_path }}
