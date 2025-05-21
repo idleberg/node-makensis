@@ -6,6 +6,8 @@ import { input as inputCharsets, output as outputCharsets } from './charsets.ts'
 import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import type Makensis from '../types/index.d.ts';
 
+const REGEX_HEX_NUMBER = /^[0-9a-fA-F]+$/;
+
 function detectOutfile(str: string): null | string {
 	if (str.includes('Output: "')) {
 		const regex = /Output: "(.*.exe)"/g;
@@ -65,9 +67,10 @@ function formatOutput(
 function getMagicEnvVars(): Makensis.EnvironmentVariables {
 	const definitions: Makensis.EnvironmentVariables = {};
 	const prefix = 'NSIS_APP_';
+	const ENV_VAR_REGEX = new RegExp(`${prefix}[a-z0-9]+`, 'gi');
 
 	Object.keys(env).map((item) => {
-		if (item?.length && new RegExp(`${prefix}[a-z0-9]+`, 'gi').test(item)) {
+		if (item?.length && ENV_VAR_REGEX.test(item)) {
 			definitions[item] = env[item];
 		}
 	});
@@ -103,7 +106,7 @@ function hasWarnings(line: string): number {
 }
 
 function isHex(x: number | string): boolean {
-	return /^(0x|0X)[a-fA-F0-9]+$/.test(String(x));
+	return REGEX_HEX_NUMBER.test(String(x));
 }
 
 function isNumeric(x: number): boolean {
