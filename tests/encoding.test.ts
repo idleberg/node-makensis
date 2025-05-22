@@ -1,11 +1,11 @@
 import path from 'node:path';
+import { cwd } from 'node:process';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../src/makensis';
 import type Makensis from '../types';
 /* eslint-disable */
 import { nullDevice } from './shared';
-import { cwd } from 'node:process';
 
 // Compiler arguments
 const script = {

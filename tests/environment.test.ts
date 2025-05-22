@@ -8,8 +8,9 @@ import * as MakeNSIS from '../src/makensis';
 /* eslint-disable */
 import { nullDevice, shared } from './shared';
 
-import type Makensis from '../types';
 import { cwd } from 'node:process';
+import type Makensis from '../types';
+import process from "node:process";
 
 const scriptFile = path.join(cwd(), 'tests', 'fixtures', 'env.nsi');
 
