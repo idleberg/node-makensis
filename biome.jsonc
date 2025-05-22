@@ -4,14 +4,7 @@
 		"enabled": true
 	},
 	"files": {
-		"include": [
-			".vscode/*.json",
-			"src/*.ts",
-			"tests/*.ts",
-			"biome.json",
-			"README.md",
-			"tsconfig.json"
-		]
+		"include": [".vscode/*.json", "src/*.ts", "tests/*.ts", "biome.json", "README.md", "tsconfig.json"]
 	},
 	"linter": {
 		"enabled": true,
