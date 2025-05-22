@@ -6,10 +6,11 @@ import * as MakeNSIS from '../src/makensis';
 import type Makensis from '../types';
 /* eslint-disable */
 import { defaultScriptArray, defaultScriptString, nullDevice, shared } from './shared';
+import { cwd } from 'node:process';
 
 const scriptFile = {
-	minimal: path.join(process.cwd(), 'tests', 'fixtures', 'utf8.nsi'),
-	warning: path.join(process.cwd(), 'tests', 'fixtures', 'warnings.nsi'),
+	minimal: path.join(cwd(), 'tests', 'fixtures', 'utf8.nsi'),
+	warning: path.join(cwd(), 'tests', 'fixtures', 'warnings.nsi'),
 };
 
 // Let's run the tests

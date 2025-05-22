@@ -9,8 +9,9 @@ import * as MakeNSIS from '../src/makensis';
 import { nullDevice, shared } from './shared';
 
 import type Makensis from '../types';
+import { cwd } from 'node:process';
 
-const scriptFile = path.join(process.cwd(), 'tests', 'fixtures', 'env.nsi');
+const scriptFile = path.join(cwd(), 'tests', 'fixtures', 'env.nsi');
 
 const defaultOptions: Makensis.CompilerOptions = {
 	define: {

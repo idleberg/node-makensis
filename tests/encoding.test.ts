@@ -5,11 +5,12 @@ import * as MakeNSIS from '../src/makensis';
 import type Makensis from '../types';
 /* eslint-disable */
 import { nullDevice } from './shared';
+import { cwd } from 'node:process';
 
 // Compiler arguments
 const script = {
 	// cp850: join(__dirname, 'fixtures', 'cp850.nsi'),
-	utf8: path.join(process.cwd(), 'tests', 'fixtures', 'utf8.nsi'),
+	utf8: path.join(cwd(), 'tests', 'fixtures', 'utf8.nsi'),
 };
 
 const defaultOptions: Makensis.CompilerOptions = {
