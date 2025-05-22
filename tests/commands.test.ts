@@ -1,12 +1,12 @@
 import { existsSync } from 'node:fs';
 import path from 'node:path';
+import { cwd } from 'node:process';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../src/makensis';
 import type Makensis from '../types';
 /* eslint-disable */
 import { defaultScriptArray, defaultScriptString, nullDevice, shared } from './shared';
-import { cwd } from 'node:process';
 
 const scriptFile = {
 	minimal: path.join(cwd(), 'tests', 'fixtures', 'utf8.nsi'),
