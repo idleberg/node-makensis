@@ -397,7 +397,7 @@ export function spawnMakensis(
 			console.error(errorMessage);
 		});
 
-		// Using 'exit' will truncate stdout
+		// Using 'exit' will truncate stdout, so we use 'close' instead
 		child.on('close', (code: number | null) => {
 			const streamFormatted = formatOutput(stream, args, compilerOptions);
 
