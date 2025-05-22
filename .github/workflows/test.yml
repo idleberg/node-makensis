@@ -90,10 +90,6 @@ jobs:
         if: matrix.os != 'windows-latest'
         run: pnpm dlx @biomejs/biome ci
 
-      - name: "Lint Source"
-        if: matrix.os == 'windows-latest'
-        run: pnpm run --if-present lint
-
       - name: "Build Source"
         run: pnpm run --if-present build
 
