@@ -92,6 +92,7 @@ export async function license(
 export async function nsisDir(
 	compilerOptions: Makensis.CompilerOptions = {},
 ): Promise<string | { nsisdir: string } | null> {
+	// We're setting JSON true for easier parsing
 	const hdrOptions: Makensis.CompilerOptions = { ...compilerOptions, json: true };
 
 	const hdrinfo = await headerInfo(hdrOptions);
