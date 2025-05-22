@@ -1,4 +1,4 @@
-name: Run tests on NodeJS
+name: "Run tests on NodeJS"
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
       - "src/**"
       - "tests/**"
       - "types/**"
+      - "biome.jsonc"
       - "package.json"
       - "pnpm-lock.yaml"
   pull_request:
@@ -15,6 +16,7 @@ on:
       - "src/**"
       - "tests/**"
       - "types/**"
+      - "biome.jsonc"
       - "package.json"
       - "pnpm-lock.yaml"
   workflow_dispatch:
@@ -25,27 +27,27 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: ["18", "lts/*", "*"]
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        node-version: ["18", "20", "22", "24"]
+        os: ["macos-latest", "ubuntu-latest", "windows-latest"]
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 10
 
-      - name: Install NSIS (macOS)
+      - name: "Install NSIS (macOS)"
         if: matrix.os == 'macos-latest'
         run: |
           brew update
           brew install nsis
 
-      - name: Install NSIS (Ubuntu)
+      - name: "Install NSIS (Ubuntu)"
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get -y update
           sudo apt-get -y install nsis
 
-      - name: Install NSIS (Windows)
+      - name: "Install NSIS (Windows)"
         if: matrix.os == 'windows-latest'
         shell: pwsh
         run: |
@@ -55,40 +57,40 @@ jobs:
           scoop bucket add nsis https://github.com/NSIS-Dev/scoop-nsis
           scoop install nsis/nsis
 
-      - name: Print NSIS version
+      - name: "Print NSIS version"
         run: makensis -VERSION
 
-      - name: Print NSIS header info
+      - name: "Print NSIS header info"
         run: makensis -HDRINFO
 
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Enable Corepack
+      - name: "Enable Corepack"
         run: corepack enable
 
-      - name: Get pnpm store directory
+      - name: "Get pnpm store directory"
         id: pnpm-cache
         run: |
           echo "::set-output name=pnpm_store_path::$(pnpm store path)"
 
       - uses: actions/cache@v4
-        name: Setup pnpm cache
+        name: "Setup pnpm cache"
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_store_path }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Install dependencies
+      - name: "Install dependencies"
         run: pnpm install --frozen-lockfile --strict-peer-dependencies
 
-      - name: Lint Source
+      - name: "Lint Source"
         run: pnpm dlx @biomejs/biome ci
 
-      - name: Build Source
+      - name: "Build Source"
         run: pnpm run --if-present build
 
-      - name: Run Tests
+      - name: "Run Tests"
         run: pnpm run --if-present test
