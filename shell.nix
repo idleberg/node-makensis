@@ -1,17 +1,10 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> { } }:
 
 pkgs.mkShell {
-	packages = with pkgs; [
-		corepack_20
-		deno
-		git
-		nodejs_20
-		nsis
-		openssh
-	];
+  packages = with pkgs; [ corepack deno git nodejs nsis openssh ];
 
-	shellHook = ''
-		corepack enable
-		corepack up
+  shellHook = ''
+    corepack enable
+    corepack up
   '';
 }
