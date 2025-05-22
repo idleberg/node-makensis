@@ -22,11 +22,13 @@
 			}
 		}
 	},
+	"formatter": {
+		"lineEnding": "lf",
+		"lineWidth": 120
+	},
 	"javascript": {
 		"formatter": {
 			"bracketSpacing": true,
-			"lineEnding": "lf",
-			"lineWidth": 120,
 			"quoteStyle": "single",
 			"semicolons": "always"
 		}
