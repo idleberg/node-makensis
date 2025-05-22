@@ -91,20 +91,23 @@ export async function license(
  */
 export async function nsisDir(
 	compilerOptions: Makensis.CompilerOptions = {},
-): Promise<string | Makensis.CompilerOutput> {
+): Promise<string | { nsisdir: string } | null> {
 	const hdrOptions: Makensis.CompilerOptions = { ...compilerOptions, json: true };
-
-	function handler(hdrinfo: Makensis.CompilerOutput) {
-		if (compilerOptions.json === true) {
-			return objectify(hdrinfo.stdout.defined_symbols.NSISDIR, 'nsisdir');
-		}
-
-		return hdrinfo.stdout.defined_symbols.NSISDIR;
-	}
 
 	const hdrinfo = await headerInfo(hdrOptions);
 
-	return handler(hdrinfo);
+	const header = hdrinfo?.stdout as Makensis.HeaderInfo | undefined;
+	const nsisdir = header?.defined_symbols?.NSISDIR;
+
+	if (!nsisdir) {
+		return null;
+	}
+
+	if (compilerOptions.json === true) {
+		return objectify(nsisdir as string, 'nsisdir') as { nsisdir: string };
+	}
+
+	return nsisdir as string;
 }
 
 /**
