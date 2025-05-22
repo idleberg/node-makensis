@@ -8,9 +8,8 @@ import * as MakeNSIS from '../src/makensis';
 /* eslint-disable */
 import { nullDevice, shared } from './shared';
 
-import { cwd } from 'node:process';
+import { cwd, env } from 'node:process';
 import type Makensis from '../types';
-import process from "node:process";
 
 const scriptFile = path.join(cwd(), 'tests', 'fixtures', 'env.nsi');
 
@@ -35,7 +34,7 @@ test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async ()
 
 test('Load magic environment variable from process', async () => {
 	const randomString = uuid();
-	process.env.NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE = randomString;
+	env.NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE = randomString;
 
 	try {
 		const { stdout } = (await MakeNSIS.compile(scriptFile, {
@@ -54,7 +53,7 @@ test('Load magic environment variable from process', async () => {
 
 test('Ignore magic environment variable', async () => {
 	const randomString = uuid();
-	process.env.NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE = randomString;
+	env.NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE = randomString;
 
 	try {
 		const { stdout } = (await MakeNSIS.compile(scriptFile, {
