@@ -224,7 +224,7 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 	}
 
 	if (options.rawArguments && Array.isArray(options.rawArguments)) {
-		args.push(options.rawArguments);
+		args.push(...options.rawArguments);
 	}
 
 	return [cmd, args, defaultArguments];
