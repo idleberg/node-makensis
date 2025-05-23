@@ -73,7 +73,7 @@ $ nix-shell -p nsis
 
 ## Installation
 
-`npm install makensis`
+`npm install makensis@next`
 
 > [!WARNING]  
 > If you need to support a version of NSIS older than 3.06, you can use `makensis@2` as it employs some useful workarounds.
@@ -83,20 +83,20 @@ $ nix-shell -p nsis
 Example usage in script:
 
 ```js
-import * as NSIS from 'makensis';
+import * as NSIS from "makensis";
 
 const options = {
-	verbose: 2,
-	define: {
-		SPECIAL_BUILD: true,
-	},
+    verbose: 2,
+    define: {
+        SPECIAL_BUILD: true,
+    },
 };
 
 try {
-	const output = await NSIS.compile('path/to/installer.nsi', options);
-	console.log('Compiler output:', output);
+    const output = await NSIS.compile("path/to/installer.nsi", options);
+    console.log("Compiler output:", output);
 } catch (error) {
-	console.error(error);
+    console.error(error);
 }
 ```
 
@@ -260,7 +260,7 @@ Prepends script-commands to the script, can be passed as array or multiline-stri
 <summary><strong>Example</strong></summary>
 
 ```js
-preExecute: ['SetCompressor lzma', 'SetCompressorDictSize 16'];
+preExecute: ["SetCompressor lzma", "SetCompressorDictSize 16"];
 ```
 
 </details>
