@@ -22,7 +22,7 @@ export async function commandHelp(
 		args.push(command);
 	}
 
-	return spawnMakensis(cmd, args, opts, spawnOptions);
+	return await spawnMakensis(cmd, args, opts, spawnOptions);
 }
 
 /**
@@ -52,7 +52,7 @@ export async function compile(
 		}
 	}
 
-	return spawnMakensis(cmd, args, opts, spawnOptions);
+	return await spawnMakensis(cmd, args, opts, spawnOptions);
 }
 
 /**
@@ -67,7 +67,7 @@ export async function headerInfo(
 	const options: Makensis.CompilerOptions = { ...compilerOptions, verbose: 0 };
 	const [cmd, args, opts]: Makensis.MapArguments = mapArguments(['-HDRINFO'], options);
 
-	return spawnMakensis(cmd, args, opts, spawnOptions);
+	return await spawnMakensis(cmd, args, opts, spawnOptions);
 }
 
 /**
@@ -81,7 +81,7 @@ export async function license(
 ): Promise<Makensis.CompilerOutput> {
 	const [cmd, args, opts]: Makensis.MapArguments = mapArguments(['-LICENSE'], compilerOptions);
 
-	return spawnMakensis(cmd, args, opts, spawnOptions);
+	return await spawnMakensis(cmd, args, opts, spawnOptions);
 }
 
 /**
@@ -123,5 +123,5 @@ export async function version(
 	const options: Makensis.CompilerOptions = { ...compilerOptions, verbose: 0 };
 	const [cmd, args, opts]: Makensis.MapArguments = mapArguments(['-VERSION'], options);
 
-	return spawnMakensis(cmd, args, opts, spawnOptions);
+	return await spawnMakensis(cmd, args, opts, spawnOptions);
 }
