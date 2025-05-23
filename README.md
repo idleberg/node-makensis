@@ -73,7 +73,13 @@ $ nix-shell -p nsis
 
 ## Installation
 
-`npm install makensis@next`
+```sh
+# NodeJS
+npm install makensis@next
+
+# Deno
+deno add jsr:@idleberg/makensis@<version>
+```
 
 > [!WARNING]  
 > If you need to support a version of NSIS older than 3.06, you can use `makensis@2` as it employs some useful workarounds.
