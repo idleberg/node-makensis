@@ -1,7 +1,7 @@
 import { mapArguments, objectify, spawnMakensis, splitCommands } from './util.ts';
 
 import type { SpawnOptions } from 'node:child_process';
-import type Makensis from '../types/index.d.ts';
+import type * as Makensis from '../types/index.d.ts';
 
 /**
  * Returns usage information for a command, or list all commands
