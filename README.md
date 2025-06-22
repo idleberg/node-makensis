@@ -317,8 +317,8 @@ Gives access to an object containing the exit code, the full `stdout` and `stder
 
 ## Related
 
-- [atom-language-nsis][atom-language-nsis] - NSIS package for Atom/Pulsar
-- [vscode-nsis][vscode-nsis] - NSIS package for Visual Studio Code
+-   [atom-language-nsis][atom-language-nsis] - NSIS package for Atom/Pulsar
+-   [vscode-nsis][vscode-nsis] - NSIS package for Visual Studio Code
 
 ## License
 
