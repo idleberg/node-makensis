@@ -1,10 +1,9 @@
+import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import { spawn } from 'node:child_process';
 import { platform } from 'node:os';
 import { env } from 'node:process';
-import { input as inputCharsets, output as outputCharsets } from './charsets.ts';
-
-import type { ChildProcess, SpawnOptions } from 'node:child_process';
 import type * as Makensis from '../types/index.d.ts';
+import { input as inputCharsets, output as outputCharsets } from './charsets.ts';
 
 const REGEX_HEX_NUMBER = /^[0-9a-fA-F]+$/;
 

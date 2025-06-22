@@ -2,10 +2,10 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
 	target: 'esnext',
-  clean: true,
-  dts: true,
-  entry: ['src/makensis.ts'],
+	clean: true,
+	dts: true,
+	entry: ['src/makensis.ts'],
 	external: ['@nsis/language-data'],
 	format: 'esm',
-  treeshake: 'recommended'
+	treeshake: 'recommended',
 });
