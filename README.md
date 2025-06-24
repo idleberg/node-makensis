@@ -75,10 +75,10 @@ $ nix-shell -p nsis
 
 ```sh
 # NodeJS
-npm install makensis@next
+npm install makensis
 
 # Deno
-deno add jsr:@idleberg/makensis@<version>
+deno add jsr:@idleberg/makensis
 ```
 
 > [!WARNING]  
