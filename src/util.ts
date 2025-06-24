@@ -116,6 +116,9 @@ function inRange(value: number, min: number, max: number): boolean {
 	return value >= min && value <= max;
 }
 
+/**
+ * @private
+ */
 export function mapArguments(args: string[], options: Makensis.CompilerOptions): Makensis.MapArguments {
 	const pathToMakensis: string = options.pathToMakensis ? options.pathToMakensis : 'makensis';
 	const pathToWine: string = options.pathToWine ? options.pathToWine : 'wine';
@@ -229,6 +232,9 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 	return [cmd, args, defaultArguments];
 }
 
+/**
+ * @private
+ */
 export function objectify(input: string, key: string | null): Makensis.Objectified | string {
 	const normalizedInput = key === 'version' && input.startsWith('v') ? input.substring(1) : input;
 
@@ -243,6 +249,9 @@ export function objectify(input: string, key: string | null): Makensis.Objectifi
 	return output;
 }
 
+/**
+ * @private
+ */
 export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): Makensis.HeaderInfo {
 	const output: Makensis.HeaderInfo = {
 		sizes: {},
@@ -333,6 +342,9 @@ function objectifyHelp(input: string, opts: Makensis.CompilerOptions): Makensis.
 	return output;
 }
 
+/**
+ * @private
+ */
 export function spawnMakensis(
 	cmd: string,
 	args: Array<string>,
@@ -426,6 +438,9 @@ export function spawnMakensis(
 	});
 }
 
+/**
+ * @private
+ */
 export function splitCommands(data: string | string[]): string[] {
 	const args: string[] = [];
 
