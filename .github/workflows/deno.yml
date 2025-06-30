@@ -1,0 +1,83 @@
+name: "Run tests on Deno"
+
+on:
+  push:
+    paths:
+      - ".github/**"
+      - "src/**"
+      - "tests/**"
+      - "types/**"
+      - "biome.jsonc"
+      - "package.json"
+      - "pnpm-lock.yaml"
+  pull_request:
+    paths:
+      - ".github/**"
+      - "src/**"
+      - "tests/**"
+      - "types/**"
+      - "biome.jsonc"
+      - "package.json"
+      - "pnpm-lock.yaml"
+  workflow_dispatch:
+
+jobs:
+  default:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ["18", "20", "22", "24"]
+        os: ["macos-latest", "ubuntu-latest", "windows-latest"]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 10
+
+      - name: "Install NSIS (macOS)"
+        if: matrix.os == 'macos-latest'
+        run: |
+          brew update
+          brew install nsis
+
+      - name: "Install NSIS (Ubuntu)"
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get -y update
+          sudo apt-get -y install nsis
+
+      - name: "Install NSIS (Windows)"
+        if: matrix.os == 'windows-latest'
+        shell: pwsh
+        run: |
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          iwr -useb get.scoop.sh -outfile 'install.ps1'
+          .\install.ps1 -RunAsAdmin
+          scoop bucket add nsis https://github.com/NSIS-Dev/scoop-nsis
+          scoop install nsis/nsis
+
+      - name: "Print NSIS version"
+        run: makensis -VERSION
+
+      - name: "Print NSIS header info"
+        run: makensis -HDRINFO
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - uses: actions/cache@v4
+        name: Set up Deno cache
+        with:
+          path: |
+            ~/.deno
+            ~/.cache/deno
+          key: ${{ runner.os }}-deno-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Lint Source
+        run: deno lint --ignore=node_modules **/*.ts
+
+      - name: Run Tests
+        run: |
+          deno run --allow-all npm:uvu tests -r tsm --ignore shared.ts
