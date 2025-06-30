@@ -32,10 +32,10 @@
 		"@nsis/language-data": "^0.9.3"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.0.5",
+		"@biomejs/biome": "^2.0.6",
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
-		"@types/node": "^24.0.3",
+		"@types/node": "^24.0.7",
 		"jsr": "^0.13.4",
 		"lefthook": "^1.11.14",
 		"np": "^10.2.0",
