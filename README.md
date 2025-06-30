@@ -2,7 +2,8 @@
 
 [![License](https://img.shields.io/github/license/idleberg/node-makensis?style=for-the-badge)](LICENSE)
 [![Version](https://img.shields.io/github/v/release/idleberg/node-makensis?style=for-the-badge)](https://github.com/idleberg/node-makensis/releases)
-[![CI](https://img.shields.io/github/actions/workflow/status/idleberg/node-makensis/test.yml?style=for-the-badge)](https://github.com/idleberg/node-makensis/actions)
+[![CI: Node](https://img.shields.io/github/actions/workflow/status/idleberg/makensis/node.yml?logo=nodedotjs&logoColor=white&style=for-the-badge)](https://github.com/idleberg/node-makensis/actions/workflows/node.yml)
+[![CI: Deno](https://img.shields.io/github/actions/workflow/status/idleberg/makensis/deno.yml?logo=deno&logoColor=white&style=for-the-badge)](https://github.com/idleberg/node-makensis/actions/workflows/deno.yml)
 
 A Node wrapper for `makensis`, the compiler for NSIS installers.
 
