@@ -75,6 +75,9 @@ jobs:
             ~/.cache/deno
           key: ${{ runner.os }}-deno-${{ hashFiles('**/pnpm-lock.yaml') }}
 
+      - name: "Install dependencies"
+        run: deno install
+
       - name: Lint Source
         run: deno lint --ignore=node_modules **/*.ts
 
