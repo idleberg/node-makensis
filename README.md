@@ -1,7 +1,8 @@
 # makensis
 
 [![License](https://img.shields.io/github/license/idleberg/node-makensis?style=for-the-badge)](LICENSE)
-[![Version](https://img.shields.io/github/v/release/idleberg/node-makensis?style=for-the-badge)](https://github.com/idleberg/node-makensis/releases)
+[![Version: npm](https://img.shields.io/npm/v/makensis?style=for-the-badge)](https://www.npmjs.org/package/makensis)
+[![Version: jsr](https://img.shields.io/jsr/v/@idleberg/makensis?style=for-the-badge)](https://jsr.io/@idleberg/makensis)
 [![CI: Node](https://img.shields.io/github/actions/workflow/status/idleberg/node-makensis/nodejs.yml?logo=nodedotjs&logoColor=white&style=for-the-badge)](https://github.com/idleberg/node-makensis/actions/workflows/node.yml)
 [![CI: Deno](https://img.shields.io/github/actions/workflow/status/idleberg/node-makensis/deno.yml?logo=deno&logoColor=white&style=for-the-badge)](https://github.com/idleberg/node-makensis/actions/workflows/deno.yml)
 
