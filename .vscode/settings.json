@@ -10,6 +10,9 @@
 	"[jsonc]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
+	"[nix]": {
+		"editor.defaultFormatter": "kamadorueda.alejandra"
+	},
 	"[typescript]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	}
