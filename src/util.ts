@@ -7,6 +7,11 @@ import { input as inputCharsets, output as outputCharsets } from './charsets.ts'
 
 const REGEX_HEX_NUMBER = /^[0-9a-fA-F]+$/;
 
+/**
+ * Detects the output file from the NSIS output.
+ * @param str - The string to search for the output file.
+ * @returns The detected output file path or null if not found.
+ */
 function detectOutfile(str: string): null | string {
 	if (str.includes('Output: "')) {
 		const regex = /Output: "(.*.exe)"/g;
@@ -24,6 +29,13 @@ function detectOutfile(str: string): null | string {
 	return null;
 }
 
+/**
+ * Normalizes the output of the `makensis` command.
+ * @param stream - The stream options containing stdout and stderr.
+ * @param args - The arguments passed to the `makensis` command.
+ * @param opts - The compiler options used for the makensis functions.
+ * @returns normalized output with stdout and stderr or JSON.
+ */
 function formatOutput(
 	stream: Makensis.StreamOptions,
 	args: Array<string>,
@@ -63,6 +75,10 @@ function formatOutput(
 	return output;
 }
 
+/**
+ * Filters environment variables that start with `NSIS_APP_` prefix.
+ * @returns An object containing the filtered environment variables.
+ */
 function getMagicEnvVars(): Makensis.EnvironmentVariables {
 	const definitions: Makensis.EnvironmentVariables = {};
 	const prefix = 'NSIS_APP_';
@@ -77,6 +93,11 @@ function getMagicEnvVars(): Makensis.EnvironmentVariables {
 	return definitions;
 }
 
+/**
+ * Checks the output for common NodeJS errors.
+ * @param input - The input string to check for error codes.
+ * @returns true if the input contains an error code, false otherwise.
+ */
 function hasErrorCode(input: string) {
 	if (input?.includes('ENOENT') && input.match(/\bENOENT\b/)) {
 		return true;
@@ -94,6 +115,11 @@ function hasErrorCode(input: string) {
 	return false;
 }
 
+/**
+ * Checks if the given line contains warnings and returns the count.
+ * @param line - The line to check for warnings.
+ * @returns The number of warnings found in the line.
+ */
 function hasWarnings(line: string): number {
 	const match = line.match(/(\d+) warnings?:/);
 
@@ -104,19 +130,39 @@ function hasWarnings(line: string): number {
 	return 0;
 }
 
+/**
+ * Checks if the given value is a hexadecimal number string.
+ * @param x - The value to check if it is a hexadecimal number.
+ * @returns true if the value is a hexadecimal number, false otherwise.
+ */
 function isHex(x: number | string): boolean {
 	return REGEX_HEX_NUMBER.test(String(x));
 }
 
+/**
+ * Helper function to check if a number is numeric.
+ * @param x - The number to check.
+ * @returns true if the number is numeric, false otherwise.
+ */
 function isNumeric(x: number): boolean {
 	return !Number.isNaN(x);
 }
 
+/**
+ * Checks if a value is within a specified range.
+ * @param value - The value to check.
+ * @param min - The minimum value of the range.
+ * @param max - The maximum value of the range.
+ * @returns true if the value is within the range, false otherwise.
+ */
 function inRange(value: number, min: number, max: number): boolean {
 	return value >= min && value <= max;
 }
 
 /**
+ * Maps argument options to flags to be passed to `makensis` command.
+ * @param args - The arguments to be passed to `makensis`.
+ * @param options - The compiler options to be used.
  * @private
  */
 export function mapArguments(args: string[], options: Makensis.CompilerOptions): Makensis.MapArguments {
@@ -467,6 +513,12 @@ export function splitCommands(data: string | string[]): string[] {
 	return args;
 }
 
+/**
+ * Splits the input string into lines based on the platform-specific line break.
+ * @param input - The input string to split into lines.
+ * @param opts - Compiler options that may affect line splitting (e.g., wine).
+ * @returns An array of strings, each representing a line from the input.
+ */
 function splitLines(input: string, opts: Makensis.CompilerOptions = {}): string[] {
 	const lineBreak = platform() === 'win32' || opts.wine === true ? '\r\n' : '\n';
 	const output = input.split(lineBreak);
