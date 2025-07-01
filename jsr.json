@@ -1,6 +1,7 @@
 {
 	"name": "@idleberg/makensis",
 	"version": "3.0.0",
+	"license": "MIT",
 	"exports": "./src/makensis.ts",
 	"publish": {
 		"include": ["jsr.json", "LICENSE", "README.md", "src/**/*", "types/**/*"]
