@@ -6,7 +6,7 @@
 [![CI: Node](https://img.shields.io/github/actions/workflow/status/idleberg/node-makensis/nodejs.yml?logo=nodedotjs&logoColor=white&style=for-the-badge)](https://github.com/idleberg/node-makensis/actions/workflows/node.yml)
 [![CI: Deno](https://img.shields.io/github/actions/workflow/status/idleberg/node-makensis/deno.yml?logo=deno&logoColor=white&style=for-the-badge)](https://github.com/idleberg/node-makensis/actions/workflows/deno.yml)
 
-A Node wrapper for `makensis`, the compiler for NSIS installers.
+A TypeScript wrapper for `makensis`, the compiler for NSIS installers.
 
 ## Prerequisites
 
