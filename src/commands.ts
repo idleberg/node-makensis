@@ -6,7 +6,7 @@ import { mapArguments, objectify, spawnMakensis, splitCommands } from './util.ts
  * Returns usage information for a command, or list all commands
  * @param command - an NSIS command
  * @param compilerOptions - compiler options
- * @returns - usage description
+ * @returns command help for the specified command, or all commands
  */
 export async function commandHelp(
 	command = '',
@@ -57,7 +57,7 @@ export async function compile(
 /**
  * Returns information about which options were used to compile MakeNSIS
  * @param compilerOptions - compiler options
- * @returns - compiler options
+ * @returns header information used for MakeNSIS compilation
  */
 export async function headerInfo(
 	compilerOptions: Makensis.CompilerOptions = {},
@@ -72,7 +72,7 @@ export async function headerInfo(
 /**
  * Returns MakeNSIS software license
  * @param compilerOptions - compiler options
- * @returns - compiler license
+ * @returns MakeNSIS license text
  */
 export async function license(
 	compilerOptions: Makensis.CompilerOptions = {},
@@ -86,7 +86,7 @@ export async function license(
 /**
  * Returns directory where NSIS is installed to
  * @param compilerOptions - compiler options
- * @returns - NSIS directory
+ * @returns NSIS directory path or object with `nsisdir` property
  */
 export async function nsisDir(
 	compilerOptions: Makensis.CompilerOptions = {},
@@ -113,7 +113,7 @@ export async function nsisDir(
 /**
  * Returns version of MakeNSIS
  * @param compilerOptions - compiler options
- * @returns - compiler version
+ * @returns NSIS version string or object with `version` property
  */
 export async function version(
 	compilerOptions: Makensis.CompilerOptions = {},
