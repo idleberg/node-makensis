@@ -148,9 +148,6 @@ Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 ### Options
 
-> [!NOTE]  
-> Some of these options are limited to NSIS v3 (see the [changelog][changelog] for details).
-
 #### define
 
 Type: `Object`
@@ -307,7 +304,7 @@ Verbosity where the value `4=all`, `3=no script`,`2=no info`, `1=no warnings`, `
 
 #### onData
 
-Gives access to an object containing the current line, and whether it contains a warning of the path of the outfile.
+Gives access to an object containing the current line, whether it contains a warning, and the path of the outfile.
 
 #### onError
 
