@@ -304,11 +304,7 @@ Verbosity where the value `4=all`, `3=no script`,`2=no info`, `1=no warnings`, `
 
 #### onData
 
-<<<<<<< HEAD
-Gives access to an object containing the current line, whether it contains a warning, and the path of the outfile.
-=======
 Gives access to an object containing the current line, and whether it contains a warning of the path of the outfile.
->>>>>>> 996ff56c29ed7edcc880a05fc07b27aa67740b68
 
 #### onError
 
