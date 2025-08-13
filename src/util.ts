@@ -163,7 +163,7 @@ function inRange(value: number, min: number, max: number): boolean {
  * Maps argument options to flags to be passed to `makensis` command.
  * @param args - The arguments to be passed to `makensis`.
  * @param options - The compiler options to be used.
- * @private
+ * @internal
  */
 export function mapArguments(args: string[], options: Makensis.CompilerOptions): Makensis.MapArguments {
 	const pathToMakensis: string = options.pathToMakensis ? options.pathToMakensis : 'makensis';
@@ -279,7 +279,8 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 }
 
 /**
- * @private
+ * Helper function to return the output of MakeNSIS into a normalized object.
+ * @internal
  */
 export function objectify(input: string, key: string | null): Makensis.Objectified | string {
 	const normalizedInput = key === 'version' && input.startsWith('v') ? input.substring(1) : input;
@@ -296,7 +297,8 @@ export function objectify(input: string, key: string | null): Makensis.Objectifi
 }
 
 /**
- * @private
+ * Helper function to convert flags from the `-HDRINFO` output into an object.
+ * @internal
  */
 export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): Makensis.HeaderInfo {
 	const output: Makensis.HeaderInfo = {
@@ -389,7 +391,8 @@ function objectifyHelp(input: string, opts: Makensis.CompilerOptions): Makensis.
 }
 
 /**
- * @private
+ * Helper function to spawn MakeNSIS.
+ * @internal
  */
 export function spawnMakensis(
 	cmd: string,
@@ -485,7 +488,8 @@ export function spawnMakensis(
 }
 
 /**
- * @private
+ * Maps the commands specified in the `postExecute` or `preExecute` to the `-X` flag.
+ * @internal
  */
 export function splitCommands(data: string | string[]): string[] {
 	const args: string[] = [];
