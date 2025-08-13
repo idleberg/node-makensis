@@ -282,14 +282,14 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
  * Helper function to return the output of MakeNSIS into a normalized object.
  * @internal
  */
-export function objectify(input: string, key: string | null): Makensis.Objectified | string {
+export function objectify(input: string, key: string | null): Makensis.OutputObject | string {
 	const normalizedInput = key === 'version' && input.startsWith('v') ? input.substring(1) : input;
 
 	if (key === null) {
 		return normalizedInput;
 	}
 
-	const output: Makensis.Objectified = {
+	const output: Makensis.OutputObject = {
 		[key]: normalizedInput,
 	};
 

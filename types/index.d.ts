@@ -1,14 +1,23 @@
-export interface CommandHelpOptions {
+/**
+ * Key value pair consisting of NSIS command as key and its description as value.
+ */
+export type CommandHelpOptions = {
 	[key: string]: string;
 }
 
-export interface CompilerData {
+/**
+ * Object storing the output file, and whether the compilation had warnings and the lines where they occurred.
+ */
+export type CompilerData = {
 	line: string;
 	outFile: string | null;
 	hasWarning: boolean;
 }
 
-export interface CompilerOptions {
+/**
+ * Compiler options for all exposed NSIS methods.
+ */
+export type CompilerOptions = {
 	define?: DefineOptions;
 	env?: boolean;
 	events?: boolean;
@@ -36,42 +45,57 @@ export interface CompilerOptions {
 	pathToWine?: string;
 }
 
-export interface CompilerOutput {
+/**
+ * Standard output of all MakenNSIS commands. Contains the name of the output file, status code, standard output, standard error, and number of warnings.
+ */
+export type CompilerOutput = {
 	outFile?: string;
 	status: number;
-	stdout: string | HeaderInfo | HelpObject | Objectified | null;
+	stdout: string | HeaderInfo | HelpObject | OutputObject | null;
 	stderr: string | null;
 	warnings: number;
 }
 
-export interface DefineOptions {
+/**
+ * Key value pair consisting of NSIS definitions as key and their value.
+ */
+export type DefineOptions = {
 	[key: string]: string;
 }
 
-export interface EnvironmentVariables {
+/**
+ * Key value pair consisting of environment variables as key and their value.
+ */
+export type EnvironmentVariables = {
 	[key: string]: string | undefined;
 }
 
-export interface HeaderInfo {
+/**
+ * Header information returned by the `-HDRINFO` command.
+ */
+export type HeaderInfo = {
 	sizes: HeaderInfoSizes;
 	defined_symbols: HeaderInfoSymbols;
 }
 
-export interface HeaderInfoSizes {
+export type HeaderInfoSizes = {
 	[key: string]: string;
 }
 
-export interface HeaderInfoSymbols {
+export type HeaderInfoSymbols = {
 	[key: string]: boolean | number | string;
 }
 
-export interface HelpObject {
+/**
+ * Key value pair consisting of NSIS command as key and its description as value.
+ */
+export type HelpObject = {
 	[key: string]: string;
 }
 
 type MapArguments = [string, string[], MapArgumentOptions];
 
-export interface MapArgumentOptions {
+export type MapArgumentOptions = {
 	events?: boolean;
 	json?: boolean;
 	wine?: boolean;
@@ -80,15 +104,16 @@ export interface MapArgumentOptions {
 	onClose?: (data: CompilerOutput) => void;
 }
 
-export interface StreamOptions {
+export type StreamOptions = {
 	stdout: string;
 	stderr: string;
 }
-export interface StreamOptionsFormatted {
-	stdout: string | HeaderInfo | HelpObject | Objectified;
+
+export type StreamOptionsFormatted = {
+	stdout: string | HeaderInfo | HelpObject | OutputObject;
 	stderr: string;
 }
 
-export interface Objectified {
+export type OutputObject = {
 	[key: string]: boolean | number | string | undefined;
 }
