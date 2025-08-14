@@ -84,11 +84,11 @@ function getMagicEnvVars(): Makensis.EnvironmentVariables {
 	const prefix = 'NSIS_APP_';
 	const ENV_VAR_REGEX = new RegExp(`${prefix}[a-z0-9]+`, 'gi');
 
-	Object.keys(env).map((item) => {
+	for (const item of Object.keys(env)) {
 		if (item?.length && ENV_VAR_REGEX.test(item)) {
 			definitions[item] = env[item];
 		}
-	});
+	}
 
 	return definitions;
 }
@@ -195,22 +195,22 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 	}
 
 	if (options?.define) {
-		Object.keys(options.define).map((key) => {
+		for (const key of Object.keys(options.define)) {
 			if (options.define?.[key]) {
 				args.push(`-D${key}=${options.define[key]}`);
 			}
-		});
+		}
 	}
 
 	if (options?.env) {
 		const defines = getMagicEnvVars();
 
 		if (defines && Object.keys(defines).length) {
-			Object.keys(defines).map((key) => {
+			for (const key of Object.keys(defines)) {
 				if (defines?.[key]) {
 					args.push(`-D${key}=${defines[key]}`);
 				}
-			});
+			}
 		}
 	}
 
@@ -312,11 +312,7 @@ export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): M
 		return output;
 	}
 
-	const filteredLines = lines.filter((line) => {
-		if (line !== '') {
-			return line;
-		}
-	});
+	const filteredLines = lines.filter((line) => line !== '');
 
 	const tableSizes: Makensis.HeaderInfoSizes = {};
 	const tableSymbols: Makensis.HeaderInfoSymbols = {};
@@ -327,7 +323,7 @@ export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): M
 	}
 
 	// Split sizes
-	filteredLines.map((line) => {
+	for (const line of filteredLines) {
 		if (line.startsWith('Size of ')) {
 			const pair = line.split(' is ');
 
@@ -339,7 +335,7 @@ export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): M
 		} else if (line.startsWith('Defined symbols: ')) {
 			symbols = line.replace('Defined symbols: ', '').split(',');
 		}
-	});
+	}
 
 	output.sizes = tableSizes;
 
@@ -348,7 +344,7 @@ export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): M
 	}
 
 	// Split symbols
-	symbols.map((symbol) => {
+	for (const symbol of symbols) {
 		const pair: Array<number | string> = symbol.split('=');
 
 		if (pair.length > 1 && pair[0] !== 'undefined') {
@@ -360,7 +356,7 @@ export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): M
 		} else {
 			tableSymbols[symbol] = true;
 		}
-	});
+	}
 
 	output.defined_symbols = tableSymbols;
 
