@@ -77,6 +77,9 @@ export type HeaderInfo = {
 	defined_symbols: HeaderInfoSymbols;
 }
 
+/**
+ * Key value pair consisting of header information sizes as key and their value.
+ */
 export type HeaderInfoSizes = {
 	[key: string]: string;
 }
@@ -92,9 +95,14 @@ export type HelpObject = {
 	[key: string]: string;
 }
 
-
+/**
+ * An array containing the command, arguments, and options passed to MakeNSIS.
+ */
 export type MapArguments = [string, string[], MapArgumentOptions];
 
+/**
+ * Options for mapping arguments to MakeNSIS commands.
+ */
 export type MapArgumentOptions = {
 	json?: boolean;
 	wine?: boolean;
