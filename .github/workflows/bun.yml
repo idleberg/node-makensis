@@ -3,7 +3,7 @@ name: "Run tests on Bun"
 on:
   push:
     paths:
-      - ".github/**"
+      - ".github/workflows/bun.yml"
       - "src/**"
       - "tests/**"
       - "types/**"
@@ -12,7 +12,7 @@ on:
       - "pnpm-lock.yaml"
   pull_request:
     paths:
-      - ".github/**"
+      - ".github/workflows/bun.yml"
       - "src/**"
       - "tests/**"
       - "types/**"
@@ -76,7 +76,7 @@ jobs:
 
       - name: "Lint Source"
         if: matrix.os != 'windows-latest'
-        run: bun exec biome ci
+        run: bunx exec biome ci
 
       - name: "Build Source"
         run: bun run --if-present build

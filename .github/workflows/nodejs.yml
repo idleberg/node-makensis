@@ -3,7 +3,7 @@ name: "Run tests on NodeJS"
 on:
   push:
     paths:
-      - ".github/**"
+      - ".github/workflows/nodejs.yml"
       - "src/**"
       - "tests/**"
       - "types/**"
@@ -12,7 +12,7 @@ on:
       - "pnpm-lock.yaml"
   pull_request:
     paths:
-      - ".github/**"
+      - ".github/workflows/nodejs.yml"
       - "src/**"
       - "tests/**"
       - "types/**"
