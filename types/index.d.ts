@@ -20,7 +20,6 @@ export type CompilerData = {
 export type CompilerOptions = {
 	define?: DefineOptions;
 	env?: boolean;
-	events?: boolean;
 	inputCharset?: string;
 	json?: boolean;
 	noCD?: boolean;
@@ -93,10 +92,10 @@ export type HelpObject = {
 	[key: string]: string;
 }
 
-type MapArguments = [string, string[], MapArgumentOptions];
+
+export type MapArguments = [string, string[], MapArgumentOptions];
 
 export type MapArgumentOptions = {
-	events?: boolean;
 	json?: boolean;
 	wine?: boolean;
 	onData?: (data: CompilerData) => void;
