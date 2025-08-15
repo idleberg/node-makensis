@@ -370,7 +370,7 @@ function objectifyHelp(input: string, opts: Makensis.CompilerOptions): Makensis.
 	const output: Makensis.CommandHelpOptions = {};
 
 	if (lines?.length) {
-		lines.map((line) => {
+		for (const line of lines) {
 			let command = line.substring(0, line.indexOf(' '));
 			const usage = line.substring(line.indexOf(' ') + 1);
 
@@ -380,7 +380,7 @@ function objectifyHelp(input: string, opts: Makensis.CompilerOptions): Makensis.
 			}
 
 			if (command) output[command] = usage;
-		});
+		}
 	}
 
 	return output;
@@ -494,20 +494,20 @@ export function splitCommands(data: string | string[]): string[] {
 		if (data.trim().includes('\n')) {
 			const lines = data.trim().split('\n');
 
-			lines.map((line) => {
+			for (const line of lines) {
 				if (line.trim().length) {
 					args.push(`-X${line}`);
 				}
-			});
+			}
 		} else {
 			args.push(`-X${data}`);
 		}
 	} else {
-		data.map((key) => {
+		for (const key of data) {
 			if (key.trim().length) {
 				args.push(`-X${key}`);
 			}
-		});
+		}
 	}
 
 	return args;
