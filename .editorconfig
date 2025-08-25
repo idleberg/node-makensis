@@ -21,3 +21,6 @@ block_comment_end = */
 indent_size = 4
 indent_style = space
 trim_trailing_whitespace = false
+
+[package.json]
+trim_trailing_whitespace = false
