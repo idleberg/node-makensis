@@ -50,7 +50,7 @@
 	"scripts": {
 		"build": "tsup",
 		"dev": "npm run build -- --watch",
-		"lint": "biome check --config-path=biome.jsonc --no-errors-on-unmatched --vcs-enabled=true --vcs-use-ignore-file=true",
+		"lint": "biome check",
 		"prepack": "npm run build",
 		"prepare": "lefthook install",
 		"prepublishOnly": "npm run lint && npm run test",
