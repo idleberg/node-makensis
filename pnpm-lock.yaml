@@ -12,15 +12,15 @@ importers:
         specifier: ^0.9.3
         version: 0.9.3
     devDependencies:
-      '@biomejs/biome':
-        specifier: ^2.2.2
-        version: 2.2.2
       '@commitlint/cli':
         specifier: ^19.8.1
         version: 19.8.1(@types/node@24.3.0)(typescript@5.9.2)
       '@commitlint/config-conventional':
         specifier: ^19.8.1
         version: 19.8.1
+      '@idleberg/configs':
+        specifier: ^0.1.0
+        version: 0.1.0(@biomejs/biome@2.2.2)(lefthook@1.12.3)
       '@types/node':
         specifier: ^24.3.0
         version: 24.3.0
@@ -348,6 +348,12 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@idleberg/configs@0.1.0':
+    resolution: {integrity: sha512-ACpQC3GMEggg4IbPZ9l2uZ0PjH4WV+0XPldGdyx178yfhQqypfIsEAN8QzvOEjs3UdhNwZYIAK4Lw5wZqQj2hQ==}
+    peerDependencies:
+      '@biomejs/biome': ^2.2.4
+      lefthook: ^1.13.0
 
   '@inquirer/checkbox@4.1.6':
     resolution: {integrity: sha512-62u896rWCtKKE43soodq5e/QcRsA22I+7/4Ov7LESWnKRO6BVo2A1DFLDmXL9e28TB0CfHc3YtkbPm7iwajqkg==}
@@ -2605,6 +2611,11 @@ snapshots:
 
   '@esbuild/win32-x64@0.25.4':
     optional: true
+
+  '@idleberg/configs@0.1.0(@biomejs/biome@2.2.2)(lefthook@1.12.3)':
+    dependencies:
+      '@biomejs/biome': 2.2.2
+      lefthook: 1.12.3
 
   '@inquirer/checkbox@4.1.6(@types/node@24.3.0)':
     dependencies:

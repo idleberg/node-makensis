@@ -32,9 +32,9 @@
 		"@nsis/language-data": "^0.9.3"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.2.2",
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
+		"@idleberg/configs": "^0.1.0",
 		"@types/node": "^24.3.0",
 		"jsr": "^0.13.5",
 		"lefthook": "^1.12.3",
