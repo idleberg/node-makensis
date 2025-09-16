@@ -12,6 +12,9 @@ importers:
         specifier: ^0.9.3
         version: 0.9.3
     devDependencies:
+      '@biomejs/biome':
+        specifier: ^2.2.4
+        version: 2.2.4
       '@commitlint/cli':
         specifier: ^19.8.1
         version: 19.8.1(@types/node@24.5.0)(typescript@5.9.2)
