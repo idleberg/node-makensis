@@ -49,14 +49,13 @@ jobs:
 
       - name: "Install NSIS (Windows)"
         if: matrix.os == 'windows-latest'
+        shell: pwsh
         run: |
-          winget install `
-            --id NSIS.NSIS `
-            --accept-package-agreements `
-            --accept-source-agreements `
-            --disable-interactivity `
-            --exact `
-            --silent
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          iwr -useb get.scoop.sh -outfile 'install.ps1'
+          .\install.ps1 -RunAsAdmin
+          scoop bucket add nsis https://github.com/NSIS-Dev/scoop-nsis
+          scoop install nsis/nsis
 
       - name: "Print NSIS version"
         run: makensis -VERSION
