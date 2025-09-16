@@ -30,9 +30,6 @@ importers:
       jsr:
         specifier: ^0.13.5
         version: 0.13.5
-      lefthook:
-        specifier: ^1.13.0
-        version: 1.13.0
       np:
         specifier: ^10.2.0
         version: 10.2.0(@types/node@24.5.1)(typescript@5.9.2)
