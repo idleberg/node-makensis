@@ -2,10 +2,10 @@ import path from 'node:path';
 import { cwd } from 'node:process';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
-import * as MakeNSIS from '../src/makensis';
-import type Makensis from '../types';
+import * as MakeNSIS from '../src/makensis.ts';
+import type * as Makensis from '../types/index.d.ts';
 /* eslint-disable */
-import { nullDevice } from './shared';
+import { nullDevice } from './shared.ts';
 
 // Compiler arguments
 const script = {
@@ -41,8 +41,8 @@ test('Compile script with incorrect charset', async () => {
 		const actual = status;
 
 		assert.is.not(actual, expected);
-	} catch ({ stderr }) {
-		throw new Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 

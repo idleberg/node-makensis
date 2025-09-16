@@ -1,15 +1,14 @@
 import { randomUUID as uuid } from 'node:crypto';
 import { platform } from 'node:os';
 import path from 'node:path';
+import { cwd, env } from 'node:process';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import which from 'which';
-import * as MakeNSIS from '../src/makensis';
+import * as MakeNSIS from '../src/makensis.ts';
+import type * as Makensis from '../types/index.d.ts';
 /* eslint-disable */
-import { nullDevice, shared } from './shared';
-
-import { cwd, env } from 'node:process';
-import type Makensis from '../types';
+import { nullDevice, shared } from './shared.ts';
 
 const scriptFile = path.join(cwd(), 'tests', 'fixtures', 'env.nsi');
 
@@ -46,8 +45,8 @@ test('Load magic environment variable from process', async () => {
 		const actual = stdout.includes('NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE') && stdout.includes(randomString);
 
 		assert.is(actual, expected);
-	} catch ({ stderr }) {
-		throw Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 
@@ -65,8 +64,8 @@ test('Ignore magic environment variable', async () => {
 		const actual = !stdout.includes(randomString);
 
 		assert.is(actual, expected);
-	} catch ({ stderr }) {
-		throw Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 

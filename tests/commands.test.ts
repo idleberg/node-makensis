@@ -3,10 +3,10 @@ import path from 'node:path';
 import { cwd } from 'node:process';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
-import * as MakeNSIS from '../src/makensis';
-import type Makensis from '../types';
+import * as MakeNSIS from '../src/makensis.ts';
+import type * as Makensis from '../types/index.d.ts';
 /* eslint-disable */
-import { defaultScriptArray, defaultScriptString, nullDevice, shared } from './shared';
+import { defaultScriptArray, defaultScriptString, nullDevice, shared } from './shared.ts';
 
 const scriptFile = {
 	minimal: path.join(cwd(), 'tests', 'fixtures', 'utf8.nsi'),
@@ -22,8 +22,8 @@ test('Print makensis version', async () => {
 		const actual = stdout;
 
 		assert.is(actual, expected);
-	} catch ({ stderr }) {
-		throw new Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 
@@ -43,8 +43,8 @@ test('Print makensis version as JSON', async () => {
 		actual = JSON.stringify(actual);
 
 		assert.is(actual, expected);
-	} catch ({ stderr }) {
-		throw new Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 
@@ -125,8 +125,8 @@ test('Compilation from File', async () => {
 		const actual = status;
 
 		assert.is(actual, expected);
-	} catch ({ stderr }) {
-		throw new Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 
@@ -140,8 +140,8 @@ test('Compilation from Array', async () => {
 		const actual = status;
 
 		assert.is(actual, expected);
-	} catch ({ stderr }) {
-		throw new Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 
@@ -155,8 +155,8 @@ test('Compilation from String', async () => {
 		const actual = status;
 
 		assert.is(actual, expected);
-	} catch ({ stderr }) {
-		throw new Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 
@@ -172,8 +172,8 @@ test('Compilation with warning', async () => {
 		const actual = status;
 
 		assert.is(actual, expected);
-	} catch ({ stderr }) {
-		throw new Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 
@@ -190,8 +190,8 @@ test('Compilation with warning as JSON', async () => {
 		const actual = status;
 
 		assert.is(actual, expected);
-	} catch ({ stderr }) {
-		throw new Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 
@@ -205,8 +205,8 @@ test('Compilation with raw arguments and warning', async () => {
 		const actual = status;
 
 		assert.is(actual, expected);
-	} catch ({ stderr }) {
-		throw new Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 
@@ -222,8 +222,8 @@ test('Compilation with error', async () => {
 		const actual = status;
 
 		assert.is.not(actual, expected);
-	} catch ({ stderr }) {
-		throw new Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 
@@ -240,8 +240,8 @@ test('Strict compilation with warning', async () => {
 		const actual = status;
 
 		assert.is.not(actual, expected);
-	} catch ({ stderr }) {
-		throw new Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 
@@ -254,8 +254,8 @@ test('Print ${NSISDIR}', async () => {
 		const actual = existsSync(nsisCfg);
 
 		assert.is(actual, expected);
-	} catch ({ stderr }) {
-		throw new Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 
@@ -268,8 +268,8 @@ test('Print ${NSISDIR} as JSON', async () => {
 		const actual = existsSync(nsisCfg);
 
 		assert.is(actual, expected);
-	} catch ({ stderr }) {
-		throw new Error(stderr);
+	} catch {
+		throw Error('Failed to complete test');
 	}
 });
 
