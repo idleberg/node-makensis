@@ -35,7 +35,7 @@
 		"@commitlint/cli": "^19.8.1",
 		"@commitlint/config-conventional": "^19.8.1",
 		"@idleberg/configs": "^0.3.1",
-		"@types/node": "^24.5.1",
+		"@types/node": "^24.5.2",
 		"@types/which": "^3.0.4",
 		"jsr": "^0.13.5",
 		"np": "^10.2.0",
