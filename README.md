@@ -120,7 +120,7 @@ Returns usage information for a specific command, or a list of all commands. Equ
 
 Usage: `compile(script, options?, spawnOptions?)`
 
-Compiles specified script with MakeNSIS. The script can be omitted in favor of the [`preExecute`](#preExecute) / [`postExecute`](#postExecute) options.
+Compiles the specified script with MakeNSIS. The script can be omitted in favour of the [`preExecute`](#preExecute) / [`postExecute`](#postExecute) options.
 
 #### headerInfo
 
@@ -144,7 +144,7 @@ Returns the path of `${NSISDIR}`.
 
 Usage: `version(options?, spawnOptions?)`
 
-Returns version of MakeNSIS. Equivalent of the `-VERSION` switch.
+Returns the version of MakeNSIS. Equivalent of the `-VERSION` switch.
 
 ### Options
 
@@ -170,7 +170,7 @@ define: {
 
 Type: `boolean`
 
-Enables support for special environment variables, that will be passed on to the script as definitions.
+Enables support for special environment variables that will be passed on to the script as definitions.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -259,7 +259,7 @@ Will only run the preprocessor and print the result to stdout. The safe version 
 
 Type: `string | string[]`
 
-Prepends script-commands to the script, can be passed as array or multiline-string. Equivalent of the `-X` switch when used _before_ passing a script.
+Prepends script-commands to the script, can be passed as an array or multiline string. Equivalent of the `-X` switch when used _before_ passing a script.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -274,7 +274,7 @@ preExecute: ["SetCompressor lzma", "SetCompressorDictSize 16"];
 
 Type: `string | string[]`
 
-Appends commands to the script, can be passed as array or multiline-script. Equivalent of the `-X` switch when used _after_ passing a script.
+Appends commands to the script, can be passed as an array or multiline script. Equivalent of the `-X` switch when used _after_ passing a script.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -324,8 +324,7 @@ Gives access to an object containing the exit code, the full `stdout` and `stder
 This work is licensed under [The MIT License][the mit license].
 
 [!appendfile]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!appendfile.md
-[!finalize]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md
-[!finalize]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.md
+[!finalize]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.m
 [!packhdr]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!packhdr.md
 [!system]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!system.md
 [atom-language-nsis]: https://atom.io/packages/language-nsis
