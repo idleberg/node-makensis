@@ -37,6 +37,7 @@
 		"@idleberg/configs": "^0.3.1",
 		"@types/node": "^24.5.2",
 		"@types/which": "^3.0.4",
+		"concurrently": "^9.2.1",
 		"jsr": "^0.13.5",
 		"np": "^10.2.0",
 		"rimraf": "^6.0.1",
@@ -50,7 +51,9 @@
 	"scripts": {
 		"build": "tsup",
 		"dev": "npm run build -- --watch",
-		"lint": "biome check",
+		"lint": "concurrently --prefix-colors blue,green,magenta npm:lint:*",
+		"lint:biome": "biome check",
+		"lint:e18e": "e18e-cli analyze",
 		"prepack": "npm run build",
 		"prepare": "lefthook install",
 		"prepublishOnly": "npm run lint && npm run test",
