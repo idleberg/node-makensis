@@ -245,6 +245,7 @@ test('Strict compilation with warning', async () => {
 	}
 });
 
+// biome-ignore lint/suspicious/noTemplateCurlyInString: This is intended to test ${NSISDIR}
 test('Print ${NSISDIR}', async () => {
 	try {
 		const nsisDir = (await MakeNSIS.nsisDir()) as string;
@@ -259,6 +260,7 @@ test('Print ${NSISDIR}', async () => {
 	}
 });
 
+// biome-ignore lint/suspicious/noTemplateCurlyInString: This is intended to test ${NSISDIR}
 test('Print ${NSISDIR} as JSON', async () => {
 	try {
 		const { nsisdir } = (await MakeNSIS.nsisDir({ json: true })) as unknown as { nsisdir: string };
