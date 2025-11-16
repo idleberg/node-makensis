@@ -54,8 +54,9 @@ jobs:
           [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
           iwr -useb get.scoop.sh -outfile 'install.ps1'
           .\install.ps1 -RunAsAdmin
-          scoop bucket add nsis https://github.com/NSIS-Dev/scoop-nsis
-          scoop install nsis/nsis
+          # scoop bucket add nsis https://github.com/NSIS-Dev/scoop-nsis
+          # scoop install nsis/nsis
+          scoop install nsis
 
       - name: "Print NSIS version"
         run: makensis -VERSION
