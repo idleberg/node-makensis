@@ -77,7 +77,7 @@ jobs:
 
       - name: "Lint Source"
         if: matrix.os != 'windows-latest'
-        run: bunx exec biome ci
+        run: bunx biome ci
 
       - name: "Build Source"
         run: bun run --if-present build
