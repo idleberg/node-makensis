@@ -10,7 +10,9 @@ A TypeScript wrapper for `makensis`, the compiler for NSIS installers.
 
 ## Prerequisites
 
-Make sure that NSIS 3.06 (or later) is installed. If `makensis` isn't exposed to your `PATH` [environment variable][envvars], you need to set [`pathToMakensis`](#pathtomakensis).
+Make sure that NSIS 3.06 (or later) is installed. If `makensis` isn't exposed to
+your `PATH` [environment variable][envvars], you need to set
+[`pathToMakensis`](#pathtomakensis).
 
 <details>
 <summary><strong>Windows</strong></summary>
@@ -25,7 +27,8 @@ $ winget install NSIS.NSIS
 $ scoop install nsis/nsis
 ```
 
-Alternatively, you can download the NSIS installer from [SourceForge][sourceforge].
+Alternatively, you can download the NSIS installer from
+[SourceForge][sourceforge].
 
 </details>
 
@@ -83,8 +86,10 @@ npm install makensis
 deno add jsr:@idleberg/makensis
 ```
 
-> [!WARNING]  
-> If you need to support a version of NSIS older than 3.06, you can use `makensis@2` as it employs some useful workarounds.
+> [!WARNING]
+>
+> If you need to support a version of NSIS older than 3.06, you can use
+> `makensis@2` as it employs some useful workarounds.
 
 ## Usage
 
@@ -114,19 +119,22 @@ try {
 
 Usage: `commandHelp(command?, options?, spawnOptions?)`
 
-Returns usage information for a specific command, or a list of all commands. Equivalent of the `-CMDHELP` switch.
+Returns usage information for a specific command, or a list of all commands.
+Equivalent of the `-CMDHELP` switch.
 
 #### compile
 
 Usage: `compile(script, options?, spawnOptions?)`
 
-Compiles the specified script with MakeNSIS. The script can be omitted in favour of the [`preExecute`](#preExecute) / [`postExecute`](#postExecute) options.
+Compiles the specified script with MakeNSIS. The script can be omitted in favour
+of the [`preExecute`](#preExecute) / [`postExecute`](#postExecute) options.
 
 #### headerInfo
 
 Usage: `headerInfo(options?, spawnOptions?)`
 
-Returns information about which options were used to compile MakeNSIS. Equivalent of the `-HDRINFO` switch.
+Returns information about which options were used to compile MakeNSIS.
+Equivalent of the `-HDRINFO` switch.
 
 #### license
 
@@ -170,7 +178,8 @@ define: {
 
 Type: `boolean`
 
-Enables support for special environment variables that will be passed on to the script as definitions.
+Enables support for special environment variables that will be passed on to the
+script as definitions.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -193,16 +202,20 @@ NSIS_APP_ENVIRONMENT=development
 
 Type: `string`
 
-Specifies the codepage for files without a BOM (`ACP|OEM|CP#|UTF8|UTF16<LE|BE>`). Equivalent of the `-INPUTCHARSET` switch.
+Specifies the codepage for files without a BOM
+(`ACP|OEM|CP#|UTF8|UTF16<LE|BE>`). Equivalent of the `-INPUTCHARSET` switch.
 
 #### outputCharset
 
-> [!WARNING]  
+> [!WARNING]
+>
 > This option is only available on Windows.
 
 Type: `string`
 
-Specifies the codepage used by stdout when the output is redirected (`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET` switch.
+Specifies the codepage used by stdout when the output is redirected
+(`ACP|OEM|CP#|UTF8[SIG]|UTF16<LE|BE>[BOM]`). Equivalent of the `-OUTPUTCHARSET`
+switch.
 
 #### json
 
@@ -214,13 +227,15 @@ Returns output from `makensis` as an object
 
 Type: `boolean`
 
-Disables the current directory change to that of the .nsi file. Equivalent of the `-NOCD` switch.
+Disables the current directory change to that of the .nsi file. Equivalent of
+the `-NOCD` switch.
 
 #### noConfig
 
 Type: `boolean`
 
-Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`. Equivalent of the `-NOCONFIG` switch.
+Disables inclusion of `<path to makensis.exe>/nsisconf.nsh`. Equivalent of the
+`-NOCONFIG` switch.
 
 #### pathToMakensis
 
@@ -236,12 +251,15 @@ Pauses after execution. Equivalent of the `-PAUSE` switch.
 
 #### priority
 
-> [!WARNING]  
+> [!WARNING]
+>
 > This option is only available on Windows.
 
 Type: `integer`
 
-Sets the compiler process priority, where the value `5=realtime`, `4=high`, `3=above normal`, `2=normal`, `1=below normal`, `0=idle`. Equivalent of the `-P` switch.
+Sets the compiler process priority, where the value `5=realtime`, `4=high`,
+`3=above normal`, `2=normal`, `1=below normal`, `0=idle`. Equivalent of the `-P`
+switch.
 
 #### strict
 
@@ -253,13 +271,17 @@ Treat warnings as errors. Equivalent of the `-WX` switch.
 
 Type: `boolean`
 
-Will only run the preprocessor and print the result to stdout. The safe version will not execute instructions like [`!appendfile`][!appendfile] or [`!system`][!system]. [`!packhdr`][!packhdr] and [`!finalize`][!finalize] are never executed. Equivalent of the `-PPO / SAFEPPO` switches.
+Will only run the preprocessor and print the result to stdout. The safe version
+will not execute instructions like [`!appendfile`][!appendfile] or
+[`!system`][!system]. [`!packhdr`][!packhdr] and [`!finalize`][!finalize] are
+never executed. Equivalent of the `-PPO / SAFEPPO` switches.
 
 #### preExecute
 
 Type: `string | string[]`
 
-Prepends script-commands to the script, can be passed as an array or multiline string. Equivalent of the `-X` switch when used _before_ passing a script.
+Prepends script-commands to the script, can be passed as an array or multiline
+string. Equivalent of the `-X` switch when used _before_ passing a script.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -274,7 +296,8 @@ preExecute: ["SetCompressor lzma", "SetCompressorDictSize 16"];
 
 Type: `string | string[]`
 
-Appends commands to the script, can be passed as an array or multiline script. Equivalent of the `-X` switch when used _after_ passing a script.
+Appends commands to the script, can be passed as an array or multiline script.
+Equivalent of the `-X` switch when used _after_ passing a script.
 
 <details>
 <summary><strong>Example</strong></summary>
@@ -291,20 +314,24 @@ Type: `string[]`
 
 Specifies raw arguments for `makensis`.
 
-> [!IMPORTANT]  
-> These will be added to the compiler arguments last and will hence overwrite any of the NSIS options above!
+> [!IMPORTANT]
+>
+> These will be added to the compiler arguments last and will hence overwrite
+> any of the NSIS options above!
 
 #### verbose
 
 Type: `integer`
 
-Verbosity where the value `4=all`, `3=no script`,`2=no info`, `1=no warnings`, `0=none`. Equivalent of the `-V` switch.
+Verbosity where the value `4=all`, `3=no script`,`2=no info`, `1=no warnings`,
+`0=none`. Equivalent of the `-V` switch.
 
 ### Callbacks
 
 #### onData
 
-Gives access to an object containing the current line, whether it contains a warning, and the path of the outfile.
+Gives access to an object containing the current line, whether it contains a
+warning, and the path of the outfile.
 
 #### onError
 
@@ -312,12 +339,13 @@ Gives access to an object containing the current line.
 
 #### onExit
 
-Gives access to an object containing the exit code, the full `stdout` and `stderr`, and the number of warnings.
+Gives access to an object containing the exit code, the full `stdout` and
+`stderr`, and the number of warnings.
 
 ## Related
 
--   [atom-language-nsis][atom-language-nsis] - NSIS package for Atom/Pulsar
--   [vscode-nsis][vscode-nsis] - NSIS package for Visual Studio Code
+- [atom-language-nsis][atom-language-nsis] - NSIS package for Atom/Pulsar
+- [vscode-nsis][vscode-nsis] - NSIS package for Visual Studio Code
 
 ## License
 
