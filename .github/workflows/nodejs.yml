@@ -31,7 +31,7 @@ jobs:
         os: ["macos-latest", "ubuntu-latest", "windows-latest"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 10
 
@@ -65,9 +65,9 @@ jobs:
         run: makensis -HDRINFO
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -76,7 +76,7 @@ jobs:
         run: |
           echo "::set-output name=pnpm_store_path::$(pnpm store path)"
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
         name: "Setup pnpm cache"
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_store_path }}
