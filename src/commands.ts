@@ -116,15 +116,20 @@ export async function license(
  */
 export function nsisDir(
 	compilerOptions: Makensis.CompilerOptions & { json: true },
+	spawnOptions?: SpawnOptions,
 ): Promise<{ nsisdir: string } | null>;
-export function nsisDir(compilerOptions?: Makensis.CompilerOptions): Promise<string | null>;
+export function nsisDir(
+	compilerOptions?: Makensis.CompilerOptions,
+	spawnOptions?: SpawnOptions,
+): Promise<string | null>;
 export async function nsisDir(
 	compilerOptions: Makensis.CompilerOptions = {},
+	spawnOptions: SpawnOptions = {},
 ): Promise<string | { nsisdir: string } | null> {
 	// We're setting JSON true for easier parsing
 	const hdrOptions = { ...compilerOptions, json: true } as const;
 
-	const hdrinfo = await headerInfo(hdrOptions);
+	const hdrinfo = await headerInfo(hdrOptions, spawnOptions);
 
 	const header = hdrinfo?.stdout;
 	const nsisdir = header?.defined_symbols?.NSISDIR;
