@@ -3,7 +3,7 @@ import { cwd } from 'node:process';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../src/makensis.ts';
-import type * as Makensis from '../types/index.d.ts';
+import type * as Makensis from '../src/types.ts';
 /* eslint-disable */
 import { nullDevice } from './shared.ts';
 

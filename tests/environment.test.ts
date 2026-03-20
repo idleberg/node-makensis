@@ -6,7 +6,7 @@ import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import which from 'which';
 import * as MakeNSIS from '../src/makensis.ts';
-import type * as Makensis from '../types/index.d.ts';
+import type * as Makensis from '../src/types.ts';
 /* eslint-disable */
 import { nullDevice, shared } from './shared.ts';
 

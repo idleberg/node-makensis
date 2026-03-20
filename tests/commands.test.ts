@@ -4,7 +4,6 @@ import { cwd } from 'node:process';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import * as MakeNSIS from '../src/makensis.ts';
-import type * as Makensis from '../types/index.d.ts';
 /* eslint-disable */
 import { defaultScriptArray, defaultScriptString, nullDevice, shared } from './shared.ts';
 
@@ -39,10 +38,7 @@ test('Print makensis version as JSON', async () => {
 
 		expected = JSON.stringify({ version: expected });
 
-		let actual = stdout;
-		actual = JSON.stringify(actual);
-
-		assert.is(actual, expected);
+		assert.is(JSON.stringify(stdout), expected);
 	} catch {
 		throw Error('Failed to complete test');
 	}
@@ -60,13 +56,7 @@ test('Print makensis license', async () => {
 test('Print makensis license as JSON', async () => {
 	const { stdout } = await MakeNSIS.license({ json: true });
 
-	let expected = shared.license;
-	expected = JSON.stringify({ license: expected });
-
-	let actual = stdout;
-	actual = JSON.stringify(actual);
-
-	assert.is(actual, expected);
+	assert.is(JSON.stringify(stdout), JSON.stringify({ license: shared.license }));
 });
 
 test('Print compiler information', async () => {
@@ -79,17 +69,17 @@ test('Print compiler information', async () => {
 });
 
 test('Print compiler information as JSON', async () => {
-	const actual = ((await MakeNSIS.headerInfo({ json: true })).stdout as Makensis.HeaderInfo).defined_symbols.__GLOBAL__;
+	const actual = (await MakeNSIS.headerInfo({ json: true })).stdout.defined_symbols.__GLOBAL__;
 	const expected = true;
 
 	assert.is(actual, expected);
 });
 
 test('Print help for all commands', async () => {
-	const { stdout } = (await MakeNSIS.commandHelp()) as { stdout: string };
+	const { stdout } = await MakeNSIS.commandHelp();
 
 	const expected = shared.commandHelp?.replace(/\s+/g, '');
-	const actual = stdout.replace(/\s+/g, '');
+	const actual = stdout?.replace(/\s+/g, '');
 
 	assert.is(actual, expected);
 });
@@ -104,13 +94,9 @@ test('Print help for OutFile command', async () => {
 });
 
 test('Print help for OutFile command as JSON', async () => {
-	let expected = shared.outFile;
-	let actual = (await MakeNSIS.commandHelp('OutFile', { json: true })).stdout;
+	const { stdout } = await MakeNSIS.commandHelp('OutFile', { json: true });
 
-	actual = JSON.stringify(actual);
-	expected = JSON.stringify({ help: expected });
-
-	assert.is(actual, expected);
+	assert.is(JSON.stringify(stdout), JSON.stringify({ help: shared.outFile }));
 });
 
 test('Compilation from File', async () => {
@@ -248,7 +234,8 @@ test('Strict compilation with warning', async () => {
 // biome-ignore lint/suspicious/noTemplateCurlyInString: This is intended to test ${NSISDIR}
 test('Print ${NSISDIR}', async () => {
 	try {
-		const nsisDir = (await MakeNSIS.nsisDir()) as string;
+		const nsisDir = await MakeNSIS.nsisDir();
+		assert.ok(nsisDir, 'nsisDir returned null');
 		const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
 
 		const expected = true;
@@ -263,7 +250,9 @@ test('Print ${NSISDIR}', async () => {
 // biome-ignore lint/suspicious/noTemplateCurlyInString: This is intended to test ${NSISDIR}
 test('Print ${NSISDIR} as JSON', async () => {
 	try {
-		const { nsisdir } = (await MakeNSIS.nsisDir({ json: true })) as unknown as { nsisdir: string };
+		const result = await MakeNSIS.nsisDir({ json: true });
+		assert.ok(result, 'nsisDir returned null');
+		const { nsisdir } = result;
 		const nsisCfg = path.join(nsisdir, 'Include', 'MUI2.nsh');
 
 		const expected = true;
