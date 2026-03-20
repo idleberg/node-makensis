@@ -45,12 +45,12 @@ export type CompilerOptions = {
 };
 
 /**
- * Standard output of all MakenNSIS commands. Contains the name of the output file, status code, standard output, standard error, and number of warnings.
+ * Standard output of all MakeNSIS commands. Contains the name of the output file, status code, standard output, standard error, and number of warnings.
  */
-export type CompilerOutput = {
+export type CompilerOutput<T = string | HeaderInfo | HelpObject | OutputObject | null> = {
 	outFile?: string;
 	status: number;
-	stdout: string | HeaderInfo | HelpObject | OutputObject | null;
+	stdout: T;
 	stderr: string | null;
 	warnings: number;
 };

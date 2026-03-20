@@ -1,5 +1,5 @@
 import type { SpawnOptions } from 'node:child_process';
-import type * as Makensis from '../types/index.d.ts';
+import type * as Makensis from './types.ts';
 import { mapArguments, objectify, spawnMakensis, splitCommands } from './util.ts';
 
 /**
@@ -8,6 +8,16 @@ import { mapArguments, objectify, spawnMakensis, splitCommands } from './util.ts
  * @param compilerOptions - compiler options
  * @returns command help for the specified command, or all commands
  */
+export function commandHelp(
+	command: string,
+	compilerOptions: Makensis.CompilerOptions & { json: true },
+	spawnOptions?: SpawnOptions,
+): Promise<Makensis.CompilerOutput<Makensis.HelpObject | Makensis.OutputObject>>;
+export function commandHelp(
+	command?: string,
+	compilerOptions?: Makensis.CompilerOptions,
+	spawnOptions?: SpawnOptions,
+): Promise<Makensis.CompilerOutput<string | null>>;
 export async function commandHelp(
 	command = '',
 	compilerOptions: Makensis.CompilerOptions = {},
@@ -59,6 +69,14 @@ export async function compile(
  * @param compilerOptions - compiler options
  * @returns header information used for MakeNSIS compilation
  */
+export function headerInfo(
+	compilerOptions: Makensis.CompilerOptions & { json: true },
+	spawnOptions?: SpawnOptions,
+): Promise<Makensis.CompilerOutput<Makensis.HeaderInfo>>;
+export function headerInfo(
+	compilerOptions?: Makensis.CompilerOptions,
+	spawnOptions?: SpawnOptions,
+): Promise<Makensis.CompilerOutput<string | null>>;
 export async function headerInfo(
 	compilerOptions: Makensis.CompilerOptions = {},
 	spawnOptions: SpawnOptions = {},
@@ -74,6 +92,14 @@ export async function headerInfo(
  * @param compilerOptions - compiler options
  * @returns MakeNSIS license text
  */
+export function license(
+	compilerOptions: Makensis.CompilerOptions & { json: true },
+	spawnOptions?: SpawnOptions,
+): Promise<Makensis.CompilerOutput<Makensis.OutputObject>>;
+export function license(
+	compilerOptions?: Makensis.CompilerOptions,
+	spawnOptions?: SpawnOptions,
+): Promise<Makensis.CompilerOutput<string | null>>;
 export async function license(
 	compilerOptions: Makensis.CompilerOptions = {},
 	spawnOptions: SpawnOptions = {},
@@ -88,15 +114,19 @@ export async function license(
  * @param compilerOptions - compiler options
  * @returns NSIS directory path or object with `nsisdir` property
  */
+export function nsisDir(
+	compilerOptions: Makensis.CompilerOptions & { json: true },
+): Promise<{ nsisdir: string } | null>;
+export function nsisDir(compilerOptions?: Makensis.CompilerOptions): Promise<string | null>;
 export async function nsisDir(
 	compilerOptions: Makensis.CompilerOptions = {},
 ): Promise<string | { nsisdir: string } | null> {
 	// We're setting JSON true for easier parsing
-	const hdrOptions: Makensis.CompilerOptions = { ...compilerOptions, json: true };
+	const hdrOptions = { ...compilerOptions, json: true } as const;
 
 	const hdrinfo = await headerInfo(hdrOptions);
 
-	const header = hdrinfo?.stdout as Makensis.HeaderInfo | undefined;
+	const header = hdrinfo?.stdout;
 	const nsisdir = header?.defined_symbols?.NSISDIR;
 
 	if (!nsisdir) {
@@ -115,6 +145,14 @@ export async function nsisDir(
  * @param compilerOptions - compiler options
  * @returns NSIS version string or object with `version` property
  */
+export function version(
+	compilerOptions: Makensis.CompilerOptions & { json: true },
+	spawnOptions?: SpawnOptions,
+): Promise<Makensis.CompilerOutput<Makensis.OutputObject>>;
+export function version(
+	compilerOptions?: Makensis.CompilerOptions,
+	spawnOptions?: SpawnOptions,
+): Promise<Makensis.CompilerOutput<string | null>>;
 export async function version(
 	compilerOptions: Makensis.CompilerOptions = {},
 	spawnOptions: SpawnOptions = {},
