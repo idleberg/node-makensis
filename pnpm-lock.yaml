@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@nsis/language-data':
-        specifier: ^0.10.0
-        version: 0.10.0
+        specifier: ^0.11.0
+        version: 0.11.0
     devDependencies:
       '@commitlint/cli':
         specifier: ^20.5.0
@@ -670,8 +670,8 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@nsis/language-data@0.10.0':
-    resolution: {integrity: sha512-cCDtOX8vYrAiVJl47GTn74Kes+9xDyXsANZlTuJAszcgiwCZKhPY3VlQMu/bJRVVl14SDkf8cX52/0ybxtEiAg==}
+  '@nsis/language-data@0.11.0':
+    resolution: {integrity: sha512-zDjwKTzVEiGcQLhpxeg9KJ7BnWS3VOf5KN921KD0dMa8/q/7hDAES8cuwOxnwAvmQakdIwRGeLpJNJKFLkjmuA==}
 
   '@oxc-project/types@0.115.0':
     resolution: {integrity: sha512-4n91DKnebUS4yjUHl2g3/b2T+IUdCfmoZGhmwsovZCDaJSs+QkVAM+0AqqTxHSsHfeiMuueT75cZaZcT/m0pSw==}
@@ -3492,7 +3492,7 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
 
-  '@nsis/language-data@0.10.0': {}
+  '@nsis/language-data@0.11.0': {}
 
   '@oxc-project/types@0.115.0': {}
 
