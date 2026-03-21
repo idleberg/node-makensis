@@ -344,8 +344,8 @@ Gives access to an object containing the exit code, the full `stdout` and
 
 ## Related
 
-- [atom-language-nsis][atom-language-nsis] - NSIS package for Atom/Pulsar
 - [vscode-nsis][vscode-nsis] - NSIS package for Visual Studio Code
+- [language-nsis][atom-language-nsis] - NSIS package for Atom/Pulsar
 
 ## License
 
@@ -355,7 +355,7 @@ This work is licensed under [The MIT License][the mit license].
 [!finalize]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!finalize.m
 [!packhdr]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!packhdr.md
 [!system]: https://github.com/NSIS-Dev/Documentation/blob/master/Reference/!system.md
-[atom-language-nsis]: https://atom.io/packages/language-nsis
+[atom-language-nsis]: https://web.pulsar-edit.dev/packages/language-nsis
 [changelog]: http://nsis.sourceforge.net/Docs
 [envvars]: http://superuser.com/a/284351/195953
 [homebrew]: http://brew.sh/
