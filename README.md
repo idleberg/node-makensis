@@ -344,8 +344,8 @@ Gives access to an object containing the exit code, the full `stdout` and
 
 ## Related
 
-- [vscode-nsis][vscode-nsis] - NSIS package for Visual Studio Code
-- [language-nsis][atom-language-nsis] - NSIS package for Atom/Pulsar
+- [vscode-nsis][vscode-nsis] - Visual Studio Code extension
+- [language-nsis][atom-language-nsis] - Atom/Pulsar package
 
 ## License
 
