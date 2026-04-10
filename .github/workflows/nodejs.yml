@@ -73,6 +73,7 @@ jobs:
 
       - name: "Get pnpm store directory"
         id: pnpm-cache
+        shell: bash
         run: |
           echo "pnpm_store_path=$(pnpm store path)" >> $GITHUB_OUTPUT
 
