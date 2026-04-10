@@ -74,7 +74,7 @@ jobs:
       - name: "Get pnpm store directory"
         id: pnpm-cache
         run: |
-          echo "::set-output name=pnpm_store_path::$(pnpm store path)"
+          echo "pnpm_store_path=$(pnpm store path)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
         name: "Setup pnpm cache"
