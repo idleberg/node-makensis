@@ -81,14 +81,17 @@ const cases: Array<[string, Makensis.CompilerOptions, string[]]> = [
 	['inputCharset', { inputCharset: 'UTF8' }, ['-INPUTCHARSET', 'UTF8']],
 	['unsupported inputCharset is dropped', { inputCharset: 'NOPE' }, []],
 	['verbose', { verbose: 4 }, ['-V4']],
+	['verbose: 0 emits -V0', { verbose: 0 }, ['-V0']],
 	['verbose out of range is dropped', { verbose: 9 as unknown as 4 }, []],
-	['rawArguments as array', { rawArguments: ['-WX', '-V2'] as unknown as string }, ['-WX', '-V2']],
+	['verbose: undefined emits nothing', { verbose: undefined }, []],
+	['rawArguments as array', { rawArguments: ['-WX', '-V2'] }, ['-WX', '-V2']],
+	['rawArguments as string is ignored', { rawArguments: '-WX' as unknown as string[] }, []],
 	[
 		'flag order follows the option table',
 		{ define: { A: '1' }, preExecute: 'Nop', noCD: true, strict: true, verbose: 2 },
 		['-DA=1', '-XNop', '-NOCD', '-WX', '-V2'],
 	],
-	['rawArguments are appended last', { strict: true, rawArguments: ['-V0'] as unknown as string }, ['-WX', '-V0']],
+	['rawArguments are appended last', { strict: true, rawArguments: ['-V0'] }, ['-WX', '-V0']],
 ];
 
 for (const [name, options, expected] of cases) {
@@ -143,8 +146,17 @@ test('mapArguments: -CMDHELP skips option mapping', () => {
 	assert.equal(argsFor({ strict: true, verbose: 2 }, ['-CMDHELP']), ['-CMDHELP']);
 });
 
+// The three commands below pass `verbose: 0` internally, so they only stayed silent by accident
+// until the fix for defect 2.1 landed. Their argv order is what makes -V0 safe for them:
+// `makensis -V0 -HDRINFO` prints nothing at all, while `makensis -HDRINFO -V0` works. A refactor
+// that emits switches before the command would break all three without failing any other test.
+for (const command of ['-HDRINFO', '-VERSION', '-LICENSE']) {
+	test(`mapArguments: ${command} keeps switches after the command`, () => {
+		assert.equal(argsFor({ verbose: 0 }, [command]), [command, '-V0']);
+	});
+}
+
 test('mapArguments: -HDRINFO keeps switches after the command', () => {
-	// makensis -V0 -HDRINFO prints nothing, while makensis -HDRINFO -V0 works
 	assert.equal(argsFor({ verbose: 4 }, ['-HDRINFO']), ['-HDRINFO', '-V4']);
 });
 
@@ -162,18 +174,9 @@ test('mapArguments: env maps NSIS_APP_* to defines', () => {
 	});
 });
 
-// Defect pins. These describe the behaviour we want, not the behaviour we have, so they are
-// skipped until the corresponding fix lands — at which point `test.skip` becomes `test` and
-// the assertion is the acceptance criterion. See PLAN-3.x.md §2.
-test.skip('defect 2.1: verbose: 0 emits -V0', () => {
-	assert.equal(argsFor({ verbose: 0 }), ['-V0']);
-});
-
-test.skip('defect 2.2: rawArguments accepts a string', () => {
-	assert.equal(argsFor({ rawArguments: '-WX' }), ['-WX']);
-});
-
-test.skip('defect 2.3: env maps every NSIS_APP_* variable', () => {
+// Four variables, because the `g`-flag bug this pins alternated between matching and not: two
+// would have hidden it half the time, and any odd count lets a partial regression still pass.
+test('mapArguments: env maps every NSIS_APP_* variable', () => {
 	const variables = {
 		NSIS_APP_ONE: 'a',
 		NSIS_APP_TWO: 'b',
@@ -191,10 +194,27 @@ test.skip('defect 2.3: env maps every NSIS_APP_* variable', () => {
 	});
 });
 
+test('mapArguments: env matches the prefix, not a substring', () => {
+	withMagicEnvVars({ NSIS_APP_ONE: 'a', MY_NSIS_APP_TWO: 'b' }, () => {
+		assert.equal(argsFor({ env: true }), ['-DNSIS_APP_ONE=a']);
+	});
+});
+
+// The early return in `mapArguments` used to test `args.length > 1`, which the Wine branch
+// satisfies on its own by prepending `pathToMakensis` — so these three commands dropped their
+// switches under Wine while the native path kept them. See PLAN-3.x.md §5.
 if (!isWin32) {
-	test.skip('fragile: wine and native agree on informational commands', () => {
+	for (const command of ['-HDRINFO', '-VERSION', '-LICENSE']) {
+		test(`mapArguments: wine and native agree on ${command}`, () => {
+			quietly(() => {
+				assert.equal(argsFor({ wine: true, verbose: 4 }, [command]), ['makensis', command, '-V4']);
+			});
+		});
+	}
+
+	test('mapArguments: wine skips option mapping for -CMDHELP', () => {
 		quietly(() => {
-			assert.equal(argsFor({ wine: true, verbose: 4 }, ['-HDRINFO']), ['makensis', '-HDRINFO', '-V4']);
+			assert.equal(argsFor({ wine: true, verbose: 4 }, ['-CMDHELP']), ['makensis', '-CMDHELP']);
 		});
 	});
 }

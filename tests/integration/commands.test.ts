@@ -158,7 +158,7 @@ it('Compilation with warning as JSON', async () => {
 
 it('Compilation with raw arguments and warning', async () => {
 	const { status } = await MakeNSIS.compile(scriptFile.warning, {
-		rawArguments: '-WX',
+		rawArguments: ['-WX'],
 	});
 
 	const expected = 1;
