@@ -275,7 +275,9 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 		}
 	}
 
-	if (options.rawArguments && Array.isArray(options.rawArguments)) {
+	// Guarded at runtime as well as in the type, so that a string from an untyped caller is
+	// ignored rather than spread into its individual characters
+	if (Array.isArray(options.rawArguments)) {
 		args.push(...options.rawArguments);
 	}
 

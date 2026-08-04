@@ -33,7 +33,7 @@ export type CompilerOptions = {
 	preExecute?: string | string[];
 	priority?: 0 | 1 | 2 | 3 | 4 | 5;
 	ppo?: boolean;
-	rawArguments?: string;
+	rawArguments?: string[];
 	safePPO?: boolean;
 	strict?: boolean;
 	verbose?: 0 | 1 | 2 | 3 | 4;
