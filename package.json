@@ -58,7 +58,9 @@
 		"prepublishOnly": "npm run lint && npm run test",
 		"publish:jsr": "jsr publish",
 		"publish:npm": "np",
-		"test": "uvu tests -r tsm --ignore shared.ts"
+		"test": "concurrently --prefix-colors red,yellow npm:test:*",
+		"test:unit": "uvu tests/unit -r tsm",
+		"test:integration": "uvu tests/integration -r tsm"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [

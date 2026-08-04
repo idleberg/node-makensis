@@ -5,10 +5,13 @@ import { cwd, env } from 'node:process';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
 import which from 'which';
-import * as MakeNSIS from '../src/makensis.ts';
-import type * as Makensis from '../src/types.ts';
+import * as MakeNSIS from '../../src/makensis.ts';
+import type * as Makensis from '../../src/types.ts';
 /* eslint-disable */
-import { nullDevice, shared } from './shared.ts';
+import { hasMakensis, nullDevice, shared } from '../shared.ts';
+
+// Skipped wholesale when no compiler is present, rather than failing unreadably
+const it = hasMakensis ? test : test.skip;
 
 const scriptFile = path.join(cwd(), 'tests', 'fixtures', 'env.nsi');
 
@@ -20,7 +23,7 @@ const defaultOptions: Makensis.CompilerOptions = {
 };
 
 // Let's run the tests
-test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async () => {
+it(`MakeNSIS ${shared.version ?? '(unknown version)'} found in PATH environmental variable`, async () => {
 	if (platform() === 'win32') {
 		// TODO: investigate why this test fails on Windows
 		console.log('Skipping test on Windows');
@@ -31,7 +34,7 @@ test(`MakeNSIS ${shared.version} found in PATH environmental variable`, async ()
 	}
 });
 
-test('Load magic environment variable from process', async () => {
+it('Load magic environment variable from process', async () => {
 	const randomString = uuid();
 	env.NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE = randomString;
 
@@ -46,7 +49,7 @@ test('Load magic environment variable from process', async () => {
 	assert.is(actual, expected);
 });
 
-test('Ignore magic environment variable', async () => {
+it('Ignore magic environment variable', async () => {
 	const randomString = uuid();
 	env.NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE = randomString;
 

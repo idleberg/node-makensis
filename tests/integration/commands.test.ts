@@ -3,9 +3,12 @@ import path from 'node:path';
 import { cwd } from 'node:process';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
-import * as MakeNSIS from '../src/makensis.ts';
+import * as MakeNSIS from '../../src/makensis.ts';
 /* eslint-disable */
-import { defaultScriptArray, defaultScriptString, nullDevice, shared } from './shared.ts';
+import { defaultScriptArray, defaultScriptString, hasMakensis, nullDevice, shared } from '../shared.ts';
+
+// Skipped wholesale when no compiler is present, rather than failing unreadably
+const it = hasMakensis ? test : test.skip;
 
 const scriptFile = {
 	minimal: path.join(cwd(), 'tests', 'fixtures', 'utf8.nsi'),
@@ -13,7 +16,7 @@ const scriptFile = {
 };
 
 // Let's run the tests
-test('Print makensis version', async () => {
+it('Print makensis version', async () => {
 	const { stdout } = await MakeNSIS.version();
 
 	const expected = shared.version;
@@ -22,7 +25,7 @@ test('Print makensis version', async () => {
 	assert.is(actual, expected);
 });
 
-test('Print makensis version as JSON', async () => {
+it('Print makensis version as JSON', async () => {
 	const { stdout } = await MakeNSIS.version({ json: true });
 
 	let expected = shared.version;
@@ -36,7 +39,7 @@ test('Print makensis version as JSON', async () => {
 	assert.is(JSON.stringify(stdout), expected);
 });
 
-test('Print makensis license', async () => {
+it('Print makensis license', async () => {
 	const { stdout } = await MakeNSIS.license();
 
 	const expected = shared.license;
@@ -45,13 +48,13 @@ test('Print makensis license', async () => {
 	assert.is(actual, expected);
 });
 
-test('Print makensis license as JSON', async () => {
+it('Print makensis license as JSON', async () => {
 	const { stdout } = await MakeNSIS.license({ json: true });
 
 	assert.is(JSON.stringify(stdout), JSON.stringify({ license: shared.license }));
 });
 
-test('Print compiler information', async () => {
+it('Print compiler information', async () => {
 	const { stdout } = await MakeNSIS.headerInfo();
 
 	const expected = shared.headerInfo;
@@ -60,14 +63,14 @@ test('Print compiler information', async () => {
 	assert.is(actual, expected);
 });
 
-test('Print compiler information as JSON', async () => {
+it('Print compiler information as JSON', async () => {
 	const actual = (await MakeNSIS.headerInfo({ json: true })).stdout.defined_symbols.__GLOBAL__;
 	const expected = true;
 
 	assert.is(actual, expected);
 });
 
-test('Print help for all commands', async () => {
+it('Print help for all commands', async () => {
 	const { stdout } = await MakeNSIS.commandHelp();
 
 	const expected = shared.commandHelp?.replace(/\s+/g, '');
@@ -76,7 +79,7 @@ test('Print help for all commands', async () => {
 	assert.is(actual, expected);
 });
 
-test('Print help for OutFile command', async () => {
+it('Print help for OutFile command', async () => {
 	const { stdout } = await MakeNSIS.commandHelp('OutFile');
 
 	const expected = shared.outFile;
@@ -85,13 +88,13 @@ test('Print help for OutFile command', async () => {
 	assert.is(actual, expected);
 });
 
-test('Print help for OutFile command as JSON', async () => {
+it('Print help for OutFile command as JSON', async () => {
 	const { stdout } = await MakeNSIS.commandHelp('OutFile', { json: true });
 
 	assert.is(JSON.stringify(stdout), JSON.stringify({ help: shared.outFile }));
 });
 
-test('Compilation from File', async () => {
+it('Compilation from File', async () => {
 	const { status } = await MakeNSIS.compile(scriptFile.minimal, {
 		define: {
 			NULL_DEVICE: nullDevice,
@@ -104,7 +107,7 @@ test('Compilation from File', async () => {
 	assert.is(actual, expected);
 });
 
-test('Compilation from Array', async () => {
+it('Compilation from Array', async () => {
 	const { status } = await MakeNSIS.compile(null, {
 		preExecute: defaultScriptString,
 	});
@@ -115,7 +118,7 @@ test('Compilation from Array', async () => {
 	assert.is(actual, expected);
 });
 
-test('Compilation from String', async () => {
+it('Compilation from String', async () => {
 	const { status } = await MakeNSIS.compile(null, {
 		preExecute: defaultScriptString,
 	});
@@ -126,7 +129,7 @@ test('Compilation from String', async () => {
 	assert.is(actual, expected);
 });
 
-test('Compilation with warning', async () => {
+it('Compilation with warning', async () => {
 	const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
 	const { status } = await MakeNSIS.compile(null, {
@@ -139,7 +142,7 @@ test('Compilation with warning', async () => {
 	assert.is(actual, expected);
 });
 
-test('Compilation with warning as JSON', async () => {
+it('Compilation with warning as JSON', async () => {
 	const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
 	const { status } = await MakeNSIS.compile(null, {
@@ -153,7 +156,7 @@ test('Compilation with warning as JSON', async () => {
 	assert.is(actual, expected);
 });
 
-test('Compilation with raw arguments and warning', async () => {
+it('Compilation with raw arguments and warning', async () => {
 	const { status } = await MakeNSIS.compile(scriptFile.warning, {
 		rawArguments: '-WX',
 	});
@@ -164,7 +167,7 @@ test('Compilation with raw arguments and warning', async () => {
 	assert.is(actual, expected);
 });
 
-test('Compilation with error', async () => {
+it('Compilation with error', async () => {
 	const scriptWithError = [...defaultScriptArray, '!error'];
 
 	const { status } = await MakeNSIS.compile(null, {
@@ -177,7 +180,7 @@ test('Compilation with error', async () => {
 	assert.is.not(actual, expected);
 });
 
-test('Strict compilation with warning', async () => {
+it('Strict compilation with warning', async () => {
 	const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
 	const { status } = await MakeNSIS.compile(null, {
@@ -192,7 +195,7 @@ test('Strict compilation with warning', async () => {
 });
 
 // biome-ignore lint/suspicious/noTemplateCurlyInString: This is intended to test ${NSISDIR}
-test('Print ${NSISDIR}', async () => {
+it('Print ${NSISDIR}', async () => {
 	const nsisDir = await MakeNSIS.nsisDir();
 	assert.ok(nsisDir, 'nsisDir returned null');
 	const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
@@ -204,7 +207,7 @@ test('Print ${NSISDIR}', async () => {
 });
 
 // biome-ignore lint/suspicious/noTemplateCurlyInString: This is intended to test ${NSISDIR}
-test('Print ${NSISDIR} as JSON', async () => {
+it('Print ${NSISDIR} as JSON', async () => {
 	const result = await MakeNSIS.nsisDir({ json: true });
 	assert.ok(result, 'nsisDir returned null');
 	const { nsisdir } = result;

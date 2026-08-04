@@ -2,10 +2,13 @@ import path from 'node:path';
 import { cwd } from 'node:process';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
-import * as MakeNSIS from '../src/makensis.ts';
-import type * as Makensis from '../src/types.ts';
+import * as MakeNSIS from '../../src/makensis.ts';
+import type * as Makensis from '../../src/types.ts';
 /* eslint-disable */
-import { nullDevice } from './shared.ts';
+import { hasMakensis, nullDevice } from '../shared.ts';
+
+// Skipped wholesale when no compiler is present, rather than failing unreadably
+const it = hasMakensis ? test : test.skip;
 
 // Compiler arguments
 const script = {
@@ -21,7 +24,7 @@ const defaultOptions: Makensis.CompilerOptions = {
 };
 
 // Let's run the tests
-test('Compile script with correct charset', async () => {
+it('Compile script with correct charset', async () => {
 	const options = { ...defaultOptions, inputCharset: 'UTF8' };
 
 	const { status } = await MakeNSIS.compile(script.utf8, options);
@@ -31,7 +34,7 @@ test('Compile script with correct charset', async () => {
 	assert.is(actual, expected);
 });
 
-test('Compile script with incorrect charset', async () => {
+it('Compile script with incorrect charset', async () => {
 	const options = { ...defaultOptions, inputCharset: 'UTF16BE' };
 
 	const { status } = (await MakeNSIS.compile(script.utf8, options)) as { status: number };

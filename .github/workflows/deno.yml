@@ -83,4 +83,5 @@ jobs:
 
       - name: Run Tests
         run: |
-          deno run --allow-all npm:uvu tests -r tsm --ignore shared.ts
+          deno run --allow-all npm:uvu tests/unit -r tsm
+          deno run --allow-all npm:uvu tests/integration -r tsm
