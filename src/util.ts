@@ -7,6 +7,10 @@ import type * as Makensis from './types.ts';
 
 const REGEX_HEX_NUMBER = /^[0-9a-fA-F]+$/;
 
+// Matches both line endings unconditionally. Picking a separator by platform left a trailing
+// `\r` on every line whenever a CRLF-emitting compiler was invoked without `wine: true`.
+const REGEX_LINE_BREAK = /\r?\n/;
+
 // Non-greedy and extension-agnostic. The previous pattern was `/Output: "(.*.exe)"/`, whose
 // unescaped dot required the name to end in any character plus `exe` — so `OutFile` targets
 // like `installer.bin` went undetected — and whose greedy `.*` swallowed everything up to the
@@ -55,12 +59,12 @@ function formatOutput(
 			const minLength = opts.wine === true ? 2 : 1;
 
 			if (args.length === minLength) {
-				output.stdout = objectifyHelp(stdOut, opts);
+				output.stdout = objectifyHelp(stdOut);
 			} else {
 				output.stdout = objectify(stdOut, 'help');
 			}
 		} else if (args.includes('-HDRINFO')) {
-			output.stdout = objectifyFlags(stdOut, opts);
+			output.stdout = objectifyFlags(stdOut);
 		} else if (args.includes('-LICENSE')) {
 			output.stdout = objectify(stdOut, 'license');
 		} else if (args.includes('-VERSION')) {
@@ -178,6 +182,11 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 
 	let cmd: string;
 
+	// Computed before the Wine branch below prepends `pathToMakensis` to `args`. The test used to
+	// be `args.length > 1`, which under Wine matched every invocation — so `-HDRINFO`, `-VERSION`
+	// and `-LICENSE` skipped option mapping there while their native equivalents did not.
+	const skipsOptionMapping = args.includes('-CMDHELP');
+
 	if (platform() !== 'win32' && options.wine === true) {
 		console.warn(
 			'Wine support has been degraded to an experimental feature, but it will be continued to be supported for the time being.',
@@ -192,7 +201,7 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 	// `-CMDHELP` consumes the next argument as the command name to look up, so no switch may
 	// follow it: `makensis -CMDHELP -V0` fails with `Invalid command "-V0"`. Skipping option
 	// mapping entirely is load-bearing here, not incidental.
-	if (args.length > 1 || args.includes('-CMDHELP')) {
+	if (skipsOptionMapping) {
 		return [cmd, args, defaultArguments];
 	}
 
@@ -305,13 +314,13 @@ export function objectify(input: string, key: string | null): Makensis.OutputObj
  * Helper function to convert flags from the `-HDRINFO` output into an object.
  * @internal
  */
-export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): Makensis.HeaderInfo {
+export function objectifyFlags(input: string): Makensis.HeaderInfo {
 	const output: Makensis.HeaderInfo = {
 		sizes: {},
 		defined_symbols: {},
 	};
 
-	const lines = splitLines(input, opts);
+	const lines = splitLines(input);
 
 	if (!lines?.length) {
 		return output;
@@ -333,7 +342,9 @@ export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): M
 			const pair = line.split(' is ');
 
 			pair[0] = pair[0].replace('Size of ', '');
-			pair[0] = pair[0].replace(' ', '_');
+			// Every `Size of …` line makensis emits today names two words, so replacing the first
+			// space only happened to be enough. `replaceAll` removes the dependency on that.
+			pair[0] = pair[0].replaceAll(' ', '_');
 			pair[1] = pair[1].slice(0, -1);
 
 			tableSizes[pair[0]] = pair[1];
@@ -368,8 +379,8 @@ export function objectifyFlags(input: string, opts: Makensis.CompilerOptions): M
 	return output;
 }
 
-function objectifyHelp(input: string, opts: Makensis.CompilerOptions): Makensis.HelpObject | string {
-	const lines = splitLines(input, opts);
+function objectifyHelp(input: string): Makensis.HelpObject | string {
+	const lines = splitLines(input);
 	lines.sort();
 
 	const output: Makensis.CommandHelpOptions = {};
@@ -425,26 +436,53 @@ export function spawnMakensis(
 		let outFile: string | null = '';
 		let spawnError: Error | null = null;
 
+		// Whatever followed the last line break in the chunks seen so far. Detection is deferred
+		// until a line is complete, because both patterns below can be split across a chunk
+		// boundary — `hasWarnings` on `2 warnings:` and `detectOutfile` on its closing quote.
+		let pendingLine = '';
+
+		/**
+		 * Runs the line-based detections over complete lines, returning the warnings found.
+		 */
+		function scanLines(lines: string[]): number {
+			let warnings = 0;
+
+			for (const line of lines) {
+				warnings += hasWarnings(line);
+
+				if (!outFile) {
+					outFile = detectOutfile(line);
+				}
+			}
+
+			return warnings;
+		}
+
 		const child: ChildProcess = spawn(cmd, args, effectiveSpawnOptions);
 
 		child.stdout?.on('data', (data) => {
-			const line = data.toString();
+			const chunk = data.toString();
 
-			stream.stdout += line;
-			const warnings = hasWarnings(line);
+			stream.stdout += chunk;
+
+			const lines = (pendingLine + chunk).split(REGEX_LINE_BREAK);
+
+			// The trailing element is whatever came after the last break, which may yet be
+			// completed by the next chunk
+			pendingLine = lines.pop() ?? '';
+
+			const warnings = scanLines(lines);
 
 			warningsCounter += warnings;
-
-			if (!outFile) {
-				outFile = detectOutfile(line);
-			}
 
 			if (typeof compilerOptions.onData !== 'function') {
 				return;
 			}
 
+			// Deliberately the raw chunk rather than the buffered lines: `vscode-nsis-lsp` calls
+			// `append`, not `appendLine`, so a line-based payload would double-space its output
 			compilerOptions.onData({
-				line,
+				line: chunk,
 				outFile,
 				hasWarning: Boolean(warnings),
 			});
@@ -471,6 +509,13 @@ export function spawnMakensis(
 
 		// Using 'exit' will truncate stdout, so we use 'close' instead
 		child.on('close', (code: number | null) => {
+			// Output that ends without a trailing line break leaves a final line buffered, so it
+			// is scanned here rather than going undetected
+			if (pendingLine) {
+				warningsCounter += scanLines([pendingLine]);
+				pendingLine = '';
+			}
+
 			const streamFormatted = formatOutput(stream, args, compilerOptions);
 
 			const output: Makensis.CompilerOutput = {
@@ -531,14 +576,10 @@ export function splitCommands(data: string | string[]): string[] {
 }
 
 /**
- * Splits the input string into lines based on the platform-specific line break.
+ * Splits the input string into lines, on either line break.
  * @param input - The input string to split into lines.
- * @param opts - Compiler options that may affect line splitting (e.g., wine).
  * @returns An array of strings, each representing a line from the input.
  */
-function splitLines(input: string, opts: Makensis.CompilerOptions = {}): string[] {
-	const lineBreak = platform() === 'win32' || opts.wine === true ? '\r\n' : '\n';
-	const output = input.split(lineBreak);
-
-	return output;
+function splitLines(input: string): string[] {
+	return input.split(REGEX_LINE_BREAK);
 }
