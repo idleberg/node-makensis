@@ -402,13 +402,19 @@ export function spawnMakensis(
 	spawnOptions: SpawnOptions = {},
 ): Promise<Makensis.CompilerOutput> {
 	return new Promise<Makensis.CompilerOutput>((resolve, reject) => {
-		if (compilerOptions.wine) {
-			spawnOptions.env = Object.freeze({
-				WINEDEBUG: '-all',
-				...env,
-				...spawnOptions.env,
-			});
-		}
+		// `spawnOptions` belongs to the caller. The previous code assigned a *frozen* `env` back
+		// onto it, so an options object reused across two compiles came back altered — and, once
+		// frozen, could not be adjusted by the caller between runs.
+		const effectiveSpawnOptions: SpawnOptions = compilerOptions.wine
+			? {
+					...spawnOptions,
+					env: {
+						WINEDEBUG: '-all',
+						...env,
+						...spawnOptions.env,
+					},
+				}
+			: spawnOptions;
 
 		const stream: Makensis.StreamOptions = {
 			stdout: '',
@@ -417,8 +423,9 @@ export function spawnMakensis(
 
 		let warningsCounter = 0;
 		let outFile: string | null = '';
+		let spawnError: Error | null = null;
 
-		const child: ChildProcess = spawn(cmd, args, spawnOptions);
+		const child: ChildProcess = spawn(cmd, args, effectiveSpawnOptions);
 
 		child.stdout?.on('data', (data) => {
 			const line = data.toString();
@@ -454,8 +461,12 @@ export function spawnMakensis(
 			compilerOptions.onError(line);
 		});
 
-		child.on('error', (errorMessage: string) => {
-			console.error(errorMessage);
+		// Node hands this callback an `Error`, not a string, and the failure it reports — a missing
+		// or non-executable `pathToMakensis`, typically — leaves `stderr` empty. Printing it made
+		// the library write to the consumer's console while still rejecting with `null`, so it is
+		// retained instead and used as the rejection value below.
+		child.on('error', (error: Error) => {
+			spawnError = error;
 		});
 
 		// Using 'exit' will truncate stdout, so we use 'close' instead
@@ -481,8 +492,9 @@ export function spawnMakensis(
 				// Promise will be resolved on MakeNSIS errors...
 				resolve(output);
 			} else {
-				// ...but will be rejected on all other errors
-				reject(output.stderr);
+				// ...but will be rejected on all other errors. A spawn failure produces no stderr,
+				// which used to make this a `reject(null)` — a rejection value carrying nothing.
+				reject(spawnError ? spawnError.message : output.stderr);
 			}
 		});
 	});
