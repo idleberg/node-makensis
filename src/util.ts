@@ -7,26 +7,22 @@ import type * as Makensis from './types.ts';
 
 const REGEX_HEX_NUMBER = /^[0-9a-fA-F]+$/;
 
+// Non-greedy and extension-agnostic. The previous pattern was `/Output: "(.*.exe)"/`, whose
+// unescaped dot required the name to end in any character plus `exe` — so `OutFile` targets
+// like `installer.bin` went undetected — and whose greedy `.*` swallowed everything up to the
+// last quote when a chunk carried two `Output:` lines.
+const REGEX_OUTFILE = /Output: "(.*?)"/;
+
 /**
  * Detects the output file from the NSIS output.
  * @param str - The string to search for the output file.
  * @returns The detected output file path or null if not found.
+ * @internal
  */
-function detectOutfile(str: string): null | string {
-	if (str.includes('Output: "')) {
-		const regex = /Output: "(.*.exe)"/g;
-		const result = regex.exec(str.toString());
+export function detectOutfile(str: string): null | string {
+	const result = REGEX_OUTFILE.exec(str);
 
-		if (typeof result === 'object' && result && result['1']) {
-			try {
-				return result['1'];
-			} catch (_error) {
-				return null;
-			}
-		}
-	}
-
-	return null;
+	return result?.[1] || null;
 }
 
 /**
