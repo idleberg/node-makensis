@@ -14,34 +14,26 @@ const scriptFile = {
 
 // Let's run the tests
 test('Print makensis version', async () => {
-	try {
-		const { stdout } = await MakeNSIS.version();
+	const { stdout } = await MakeNSIS.version();
 
-		const expected = shared.version;
-		const actual = stdout;
+	const expected = shared.version;
+	const actual = stdout;
 
-		assert.is(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is(actual, expected);
 });
 
 test('Print makensis version as JSON', async () => {
-	try {
-		const { stdout } = await MakeNSIS.version({ json: true });
+	const { stdout } = await MakeNSIS.version({ json: true });
 
-		let expected = shared.version;
+	let expected = shared.version;
 
-		if (expected?.startsWith('v')) {
-			expected = expected.substring(1);
-		}
-
-		expected = JSON.stringify({ version: expected });
-
-		assert.is(JSON.stringify(stdout), expected);
-	} catch {
-		throw Error('Failed to complete test');
+	if (expected?.startsWith('v')) {
+		expected = expected.substring(1);
 	}
+
+	expected = JSON.stringify({ version: expected });
+
+	assert.is(JSON.stringify(stdout), expected);
 });
 
 test('Print makensis license', async () => {
@@ -100,168 +92,128 @@ test('Print help for OutFile command as JSON', async () => {
 });
 
 test('Compilation from File', async () => {
-	try {
-		const { status } = await MakeNSIS.compile(scriptFile.minimal, {
-			define: {
-				NULL_DEVICE: nullDevice,
-			},
-		});
+	const { status } = await MakeNSIS.compile(scriptFile.minimal, {
+		define: {
+			NULL_DEVICE: nullDevice,
+		},
+	});
 
-		const expected = 0;
-		const actual = status;
+	const expected = 0;
+	const actual = status;
 
-		assert.is(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is(actual, expected);
 });
 
 test('Compilation from Array', async () => {
-	try {
-		const { status } = await MakeNSIS.compile(null, {
-			preExecute: defaultScriptString,
-		});
+	const { status } = await MakeNSIS.compile(null, {
+		preExecute: defaultScriptString,
+	});
 
-		const expected = 0;
-		const actual = status;
+	const expected = 0;
+	const actual = status;
 
-		assert.is(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is(actual, expected);
 });
 
 test('Compilation from String', async () => {
-	try {
-		const { status } = await MakeNSIS.compile(null, {
-			preExecute: defaultScriptString,
-		});
+	const { status } = await MakeNSIS.compile(null, {
+		preExecute: defaultScriptString,
+	});
 
-		const expected = 0;
-		const actual = status;
+	const expected = 0;
+	const actual = status;
 
-		assert.is(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is(actual, expected);
 });
 
 test('Compilation with warning', async () => {
 	const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
-	try {
-		const { status } = await MakeNSIS.compile(null, {
-			preExecute: scriptWithWarning,
-		});
+	const { status } = await MakeNSIS.compile(null, {
+		preExecute: scriptWithWarning,
+	});
 
-		const expected = 0;
-		const actual = status;
+	const expected = 0;
+	const actual = status;
 
-		assert.is(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is(actual, expected);
 });
 
 test('Compilation with warning as JSON', async () => {
 	const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
-	try {
-		const { status } = await MakeNSIS.compile(null, {
-			preExecute: scriptWithWarning,
-			json: true,
-		});
+	const { status } = await MakeNSIS.compile(null, {
+		preExecute: scriptWithWarning,
+		json: true,
+	});
 
-		const expected = 0;
-		const actual = status;
+	const expected = 0;
+	const actual = status;
 
-		assert.is(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is(actual, expected);
 });
 
 test('Compilation with raw arguments and warning', async () => {
-	try {
-		const { status } = await MakeNSIS.compile(scriptFile.warning, {
-			rawArguments: '-WX',
-		});
+	const { status } = await MakeNSIS.compile(scriptFile.warning, {
+		rawArguments: '-WX',
+	});
 
-		const expected = 1;
-		const actual = status;
+	const expected = 1;
+	const actual = status;
 
-		assert.is(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is(actual, expected);
 });
 
 test('Compilation with error', async () => {
 	const scriptWithError = [...defaultScriptArray, '!error'];
 
-	try {
-		const { status } = await MakeNSIS.compile(null, {
-			preExecute: scriptWithError,
-		});
+	const { status } = await MakeNSIS.compile(null, {
+		preExecute: scriptWithError,
+	});
 
-		const expected = 0;
-		const actual = status;
+	const expected = 0;
+	const actual = status;
 
-		assert.is.not(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is.not(actual, expected);
 });
 
 test('Strict compilation with warning', async () => {
 	const scriptWithWarning = [...defaultScriptArray, '!warning'];
 
-	try {
-		const { status } = await MakeNSIS.compile(null, {
-			preExecute: scriptWithWarning,
-			strict: true,
-		});
+	const { status } = await MakeNSIS.compile(null, {
+		preExecute: scriptWithWarning,
+		strict: true,
+	});
 
-		const expected = 0;
-		const actual = status;
+	const expected = 0;
+	const actual = status;
 
-		assert.is.not(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is.not(actual, expected);
 });
 
 // biome-ignore lint/suspicious/noTemplateCurlyInString: This is intended to test ${NSISDIR}
 test('Print ${NSISDIR}', async () => {
-	try {
-		const nsisDir = await MakeNSIS.nsisDir();
-		assert.ok(nsisDir, 'nsisDir returned null');
-		const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
+	const nsisDir = await MakeNSIS.nsisDir();
+	assert.ok(nsisDir, 'nsisDir returned null');
+	const nsisCfg = path.join(nsisDir, 'Include', 'MUI2.nsh');
 
-		const expected = true;
-		const actual = existsSync(nsisCfg);
+	const expected = true;
+	const actual = existsSync(nsisCfg);
 
-		assert.is(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is(actual, expected);
 });
 
 // biome-ignore lint/suspicious/noTemplateCurlyInString: This is intended to test ${NSISDIR}
 test('Print ${NSISDIR} as JSON', async () => {
-	try {
-		const result = await MakeNSIS.nsisDir({ json: true });
-		assert.ok(result, 'nsisDir returned null');
-		const { nsisdir } = result;
-		const nsisCfg = path.join(nsisdir, 'Include', 'MUI2.nsh');
+	const result = await MakeNSIS.nsisDir({ json: true });
+	assert.ok(result, 'nsisDir returned null');
+	const { nsisdir } = result;
+	const nsisCfg = path.join(nsisdir, 'Include', 'MUI2.nsh');
 
-		const expected = true;
-		const actual = existsSync(nsisCfg);
+	const expected = true;
+	const actual = existsSync(nsisCfg);
 
-		assert.is(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is(actual, expected);
 });
 
 test.run();

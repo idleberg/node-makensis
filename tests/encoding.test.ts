@@ -34,16 +34,12 @@ test('Compile script with correct charset', async () => {
 test('Compile script with incorrect charset', async () => {
 	const options = { ...defaultOptions, inputCharset: 'UTF16BE' };
 
-	try {
-		const { status } = (await MakeNSIS.compile(script.utf8, options)) as { status: number };
+	const { status } = (await MakeNSIS.compile(script.utf8, options)) as { status: number };
 
-		const expected = 0;
-		const actual = status;
+	const expected = 0;
+	const actual = status;
 
-		assert.is.not(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is.not(actual, expected);
 });
 
 test.run();

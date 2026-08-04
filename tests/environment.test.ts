@@ -35,38 +35,30 @@ test('Load magic environment variable from process', async () => {
 	const randomString = uuid();
 	env.NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE = randomString;
 
-	try {
-		const { stdout } = (await MakeNSIS.compile(scriptFile, {
-			...defaultOptions,
-			env: true,
-		})) as { stdout: string };
+	const { stdout } = (await MakeNSIS.compile(scriptFile, {
+		...defaultOptions,
+		env: true,
+	})) as { stdout: string };
 
-		const expected = true;
-		const actual = stdout.includes('NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE') && stdout.includes(randomString);
+	const expected = true;
+	const actual = stdout.includes('NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE') && stdout.includes(randomString);
 
-		assert.is(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is(actual, expected);
 });
 
 test('Ignore magic environment variable', async () => {
 	const randomString = uuid();
 	env.NSIS_APP_MAGIC_ENVIRONMENT_VARIABLE = randomString;
 
-	try {
-		const { stdout } = (await MakeNSIS.compile(scriptFile, {
-			...defaultOptions,
-			env: false,
-		})) as { stdout: string };
+	const { stdout } = (await MakeNSIS.compile(scriptFile, {
+		...defaultOptions,
+		env: false,
+	})) as { stdout: string };
 
-		const expected = true;
-		const actual = !stdout.includes(randomString);
+	const expected = true;
+	const actual = !stdout.includes(randomString);
 
-		assert.is(actual, expected);
-	} catch {
-		throw Error('Failed to complete test');
-	}
+	assert.is(actual, expected);
 });
 
 test.run();
