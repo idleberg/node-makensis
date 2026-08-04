@@ -82,10 +82,13 @@ function formatOutput(
 function getMagicEnvVars(): Makensis.EnvironmentVariables {
 	const definitions: Makensis.EnvironmentVariables = {};
 	const prefix = 'NSIS_APP_';
-	const ENV_VAR_REGEX = new RegExp(`${prefix}[a-z0-9]+`, 'gi');
 
+	// A `g`-flagged regex used to live here, but `.test()` resumes from `lastIndex` and writes it
+	// back, so consecutive keys alternated between matching and not. `startsWith` is both stateless
+	// and closer to the intent: the old pattern was an unanchored substring search, matching
+	// `NSIS_APP_MY_VAR` via its `MY` rather than because the character class allowed underscores.
 	for (const item of Object.keys(env)) {
-		if (item?.length && ENV_VAR_REGEX.test(item)) {
+		if (item.startsWith(prefix)) {
 			definitions[item] = env[item];
 		}
 	}
