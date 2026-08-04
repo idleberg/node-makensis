@@ -1,14 +1,12 @@
 import { randomUUID as uuid } from 'node:crypto';
-import { platform } from 'node:os';
 import path from 'node:path';
 import { cwd, env } from 'node:process';
 import { test } from 'uvu';
 import * as assert from 'uvu/assert';
-import which from 'which';
 import * as MakeNSIS from '../../src/makensis.ts';
 import type * as Makensis from '../../src/types.ts';
 /* eslint-disable */
-import { hasMakensis, nullDevice, shared } from '../shared.ts';
+import { hasMakensis, nullDevice } from '../shared.ts';
 
 // Skipped wholesale when no compiler is present, rather than failing unreadably
 const it = hasMakensis ? test : test.skip;
@@ -22,17 +20,10 @@ const defaultOptions: Makensis.CompilerOptions = {
 	verbose: 4,
 };
 
-// Let's run the tests
-it(`MakeNSIS ${shared.version ?? '(unknown version)'} found in PATH environmental variable`, async () => {
-	if (platform() === 'win32') {
-		// TODO: investigate why this test fails on Windows
-		console.log('Skipping test on Windows');
-	} else {
-		const actual = await which('makensis');
-
-		assert.is.not(actual, '');
-	}
-});
+// A `which('makensis')` test used to sit here, asserting the compiler was on PATH. `hasMakensis`
+// already establishes that — by running the binary rather than merely resolving it — and gates
+// this whole file on the answer, so the assertion could only ever have held. It was also skipped
+// on Windows for reasons nobody recorded. Removing it drops the last use of the `which` package.
 
 it('Load magic environment variable from process', async () => {
 	const randomString = uuid();
