@@ -185,11 +185,13 @@ test('mapArguments: env maps every NSIS_APP_* variable', () => {
 	};
 
 	withMagicEnvVars(variables, () => {
-		assert.equal(argsFor({ env: true }), [
-			'-DNSIS_APP_ONE=a',
-			'-DNSIS_APP_TWO=b',
-			'-DNSIS_APP_THREE=c',
+		// Sorted, because the order of `process.env` keys is not ours to rely on: Windows and Deno
+		// both hand them back alphabetically rather than in insertion order.
+		assert.equal(argsFor({ env: true }).sort(), [
 			'-DNSIS_APP_FOUR=d',
+			'-DNSIS_APP_ONE=a',
+			'-DNSIS_APP_THREE=c',
+			'-DNSIS_APP_TWO=b',
 		]);
 	});
 });
