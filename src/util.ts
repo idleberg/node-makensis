@@ -190,6 +190,9 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 		cmd = pathToMakensis;
 	}
 
+	// `-CMDHELP` consumes the next argument as the command name to look up, so no switch may
+	// follow it: `makensis -CMDHELP -V0` fails with `Invalid command "-V0"`. Skipping option
+	// mapping entirely is load-bearing here, not incidental.
 	if (args.length > 1 || args.includes('-CMDHELP')) {
 		return [cmd, args, defaultArguments];
 	}
@@ -263,7 +266,8 @@ export function mapArguments(args: string[], options: Makensis.CompilerOptions):
 		}
 	}
 
-	if (options.verbose) {
+	// Tested for presence rather than truthiness, since `-V0` is a valid verbosity
+	if (typeof options.verbose !== 'undefined') {
 		const verbosity = Number.parseInt(String(options.verbose), 10);
 
 		if (isNumeric(verbosity) && inRange(verbosity, 0, 4)) {
