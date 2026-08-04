@@ -57,7 +57,7 @@
 		"publish:jsr": "jsr publish",
 		"publish:npm": "np",
 		"test": "concurrently --prefix-colors red,yellow npm:test:*",
-		"test:unit": "uvu tests/unit -r tsm",
+		"test:unit": "uvu tests \"\\.test\\.ts$\" -r tsm",
 		"test:integration": "uvu tests/integration -r tsm"
 	},
 	"pnpm": {
