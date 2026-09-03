@@ -34,28 +34,8 @@ jobs:
         with:
           fetch-depth: 10
 
-      - name: "Install NSIS (macOS)"
-        if: matrix.os == 'macos-latest'
-        run: |
-          brew update
-          brew install nsis
-
-      - name: "Install NSIS (Ubuntu)"
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get -y update
-          sudo apt-get -y install nsis
-
-      - name: "Install NSIS (Windows)"
-        if: matrix.os == 'windows-latest'
-        shell: pwsh
-        run: |
-          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          iwr -useb get.scoop.sh -outfile 'install.ps1'
-          .\install.ps1 -RunAsAdmin
-          scoop bucket add nsis https://github.com/NSIS-Dev/scoop-nsis
-          scoop install nsis/nsis
-          "$HOME\scoop\apps\nsis\current" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      - name: "Install NSIS"
+        uses: nsis-dev/setup-nsis@a33839d33d9fb676b90aa455b1a11fb207be059a # v1.1.1
 
       - name: "Print NSIS version"
         run: makensis -VERSION
