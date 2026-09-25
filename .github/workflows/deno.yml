@@ -35,7 +35,7 @@ jobs:
           fetch-depth: 10
 
       - name: "Install NSIS"
-        uses: nsis-dev/setup-nsis@a33839d33d9fb676b90aa455b1a11fb207be059a # v1.1.1
+        uses: nsis-dev/setup-nsis@99783963764acafc24a5e3335ddfce26d03c20a2 # v1.2.1
 
       - name: "Print NSIS version"
         run: makensis -VERSION
